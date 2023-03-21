@@ -1,18 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../main.dart';
+import '../../providers/authentication.dart';
 
-class CustomNavigationRail extends StatefulWidget {
+class CustomNavigationRail extends ConsumerStatefulWidget {
   const CustomNavigationRail({super.key, required this.onNavigate});
 
   final void Function(int) onNavigate;
 
   @override
-  State<CustomNavigationRail> createState() => _CustomNavigationRailState();
+  ConsumerState<CustomNavigationRail> createState() => _CustomNavigationRailState();
 }
 
-class _CustomNavigationRailState extends State<CustomNavigationRail> {
+class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
   int _selectedIndex = 0;
 
   @override
@@ -52,11 +53,7 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.logout),
-                      onPressed: () {
-                        loginState.logout();
-                      }),
+                  child: IconButton(icon: const Icon(Icons.logout), onPressed: logout),
                 ),
               ),
             ),
@@ -71,5 +68,9 @@ class _CustomNavigationRailState extends State<CustomNavigationRail> {
         ),
       ),
     );
+  }
+
+  void logout() {
+    ref.read(authenticationProvider.notifier).logout();
   }
 }

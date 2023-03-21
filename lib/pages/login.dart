@@ -1,18 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../main.dart';
+import '../globals.dart';
+import '../providers/authentication.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerStatefulWidget {
   const Login({super.key, required this.onLogin});
 
   final void Function(String, String) onLogin;
 
   @override
-  State<Login> createState() => _LoginState();
+  ConsumerState<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends ConsumerState<Login> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -30,7 +32,8 @@ class _LoginState extends State<Login> {
                     child: Builder(
                       builder: (BuildContext context) {
                         if (Theme.of(context).brightness == Brightness.light) {
-                          return Image.asset('assets/images/logo-camera.png', fit: BoxFit.fitWidth, width: 250);
+                          return Image.asset('assets/images/logo-camera.png',
+                              filterQuality: FilterQuality.high, fit: BoxFit.fitWidth, width: 250);
                         } else {
                           return Image.asset('assets/images/logo-camera-blanc.png',
                               filterQuality: FilterQuality.high, fit: BoxFit.fitWidth, width: 250);
@@ -76,15 +79,26 @@ class _LoginState extends State<Login> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
-                  child: SizedBox(
-                    width: 300,
-                    child: FilledButton(
-                      onPressed: () {
-                        submit();
-                      },
-                      child: Text('login'.tr()),
-                    ),
-                  ),
+                  child: ref.watch(authenticationProvider).when(data: (bool authenticated) {
+                    return SizedBox(
+                      width: 300,
+                      height: 32,
+                      child: FilledButton(
+                        onPressed: submit,
+                        child: Text('login'.tr()),
+                      ),
+                    );
+                  }, error: (Object error, StackTrace stackTrace) {
+                    return SizedBox(
+                      width: 300,
+                      child: FilledButton(
+                        onPressed: submit,
+                        child: Text('login'.tr()),
+                      ),
+                    );
+                  }, loading: () {
+                    return const SizedBox(height: 32, child: CircularProgressIndicator());
+                  }),
                 ),
                 const Spacer()
               ],

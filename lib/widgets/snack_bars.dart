@@ -1,12 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-
 class CustomSnackBar {
-  SnackBar getLoginSnackBar(BuildContext context) {
+  SnackBar getLoginSnackBar(BuildContext context, int statusCode) {
     String message = '';
-    switch (loginState.statusCode) {
+    switch (statusCode) {
       case 400:
       case 401:
         message = 'error.username-password'.tr();

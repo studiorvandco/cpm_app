@@ -1,94 +1,64 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' as river;
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart' as provider;
 
+import 'globals.dart';
 import 'models/event.dart';
-import 'routes/route.gr.dart';
+import 'pages/home.dart';
+import 'pages/login.dart';
+import 'providers/authentication.dart';
 import 'services/config.dart';
-import 'services/login.dart';
 import 'settings.dart';
 import 'widgets/snack_bars.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Config.init();
-
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
         supportedLocales: const <Locale>[Locale('en', 'US'), Locale('fr', 'FR')],
         path: 'assets/translations',
-        child: river.ProviderScope(child: CPM())),
+        child: const ProviderScope(child: CPM())),
   );
 }
 
-final LoginState loginState = LoginState();
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
-class LoginState extends ChangeNotifier {
-  bool authenticated = false;
-  String apiToken = '';
-  int statusCode = 0;
-  String reasonPhrase = '';
-
-  Future<void> login(String username, String password) async {
-    final List<dynamic> result = await LoginService().login(username, password);
-    authenticated = result[0] as bool;
-    apiToken = result[1] as String;
-    statusCode = result[2] as int;
-    reasonPhrase = result[3] as String;
-    notifyListeners();
-  }
-
-  Future<void> logout() async {
-    authenticated = false;
-    apiToken = '';
-    statusCode = 0;
-    reasonPhrase = '';
-    notifyListeners();
-  }
-}
-
-class CPM extends StatefulWidget {
-  CPM({super.key});
-
-  final AppRouter _appRouter = AppRouter();
+class CPM extends ConsumerStatefulWidget {
+  const CPM({super.key});
 
   @override
-  State<CPM> createState() => _CPMState();
+  ConsumerState<CPM> createState() => _CPMState();
 }
 
-class _CPMState extends State<CPM> {
-  @override
-  void initState() {
-    super.initState();
-    loginState.addListener(() => setState(() {}));
-  }
-
+class _CPMState extends ConsumerState<CPM> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ModelTheme>(
+    return provider.ChangeNotifierProvider<ModelTheme>(
         create: (_) => ModelTheme(),
-        child: Consumer<ModelTheme>(builder: (BuildContext context, ModelTheme themeNotifier, Widget? child) {
+        child: provider.Consumer<ModelTheme>(builder: (BuildContext context, ModelTheme themeNotifier, Widget? child) {
           return CalendarControllerProvider<Event>(
             controller: EventController<Event>(),
-            child: MaterialApp.router(
+            child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              routerDelegate: AutoRouterDelegate.declarative(
-                widget._appRouter,
-                routes: (_) => <PageRouteInfo<dynamic>>[
-                  if (loginState.authenticated)
-                    const HomeRoute()
-                  else
-                    LoginRoute(
-                      onLogin: _handleLogin,
-                    ),
-                ],
-              ),
-              routeInformationParser: widget._appRouter.defaultRouteParser(includePrefixMatches: true),
+              home: ref.watch(authenticationProvider).when(data: (bool authenticated) {
+                if (authenticated) {
+                  return const Home();
+                } else {
+                  return Login(onLogin: (String username, String password) {
+                    login(username, password);
+                  });
+                }
+              }, error: (Object error, StackTrace stackTrace) {
+                return Login(onLogin: (String username, String password) {
+                  login(username, password);
+                });
+              }, loading: () {
+                return Login(onLogin: (String username, String password) {
+                  login(username, password);
+                });
+              }),
               title: 'Cinema Project Manager',
               theme: CPMThemeLight().theme,
               darkTheme: CPMThemeDark().theme,
@@ -101,11 +71,11 @@ class _CPMState extends State<CPM> {
         }));
   }
 
-  Future<void> _handleLogin(String username, String password) async {
-    loginState.login(username, password).then((void value) {
-      if (loginState.statusCode != 200 && scaffoldMessengerKey.currentContext != null) {
+  Future<void> login(String username, String password) async {
+    ref.read(authenticationProvider.notifier).login(username, password).then((Map<String, dynamic> result) {
+      if (!(result['succeeded'] as bool) && scaffoldMessengerKey.currentContext != null) {
         ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!)
-            .showSnackBar(CustomSnackBar().getLoginSnackBar(context));
+            .showSnackBar(CustomSnackBar().getLoginSnackBar(context, result['statusCode'] as int));
       }
     });
   }
