@@ -74,15 +74,13 @@ class MemberService {
     }
   }
 
-  Future<List<dynamic>> deleteMember(Member member) async {
+  Future<List<dynamic>> deleteMember(String id) async {
     try {
-      final Response response = await delete(Uri.parse('${api.members}/${member.id}'),
-          headers: <String, String>{
-            'accept': '*/*',
-            'Content-Type': 'application/json',
-            api.authorization: api.bearer + token
-          },
-          body: jsonEncode(member));
+      final Response response = await delete(Uri.parse('${api.members}/$id'), headers: <String, String>{
+        'accept': '*/*',
+        'Content-Type': 'application/json',
+        api.authorization: api.bearer + token
+      });
 
       if (response.statusCode == 204) {
         return <dynamic>[true, response.statusCode, response.reasonPhrase];

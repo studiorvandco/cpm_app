@@ -74,15 +74,13 @@ class LocationService {
     }
   }
 
-  Future<List<dynamic>> deleteLocation(Location location) async {
+  Future<List<dynamic>> deleteLocation(String id) async {
     try {
-      final Response response = await delete(Uri.parse('${api.locations}/${location.id}'),
-          headers: <String, String>{
-            'accept': '*/*',
-            'Content-Type': 'application/json',
-            api.authorization: api.bearer + token
-          },
-          body: jsonEncode(location));
+      final Response response = await delete(Uri.parse('${api.locations}/$id'), headers: <String, String>{
+        'accept': '*/*',
+        'Content-Type': 'application/json',
+        api.authorization: api.bearer + token
+      });
 
       if (response.statusCode == 204) {
         return <dynamic>[true, response.statusCode, response.reasonPhrase];

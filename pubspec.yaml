@@ -21,6 +21,8 @@ dependencies:
   calendar_view: ^1.0.2
   easy_localization: ^3.0.1
   msix: ^3.9.1
+  flutter_riverpod: ^2.3.2
+  riverpod_annotation: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +30,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   auto_route_generator: ^5.0.3
   build_runner: ^2.3.3
+  riverpod_generator: ^2.1.4
 
 flutter:
   uses-material-design: true
@@ -35,7 +38,7 @@ flutter:
     - assets/config/
     - assets/images/
     - assets/translations/
-    
+
 msix_config:
   display_name: Cinema Project Manager
   publisher_display_name: Studio Rv & Co

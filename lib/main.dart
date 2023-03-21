@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as river;
 import 'package:provider/provider.dart';
 
 import 'models/event.dart';
@@ -20,7 +21,7 @@ void main() async {
     EasyLocalization(
         supportedLocales: const <Locale>[Locale('en', 'US'), Locale('fr', 'FR')],
         path: 'assets/translations',
-        child: CPM()),
+        child: river.ProviderScope(child: CPM())),
   );
 }
 
