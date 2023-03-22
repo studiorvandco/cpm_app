@@ -8,7 +8,6 @@ import '../../dialogs/confirm_dialog.dart';
 import '../../globals.dart';
 import '../../models/project.dart';
 import '../../pages/home.dart';
-import '../../providers/currents.dart';
 import '../../providers/projects.dart';
 import '../icon_label.dart';
 import '../info_sheets/project.dart';
@@ -129,7 +128,6 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
           ScaffoldMessenger.of(context)
               .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
         }
-        ref.read(projectsProvider.notifier).get();
         resetPage(ProjectsPage.projects);
       }
     });

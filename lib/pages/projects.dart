@@ -7,7 +7,6 @@ import '../globals.dart';
 import '../models/episode.dart';
 import '../models/project.dart';
 import '../models/sequence.dart';
-import '../providers/currents.dart';
 import '../providers/projects.dart';
 import '../widgets/cards/project.dart';
 import '../widgets/request_placeholder.dart';
@@ -47,7 +46,9 @@ class ProjectsState extends ConsumerState<Projects> {
                   children: <ProjectCard>[
                     ...projects.map((Project project) {
                       return ProjectCard(
-                          project: project, openEpisodes: () => openEpisodes(project), openPlanning: openPlanning);
+                          project: project,
+                          openEpisodes: () => openEpisodes(project),
+                          openPlanning: () => openPlanning(project));
                     })
                   ]);
             }, error: (Object error, StackTrace stackTrace) {
@@ -90,7 +91,8 @@ class ProjectsState extends ConsumerState<Projects> {
     });
   }
 
-  void openPlanning() {
+  void openPlanning(Project project) {
+    ref.read(currentProjectProvider.notifier).set(project);
     setState(() {
       page = ProjectsPage.planning;
     });
@@ -126,6 +128,5 @@ class ProjectsState extends ConsumerState<Projects> {
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(projectsProvider.notifier).get();
   }
 }

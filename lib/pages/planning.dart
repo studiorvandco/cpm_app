@@ -1,66 +1,64 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../constants.dart';
 import '../globals.dart';
 import '../models/event.dart';
+import '../models/project.dart';
+import '../models/sequence.dart';
+import '../providers/projects.dart';
+import '../providers/sequences.dart';
+import '../widgets/request_placeholder.dart';
 
-class Planning extends StatefulWidget {
+class Planning extends ConsumerStatefulWidget {
   const Planning({super.key});
 
   @override
-  State<Planning> createState() => _PlanningState();
+  ConsumerState<Planning> createState() => _PlanningState();
 }
 
-class _PlanningState extends State<Planning> with TickerProviderStateMixin {
-  final List<CalendarEventData<Event>> _events = <CalendarEventData<Event>>[];
+class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMixin {
   View view = View.week;
 
   @override
-  void initState() {
-    super.initState();
-
-    /*
-    if (widget.project.episodes != null) {
-      for (final Episode episode in widget.project.episodes!) {
-        for (final Sequence sequence in episode.sequences) {
-          _events.add(CalendarEventData<Event>(
-              event: Event(title: sequence.title, description: sequence.description ?? ''),
-              title: sequence.title,
-              date: sequence.startDate,
-              startTime: sequence.startDate,
-              endTime: sequence.endDate));
-        }
-      }
-    }
-
-     */
-  }
-
-  @override
   Widget build(BuildContext context) {
-    CalendarControllerProvider
-        .of<Event>(context)
-        .controller
-        .addAll(_events);
-
-    switch (view) {
-      case View.month:
-        return Expanded(child: _buildMonthView());
-      case View.week:
-        return Expanded(child: _buildWeekView());
-      case View.day:
-        return Expanded(child: _buildDayView());
-    }
+    return ref.watch(currentProjectProvider).when(data: (Project project) {
+      return ref.watch(currentSequencesProvider).when(data: (List<Sequence> sequences) {
+        CalendarControllerProvider.of<Event>(context).controller.addAll(<CalendarEventData<Event>>[
+          ...sequences.map((Sequence sequence) {
+            return CalendarEventData<Event>(
+                event: Event(title: sequence.title, description: sequence.description ?? ''),
+                title: sequence.title,
+                date: sequence.startDate,
+                startTime: sequence.startDate,
+                endTime: sequence.endDate);
+          })
+        ]);
+        switch (view) {
+          case View.month:
+            return Expanded(child: _buildMonthView(project));
+          case View.week:
+            return Expanded(child: _buildWeekView(project));
+          case View.day:
+            return Expanded(child: _buildDayView(project));
+        }
+      }, error: (Object error, StackTrace stackTrace) {
+        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      }, loading: () {
+        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      });
+    }, error: (Object error, StackTrace stackTrace) {
+      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+    }, loading: () {
+      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+    });
   }
 
   HeaderStyle _buildHeader() {
     return HeaderStyle(
-        decoration: BoxDecoration(color: Theme
-            .of(context)
-            .colorScheme
-            .surface),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
         leftIcon: Row(
           children: <Widget>[
             IconButton(
@@ -136,15 +134,13 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         ));
   }
 
-  LayoutBuilder _buildMonthView() {
-    return LayoutBuilder(builder: (context, constraints) => Text('TODO'));
-    /*
+  LayoutBuilder _buildMonthView(Project project) {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return MonthView<Event>(
         key: calendarMonthKey,
         headerStyle: _buildHeader(),
-        minMonth: widget.project.startDate,
-        maxMonth: widget.project.endDate,
+        minMonth: project.startDate,
+        maxMonth: project.endDate,
         initialMonth: DateTime.now(),
         onPageChange: (DateTime date, int pageIndex) => print('$date, $pageIndex'),
         onCellTap: (List<CalendarEventData<Object?>> events, DateTime date) {
@@ -155,19 +151,15 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         width: constraints.maxWidth,
       );
     });
-
-     */
   }
 
-  LayoutBuilder _buildWeekView() {
-    return LayoutBuilder(builder: (context, constraints) => Text('TODO'));
-    /*
+  LayoutBuilder _buildWeekView(Project project) {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return WeekView<Event>(
         key: calendarWeekKey,
         headerStyle: _buildHeader(),
-        minDay: widget.project.startDate,
-        maxDay: widget.project.endDate,
+        minDay: project.startDate,
+        maxDay: project.endDate,
         initialDay: DateTime.now(),
         eventArranger: const SideEventArranger<Event>(),
         onEventTap: (List<CalendarEventData<Object?>> events, DateTime date) => print(events),
@@ -175,19 +167,15 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         width: constraints.maxWidth,
       );
     });
-
-     */
   }
 
-  LayoutBuilder _buildDayView() {
-    return LayoutBuilder(builder: (context, constraints) => Text('TODO'));
-    /*
+  LayoutBuilder _buildDayView(Project project) {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return DayView<Event>(
         key: calendarDayKey,
         headerStyle: _buildHeader(),
-        minDay: widget.project.startDate,
-        maxDay: widget.project.endDate,
+        minDay: project.startDate,
+        maxDay: project.endDate,
         initialDay: DateTime.now(),
         eventArranger: const SideEventArranger<Event>(),
         onEventTap: (List<CalendarEventData<Object?>> events, DateTime date) => print(events),
@@ -195,7 +183,5 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         width: constraints.maxWidth,
       );
     });
-
-     */
   }
 }
