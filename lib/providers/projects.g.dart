@@ -10,12 +10,10 @@ String _$projectsHash() => r'1277381317e12590451d985400f4b1988963131c';
 
 /// See also [Projects].
 @ProviderFor(Projects)
-final projectsProvider =
-    AutoDisposeAsyncNotifierProvider<Projects, List<Project>>.internal(
+final projectsProvider = AutoDisposeAsyncNotifierProvider<Projects, List<Project>>.internal(
   Projects.new,
   name: r'projectsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$projectsHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$projectsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

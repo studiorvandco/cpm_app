@@ -10,12 +10,10 @@ String _$episodesHash() => r'da27dcc9a8a00819b01e931cd126c2eae58122bd';
 
 /// See also [Episodes].
 @ProviderFor(Episodes)
-final episodesProvider =
-    AutoDisposeAsyncNotifierProvider<Episodes, void>.internal(
+final episodesProvider = AutoDisposeAsyncNotifierProvider<Episodes, void>.internal(
   Episodes.new,
   name: r'episodesProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$episodesHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$episodesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
