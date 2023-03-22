@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider;
 
-import 'globals.dart';
 import 'models/event.dart';
 import 'pages/home.dart';
 import 'pages/login.dart';
 import 'providers/authentication.dart';
 import 'services/config.dart';
 import 'settings.dart';
-import 'widgets/snack_bars.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,18 +44,12 @@ class _CPMState extends ConsumerState<CPM> {
                 if (authenticated) {
                   return const Home();
                 } else {
-                  return Login(onLogin: (String username, String password) {
-                    login(username, password);
-                  });
+                  return const Login();
                 }
               }, error: (Object error, StackTrace stackTrace) {
-                return Login(onLogin: (String username, String password) {
-                  login(username, password);
-                });
+                return const Login();
               }, loading: () {
-                return Login(onLogin: (String username, String password) {
-                  login(username, password);
-                });
+                return const Login();
               }),
               title: 'Cinema Project Manager',
               theme: CPMThemeLight().theme,
@@ -69,14 +61,5 @@ class _CPMState extends ConsumerState<CPM> {
             ),
           );
         }));
-  }
-
-  Future<void> login(String username, String password) async {
-    ref.read(authenticationProvider.notifier).login(username, password).then((Map<String, dynamic> result) {
-      if (!(result['succeeded'] as bool) && scaffoldMessengerKey.currentContext != null) {
-        ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!)
-            .showSnackBar(CustomSnackBar().getLoginSnackBar(context, result['statusCode'] as int));
-      }
-    });
   }
 }

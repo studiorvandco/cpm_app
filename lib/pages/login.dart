@@ -4,11 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../globals.dart';
 import '../providers/authentication.dart';
+import '../widgets/snack_bars.dart';
 
 class Login extends ConsumerStatefulWidget {
-  const Login({super.key, required this.onLogin});
-
-  final void Function(String, String) onLogin;
+  const Login({super.key});
 
   @override
   ConsumerState<Login> createState() => _LoginState();
@@ -108,6 +107,14 @@ class _LoginState extends ConsumerState<Login> {
   }
 
   void submit() {
-    widget.onLogin(usernameController.text, passwordController.text);
+    ref
+        .read(authenticationProvider.notifier)
+        .login(usernameController.text, passwordController.text)
+        .then((Map<String, dynamic> result) {
+      if (!(result['succeeded'] as bool) && scaffoldMessengerKey.currentContext != null) {
+        ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!)
+            .showSnackBar(CustomSnackBar().getLoginSnackBar(context, result['statusCode'] as int));
+      }
+    });
   }
 }
