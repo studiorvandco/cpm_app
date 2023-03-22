@@ -2,21 +2,12 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../models/episode.dart';
+import '../constants.dart';
+import '../globals.dart';
 import '../models/event.dart';
-import '../models/project.dart';
-import '../models/sequence.dart';
-
-enum View { month, week, day }
-
-final GlobalKey<MonthViewState<Event>> calendarMonthKey = GlobalKey<MonthViewState<Event>>();
-final GlobalKey<WeekViewState<Event>> calendarWeekKey = GlobalKey<WeekViewState<Event>>();
-final GlobalKey<DayViewState<Event>> calendarDayKey = GlobalKey<DayViewState<Event>>();
 
 class Planning extends StatefulWidget {
-  const Planning({super.key, required this.project});
-
-  final Project project;
+  const Planning({super.key});
 
   @override
   State<Planning> createState() => _PlanningState();
@@ -30,6 +21,7 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    /*
     if (widget.project.episodes != null) {
       for (final Episode episode in widget.project.episodes!) {
         for (final Sequence sequence in episode.sequences) {
@@ -42,11 +34,16 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         }
       }
     }
+
+     */
   }
 
   @override
   Widget build(BuildContext context) {
-    CalendarControllerProvider.of<Event>(context).controller.addAll(_events);
+    CalendarControllerProvider
+        .of<Event>(context)
+        .controller
+        .addAll(_events);
 
     switch (view) {
       case View.month:
@@ -60,7 +57,10 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
 
   HeaderStyle _buildHeader() {
     return HeaderStyle(
-        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
+        decoration: BoxDecoration(color: Theme
+            .of(context)
+            .colorScheme
+            .surface),
         leftIcon: Row(
           children: <Widget>[
             IconButton(
@@ -137,6 +137,8 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
   }
 
   LayoutBuilder _buildMonthView() {
+    return LayoutBuilder(builder: (context, constraints) => Text('TODO'));
+    /*
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return MonthView<Event>(
         key: calendarMonthKey,
@@ -153,9 +155,13 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         width: constraints.maxWidth,
       );
     });
+
+     */
   }
 
   LayoutBuilder _buildWeekView() {
+    return LayoutBuilder(builder: (context, constraints) => Text('TODO'));
+    /*
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return WeekView<Event>(
         key: calendarWeekKey,
@@ -169,9 +175,13 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         width: constraints.maxWidth,
       );
     });
+
+     */
   }
 
   LayoutBuilder _buildDayView() {
+    return LayoutBuilder(builder: (context, constraints) => Text('TODO'));
+    /*
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return DayView<Event>(
         key: calendarDayKey,
@@ -185,5 +195,7 @@ class _PlanningState extends State<Planning> with TickerProviderStateMixin {
         width: constraints.maxWidth,
       );
     });
+
+     */
   }
 }

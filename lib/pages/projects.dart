@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../dialogs/new_project.dart';
+import '../globals.dart';
 import '../models/episode.dart';
 import '../models/project.dart';
 import '../models/sequence.dart';
-import '../services/project.dart';
-import '../settings.dart';
+import '../providers/currents.dart';
+import '../providers/projects.dart';
 import '../widgets/cards/project.dart';
 import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
@@ -17,86 +18,48 @@ import 'planning.dart';
 import 'sequences.dart';
 import 'shots.dart';
 
-enum ProjectsPage { projects, episodes, sequences, shots, planning }
-
-class Projects extends StatefulWidget {
+class Projects extends ConsumerStatefulWidget {
   const Projects({required Key key}) : super(key: key);
 
   @override
-  State<Projects> createState() => ProjectsState();
+  ConsumerState<Projects> createState() => ProjectsState();
 }
 
-class ProjectsState extends State<Projects> {
+class ProjectsState extends ConsumerState<Projects> {
   ProjectsPage page = ProjectsPage.projects;
 
-  bool requestCompleted = false;
-  late bool requestSucceeded;
-  late List<Project> projects;
-
-  late Project selectedProject;
   late Episode selectedEpisode;
   late Sequence selectedSequence;
-
-  @override
-  void initState() {
-    super.initState();
-    getProjects();
-  }
 
   @override
   Widget build(BuildContext context) {
     switch (page) {
       case ProjectsPage.projects:
-        if (!requestCompleted) {
-          return const Expanded(child: RequestPlaceholder(placeholder: CircularProgressIndicator()));
-        } else if (requestSucceeded) {
-          return Expanded(
-              child: Scaffold(
+        return Expanded(
+          child: Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: addProject,
+              onPressed: add,
               child: const Icon(Icons.add),
             ),
-            body: Builder(
-              builder: (BuildContext context) {
-                if (projects.isEmpty) {
-                  return RequestPlaceholder(placeholder: Text('projects.no_projects'.tr()));
-                } else {
-                  return ChangeNotifierProvider<ModelFav>(
-                    create: (_) => ModelFav(),
-                    child: Consumer<ModelFav>(builder: (BuildContext context, ModelFav favNotifier, Widget? child) {
-                      getFavorites(favNotifier);
-                      return ListView(
-                          padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
-                          children: <ProjectCard>[
-                            ...projects.map((Project project) => ProjectCard(
-                                project: project,
-                                openEpisodes: () {
-                                  setState(() {
-                                    selectedProject = project;
-                                    page = ProjectsPage.episodes;
-                                  });
-                                },
-                                openPlanning: () {
-                                  setState(() {
-                                    selectedProject = project;
-                                    page = ProjectsPage.planning;
-                                  });
-                                },
-                                favNotifier: favNotifier))
-                          ]);
-                    }),
-                  );
-                }
-              },
-            ),
-          ));
-        } else {
-          return Expanded(child: RequestPlaceholder(placeholder: Text('error.request_failed'.tr())));
-        }
+            body: ref.watch(projectsProvider).when(data: (List<Project> projects) {
+              return ListView(
+                  padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
+                  children: <ProjectCard>[
+                    ...projects.map((Project project) {
+                      return ProjectCard(
+                          project: project, openEpisodes: () => openEpisodes(project), openPlanning: openPlanning);
+                    })
+                  ]);
+            }, error: (Object error, StackTrace stackTrace) {
+              return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+            }, loading: () {
+              return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+            }),
+          ),
+        );
       case ProjectsPage.episodes:
         return Episodes(
             key: episodesStateKey,
-            project: selectedProject,
             openSequences: (Episode episode) {
               setState(() {
                 selectedEpisode = episode;
@@ -105,7 +68,6 @@ class ProjectsState extends State<Projects> {
             });
       case ProjectsPage.sequences:
         return Sequences(
-          project: selectedProject,
           episode: selectedEpisode,
           openShots: (Sequence sequence) {
             setState(() {
@@ -117,10 +79,24 @@ class ProjectsState extends State<Projects> {
       case ProjectsPage.shots:
         return Shots(sequence: selectedSequence);
       case ProjectsPage.planning:
-        return Planning(project: selectedProject);
+        return const Planning();
     }
   }
 
+  void openEpisodes(Project project) {
+    ref.read(currentProjectProvider.notifier).set(project);
+    setState(() {
+      page = ProjectsPage.episodes;
+    });
+  }
+
+  void openPlanning() {
+    setState(() {
+      page = ProjectsPage.planning;
+    });
+  }
+
+  /*
   void getFavorites(ModelFav favNotifier) {
     final List<String> favorites = favNotifier.favoriteProjects;
     for (final String id in favorites) {
@@ -132,33 +108,24 @@ class ProjectsState extends State<Projects> {
     }
     projects.sort();
   }
+  */
 
-  Future<void> getProjects() async {
-    final List<dynamic> result = await ProjectService().getProjects();
-    setState(() {
-      requestCompleted = true;
-      requestSucceeded = result[0] as bool;
-      projects = result[1] as List<Project>;
-    });
-  }
-
-  Future<void> addProject() async {
+  Future<void> add() async {
     final dynamic project = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return const NewProjectDialog();
         });
     if (project is Project) {
-      final List<dynamic> result = await ProjectService().addProject(project);
+      final Map<String, dynamic> result = await ref.read(projectsProvider.notifier).add(project);
       if (context.mounted) {
-        final bool succeeded = result[0] as bool;
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar().getModelSnackBar(
-            context, succeeded, result[1] as int,
-            message: succeeded ? 'snack_bars.project.added'.tr() : 'snack_bars.project.not_added'.tr()));
+        final bool succeeded = result['succeeded'] as bool;
+        final int code = result['code'] as int;
+        final String message = succeeded ? 'snack_bars.project.added'.tr() : 'snack_bars.project.not_added'.tr();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
-      setState(() {
-        getProjects();
-      });
     }
+    ref.read(projectsProvider.notifier).get();
   }
 }

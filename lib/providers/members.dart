@@ -18,7 +18,7 @@ class Members extends _$Members {
   Future<Map<String, dynamic>> get() async {
     state = const AsyncLoading<List<Member>>();
     final List<dynamic> result = await MemberService().getMembers();
-    state = AsyncValue<List<Member>>.data(result[1] as List<Member>);
+    state = AsyncData<List<Member>>(result[1] as List<Member>);
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
   }
 

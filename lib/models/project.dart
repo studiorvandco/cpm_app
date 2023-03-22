@@ -1,6 +1,6 @@
 import 'episode.dart';
 
-enum ProjectType { movie, series }
+enum ProjectType { movie, series, placeholder }
 
 class Project implements Comparable<Project> {
   Project(

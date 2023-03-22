@@ -1,20 +1,13 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../models/episode.dart';
-import '../models/project.dart';
 import '../models/sequence.dart';
-import '../widgets/cards/sequence.dart';
-import '../widgets/info_headers/episode.dart';
-import '../widgets/info_headers/project.dart';
-import '../widgets/request_placeholder.dart';
 
 class Sequences extends StatefulWidget {
-  const Sequences({super.key, required this.openShots, required this.project, required this.episode});
+  const Sequences({super.key, required this.openShots, required this.episode});
 
   final void Function(Sequence sequence) openShots;
 
-  final Project project;
   final Episode episode;
 
   @override
@@ -24,6 +17,8 @@ class Sequences extends StatefulWidget {
 class _SequencesState extends State<Sequences> {
   @override
   Widget build(BuildContext context) {
+    return Text('TODO');
+    /*
     return Expanded(
         child: Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -61,6 +56,8 @@ class _SequencesState extends State<Sequences> {
         },
       ),
     ));
+
+     */
   }
 
   void addSequence() {

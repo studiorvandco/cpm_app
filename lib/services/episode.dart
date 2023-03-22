@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+import '../globals.dart';
 import '../models/episode.dart';
 import 'api.dart';
 
@@ -15,18 +16,17 @@ class EpisodeService {
       final Response response = await get(Uri.parse('${api.episodes}/$projectId'),
           headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token});
 
-      final List<dynamic> episodesJson = json.decode(response.body) as List<dynamic>;
-      final List<Episode> projects = episodesJson.map((episode) => Episode.fromJson(episode)).toList();
-
-      if (response.statusCode == 200) {
-        return <dynamic>[true, projects, response.statusCode, response.reasonPhrase];
+      if (response.body.isNotEmpty && response.statusCode == 200) {
+        final List<dynamic> episodesJson = json.decode(response.body) as List<dynamic>;
+        final List<Episode> episodes = episodesJson.map((episode) => Episode.fromJson(episode)).toList();
+        return <dynamic>[true, episodes, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint(response.toString());
-        return <dynamic>[false, null, response.statusCode, response.reasonPhrase];
+        return <dynamic>[false, <Episode>[], response.statusCode, response.reasonPhrase];
       }
     } catch (exception) {
       debugPrint(exception.toString());
-      return <dynamic>[false, null, 408, 'error.timeout'.tr()];
+      return <dynamic>[false, <Episode>[], 408, 'error.timeout'.tr()];
     }
   }
 

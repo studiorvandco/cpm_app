@@ -1,113 +1,89 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../dialogs/new_episode.dart';
 import '../models/episode.dart';
 import '../models/project.dart';
-import '../services/episode.dart';
+import '../providers/currents.dart';
+import '../providers/episodes.dart';
 import '../widgets/cards/episode.dart';
 import '../widgets/info_headers/project.dart';
 import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 
-class Episodes extends StatefulWidget {
-  const Episodes({required Key key, required this.project, required this.openSequences}) : super(key: key);
+class Episodes extends ConsumerStatefulWidget {
+  const Episodes({required Key key, required this.openSequences}) : super(key: key);
 
   final void Function(Episode episode) openSequences;
 
-  final Project project;
-
   @override
-  State<Episodes> createState() => EpisodesState();
+  ConsumerState<Episodes> createState() => EpisodesState();
 }
 
-class EpisodesState extends State<Episodes> {
-  bool requestCompleted = false;
-  late bool requestSucceeded;
-
-  late List<Episode> episodes;
-
-  @override
-  void initState() {
-    super.initState();
-    getEpisodes();
-  }
-
+class EpisodesState extends ConsumerState<Episodes> {
   @override
   Widget build(BuildContext context) {
-    if (!requestCompleted) {
-      return const Expanded(child: RequestPlaceholder(placeholder: CircularProgressIndicator()));
-    } else if (requestSucceeded) {
-      return Expanded(
-          child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: addEpisode,
-          child: const Icon(Icons.add),
-        ),
-        body: Builder(builder: (BuildContext context) {
-          return Column(
-            children: <Widget>[
-              InfoHeaderProject(project: widget.project),
-              if (episodes.isEmpty)
-                Expanded(child: RequestPlaceholder(placeholder: Text('episodes.no_episodes'.tr())))
-              else
-                Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
-                    children: <EpisodeCard>[
-                      ...episodes.map((Episode episode) {
-                        return EpisodeCard(
-                          episode: episode,
-                          openSequences: () {
-                            setState(() {
-                              widget.openSequences(episode);
-                            });
-                          },
-                        );
-                      }),
-                    ],
-                  ),
-                ),
-            ],
-          );
-        }),
-      ));
-    } else {
-      return Expanded(child: RequestPlaceholder(placeholder: Text('error.request_failed'.tr())));
-    }
+    return Expanded(
+        child: Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(currentEpisodesProvider).when(data: (List<Episode> episodes) {
+        return Column(
+          children: <Widget>[
+            const InfoHeaderProject(),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
+                children: <EpisodeCard>[
+                  ...episodes.map(
+                    (Episode episode) {
+                      return EpisodeCard(episode: episode, openSequences: () => openSequences(episode));
+                    },
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      }, error: (Object error, StackTrace stackTrace) {
+        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      }, loading: () {
+        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      }),
+    ));
   }
 
-  Future<void> getEpisodes() async {
-    final List<dynamic> result = await EpisodeService().getEpisodes(widget.project.id);
+  void openSequences(Episode episode) {
     setState(() {
-      requestCompleted = true;
-      requestSucceeded = result[0] as bool;
-      episodes = result[1] as List<Episode>;
+      widget.openSequences(episode);
     });
-
-    // If the project is a movie, skip the episodes page and go the sequences page
-    if (widget.project.isMovie()) {
-      widget.openSequences(episodes.first);
-    }
   }
 
-  Future<void> addEpisode() async {
+  Future<void> add() async {
+    if (!ref.read(currentProjectProvider).hasValue || !ref.read(currentEpisodesProvider).hasValue) {
+      return;
+    }
+
+    final int number = ref.read(currentEpisodesProvider).value!.length + 1;
     final dynamic episode = await showDialog(
         context: context,
         builder: (BuildContext context) {
-          return NewEpisodeDialog(number: episodes.length + 1);
+          return NewEpisodeDialog(number: number);
         });
     if (episode is Episode) {
-      final List<dynamic> result = await EpisodeService().addEpisode(widget.project.id, episode);
+      final Project project = ref.read(currentProjectProvider).value!;
+      final Map<String, dynamic> result = await ref.read(episodesProvider.notifier).add(project.id, episode);
       if (context.mounted) {
-        final bool succeeded = result[0] as bool;
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar().getModelSnackBar(
-            context, succeeded, result[1] as int,
-            message: succeeded ? 'snack_bars.episode.added'.tr() : 'snack_bars.episode.not_added'.tr()));
+        final bool succeeded = result['succeeded'] as bool;
+        final int code = result['code'] as int;
+        final String message = succeeded ? 'snack_bars.episode.added'.tr() : 'snack_bars.episode.not_added'.tr();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
-      setState(() {
-        getEpisodes();
-      });
     }
+    ref.read(currentEpisodesProvider.notifier).get();
   }
 }

@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../dialogs/confirm_dialog.dart';
+import '../../globals.dart';
 import '../../models/episode.dart';
 import '../../pages/home.dart';
-import '../../pages/projects.dart';
 import '../../services/episode.dart';
 import '../info_sheets/episode.dart';
 import '../snack_bars.dart';

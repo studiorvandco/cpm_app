@@ -18,7 +18,7 @@ class Locations extends _$Locations {
   Future<Map<String, dynamic>> get() async {
     state = const AsyncLoading<List<Location>>();
     final List<dynamic> result = await LocationService().getLocations();
-    state = AsyncValue<List<Location>>.data(result[1] as List<Location>);
+    state = AsyncData<List<Location>>(result[1] as List<Location>);
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
   }
 

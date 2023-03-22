@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../models/project.dart';
-import '../../settings.dart';
 
 class ProjectCard extends StatefulWidget {
-  const ProjectCard(
-      {super.key,
-      required this.project,
-      required this.openEpisodes,
-      required this.openPlanning,
-      required this.favNotifier});
+  const ProjectCard({super.key, required this.project, required this.openEpisodes, required this.openPlanning});
 
   final void Function() openEpisodes;
   final void Function() openPlanning;
-  final ModelFav favNotifier;
 
   final Project project;
 
@@ -85,6 +78,7 @@ class _ProjectCardState extends State<ProjectCard> {
   }
 
   void toggleFavorite() {
+    /*
     if (widget.project.favorite) {
       final List<String> favorites = widget.favNotifier.favoriteProjects;
       favorites.remove(widget.project.id);
@@ -95,5 +89,6 @@ class _ProjectCardState extends State<ProjectCard> {
       widget.favNotifier.favoriteProjects = favorites;
     }
     widget.project.favorite = !widget.project.favorite;
+    */
   }
 }

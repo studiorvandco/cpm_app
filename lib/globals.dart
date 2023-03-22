@@ -1,3 +1,5 @@
-import 'package:flutter/material.dart';
+enum ProjectsPage { projects, episodes, sequences, shots, planning }
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+enum View { month, week, day }
+
+String token = '';

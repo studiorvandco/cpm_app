@@ -22,15 +22,13 @@ class Locations extends ConsumerStatefulWidget {
 class _LocationsState extends ConsumerState<Locations> {
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<List<Location>> asyncMembers = ref.watch(locationsProvider);
-
     return Expanded(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: add,
           child: const Icon(Icons.add),
         ),
-        body: asyncMembers.when(data: (List<Location> locations) {
+        body: ref.watch(locationsProvider).when(data: (List<Location> locations) {
           return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 return ClipRRect(

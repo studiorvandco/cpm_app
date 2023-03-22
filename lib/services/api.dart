@@ -1,7 +1,5 @@
 import 'config.dart';
 
-String token = '';
-
 class API {
   API() {
     login = '${_api}Login/login';

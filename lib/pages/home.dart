@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
+import '../globals.dart';
 import '../widgets/navigation/custom_appbar.dart';
 import '../widgets/navigation/custom_navigation_drawer.dart';
 import '../widgets/navigation/custom_navigation_rail.dart';
@@ -22,12 +23,8 @@ void resetPage(ProjectsPage page) {
   projectsStateKey.currentState?.setState(() {
     switch (page) {
       case ProjectsPage.projects:
-        projectsStateKey.currentState?.requestCompleted = false;
-        projectsStateKey.currentState?.getProjects();
         break;
       case ProjectsPage.episodes:
-        episodesStateKey.currentState?.requestCompleted = false;
-        episodesStateKey.currentState?.getEpisodes();
         break;
       case ProjectsPage.sequences:
       case ProjectsPage.shots:

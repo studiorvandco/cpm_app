@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+import '../globals.dart';
 import '../models/member.dart';
 import 'api.dart';
 
@@ -15,10 +16,9 @@ class MemberService {
       final Response response = await get(Uri.parse(api.members),
           headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token});
 
-      final List<dynamic> membersJson = json.decode(response.body) as List<dynamic>;
-      final List<Member> members = membersJson.map((member) => Member.fromJson(member)).toList();
-
       if (response.statusCode == 200) {
+        final List<dynamic> membersJson = json.decode(response.body) as List<dynamic>;
+        final List<Member> members = membersJson.map((member) => Member.fromJson(member)).toList();
         return <dynamic>[true, members, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint(response.toString());
