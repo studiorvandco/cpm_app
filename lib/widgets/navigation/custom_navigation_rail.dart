@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/authentication.dart';
 
 class CustomNavigationRail extends ConsumerStatefulWidget {
-  const CustomNavigationRail({super.key, required this.onNavigate});
+  const CustomNavigationRail({super.key, required this.navigate});
 
-  final void Function(int) onNavigate;
+  final void Function(int) navigate;
 
   @override
   ConsumerState<CustomNavigationRail> createState() => _CustomNavigationRailState();
@@ -61,7 +61,7 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
             onDestinationSelected: (int index) {
               setState(() {
                 _selectedIndex = index;
-                widget.onNavigate(_selectedIndex);
+                widget.navigate(_selectedIndex);
               });
             },
           ),

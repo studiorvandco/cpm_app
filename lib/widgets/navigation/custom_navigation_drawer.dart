@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomNavigationDrawer extends StatefulWidget {
-  const CustomNavigationDrawer({super.key, required this.onNavigate, required this.selectedIndex});
+  const CustomNavigationDrawer({super.key, required this.navigate, required this.selectedIndex});
 
-  final void Function(int) onNavigate;
+  final void Function(int) navigate;
 
   final int selectedIndex;
 
@@ -21,7 +21,7 @@ class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
         selectedIndex: widget.selectedIndex,
         onDestinationSelected: (int index) {
           setState(() {
-            widget.onNavigate(index);
+            widget.navigate(index);
             Navigator.pop(context);
           });
         },
