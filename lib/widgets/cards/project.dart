@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project.dart';
+import '../../providers/episodes.dart';
+import '../../providers/navigation.dart';
+import '../../providers/projects.dart';
+import '../../utils.dart';
 
-class ProjectCard extends StatefulWidget {
-  const ProjectCard({super.key, required this.project, required this.openProject, required this.openPlanning});
-
-  final void Function() openProject;
-  final void Function() openPlanning;
+class ProjectCard extends ConsumerStatefulWidget {
+  const ProjectCard({super.key, required this.project});
 
   final Project project;
 
   @override
-  State<StatefulWidget> createState() => _ProjectCardState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProjectCardState();
 }
 
-class _ProjectCardState extends State<ProjectCard> {
+class _ProjectCardState extends ConsumerState<ProjectCard> {
   @override
   Widget build(BuildContext context) {
     Icon favIcon = widget.project.favorite
@@ -25,7 +27,7 @@ class _ProjectCardState extends State<ProjectCard> {
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-          onPressed: widget.openProject,
+          onPressed: () => openProject(widget.project),
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -64,11 +66,7 @@ class _ProjectCardState extends State<ProjectCard> {
                       });
                     },
                     icon: favIcon),
-                IconButton(
-                    onPressed: () {
-                      widget.openPlanning();
-                    },
-                    icon: const Icon(Icons.event))
+                IconButton(onPressed: () => openPlanning(widget.project), icon: const Icon(Icons.event))
               ]),
               const SizedBox(height: 8),
               LinearProgressIndicator(value: widget.project.getProgress()),
@@ -90,5 +88,18 @@ class _ProjectCardState extends State<ProjectCard> {
     }
     widget.project.favorite = !widget.project.favorite;
     */
+  }
+
+  void openProject(Project project) {
+    ref.read(currentProjectProvider.notifier).set(project);
+    if (project.isMovie() && project.episodes != null && project.episodes!.length > 1) {
+      ref.read(currentEpisodeProvider.notifier).set(project.episodes![0]);
+    }
+    ref.read(homePageNavigationProvider.notifier).set(project.isMovie() ? HomePage.sequences : HomePage.episodes);
+  }
+
+  void openPlanning(Project project) {
+    ref.read(currentProjectProvider.notifier).set(project);
+    ref.read(homePageNavigationProvider.notifier).set(HomePage.planning);
   }
 }

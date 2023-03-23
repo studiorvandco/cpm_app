@@ -3,13 +3,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../constants.dart';
-import '../globals.dart';
 import '../models/event.dart';
 import '../models/project.dart';
 import '../models/sequence.dart';
 import '../providers/projects.dart';
 import '../providers/sequences.dart';
+import '../utils.dart';
 import '../widgets/request_placeholder.dart';
 
 class Planning extends ConsumerStatefulWidget {
@@ -20,7 +19,7 @@ class Planning extends ConsumerStatefulWidget {
 }
 
 class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMixin {
-  View view = View.week;
+  CalendarView view = CalendarView.week;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +36,11 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
           })
         ]);
         switch (view) {
-          case View.month:
+          case CalendarView.month:
             return Expanded(child: _buildMonthView(project));
-          case View.week:
+          case CalendarView.week:
             return Expanded(child: _buildWeekView(project));
-          case View.day:
+          case CalendarView.day:
             return Expanded(child: _buildDayView(project));
         }
       }, error: (Object error, StackTrace stackTrace) {
@@ -64,13 +63,13 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
             IconButton(
                 onPressed: () {
                   switch (view) {
-                    case View.month:
+                    case CalendarView.month:
                       calendarMonthKey.currentState?.previousPage();
                       break;
-                    case View.week:
+                    case CalendarView.week:
                       calendarWeekKey.currentState?.previousPage();
                       break;
-                    case View.day:
+                    case CalendarView.day:
                       calendarDayKey.currentState?.previousPage();
                       break;
                   }
@@ -80,13 +79,13 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
             IconButton(
                 onPressed: () {
                   switch (view) {
-                    case View.month:
+                    case CalendarView.month:
                       calendarMonthKey.currentState?.nextPage();
                       break;
-                    case View.week:
+                    case CalendarView.week:
                       calendarWeekKey.currentState?.nextPage();
                       break;
-                    case View.day:
+                    case CalendarView.day:
                       calendarDayKey.currentState?.nextPage();
                       break;
                   }
@@ -94,12 +93,12 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                 icon: const Icon(Icons.chevron_right))
           ],
         ),
-        rightIcon: DropdownButton<View>(
+        rightIcon: DropdownButton<CalendarView>(
           focusColor: Colors.transparent,
           value: view,
-          items: <DropdownMenuItem<View>>[
-            DropdownMenuItem<View>(
-                value: View.month,
+          items: <DropdownMenuItem<CalendarView>>[
+            DropdownMenuItem<CalendarView>(
+                value: CalendarView.month,
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.calendar_view_month),
@@ -107,8 +106,8 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                     Text('planning.date.month.upper'.tr()),
                   ],
                 )),
-            DropdownMenuItem<View>(
-                value: View.week,
+            DropdownMenuItem<CalendarView>(
+                value: CalendarView.week,
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.calendar_view_week),
@@ -116,8 +115,8 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                     Text('planning.date.week.upper'.tr()),
                   ],
                 )),
-            DropdownMenuItem<View>(
-                value: View.day,
+            DropdownMenuItem<CalendarView>(
+                value: CalendarView.day,
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.calendar_view_day),
@@ -126,7 +125,7 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                   ],
                 ))
           ],
-          onChanged: (View? newView) {
+          onChanged: (CalendarView? newView) {
             setState(() {
               view = newView!;
             });

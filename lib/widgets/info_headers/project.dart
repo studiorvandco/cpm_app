@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dialogs/confirm_dialog.dart';
-import '../../globals.dart';
 import '../../models/project.dart';
-import '../../pages/home.dart';
+import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
+import '../../utils.dart';
 import '../icon_label.dart';
 import '../info_sheets/project.dart';
 import '../request_placeholder.dart';
@@ -128,7 +128,7 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
           ScaffoldMessenger.of(context)
               .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
         }
-        resetPage(ProjectsPage.projects);
+        ref.read(homePageNavigationProvider.notifier).set(HomePage.projects);
       }
     });
   }

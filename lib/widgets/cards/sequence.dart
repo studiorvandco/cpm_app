@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/sequence.dart';
+import '../../providers/navigation.dart';
+import '../../utils.dart';
 
-class SequenceCard extends StatefulWidget {
-  const SequenceCard({super.key, required this.sequence, required this.openShots});
-
-  final void Function() openShots;
+class SequenceCard extends ConsumerStatefulWidget {
+  const SequenceCard({super.key, required this.sequence});
 
   final Sequence sequence;
 
   @override
-  State<StatefulWidget> createState() => _SequenceCardState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SequenceCardState();
 }
 
-class _SequenceCardState extends State<SequenceCard> {
+class _SequenceCardState extends ConsumerState<SequenceCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +22,7 @@ class _SequenceCardState extends State<SequenceCard> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-          onPressed: widget.openShots,
+          onPressed: openShots,
           child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -65,5 +66,9 @@ class _SequenceCardState extends State<SequenceCard> {
                 ]),
               ])),
         ));
+  }
+
+  void openShots() {
+    ref.read(homePageNavigationProvider.notifier).set(HomePage.shots);
   }
 }

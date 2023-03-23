@@ -4,8 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../globals.dart';
 import '../models/project.dart';
+import '../utils.dart';
 import 'api.dart';
 
 class ProjectService {

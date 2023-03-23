@@ -2,56 +2,30 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../globals.dart';
+import '../providers/navigation.dart';
+import '../utils.dart';
 import '../widgets/navigation/custom_appbar.dart';
 import '../widgets/navigation/custom_navigation_drawer.dart';
 import '../widgets/navigation/custom_navigation_rail.dart';
 import 'about.dart';
-import 'episodes.dart';
 import 'locations.dart';
 import 'members.dart';
 import 'projects.dart';
 import 'settings.dart';
-import 'test.dart';
 
-final GlobalKey<ProjectsState> projectsStateKey = GlobalKey();
-final GlobalKey<EpisodesState> episodesStateKey = GlobalKey();
-
-/// Resets the home page to the desired page.
-void resetPage(ProjectsPage page) {
-  projectsStateKey.currentState?.setState(() {
-    switch (page) {
-      case ProjectsPage.projects:
-        break;
-      case ProjectsPage.episodes:
-        break;
-      case ProjectsPage.sequences:
-      case ProjectsPage.shots:
-      case ProjectsPage.planning:
-        break;
-    }
-    projectsStateKey.currentState?.page = page;
-  });
-}
-
-class Home extends StatefulWidget {
+class Home extends ConsumerStatefulWidget {
   const Home({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<ConsumerStatefulWidget> createState() {
     return HomeState();
   }
 }
 
-class HomeState extends State<Home> {
-  late int _selectedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = 0;
-  }
+class HomeState extends ConsumerState<Home> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,38 +34,31 @@ class HomeState extends State<Home> {
         return Scaffold(
             appBar: !kIsWeb && (Platform.isAndroid || Platform.isIOS) ? const CustomAppBar() : null,
             drawer: !kIsWeb && (Platform.isAndroid || Platform.isIOS)
-                ? CustomNavigationDrawer(
-                    selectedIndex: _selectedIndex,
-                    onNavigate: (int index) {
-                      if (index == 0) {
-                        resetPage(ProjectsPage.projects);
-                      }
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                    })
+                ? CustomNavigationDrawer(selectedIndex: _selectedIndex, onNavigate: (int index) => navigate(index))
                 : null,
             body: SafeArea(
-              child: Row(children: <Widget>[
-                if (kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isFuchsia)
-                  CustomNavigationRail(onNavigate: (int index) {
-                    if (index == 0) {
-                      resetPage(ProjectsPage.projects);
-                    }
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  }),
-                _changePage(_selectedIndex),
-              ]),
+              child: Row(
+                children: <Widget>[
+                  if (kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isFuchsia)
+                    CustomNavigationRail(onNavigate: (int index) => navigate(index)),
+                  getPage()
+                ],
+              ),
             ));
       },
     );
   }
 
-  Widget _changePage(int index) {
-    switch (index) {
+  void navigate(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget getPage() {
+    switch (_selectedIndex) {
       case 0:
+        Future<void>(() => ref.read(homePageNavigationProvider.notifier).set(HomePage.projects));
         return Projects(key: projectsStateKey);
       case 1:
         return const Members();
@@ -101,10 +68,8 @@ class HomeState extends State<Home> {
         return const Settings();
       case 4:
         return const About();
-      case 5:
-        return const Test();
       default:
-        return const Center();
+        return const About();
     }
   }
 }

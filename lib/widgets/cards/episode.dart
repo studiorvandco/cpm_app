@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/episode.dart';
+import '../../providers/navigation.dart';
+import '../../utils.dart';
 
-class EpisodeCard extends StatefulWidget {
-  const EpisodeCard({super.key, required this.episode, required this.openSequences});
-
-  final void Function() openSequences;
+class EpisodeCard extends ConsumerStatefulWidget {
+  const EpisodeCard({super.key, required this.episode});
 
   final Episode episode;
 
   @override
-  State<StatefulWidget> createState() => _EpisodeCardState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _EpisodeCardState();
 }
 
-class _EpisodeCardState extends State<EpisodeCard> {
+class _EpisodeCardState extends ConsumerState<EpisodeCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +22,7 @@ class _EpisodeCardState extends State<EpisodeCard> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-          onPressed: widget.openSequences,
+          onPressed: openEpisode,
           child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -35,19 +36,29 @@ class _EpisodeCardState extends State<EpisodeCard> {
                             Container(
                               width: 30,
                               decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color: Theme
+                                      .of(context)
+                                      .colorScheme
+                                      .secondary,
                                   borderRadius: const BorderRadius.all(Radius.circular(15))),
                               child: Text(widget.episode.number.toString(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.onSecondary)),
+                                      color: Theme
+                                          .of(context)
+                                          .colorScheme
+                                          .onSecondary)),
                             ),
                             const Padding(padding: EdgeInsets.only(right: 12)),
                             Text(
                               widget.episode.title,
-                              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -65,5 +76,9 @@ class _EpisodeCardState extends State<EpisodeCard> {
                 ]),
               ])),
         ));
+  }
+
+  void openEpisode() {
+    ref.read(homePageNavigationProvider.notifier).set(HomePage.sequences);
   }
 }

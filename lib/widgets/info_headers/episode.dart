@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dialogs/confirm_dialog.dart';
-import '../../globals.dart';
 import '../../models/episode.dart';
 import '../../models/project.dart';
-import '../../pages/home.dart';
 import '../../providers/episodes.dart';
+import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
+import '../../utils.dart';
 import '../info_sheets/episode.dart';
 import '../request_placeholder.dart';
 import '../snack_bars.dart';
@@ -103,7 +103,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
           ScaffoldMessenger.of(context)
               .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
         }
-        resetPage(ProjectsPage.episodes);
+        ref.read(homePageNavigationProvider.notifier).set(HomePage.episodes);
       }
     });
   }

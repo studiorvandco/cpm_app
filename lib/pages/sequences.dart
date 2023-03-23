@@ -12,9 +12,7 @@ import '../widgets/info_headers/project.dart';
 import '../widgets/request_placeholder.dart';
 
 class Sequences extends ConsumerStatefulWidget {
-  const Sequences({super.key, required this.openSequence});
-
-  final void Function(Sequence sequence) openSequence;
+  const Sequences({super.key});
 
   @override
   ConsumerState<Sequences> createState() => _SequencesState();
@@ -41,9 +39,6 @@ class _SequencesState extends ConsumerState<Sequences> {
                       ...sequences.map((Sequence sequence) {
                         return SequenceCard(
                           sequence: sequence,
-                          openShots: () {
-                            widget.openSequence(sequence);
-                          },
                         );
                       })
                     ]))

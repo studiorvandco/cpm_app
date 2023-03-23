@@ -3,18 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../dialogs/new_project.dart';
-import '../globals.dart';
-import '../models/episode.dart';
 import '../models/project.dart';
-import '../models/sequence.dart';
-import '../providers/episodes.dart' as episodes_provider;
+import '../providers/navigation.dart';
 import '../providers/projects.dart';
-import '../providers/sequences.dart';
+import '../utils.dart';
 import '../widgets/cards/project.dart';
 import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 import 'episodes.dart';
-import 'home.dart';
 import 'planning.dart';
 import 'sequences.dart';
 import 'shots.dart';
@@ -27,12 +23,10 @@ class Projects extends ConsumerStatefulWidget {
 }
 
 class ProjectsState extends ConsumerState<Projects> {
-  ProjectsPage page = ProjectsPage.projects;
-
   @override
   Widget build(BuildContext context) {
-    switch (page) {
-      case ProjectsPage.projects:
+    switch (ref.watch(homePageNavigationProvider)) {
+      case HomePage.projects:
         return Expanded(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
@@ -44,10 +38,7 @@ class ProjectsState extends ConsumerState<Projects> {
                   padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
                   children: <ProjectCard>[
                     ...projects.map((Project project) {
-                      return ProjectCard(
-                          project: project,
-                          openProject: () => openProject(project),
-                          openPlanning: () => openPlanning(project));
+                      return ProjectCard(project: project);
                     })
                   ]);
             }, error: (Object error, StackTrace stackTrace) {
@@ -57,46 +48,15 @@ class ProjectsState extends ConsumerState<Projects> {
             }),
           ),
         );
-      case ProjectsPage.episodes:
-        return Episodes(
-            key: episodesStateKey,
-            openEpisode: (Episode episode) {
-              ref.read(episodes_provider.currentEpisodeProvider.notifier).set(episode);
-              setState(() {
-                page = ProjectsPage.sequences;
-              });
-            });
-      case ProjectsPage.sequences:
-        return Sequences(
-          openSequence: (Sequence sequence) {
-            ref.read(currentSequenceProvider.notifier).set(sequence);
-            setState(() {
-              page = ProjectsPage.shots;
-            });
-          },
-        );
-      case ProjectsPage.shots:
+      case HomePage.episodes:
+        return Episodes(key: episodesStateKey);
+      case HomePage.sequences:
+        return const Sequences();
+      case HomePage.shots:
         return const Shots();
-      case ProjectsPage.planning:
+      case HomePage.planning:
         return const Planning();
     }
-  }
-
-  void openProject(Project project) {
-    ref.read(currentProjectProvider.notifier).set(project);
-    if (project.isMovie() && project.episodes != null && project.episodes!.length > 1) {
-      ref.read(episodes_provider.currentEpisodeProvider.notifier).set(project.episodes![0]);
-    }
-    setState(() {
-      page = project.isMovie() ? ProjectsPage.sequences : ProjectsPage.episodes;
-    });
-  }
-
-  void openPlanning(Project project) {
-    ref.read(currentProjectProvider.notifier).set(project);
-    setState(() {
-      page = ProjectsPage.planning;
-    });
   }
 
   /*

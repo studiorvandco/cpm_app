@@ -13,9 +13,7 @@ import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 
 class Episodes extends ConsumerStatefulWidget {
-  const Episodes({required Key key, required this.openEpisode}) : super(key: key);
-
-  final void Function(Episode episode) openEpisode;
+  const Episodes({required Key key}) : super(key: key);
 
   @override
   ConsumerState<Episodes> createState() => EpisodesState();
@@ -40,7 +38,7 @@ class EpisodesState extends ConsumerState<Episodes> {
                 children: <EpisodeCard>[
                   ...episodes.map(
                     (Episode episode) {
-                      return EpisodeCard(episode: episode, openSequences: () => openEpisode(episode));
+                      return EpisodeCard(episode: episode);
                     },
                   )
                 ],
@@ -54,10 +52,6 @@ class EpisodesState extends ConsumerState<Episodes> {
         return const RequestPlaceholder(placeholder: CircularProgressIndicator());
       }),
     ));
-  }
-
-  void openEpisode(Episode episode) {
-    widget.openEpisode(episode);
   }
 
   Future<void> add() async {
