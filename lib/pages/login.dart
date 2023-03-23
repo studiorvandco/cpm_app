@@ -81,7 +81,6 @@ class _LoginState extends ConsumerState<Login> {
                   child: ref.watch(authenticationProvider).when(data: (bool authenticated) {
                     return SizedBox(
                       width: 300,
-                      height: 32,
                       child: FilledButton(
                         onPressed: submit,
                         child: Text('login'.tr()),
@@ -96,7 +95,7 @@ class _LoginState extends ConsumerState<Login> {
                       ),
                     );
                   }, loading: () {
-                    return const SizedBox(height: 32, child: CircularProgressIndicator());
+                    return const CircularProgressIndicator();
                   }),
                 ),
                 const Spacer()

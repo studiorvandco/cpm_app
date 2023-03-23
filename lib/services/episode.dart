@@ -24,8 +24,8 @@ class EpisodeService {
         debugPrint(response.toString());
         return <dynamic>[false, <Episode>[], response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, <Episode>[], 408, 'error.timeout'.tr()];
     }
   }
@@ -46,8 +46,8 @@ class EpisodeService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
@@ -68,8 +68,8 @@ class EpisodeService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
@@ -89,8 +89,8 @@ class EpisodeService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }

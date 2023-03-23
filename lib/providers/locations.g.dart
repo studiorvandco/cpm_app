@@ -10,10 +10,12 @@ String _$locationsHash() => r'f9b6b56ec87983900b4e75965eb9433b57da1ef6';
 
 /// See also [Locations].
 @ProviderFor(Locations)
-final locationsProvider = AutoDisposeAsyncNotifierProvider<Locations, List<Location>>.internal(
+final locationsProvider =
+    AutoDisposeAsyncNotifierProvider<Locations, List<Location>>.internal(
   Locations.new,
   name: r'locationsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$locationsHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$locationsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

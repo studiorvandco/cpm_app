@@ -5,37 +5,45 @@ import '../models/project.dart';
 import '../models/sequence.dart';
 import '../models/shot.dart';
 import '../services/sequence.dart';
+import '../services/shot.dart';
 import 'episodes.dart';
 import 'projects.dart';
+import 'sequences.dart';
 
-part 'sequences.g.dart';
+part 'shots.g.dart';
 
 @riverpod
-class CurrentSequences extends _$CurrentSequences {
+class CurrentShots extends _$CurrentShots {
   @override
-  FutureOr<List<Sequence>> build() {
+  FutureOr<List<Shot>> build() {
     return ref.watch(currentProjectProvider).when(data: (Project project) async {
       return ref.watch(currentEpisodeProvider).when(data: (Episode episode) async {
-        final List<dynamic> result = await SequenceService().getSequences(project.id, episode.id);
-        return result[1] as List<Sequence>;
+        return ref.watch(currentSequenceProvider).when(data: (Sequence sequence) async {
+          final List<dynamic> result = await ShotService().getShots(project.id, episode.id, sequence.id);
+          return result[1] as List<Shot>;
+        }, error: (Object error, StackTrace stackTrace) {
+          return <Shot>[];
+        }, loading: () {
+          return <Shot>[];
+        });
       }, error: (Object error, StackTrace stackTrace) {
-        return <Sequence>[];
+        return <Shot>[];
       }, loading: () {
-        return <Sequence>[];
+        return <Shot>[];
       });
     }, error: (Object error, StackTrace stackTrace) {
-      return <Sequence>[];
+      return <Shot>[];
     }, loading: () {
-      return <Sequence>[];
+      return <Shot>[];
     });
   }
 
   Future<Map<String, dynamic>> get() {
-    state = const AsyncLoading<List<Sequence>>();
+    state = const AsyncLoading<List<Shot>>();
     return ref.watch(currentProjectProvider).when(data: (Project project) async {
       return ref.watch(currentEpisodeProvider).when(data: (Episode episode) async {
         final List<dynamic> result = await SequenceService().getSequences(project.id, episode.id);
-        state = AsyncData<List<Sequence>>(result[1] as List<Sequence>);
+        state = AsyncData<List<Shot>>(result[1] as List<Shot>);
         return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
       }, error: (Object error, StackTrace stackTrace) {
         return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
@@ -47,17 +55,5 @@ class CurrentSequences extends _$CurrentSequences {
     }, loading: () {
       return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
     });
-  }
-}
-
-@Riverpod(keepAlive: true)
-class CurrentSequence extends _$CurrentSequence {
-  @override
-  FutureOr<Sequence> build() {
-    return Sequence(id: '', number: -1, title: '', startDate: DateTime.now(), endDate: DateTime.now(), shots: <Shot>[]);
-  }
-
-  void set(Sequence sequence) {
-    state = AsyncData<Sequence>(sequence);
   }
 }

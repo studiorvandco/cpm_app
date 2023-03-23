@@ -69,7 +69,7 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () => deleteProject(project),
+                        onPressed: () => delete(project),
                         icon: const Icon(Icons.delete),
                         color: Colors.red,
                       )
@@ -117,7 +117,7 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
     });
   }
 
-  Future<void> deleteProject(Project project) async {
+  Future<void> delete(Project project) async {
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
         final Map<String, dynamic> result = await ref.read(projectsProvider.notifier).delete(project.id);

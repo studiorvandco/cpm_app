@@ -7,7 +7,9 @@ import '../globals.dart';
 import '../models/episode.dart';
 import '../models/project.dart';
 import '../models/sequence.dart';
+import '../providers/episodes.dart' as episodes_provider;
 import '../providers/projects.dart';
+import '../providers/sequences.dart';
 import '../widgets/cards/project.dart';
 import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
@@ -27,9 +29,6 @@ class Projects extends ConsumerStatefulWidget {
 class ProjectsState extends ConsumerState<Projects> {
   ProjectsPage page = ProjectsPage.projects;
 
-  late Episode selectedEpisode;
-  late Sequence selectedSequence;
-
   @override
   Widget build(BuildContext context) {
     switch (page) {
@@ -47,7 +46,7 @@ class ProjectsState extends ConsumerState<Projects> {
                     ...projects.map((Project project) {
                       return ProjectCard(
                           project: project,
-                          openEpisodes: () => openEpisodes(project),
+                          openProject: () => openProject(project),
                           openPlanning: () => openPlanning(project));
                     })
                   ]);
@@ -61,33 +60,35 @@ class ProjectsState extends ConsumerState<Projects> {
       case ProjectsPage.episodes:
         return Episodes(
             key: episodesStateKey,
-            openSequences: (Episode episode) {
+            openEpisode: (Episode episode) {
+              ref.read(episodes_provider.currentEpisodeProvider.notifier).set(episode);
               setState(() {
-                selectedEpisode = episode;
                 page = ProjectsPage.sequences;
               });
             });
       case ProjectsPage.sequences:
         return Sequences(
-          episode: selectedEpisode,
-          openShots: (Sequence sequence) {
+          openSequence: (Sequence sequence) {
+            ref.read(currentSequenceProvider.notifier).set(sequence);
             setState(() {
-              selectedSequence = sequence;
               page = ProjectsPage.shots;
             });
           },
         );
       case ProjectsPage.shots:
-        return Shots(sequence: selectedSequence);
+        return const Shots();
       case ProjectsPage.planning:
         return const Planning();
     }
   }
 
-  void openEpisodes(Project project) {
+  void openProject(Project project) {
     ref.read(currentProjectProvider.notifier).set(project);
+    if (project.isMovie() && project.episodes != null && project.episodes!.length > 1) {
+      ref.read(episodes_provider.currentEpisodeProvider.notifier).set(project.episodes![0]);
+    }
     setState(() {
-      page = ProjectsPage.episodes;
+      page = project.isMovie() ? ProjectsPage.sequences : ProjectsPage.episodes;
     });
   }
 

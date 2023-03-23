@@ -24,8 +24,8 @@ class MemberService {
         debugPrint(response.toString());
         return <dynamic>[false, <Member>[], response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, <Member>[], 408, 'error.timeout'.tr()];
     }
   }
@@ -46,8 +46,8 @@ class MemberService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
@@ -68,8 +68,8 @@ class MemberService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
@@ -88,8 +88,8 @@ class MemberService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }

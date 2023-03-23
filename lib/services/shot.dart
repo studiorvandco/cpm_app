@@ -5,28 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import '../globals.dart';
-import '../models/sequence.dart';
+import '../models/shot.dart';
 import 'api.dart';
 
-class SequenceService {
+class ShotService {
   final API api = API();
 
-  Future<List<dynamic>> getSequences(String projectId, String episodeID) async {
+  Future<List<dynamic>> getShots(String projectId, String episodeID, String sequenceID) async {
     try {
-      final Response response = await get(Uri.parse('${api.sequences}/$projectId/$episodeID'),
+      final Response response = await get(Uri.parse('${api.shots}/$projectId/$episodeID/$sequenceID'),
           headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token});
 
       if (response.body.isNotEmpty && response.statusCode == 200) {
-        final List<dynamic> sequencesJson = json.decode(response.body) as List<dynamic>;
-        final List<Sequence> sequences = sequencesJson.map((sequence) => Sequence.fromJson(sequence)).toList();
+        final List<dynamic> shotsJson = json.decode(response.body) as List<dynamic>;
+        final List<Shot> sequences = shotsJson.map((shot) => Shot.fromJson(shot)).toList();
         return <dynamic>[true, sequences, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint(response.toString());
-        return <dynamic>[false, <Sequence>[], response.statusCode, response.reasonPhrase];
+        return <dynamic>[false, <Shot>[], response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
       debugPrint(stackTrace.toString());
-      return <dynamic>[false, <Sequence>[], 408, 'error.timeout'.tr()];
+      return <dynamic>[false, <Shot>[], 408, 'error.timeout'.tr()];
     }
   }
 }

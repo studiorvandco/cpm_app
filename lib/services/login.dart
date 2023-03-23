@@ -23,8 +23,8 @@ class LoginService {
         debugPrint(response.toString());
         return <dynamic>[false, response.body, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, '', 408, 'error.timeout'.tr()];
     }
   }

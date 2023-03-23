@@ -1,66 +1,69 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/episode.dart';
+import '../models/project.dart';
 import '../models/sequence.dart';
+import '../providers/projects.dart';
+import '../providers/sequences.dart';
+import '../widgets/cards/sequence.dart';
+import '../widgets/info_headers/episode.dart';
+import '../widgets/info_headers/project.dart';
+import '../widgets/request_placeholder.dart';
 
-class Sequences extends StatefulWidget {
-  const Sequences({super.key, required this.openShots, required this.episode});
+class Sequences extends ConsumerStatefulWidget {
+  const Sequences({super.key, required this.openSequence});
 
-  final void Function(Sequence sequence) openShots;
-
-  final Episode episode;
+  final void Function(Sequence sequence) openSequence;
 
   @override
-  State<Sequences> createState() => _SequencesState();
+  ConsumerState<Sequences> createState() => _SequencesState();
 }
 
-class _SequencesState extends State<Sequences> {
+class _SequencesState extends ConsumerState<Sequences> {
   @override
   Widget build(BuildContext context) {
-    return Text('TODO');
-    /*
     return Expanded(
-        child: Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: addSequence,
-        child: const Icon(Icons.add),
-      ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Column(
-            children: <Widget>[
-              if (widget.project.isMovie())
-                InfoHeaderProject(project: widget.project)
-              else
-                InfoHeaderEpisode(projectID: widget.project.id, episode: widget.episode),
-              if (widget.episode.sequences.isEmpty)
-                Expanded(
-                  child: RequestPlaceholder(placeholder: Text('sequences.no_sequences'.tr())),
-                )
-              else
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: add,
+          child: const Icon(Icons.add),
+        ),
+        body: ref.watch(currentProjectProvider).when(data: (Project project) {
+          return ref.watch(currentSequencesProvider).when(data: (List<Sequence> sequences) {
+            return Column(
+              children: <Widget>[
+                if (project.isMovie()) const InfoHeaderProject() else const InfoHeaderEpisode(),
                 Expanded(
                     child: ListView(
                         padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
                         children: <SequenceCard>[
-                      ...widget.episode.sequences.map((Sequence sequence) {
+                      ...sequences.map((Sequence sequence) {
                         return SequenceCard(
                           sequence: sequence,
                           openShots: () {
-                            widget.openShots(sequence);
+                            widget.openSequence(sequence);
                           },
                         );
                       })
                     ]))
-            ],
-          );
-        },
+              ],
+            );
+          }, error: (Object error, StackTrace stackTrace) {
+            return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+          }, loading: () {
+            return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+          });
+        }, error: (Object error, StackTrace stackTrace) {
+          return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        }, loading: () {
+          return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        }),
       ),
-    ));
-
-     */
+    );
   }
 
-  void addSequence() {
+  void add() {
     print('TODO');
   }
 }

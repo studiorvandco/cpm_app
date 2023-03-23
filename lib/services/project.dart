@@ -25,8 +25,8 @@ class ProjectService {
         debugPrint(response.toString());
         return <dynamic>[false, <Project>[], response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, <Project>[], 408, 'error.timeout'.tr()];
     }
   }
@@ -45,8 +45,8 @@ class ProjectService {
         debugPrint(response.toString());
         return <dynamic>[false, null, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, null, 408, 'error.timeout'.tr()];
     }
   }
@@ -67,8 +67,8 @@ class ProjectService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
@@ -89,8 +89,8 @@ class ProjectService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
@@ -109,8 +109,8 @@ class ProjectService {
         debugPrint(response.body);
         return <dynamic>[false, response.statusCode, response.reasonPhrase];
       }
-    } catch (exception) {
-      debugPrint(exception.toString());
+    } catch (exception, stackTrace) {
+      debugPrint(stackTrace.toString());
       return <dynamic>[false, 408, 'error.timeout'.tr()];
     }
   }
