@@ -22,6 +22,7 @@ dependencies:
   msix: ^3.9.1
   flutter_riverpod: ^2.3.2
   riverpod_annotation: ^2.0.2
+  flutter_native_splash: ^2.2.19
 
 dev_dependencies:
   flutter_test:

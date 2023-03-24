@@ -1,7 +1,7 @@
 import 'package:calendar_view/calendar_view.dart';
-import 'package:cpm/widgets/request_placeholder.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +13,7 @@ import 'providers/theme.dart';
 import 'services/config.dart';
 import 'utils/constants_globals.dart';
 import 'utils/themes.dart';
+import 'widgets/request_placeholder.dart';
 
 void main() async {
   Future<void> getToken() async {
@@ -20,10 +21,12 @@ void main() async {
     token = preferences.getString(Preferences.token.name) ?? '';
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Config.init();
   await EasyLocalization.ensureInitialized();
   await getToken();
+  FlutterNativeSplash.remove();
   runApp(
     EasyLocalization(
         supportedLocales: const <Locale>[Locale('en', 'US'), Locale('fr', 'FR')],
