@@ -1,4 +1,5 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'package:cpm/widgets/request_placeholder.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,27 +44,33 @@ class _CPMState extends ConsumerState<CPM> {
   Widget build(BuildContext context) {
     return CalendarControllerProvider<Event>(
       controller: EventController<Event>(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: ref.watch(authenticationProvider).when(data: (bool authenticated) {
-          if (authenticated) {
-            return const Home();
-          } else {
+      child: ref.watch(themeProvider).when(data: (ThemeMode theme) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: ref.watch(authenticationProvider).when(data: (bool authenticated) {
+            if (authenticated) {
+              return const Home();
+            } else {
+              return const Login();
+            }
+          }, error: (Object error, StackTrace stackTrace) {
             return const Login();
-          }
-        }, error: (Object error, StackTrace stackTrace) {
-          return const Login();
-        }, loading: () {
-          return const Login();
-        }),
-        title: 'Cinema Project Manager',
-        theme: Themes().light,
-        darkTheme: Themes().dark,
-        themeMode: ref.watch(themeProvider),
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-      ),
+          }, loading: () {
+            return const Login();
+          }),
+          title: 'Cinema Project Manager',
+          theme: Themes().light,
+          darkTheme: Themes().dark,
+          themeMode: theme,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+        );
+      }, error: (Object error, StackTrace stackTrace) {
+        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      }, loading: () {
+        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      }),
     );
   }
 }
