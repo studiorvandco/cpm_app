@@ -8,7 +8,7 @@ import '../../dialogs/confirm_dialog.dart';
 import '../../models/project.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
-import '../../utils.dart';
+import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
 import '../info_sheets/project.dart';
 import '../request_placeholder.dart';

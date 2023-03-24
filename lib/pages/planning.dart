@@ -8,7 +8,7 @@ import '../models/project.dart';
 import '../models/sequence.dart';
 import '../providers/projects.dart';
 import '../providers/sequences.dart';
-import '../utils.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/request_placeholder.dart';
 
 class Planning extends ConsumerStatefulWidget {

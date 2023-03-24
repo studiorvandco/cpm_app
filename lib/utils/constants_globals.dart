@@ -3,12 +3,14 @@ import 'package:cpm/pages/episodes.dart';
 import 'package:cpm/pages/projects.dart';
 import 'package:flutter/material.dart';
 
-import 'models/event.dart';
-import 'services/api.dart';
+import '../models/event.dart';
+import '../services/api.dart';
 
 String token = '';
 
 final API api = API();
+
+enum Preferences { theme, locale, authenticated, token }
 
 enum HomePage { projects, episodes, sequences, shots, planning }
 

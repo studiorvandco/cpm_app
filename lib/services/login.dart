@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../utils.dart';
 import 'api.dart';
 
 class LoginService {
@@ -17,7 +16,6 @@ class LoginService {
           body: jsonEncode(<String, String>{'Username': username, 'Password': password}));
 
       if (response.statusCode == 200) {
-        token = response.body;
         return <dynamic>[true, response.body, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint(response.toString());

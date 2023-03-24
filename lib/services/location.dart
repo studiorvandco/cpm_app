@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import '../models/location.dart';
-import '../utils.dart';
-import 'api.dart';
+import '../utils/constants_globals.dart';
 
 class LocationService {
-  final API api = API();
-
   Future<List<dynamic>> getLocations() async {
     try {
       final Response response = await get(Uri.parse(api.locations),

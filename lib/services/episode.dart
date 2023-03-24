@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/episode.dart';
-import '../utils.dart';
+import '../utils/constants_globals.dart';
 
 class EpisodeService {
   Future<List<dynamic>> getAll(String projectId) async {

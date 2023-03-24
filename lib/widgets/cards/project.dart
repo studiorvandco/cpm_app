@@ -5,7 +5,7 @@ import '../../models/project.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
-import '../../utils.dart';
+import '../../utils/constants_globals.dart';
 
 class ProjectCard extends ConsumerStatefulWidget {
   const ProjectCard({super.key, required this.project});

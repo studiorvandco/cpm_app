@@ -6,12 +6,9 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/sequence.dart';
-import '../utils.dart';
-import 'api.dart';
+import '../utils/constants_globals.dart';
 
 class SequenceService {
-  final API api = API();
-
   Future<List<dynamic>> getAll(String projectId, String episodeID) async {
     try {
       final Response response = await get(Uri.parse('${api.sequences}/$projectId/$episodeID'),

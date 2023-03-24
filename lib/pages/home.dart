@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/navigation.dart';
-import '../utils.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/navigation/custom_appbar.dart';
 import '../widgets/navigation/custom_navigation_drawer.dart';
 import '../widgets/navigation/custom_navigation_rail.dart';

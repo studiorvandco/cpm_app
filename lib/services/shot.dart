@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/shot.dart';
-import '../utils.dart';
+import '../utils/constants_globals.dart';
 
 class ShotService {
   Future<List<dynamic>> getAll(String projectId, String episodeID, String sequenceID) async {

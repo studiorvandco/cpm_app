@@ -8,7 +8,7 @@ import '../../models/project.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
-import '../../utils.dart';
+import '../../utils/constants_globals.dart';
 import '../info_sheets/episode.dart';
 import '../request_placeholder.dart';
 import '../snack_bars.dart';

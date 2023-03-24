@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/sequence.dart';
 import '../../providers/navigation.dart';
-import '../../utils.dart';
+import '../../utils/constants_globals.dart';
 
 class SequenceCard extends ConsumerStatefulWidget {
   const SequenceCard({super.key, required this.sequence});

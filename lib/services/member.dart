@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import '../models/member.dart';
-import '../utils.dart';
-import 'api.dart';
+import '../utils/constants_globals.dart';
 
 class MemberService {
-  final API api = API();
-
   Future<List<dynamic>> getMembers() async {
     try {
       final Response response = await get(Uri.parse(api.members),

@@ -7,7 +7,7 @@ import '../dialogs/new_edit_location.dart';
 import '../exceptions/invalid_direction_exception.dart';
 import '../models/location.dart';
 import '../providers/locations.dart';
-import '../utils.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 import '../widgets/tiles/location_tile.dart';

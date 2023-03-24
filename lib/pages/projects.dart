@@ -6,7 +6,7 @@ import '../dialogs/new_project.dart';
 import '../models/project.dart';
 import '../providers/navigation.dart';
 import '../providers/projects.dart';
-import '../utils.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/cards/project.dart';
 import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';

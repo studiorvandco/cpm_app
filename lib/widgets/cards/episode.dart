@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/episode.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
-import '../../utils.dart';
+import '../../utils/constants_globals.dart';
 
 class EpisodeCard extends ConsumerStatefulWidget {
   const EpisodeCard({super.key, required this.episode});
