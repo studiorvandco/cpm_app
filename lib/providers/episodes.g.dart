@@ -6,7 +6,7 @@ part of 'episodes.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$episodesHash() => r'203a8e3d4621fa0903919f39e40c7b3bf8c06381';
+String _$episodesHash() => r'c1c9424c9acbc92265ea548bc08d0c580dd7bb34';
 
 /// See also [Episodes].
 @ProviderFor(Episodes)
@@ -21,22 +21,6 @@ final episodesProvider =
 );
 
 typedef _$Episodes = AutoDisposeAsyncNotifier<List<Episode>>;
-String _$currentEpisodesHash() => r'572576556ec587bc6e14d9861e41dc2803659c82';
-
-/// See also [CurrentEpisodes].
-@ProviderFor(CurrentEpisodes)
-final currentEpisodesProvider =
-    AutoDisposeAsyncNotifierProvider<CurrentEpisodes, List<Episode>>.internal(
-  CurrentEpisodes.new,
-  name: r'currentEpisodesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$currentEpisodesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$CurrentEpisodes = AutoDisposeAsyncNotifier<List<Episode>>;
 String _$currentEpisodeHash() => r'90a6c8b285fa36d0985750fb92de61ef0e110c36';
 
 /// See also [CurrentEpisode].

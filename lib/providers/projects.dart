@@ -17,19 +17,19 @@ class Projects extends _$Projects {
 
   Future<Map<String, dynamic>> get() async {
     state = const AsyncLoading<List<Project>>();
-    final List<dynamic> result = await ProjectService().getProjects();
+    final List<dynamic> result = await ProjectService().getAll();
     state = AsyncValue<List<Project>>.data(result[1] as List<Project>);
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
   }
 
   Future<Map<String, dynamic>> add(Project newProject) async {
-    final List<dynamic> result = await ProjectService().addProject(newProject);
+    final List<dynamic> result = await ProjectService().add(newProject);
     state = AsyncData<List<Project>>(<Project>[...state.value ?? <Project>[], newProject]);
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
   Future<Map<String, dynamic>> edit(Project editedProject) async {
-    final List<dynamic> result = await ProjectService().editProject(editedProject);
+    final List<dynamic> result = await ProjectService().edit(editedProject);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])
         if (project.id != editedProject.id) project else editedProject,
@@ -38,7 +38,7 @@ class Projects extends _$Projects {
   }
 
   Future<Map<String, dynamic>> delete(String projectID) async {
-    final List<dynamic> result = await ProjectService().deleteProject(projectID);
+    final List<dynamic> result = await ProjectService().delete(projectID);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])
         if (project.id != projectID) project,

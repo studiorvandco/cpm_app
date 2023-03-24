@@ -28,7 +28,7 @@ class _SequencesState extends ConsumerState<Sequences> {
           child: const Icon(Icons.add),
         ),
         body: ref.watch(currentProjectProvider).when(data: (Project project) {
-          return ref.watch(currentSequencesProvider).when(data: (List<Sequence> sequences) {
+          return ref.watch(sequencesProvider).when(data: (List<Sequence> sequences) {
             return Column(
               children: <Widget>[
                 if (project.isMovie()) const InfoHeaderProject() else const InfoHeaderEpisode(),

@@ -21,7 +21,7 @@ class _ShotsState extends ConsumerState<Shots> {
     return Expanded(
         child: Scaffold(
             floatingActionButton: FloatingActionButton(onPressed: addShot, child: const Icon(Icons.add)),
-            body: ref.watch(currentShotsProvider).when(data: (List<Shot> shots) {
+            body: ref.watch(shotsProvider).when(data: (List<Shot> shots) {
               return Column(
                 children: <Widget>[
                   const InfoHeaderSequence(),

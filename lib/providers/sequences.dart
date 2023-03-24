@@ -11,12 +11,12 @@ import 'projects.dart';
 part 'sequences.g.dart';
 
 @riverpod
-class CurrentSequences extends _$CurrentSequences {
+class Sequences extends _$Sequences {
   @override
   FutureOr<List<Sequence>> build() {
     return ref.watch(currentProjectProvider).when(data: (Project project) async {
       return ref.watch(currentEpisodeProvider).when(data: (Episode episode) async {
-        final List<dynamic> result = await SequenceService().getSequences(project.id, episode.id);
+        final List<dynamic> result = await SequenceService().getAll(project.id, episode.id);
         return result[1] as List<Sequence>;
       }, error: (Object error, StackTrace stackTrace) {
         return <Sequence>[];
@@ -34,7 +34,7 @@ class CurrentSequences extends _$CurrentSequences {
     state = const AsyncLoading<List<Sequence>>();
     return ref.watch(currentProjectProvider).when(data: (Project project) async {
       return ref.watch(currentEpisodeProvider).when(data: (Episode episode) async {
-        final List<dynamic> result = await SequenceService().getSequences(project.id, episode.id);
+        final List<dynamic> result = await SequenceService().getAll(project.id, episode.id);
         state = AsyncData<List<Sequence>>(result[1] as List<Sequence>);
         return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
       }, error: (Object error, StackTrace stackTrace) {
@@ -47,6 +47,30 @@ class CurrentSequences extends _$CurrentSequences {
     }, loading: () {
       return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
     });
+  }
+
+  Future<Map<String, dynamic>> add(String projectID, String episodeID, Sequence newSequence) async {
+    final List<dynamic> result = await SequenceService().add(projectID, episodeID, newSequence);
+    state = AsyncData<List<Sequence>>(<Sequence>[...state.value ?? <Sequence>[], newSequence]);
+    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
+  }
+
+  Future<Map<String, dynamic>> edit(String projectID, String episodeID, Sequence editedSequence) async {
+    final List<dynamic> result = await SequenceService().edit(projectID, episodeID, editedSequence);
+    state = AsyncData<List<Sequence>>(<Sequence>[
+      for (final Sequence episode in state.value ?? <Sequence>[])
+        if (episode.id != editedSequence.id) episode else editedSequence,
+    ]);
+    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
+  }
+
+  Future<Map<String, dynamic>> delete(String projectID, String episodeID, String sequenceID) async {
+    final List<dynamic> result = await SequenceService().delete(projectID, episodeID, sequenceID);
+    state = AsyncData<List<Sequence>>(<Sequence>[
+      for (final Sequence episode in state.value ?? <Sequence>[])
+        if (episode.id != episodeID) episode,
+    ]);
+    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/episode.dart';
+import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../utils.dart';
 
@@ -22,7 +23,7 @@ class _EpisodeCardState extends ConsumerState<EpisodeCard> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-          onPressed: openEpisode,
+          onPressed: () => openEpisode(widget.episode),
           child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -36,29 +37,19 @@ class _EpisodeCardState extends ConsumerState<EpisodeCard> {
                             Container(
                               width: 30,
                               decoration: BoxDecoration(
-                                  color: Theme
-                                      .of(context)
-                                      .colorScheme
-                                      .secondary,
+                                  color: Theme.of(context).colorScheme.secondary,
                                   borderRadius: const BorderRadius.all(Radius.circular(15))),
                               child: Text(widget.episode.number.toString(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: Theme
-                                          .of(context)
-                                          .colorScheme
-                                          .onSecondary)),
+                                      color: Theme.of(context).colorScheme.onSecondary)),
                             ),
                             const Padding(padding: EdgeInsets.only(right: 12)),
                             Text(
                               widget.episode.title,
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -78,7 +69,8 @@ class _EpisodeCardState extends ConsumerState<EpisodeCard> {
         ));
   }
 
-  void openEpisode() {
+  void openEpisode(Episode episode) {
+    ref.read(currentEpisodeProvider.notifier).set(episode);
     ref.read(homePageNavigationProvider.notifier).set(HomePage.sequences);
   }
 }

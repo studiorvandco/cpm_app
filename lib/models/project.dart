@@ -32,26 +32,6 @@ class Project implements Comparable<Project> {
     );
   }
 
-  factory Project.fromJsonComplete(json) {
-    final ProjectType projectType = (json['isFilm'] as bool) ? ProjectType.movie : ProjectType.series;
-
-    final episodesJson = json['Episodes'];
-    final List<Episode> episodes =
-        episodesJson.map<Episode>((episode) => Episode.fromJson(episode)).toList() as List<Episode>;
-
-    return Project(
-      id: json['Id'].toString(),
-      projectType: projectType,
-      title: json['Title'].toString(),
-      description: json['Description'].toString(),
-      startDate: DateTime.parse(json['BeginDate'].toString()),
-      endDate: DateTime.parse(json['EndDate'].toString()),
-      shotsTotal: json['ShotsTotal'] as int,
-      shotsCompleted: json['ShotsCompleted'] as int,
-      episodes: episodes,
-    );
-  }
-
   Map<String, dynamic> toJson() {
     return {
       'isFilm': projectType == ProjectType.movie,

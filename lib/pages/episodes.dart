@@ -28,7 +28,7 @@ class EpisodesState extends ConsumerState<Episodes> {
         onPressed: () => add(),
         child: const Icon(Icons.add),
       ),
-      body: ref.watch(currentEpisodesProvider).when(data: (List<Episode> episodes) {
+      body: ref.watch(episodesProvider).when(data: (List<Episode> episodes) {
         return Column(
           children: <Widget>[
             const InfoHeaderProject(),
@@ -55,11 +55,11 @@ class EpisodesState extends ConsumerState<Episodes> {
   }
 
   Future<void> add() async {
-    if (!ref.read(currentProjectProvider).hasValue || !ref.read(currentEpisodesProvider).hasValue) {
+    if (!ref.read(currentProjectProvider).hasValue || !ref.read(episodesProvider).hasValue) {
       return;
     }
 
-    final int number = ref.read(currentEpisodesProvider).value!.length + 1;
+    final int number = ref.read(episodesProvider).value!.length + 1;
     final dynamic episode = await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -76,6 +76,6 @@ class EpisodesState extends ConsumerState<Episodes> {
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(currentEpisodesProvider.notifier).get();
+    ref.read(episodesProvider.notifier).get();
   }
 }

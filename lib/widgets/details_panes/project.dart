@@ -28,7 +28,7 @@ class _DetailsPaneProjectState extends State<DetailsPaneProject>
   @override
   void initState() {
     super.initState();
-    getCompleteProject();
+    editedProject = widget.project;
     titleController.text = widget.project.title;
     descriptionController.text = widget.project.description;
   }
@@ -105,15 +105,6 @@ class _DetailsPaneProjectState extends State<DetailsPaneProject>
   @override
   bool get wantKeepAlive => true;
 
-  Future<void> getCompleteProject() async {
-    final List<dynamic> result = await ProjectService().getCompleteProject(widget.project.id);
-    setState(() {
-      requestCompleted = true;
-      requestSucceeded = result[0] as bool;
-      editedProject = result[1] as Project;
-    });
-  }
-
   String getDateText() {
     final String firstText = DateFormat.yMd(context.locale.toString()).format(editedProject.startDate);
     final String lastText = DateFormat.yMd(context.locale.toString()).format(editedProject.endDate);
@@ -139,7 +130,7 @@ class _DetailsPaneProjectState extends State<DetailsPaneProject>
   }
 
   Future<void> editProject() async {
-    final List<dynamic> result = await ProjectService().editProject(editedProject);
+    final List<dynamic> result = await ProjectService().edit(editedProject);
     if (context.mounted) {
       final bool succeeded = result[0] as bool;
       ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, result[1] as int,
