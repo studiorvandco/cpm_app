@@ -24,38 +24,22 @@ class About extends StatelessWidget {
                 Builder(
                   builder: (BuildContext context) {
                     if (Theme.of(context).brightness == Brightness.light) {
-                      return Image.asset(
-                        'assets/images/logo-camera.png',
-                        fit: BoxFit.fitWidth,
-                        height: 100,
-                        filterQuality: FilterQuality.high,
-                      );
+                      return Image.asset('assets/logos/camera_light_2048.png',
+                          fit: BoxFit.fitWidth, height: 100, filterQuality: FilterQuality.medium);
                     } else {
-                      return Image.asset(
-                        'assets/images/logo-camera-blanc.png',
-                        fit: BoxFit.fitWidth,
-                        height: 100,
-                        filterQuality: FilterQuality.high,
-                      );
+                      return Image.asset('assets/logos/camera_dark_2048.png',
+                          fit: BoxFit.fitWidth, height: 100, filterQuality: FilterQuality.medium);
                     }
                   },
                 ),
                 Builder(
                   builder: (BuildContext context) {
                     if (Theme.of(context).brightness == Brightness.light) {
-                      return Image.asset(
-                        'assets/images/logo-rv&co.png',
-                        fit: BoxFit.fitWidth,
-                        height: 150,
-                        filterQuality: FilterQuality.high,
-                      );
+                      return Image.asset('assets/logos/rvandco_light_2048.png',
+                          fit: BoxFit.fitWidth, height: 150, filterQuality: FilterQuality.medium);
                     } else {
-                      return Image.asset(
-                        'assets/images/logo-rv&co-blanc.png',
-                        fit: BoxFit.fitWidth,
-                        height: 150,
-                        filterQuality: FilterQuality.high,
-                      );
+                      return Image.asset('assets/logos/rvandco_dark_2048.png',
+                          fit: BoxFit.fitWidth, height: 150, filterQuality: FilterQuality.medium);
                     }
                   },
                 )

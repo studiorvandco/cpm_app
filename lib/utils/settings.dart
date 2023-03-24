@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// TODO(mael): rework favorites with riverpod
+
 class MyFavorites {
   static const String FAVORITES_KEY = 'favorites_key';
 

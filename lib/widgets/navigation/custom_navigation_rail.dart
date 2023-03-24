@@ -25,17 +25,9 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
           child: NavigationRail(
             leading: Builder(builder: (BuildContext context) {
               if (Theme.of(context).brightness == Brightness.light) {
-                return Image.asset(
-                  'assets/images/logo-cpm-alpha.png',
-                  width: 50,
-                  filterQuality: FilterQuality.high,
-                );
+                return Image.asset('assets/logos/cpm_light_2048.png', width: 50, filterQuality: FilterQuality.medium);
               } else {
-                return Image.asset(
-                  'assets/images/logo-cpm-white-alpha.png',
-                  width: 50,
-                  filterQuality: FilterQuality.high,
-                );
+                return Image.asset('assets/logos/cpm_dark_2048.png', width: 50, filterQuality: FilterQuality.medium);
               }
             }),
             labelType: NavigationRailLabelType.all,

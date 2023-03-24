@@ -13,7 +13,6 @@ import 'providers/theme.dart';
 import 'services/config.dart';
 import 'utils/constants_globals.dart';
 import 'utils/themes.dart';
-import 'widgets/request_placeholder.dart';
 
 void main() async {
   Future<void> getToken() async {
@@ -70,9 +69,9 @@ class _CPMState extends ConsumerState<CPM> {
           locale: context.locale,
         );
       }, error: (Object error, StackTrace stackTrace) {
-        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        return const Center();
       }, loading: () {
-        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        return const Center();
       }),
     );
   }

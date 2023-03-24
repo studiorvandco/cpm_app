@@ -32,12 +32,6 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
             padding: const EdgeInsets.all(8),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
               Row(children: <Widget>[
-                SizedBox(
-                  height: 80,
-                  width: 80,
-                  child: Image.asset('assets/images/en-sursis.png'),
-                ),
-                const Padding(padding: EdgeInsets.only(right: 16)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +54,6 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
                 const Padding(padding: EdgeInsets.only(right: 16)),
                 IconButton(
                     onPressed: () {
-                      toggleFavorite();
                       setState(() {
                         favIcon = const Icon(Icons.star);
                       });
@@ -73,21 +66,6 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
             ]),
           )),
     );
-  }
-
-  void toggleFavorite() {
-    /*
-    if (widget.project.favorite) {
-      final List<String> favorites = widget.favNotifier.favoriteProjects;
-      favorites.remove(widget.project.id);
-      widget.favNotifier.favoriteProjects = favorites;
-    } else {
-      final List<String> favorites = widget.favNotifier.favoriteProjects;
-      favorites.add(widget.project.id);
-      widget.favNotifier.favoriteProjects = favorites;
-    }
-    widget.project.favorite = !widget.project.favorite;
-    */
   }
 
   void openProject(Project project) {
