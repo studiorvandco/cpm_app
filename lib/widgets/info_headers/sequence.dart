@@ -56,7 +56,7 @@ class _InfoHeaderSequenceState extends ConsumerState<InfoHeaderSequence> {
           showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
-                return InfoSheetSequence(sequence: sequence);
+                return const InfoSheetSequence();
               });
         },
       );

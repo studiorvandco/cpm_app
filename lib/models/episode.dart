@@ -38,8 +38,8 @@ class Episode {
 
   final String id;
   final int number;
-  final String title;
-  final String description;
+  String title;
+  String description;
   final String? director;
   final String? writer;
   final List<Sequence> sequences;

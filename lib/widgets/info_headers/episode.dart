@@ -76,7 +76,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
             showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return InfoSheetEpisode(episode: episode);
+                  return const InfoSheetEpisode();
                 });
           },
         );

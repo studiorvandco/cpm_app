@@ -1,13 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/sequence.dart';
 import '../details_panes/sequence.dart';
 
 class InfoSheetSequence extends StatelessWidget {
-  const InfoSheetSequence({super.key, required this.sequence});
-
-  final Sequence sequence;
+  const InfoSheetSequence({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +17,13 @@ class InfoSheetSequence extends StatelessWidget {
               Tab(text: 'members.member.upper'.plural(2)),
               Tab(text: 'locations.location.upper'.plural(2))
             ]),
-            Expanded(
+            const Expanded(
                 child: TabBarView(
-              children: <Widget>[DetailsPaneSequence(sequence: sequence), Text('Members'), Text('Locations')],
+              children: <Widget>[
+                DetailsPaneSequence(),
+                Center(child: Text('Coming soon!')),
+                Center(child: Text('Coming soon!'))
+              ],
             ))
           ],
         ));

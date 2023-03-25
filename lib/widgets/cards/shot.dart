@@ -6,8 +6,9 @@ import '../../models/shot.dart';
 class ShotCard extends StatefulWidget {
   const ShotCard({super.key, required this.onPressed, required this.shot});
 
-  final Shot shot;
   final Function onPressed;
+
+  final Shot shot;
 
   @override
   State<StatefulWidget> createState() => _ShotCardState();
@@ -65,18 +66,28 @@ class CompactShotCard extends StatelessWidget {
                 Container(
                   width: 30,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .tertiary,
                       borderRadius: const BorderRadius.all(Radius.circular(15))),
                   child: Text(widget.shot.number.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onTertiary)),
+                          fontSize: 14, fontWeight: FontWeight.bold, color: Theme
+                          .of(context)
+                          .colorScheme
+                          .onTertiary)),
                 ),
                 const Padding(padding: EdgeInsets.only(right: 12)),
                 Expanded(
                   child: Text(
                     widget.shot.title,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -109,18 +120,28 @@ class CollapsedShotCard extends StatelessWidget {
               Container(
                 width: 30,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .secondary,
                     borderRadius: const BorderRadius.all(Radius.circular(15))),
                 child: Text(widget.shot.number.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSecondary)),
+                        fontSize: 14, fontWeight: FontWeight.bold, color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onSecondary)),
               ),
               const Padding(padding: EdgeInsets.only(right: 12)),
               Expanded(
                 child: Text(
                   widget.shot.title,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -134,7 +155,10 @@ class CollapsedShotCard extends StatelessWidget {
             ),
             Text(
               widget.shot.description ?? '',
-              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+              style: TextStyle(color: Theme
+                  .of(context)
+                  .colorScheme
+                  .onBackground),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             )

@@ -1,13 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/episode.dart';
 import '../details_panes/episode.dart';
 
 class InfoSheetEpisode extends StatelessWidget {
-  const InfoSheetEpisode({super.key, required this.episode});
-
-  final Episode episode;
+  const InfoSheetEpisode({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +17,13 @@ class InfoSheetEpisode extends StatelessWidget {
               Tab(text: 'members.member.upper'.plural(2)),
               Tab(text: 'locations.location.upper'.plural(2))
             ]),
-            Expanded(
+            const Expanded(
                 child: TabBarView(
-              children: <Widget>[DetailsPaneEpisode(episode: episode), Text('Members'), Text('Locations')],
+              children: <Widget>[
+                DetailsPaneEpisode(),
+                Center(child: Text('Coming soon!')),
+                Center(child: Text('Coming soon!'))
+              ],
             ))
           ],
         ));

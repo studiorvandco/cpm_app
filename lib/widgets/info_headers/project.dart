@@ -105,8 +105,10 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
         onPressed: () {
           showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
+              useSafeArea: true,
               builder: (BuildContext context) {
-                return InfoSheetProject(project: project);
+                return const InfoSheetProject();
               });
         },
       );

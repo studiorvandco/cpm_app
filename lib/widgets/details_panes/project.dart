@@ -1,140 +1,122 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project.dart';
-import '../../services/project.dart';
+import '../../providers/projects.dart';
 import '../icon_label.dart';
 import '../request_placeholder.dart';
-import '../snack_bars.dart';
 
-class DetailsPaneProject extends StatefulWidget {
-  const DetailsPaneProject({super.key, required this.project});
-
-  final Project project;
+class DetailsPaneProject extends ConsumerStatefulWidget {
+  const DetailsPaneProject({super.key});
 
   @override
-  State<DetailsPaneProject> createState() => _DetailsPaneProjectState();
+  ConsumerState<DetailsPaneProject> createState() => _DetailsPaneProjectState();
 }
 
-class _DetailsPaneProjectState extends State<DetailsPaneProject>
+class _DetailsPaneProjectState extends ConsumerState<DetailsPaneProject>
     with AutomaticKeepAliveClientMixin<DetailsPaneProject> {
-  bool requestCompleted = false;
-  late bool requestSucceeded;
-  late Project editedProject;
-
+  late DateTime start;
+  late DateTime end;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    editedProject = widget.project;
-    titleController.text = widget.project.title;
-    descriptionController.text = widget.project.description;
-  }
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (!requestCompleted) {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
-    } else if (requestSucceeded) {
+    return ref.watch(currentProjectProvider).when(data: (Project project) {
+      start = project.startDate;
+      end = project.endDate;
+      titleController.text = project.title;
+      descriptionController.text = project.description;
+
       return Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: <Widget>[
-              Focus(
-                onFocusChange: (bool focus) {
-                  if (!focus) {
-                    editTitle();
-                  }
-                },
-                child: TextField(
-                  style: Theme.of(context).textTheme.titleMedium,
-                  decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'.tr()),
-                  controller: titleController,
-                  maxLength: 64,
-                ),
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Focus(
+              onFocusChange: (bool hasFocus) {
+                if (!hasFocus && titleController.text != project.title) {
+                  edit(project);
+                }
+              },
+              child: TextField(
+                style: Theme.of(context).textTheme.titleMedium,
+                decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'.tr()),
+                controller: titleController,
+                maxLength: 64,
               ),
-              const Padding(padding: EdgeInsets.only(bottom: 16)),
-              Expanded(
-                child: Focus(
-                  onFocusChange: (bool focus) {
-                    if (!focus) {
-                      editDescription();
-                    }
-                  },
-                  child: TextField(
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
-                    controller: descriptionController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    expands: true,
-                    maxLength: 280,
-                  ),
-                ),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 16)),
+            Focus(
+              onFocusChange: (bool hasFocus) {
+                if (!hasFocus && descriptionController.text != project.description) {
+                  edit(project);
+                }
+              },
+              child: TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
+                controller: descriptionController,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: null,
+                maxLength: 280,
               ),
-              const Padding(padding: EdgeInsets.only(bottom: 16)),
-              GestureDetector(
-                onTap: () async {
-                  final DateTimeRange? pickedRange = await showDateRangePicker(
-                      context: context,
-                      initialDateRange: DateTimeRange(start: editedProject.startDate, end: editedProject.endDate),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2101));
-                  if (pickedRange != null) {
-                    editDate(pickedRange.start, pickedRange.end);
-                  }
-                },
-                behavior: HitTestBehavior.translucent,
-                child: IconLabel(
-                  text: getDateText(),
-                  icon: Icons.event_outlined,
-                  textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
-                ),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 16)),
+            GestureDetector(
+              onTap: () => editDate(project),
+              behavior: HitTestBehavior.translucent,
+              child: IconLabel(
+                text: getDateText(),
+                icon: Icons.event_outlined,
+                textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
-            ],
-          ));
-    } else {
+            ),
+          ],
+        ),
+      );
+    }, error: (Object error, StackTrace stackTrace) {
       return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
-    }
+    }, loading: () {
+      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+    });
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
   String getDateText() {
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(editedProject.startDate);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(editedProject.endDate);
+    final String firstText = DateFormat.yMd(context.locale.toString()).format(start);
+    final String lastText = DateFormat.yMd(context.locale.toString()).format(end);
     return '$firstText - $lastText';
   }
 
-  void editTitle() {
-    editedProject.title = titleController.text;
-    editProject();
-  }
-
-  void editDescription() {
-    editedProject.description = descriptionController.text;
-    editProject();
-  }
-
-  void editDate(DateTime startDate, DateTime endDate) {
-    setState(() {
-      editedProject.startDate = startDate;
-      editedProject.endDate = endDate;
-    });
-    editProject();
-  }
-
-  Future<void> editProject() async {
-    final List<dynamic> result = await ProjectService().edit(editedProject);
-    if (context.mounted) {
-      final bool succeeded = result[0] as bool;
-      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, result[1] as int,
-          message: succeeded ? 'snack_bars.project.edited'.tr() : 'snack_bars.project.not_edited'.tr()));
+  Future<void> editDate(Project project) async {
+    final DateTimeRange? newDates = await showDateRangePicker(
+        context: context,
+        initialDateRange: DateTimeRange(start: start, end: end),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101));
+    if (newDates != null) {
+      setState(() {
+        start = newDates.start;
+        end = newDates.end;
+      });
     }
+    edit(project);
+  }
+
+  Future<void> edit(Project project) async {
+    project.title = titleController.text;
+    project.description = descriptionController.text;
+    project.startDate = start;
+    project.endDate = end;
+
+    ref.read(projectsProvider.notifier).edit(project);
+    ref.read(currentProjectProvider.notifier).set(project);
   }
 }
