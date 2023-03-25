@@ -33,6 +33,8 @@ class _DetailsPaneProjectState extends ConsumerState<DetailsPaneProject>
       end = project.endDate;
       titleController.text = project.title;
       descriptionController.text = project.description;
+      titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
+      descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 
       return Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),

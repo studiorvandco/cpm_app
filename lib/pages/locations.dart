@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../dialogs/confirm_dialog.dart';
 import '../dialogs/new_edit_location.dart';
-import '../exceptions/invalid_direction_exception.dart';
+import '../exceptions/invalid_direction.dart';
 import '../models/location.dart';
 import '../providers/locations.dart';
 import '../utils/constants_globals.dart';

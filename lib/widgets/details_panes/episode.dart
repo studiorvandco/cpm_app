@@ -30,8 +30,11 @@ class _DetailsPaneEpisodeState extends ConsumerState<DetailsPaneEpisode>
       return ref.watch(currentEpisodeProvider).when(data: (Episode episode) {
         titleController.text = episode.title;
         descriptionController.text = episode.description;
+        titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
+        descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
+
         return Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

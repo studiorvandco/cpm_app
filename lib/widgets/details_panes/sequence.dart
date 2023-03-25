@@ -35,12 +35,15 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
     return ref.watch(currentProjectProvider).when(data: (Project project) {
       return ref.watch(currentEpisodeProvider).when(data: (Episode episode) {
         return ref.watch(currentSequenceProvider).when(data: (Sequence sequence) {
-          titleController.text = sequence.title;
-          descriptionController.text = sequence.description ?? '';
           start = sequence.startDate;
           end = sequence.endDate;
+          titleController.text = sequence.title;
+          descriptionController.text = sequence.description ?? '';
+          titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
+          descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
+
           return Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
               child: Column(
                 children: <Widget>[
                   Focus(

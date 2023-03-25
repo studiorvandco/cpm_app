@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../dialogs/confirm_dialog.dart';
 import '../dialogs/new_edit_member.dart';
-import '../exceptions/invalid_direction_exception.dart';
+import '../exceptions/invalid_direction.dart';
 import '../models/member.dart';
 import '../providers/members.dart';
 import '../utils/constants_globals.dart';

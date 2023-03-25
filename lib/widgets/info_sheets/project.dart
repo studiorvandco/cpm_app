@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../exceptions/invalid_tab_index.dart';
 import '../details_panes/project.dart';
 
 class InfoSheetProject extends StatefulWidget {
@@ -52,7 +53,7 @@ class _InfoSheetProjectState extends State<InfoSheetProject> with SingleTickerPr
             } else if (_selectedTab == 2) {
               return const Center(child: Text('Coming soon!')); //3rd tabView
             } else {
-              return const Center();
+              throw InvalidTabIndex('Invalid tab index: $_selectedTab');
             }
           })
         ],
