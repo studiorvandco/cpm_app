@@ -3,18 +3,17 @@ import 'episode.dart';
 enum ProjectType { movie, series, placeholder }
 
 class Project implements Comparable<Project> {
-  Project(
-      {required this.id,
-      required this.projectType,
-      required this.title,
-      required this.description,
-      required this.startDate,
-      required this.endDate,
-      this.shotsTotal,
-      this.shotsCompleted,
-      this.director,
-      this.writer,
-      this.episodes});
+  Project({required this.id,
+    required this.projectType,
+    required this.title,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+    this.shotsTotal,
+    this.shotsCompleted,
+    this.director,
+    this.writer,
+    this.episodes});
 
   factory Project.fromJson(json) {
     final ProjectType projectType = (json['isFilm'] as bool) ? ProjectType.movie : ProjectType.series;
@@ -44,6 +43,10 @@ class Project implements Comparable<Project> {
       'shotsCompleted': shotsCompleted ?? 0,
       'episodes': episodes,
     };
+  }
+
+  void toggleFavorite() {
+    favorite = !favorite;
   }
 
   double getProgress() {

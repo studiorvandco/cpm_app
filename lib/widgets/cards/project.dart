@@ -17,11 +17,10 @@ class ProjectCard extends ConsumerStatefulWidget {
 }
 
 class _ProjectCardState extends ConsumerState<ProjectCard> {
+  Icon favoriteIcon = const Icon(Icons.star_border);
+
   @override
   Widget build(BuildContext context) {
-    Icon favIcon = widget.project.favorite
-        ? Icon(Icons.star, color: Theme.of(context).colorScheme.primary)
-        : const Icon(Icons.star_border);
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ElevatedButton(
@@ -52,13 +51,7 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(right: 16)),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        favIcon = const Icon(Icons.star);
-                      });
-                    },
-                    icon: favIcon),
+                IconButton(onPressed: () => toggleFavorite(widget.project), icon: favoriteIcon),
                 IconButton(onPressed: () => openPlanning(widget.project), icon: const Icon(Icons.event))
               ]),
               const SizedBox(height: 8),
@@ -79,5 +72,14 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
   void openPlanning(Project project) {
     ref.read(currentProjectProvider.notifier).set(project);
     ref.read(homePageNavigationProvider.notifier).set(HomePage.planning);
+  }
+
+  void toggleFavorite(Project project) {
+    project.toggleFavorite();
+    setState(() {
+      favoriteIcon = widget.project.favorite
+          ? Icon(Icons.star, color: Theme.of(context).colorScheme.primary)
+          : const Icon(Icons.star_border);
+    });
   }
 }
