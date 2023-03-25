@@ -34,16 +34,11 @@ void main() async {
   );
 }
 
-class CPM extends ConsumerStatefulWidget {
+class CPM extends ConsumerWidget {
   const CPM({super.key});
 
   @override
-  ConsumerState<CPM> createState() => _CPMState();
-}
-
-class _CPMState extends ConsumerState<CPM> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CalendarControllerProvider<Event>(
       controller: EventController<Event>(),
       child: ref.watch(themeProvider).when(data: (ThemeMode theme) {

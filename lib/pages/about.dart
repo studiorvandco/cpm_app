@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../utils/constants_globals.dart';
+
 class About extends StatelessWidget {
   const About({super.key});
 
@@ -24,10 +26,10 @@ class About extends StatelessWidget {
                 Builder(
                   builder: (BuildContext context) {
                     if (Theme.of(context).brightness == Brightness.light) {
-                      return Image.asset('assets/logos/camera_light_2048.png',
+                      return Image.asset(Logos.camera_light.value,
                           fit: BoxFit.fitWidth, height: 100, filterQuality: FilterQuality.medium);
                     } else {
-                      return Image.asset('assets/logos/camera_dark_2048.png',
+                      return Image.asset(Logos.camera_dark.value,
                           fit: BoxFit.fitWidth, height: 100, filterQuality: FilterQuality.medium);
                     }
                   },
@@ -35,10 +37,10 @@ class About extends StatelessWidget {
                 Builder(
                   builder: (BuildContext context) {
                     if (Theme.of(context).brightness == Brightness.light) {
-                      return Image.asset('assets/logos/rvandco_light_2048.png',
+                      return Image.asset(Logos.rvandco_light.value,
                           fit: BoxFit.fitWidth, height: 150, filterQuality: FilterQuality.medium);
                     } else {
-                      return Image.asset('assets/logos/rvandco_dark_2048.png',
+                      return Image.asset(Logos.rvandco_dark.value,
                           fit: BoxFit.fitWidth, height: 150, filterQuality: FilterQuality.medium);
                     }
                   },

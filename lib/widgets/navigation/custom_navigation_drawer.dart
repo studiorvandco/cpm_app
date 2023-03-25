@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/constants_globals.dart';
+
 class CustomNavigationDrawer extends StatefulWidget {
   const CustomNavigationDrawer({super.key, required this.navigate, required this.selectedIndex});
 
@@ -29,9 +31,9 @@ class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
           DrawerHeader(
             child: Builder(builder: (BuildContext context) {
               if (Theme.of(context).brightness == Brightness.light) {
-                return Image.asset('assets/logos/cpm_light_2048.png', width: 50, filterQuality: FilterQuality.medium);
+                return Image.asset(Logos.cpm_light.value, width: 50, filterQuality: FilterQuality.medium);
               } else {
-                return Image.asset('assets/logos/cpm_dark_2048.png', width: 50, filterQuality: FilterQuality.medium);
+                return Image.asset(Logos.cpm_dark.value, width: 50, filterQuality: FilterQuality.medium);
               }
             }),
           ),

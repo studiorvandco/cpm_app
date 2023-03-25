@@ -1,14 +1,27 @@
 import 'package:calendar_view/calendar_view.dart';
-import 'package:cpm/pages/episodes.dart';
-import 'package:cpm/pages/projects.dart';
 import 'package:flutter/material.dart';
 
 import '../models/event.dart';
+import '../pages/episodes.dart';
+import '../pages/projects.dart';
 import '../services/api.dart';
 
 String token = '';
 
 final API api = API();
+
+enum Logos {
+  cpm_light('assets/logos/cpm_light_1024.png'),
+  cpm_dark('assets/logos/cpm_dark_1024.png'),
+  rvandco_light('assets/logos/cpm_dark_1024.png'),
+  rvandco_dark('assets/logos/rvandco_light_2048.png'),
+  camera_light('assets/logos/rvandco_dark_2048.png'),
+  camera_dark('assets/logos/camera_light_2048.png');
+
+  const Logos(this.value);
+
+  final String value;
+}
 
 enum Preferences { theme, locale, authenticated, token }
 

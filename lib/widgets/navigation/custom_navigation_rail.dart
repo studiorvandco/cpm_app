@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/authentication.dart';
+import '../../utils/constants_globals.dart';
 
 class CustomNavigationRail extends ConsumerStatefulWidget {
   const CustomNavigationRail({super.key, required this.navigate});
@@ -25,9 +26,9 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
           child: NavigationRail(
             leading: Builder(builder: (BuildContext context) {
               if (Theme.of(context).brightness == Brightness.light) {
-                return Image.asset('assets/logos/cpm_light_2048.png', width: 50, filterQuality: FilterQuality.medium);
+                return Image.asset(Logos.cpm_light.value, width: 50, filterQuality: FilterQuality.medium);
               } else {
-                return Image.asset('assets/logos/cpm_dark_2048.png', width: 50, filterQuality: FilterQuality.medium);
+                return Image.asset(Logos.cpm_dark.value, width: 50, filterQuality: FilterQuality.medium);
               }
             }),
             labelType: NavigationRailLabelType.all,

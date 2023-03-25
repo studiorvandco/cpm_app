@@ -17,7 +17,7 @@ class _LoginState extends ConsumerState<Login> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  bool showPassword = true;
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,10 @@ class _LoginState extends ConsumerState<Login> {
                       child: Builder(
                         builder: (BuildContext context) {
                           if (Theme.of(context).brightness == Brightness.light) {
-                            return Image.asset('assets/logos/cpm_light_2048.png',
+                            return Image.asset(Logos.cpm_light.value,
                                 filterQuality: FilterQuality.medium, fit: BoxFit.fitWidth, width: 200);
                           } else {
-                            return Image.asset('assets/logos/cpm_dark_2048.png',
+                            return Image.asset(Logos.cpm_dark.value,
                                 filterQuality: FilterQuality.medium, fit: BoxFit.fitWidth, width: 200);
                           }
                         },
@@ -69,7 +69,7 @@ class _LoginState extends ConsumerState<Login> {
                         controller: passwordController,
                         enableSuggestions: false,
                         autocorrect: false,
-                        obscureText: showPassword,
+                        obscureText: obscurePassword,
                         onEditingComplete: () {
                           FocusScope.of(context).unfocus();
                           submit();
@@ -79,11 +79,11 @@ class _LoginState extends ConsumerState<Login> {
                           isDense: true,
                           labelText: 'password'.tr(),
                           suffixIcon: IconButton(
-                            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                            icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
                             onPressed: () {
                               setState(
                                 () {
-                                  showPassword = !showPassword;
+                                  obscurePassword = !obscurePassword;
                                 },
                               );
                             },
