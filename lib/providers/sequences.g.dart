@@ -10,12 +10,10 @@ String _$sequencesHash() => r'd995cecb018ff08d899ae0105629d670b0bbe5da';
 
 /// See also [Sequences].
 @ProviderFor(Sequences)
-final sequencesProvider =
-    AutoDisposeAsyncNotifierProvider<Sequences, List<Sequence>>.internal(
+final sequencesProvider = AutoDisposeAsyncNotifierProvider<Sequences, List<Sequence>>.internal(
   Sequences.new,
   name: r'sequencesProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sequencesHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$sequencesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -25,13 +23,10 @@ String _$currentSequenceHash() => r'e07183703ecedddeccc80613c62fa03b342e5fcd';
 
 /// See also [CurrentSequence].
 @ProviderFor(CurrentSequence)
-final currentSequenceProvider =
-    AsyncNotifierProvider<CurrentSequence, Sequence>.internal(
+final currentSequenceProvider = AsyncNotifierProvider<CurrentSequence, Sequence>.internal(
   CurrentSequence.new,
   name: r'currentSequenceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$currentSequenceHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentSequenceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

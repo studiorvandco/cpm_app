@@ -10,13 +10,10 @@ String _$authenticationHash() => r'162d1976efc716bc71e377caff0bb07c9937a6c8';
 
 /// See also [Authentication].
 @ProviderFor(Authentication)
-final authenticationProvider =
-    AutoDisposeAsyncNotifierProvider<Authentication, bool>.internal(
+final authenticationProvider = AutoDisposeAsyncNotifierProvider<Authentication, bool>.internal(
   Authentication.new,
   name: r'authenticationProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authenticationHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$authenticationHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

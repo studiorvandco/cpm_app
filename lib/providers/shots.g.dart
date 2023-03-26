@@ -10,12 +10,10 @@ String _$shotsHash() => r'd1e33dd5e3706fe523bc10d7c52d933e5963da33';
 
 /// See also [Shots].
 @ProviderFor(Shots)
-final shotsProvider =
-    AutoDisposeAsyncNotifierProvider<Shots, List<Shot>>.internal(
+final shotsProvider = AutoDisposeAsyncNotifierProvider<Shots, List<Shot>>.internal(
   Shots.new,
   name: r'shotsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$shotsHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$shotsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

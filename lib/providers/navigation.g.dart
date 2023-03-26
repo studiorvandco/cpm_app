@@ -6,18 +6,14 @@ part of 'navigation.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homePageNavigationHash() =>
-    r'058f23515ba28d82660e1914df9780af6263f283';
+String _$homePageNavigationHash() => r'058f23515ba28d82660e1914df9780af6263f283';
 
 /// See also [HomePageNavigation].
 @ProviderFor(HomePageNavigation)
-final homePageNavigationProvider =
-    AutoDisposeNotifierProvider<HomePageNavigation, HomePage>.internal(
+final homePageNavigationProvider = AutoDisposeNotifierProvider<HomePageNavigation, HomePage>.internal(
   HomePageNavigation.new,
   name: r'homePageNavigationProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$homePageNavigationHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$homePageNavigationHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
