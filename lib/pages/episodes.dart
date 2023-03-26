@@ -91,6 +91,5 @@ class EpisodesState extends ConsumerState<Episodes> {
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(episodesProvider.notifier).get();
   }
 }
