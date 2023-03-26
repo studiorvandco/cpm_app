@@ -34,27 +34,30 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          episode.title,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                  Row(children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        episode.title,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      IconButton(
-                        onPressed: () => delete(episode),
-                        icon: const Icon(Icons.delete),
-                        color: Colors.red,
-                      )
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      onPressed: () => delete(episode),
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                    )
+                  ]),
                   const Padding(padding: EdgeInsets.only(bottom: 8)),
                   Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(episode.description, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                      child: Text(
+                        episode.description,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                   Row(children: <Widget>[
                     if (episode.director != null) ...<Widget>[
                       const Padding(padding: EdgeInsets.only(bottom: 8)),

@@ -57,29 +57,37 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          project.title,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                  Row(children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        project.title,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      IconButton(
-                        onPressed: () => delete(project),
-                        icon: const Icon(Icons.delete),
-                        color: Colors.red,
-                      )
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      onPressed: () => delete(project),
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                    )
+                  ]),
                   const Padding(padding: EdgeInsets.only(bottom: 8)),
                   Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(project.description, maxLines: 2, overflow: TextOverflow.ellipsis)),
+                      child: Text(
+                        project.description,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                   const Padding(padding: EdgeInsets.only(bottom: 8)),
-                  IconLabel(text: _getDateText(context, project), icon: Icons.event),
+                  IconLabel(
+                    text: _getDateText(context, project),
+                    icon: Icons.event,
+                    iconColor: Theme.of(context).iconTheme.color,
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                  ),
                   Row(children: <Widget>[
                     if (project.director != null) ...<Widget>[
                       const Padding(padding: EdgeInsets.only(bottom: 8)),

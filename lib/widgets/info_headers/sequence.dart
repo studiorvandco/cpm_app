@@ -37,28 +37,27 @@ class _InfoHeaderSequenceState extends ConsumerState<InfoHeaderSequence> {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          sequence.title,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                  Row(children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        sequence.title,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      IconButton(
-                        onPressed: () => delete(sequence),
-                        icon: const Icon(Icons.delete),
-                        color: Colors.red,
-                      )
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      onPressed: () => delete(sequence),
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                    )
+                  ]),
                   const Padding(padding: EdgeInsets.only(bottom: 8)),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         sequence.description ?? '',
+                        style: Theme.of(context).textTheme.bodyMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
