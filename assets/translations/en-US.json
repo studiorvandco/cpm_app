@@ -210,9 +210,21 @@
     },
     "episode": {
       "added": "The episode was added.",
-      "not_added": "The episode was not added.",
+      "not_added": "The episode could not be added.",
       "deleted": "The episode was deleted.",
-      "not_deleted": "The episode was not deleted."
+      "not_deleted": "The episode could not be deleted."
+    },
+    "sequence": {
+      "added": "The sequence was added.",
+      "not_added": "The sequence could not be added.",
+      "deleted": "The sequence was deleted.",
+      "not_deleted": "The sequence could not be deleted."
+    },
+    "shot": {
+      "added": "The shot was added.",
+      "not_added": "The shot could not be added.",
+      "deleted": "The shot was deleted.",
+      "not_deleted": "The shot could not be deleted."
     },
     "location": {
       "added": "The location was added.",
