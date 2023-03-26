@@ -15,10 +15,10 @@ final API api = API();
 enum Logos {
   cpm_light('assets/logos/cpm_light_1024.png'),
   cpm_dark('assets/logos/cpm_dark_1024.png'),
-  rvandco_light('assets/logos/cpm_dark_1024.png'),
-  rvandco_dark('assets/logos/rvandco_light_2048.png'),
-  camera_light('assets/logos/rvandco_dark_2048.png'),
-  camera_dark('assets/logos/camera_light_2048.png');
+  rvandco_light('assets/logos/rvandco_light_2048.png'),
+  rvandco_dark('assets/logos/cpm_dark_1024.png'),
+  camera_light('assets/logos/camera_light_2048.png'),
+  camera_dark('assets/logos/rvandco_dark_2048.png');
 
   const Logos(this.value);
 

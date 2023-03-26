@@ -6,6 +6,7 @@ import '../dialogs/new_episode.dart';
 import '../models/episode.dart';
 import '../models/project.dart';
 import '../providers/episodes.dart';
+import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/episode.dart';
@@ -22,36 +23,44 @@ class Episodes extends ConsumerStatefulWidget {
 class EpisodesState extends ConsumerState<Episodes> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => add(),
-        child: const Icon(Icons.add),
-      ),
-      body: ref.watch(episodesProvider).when(data: (List<Episode> episodes) {
-        return Column(
-          children: <Widget>[
-            const InfoHeaderProject(),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
-                children: <EpisodeCard>[
-                  ...episodes.map(
-                    (Episode episode) {
-                      return EpisodeCard(episode: episode);
-                    },
-                  )
-                ],
-              ),
-            )
-          ],
-        );
-      }, error: (Object error, StackTrace stackTrace) {
-        return requestPlaceholderError;
-      }, loading: () {
-        return requestPlaceholderLoading;
-      }),
-    ));
+    return WillPopScope(
+      onWillPop: handleBackButton,
+      child: Expanded(
+          child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => add(),
+          child: const Icon(Icons.add),
+        ),
+        body: ref.watch(episodesProvider).when(data: (List<Episode> episodes) {
+          return Column(
+            children: <Widget>[
+              const InfoHeaderProject(),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
+                  children: <EpisodeCard>[
+                    ...episodes.map(
+                      (Episode episode) {
+                        return EpisodeCard(episode: episode);
+                      },
+                    )
+                  ],
+                ),
+              )
+            ],
+          );
+        }, error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        }, loading: () {
+          return requestPlaceholderLoading;
+        }),
+      )),
+    );
+  }
+
+  Future<bool> handleBackButton() {
+    ref.read(homePageNavigationProvider.notifier).set(HomePage.projects);
+    return Future<bool>(() => false);
   }
 
   Future<void> add() async {

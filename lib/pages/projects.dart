@@ -58,20 +58,6 @@ class ProjectsState extends ConsumerState<Projects> {
     }
   }
 
-  /*
-  void getFavorites(ModelFav favNotifier) {
-    final List<String> favorites = favNotifier.favoriteProjects;
-    for (final String id in favorites) {
-      for (final Project project in projects) {
-        if (id == project.id) {
-          project.favorite = true;
-        }
-      }
-    }
-    projects.sort();
-  }
-  */
-
   Future<void> add() async {
     final dynamic project = await showDialog(
         context: context,
