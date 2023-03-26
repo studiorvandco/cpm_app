@@ -44,3 +44,13 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<Scaffol
 final GlobalKey<MonthViewState<Event>> calendarMonthKey = GlobalKey<MonthViewState<Event>>();
 final GlobalKey<WeekViewState<Event>> calendarWeekKey = GlobalKey<WeekViewState<Event>>();
 final GlobalKey<DayViewState<Event>> calendarDayKey = GlobalKey<DayViewState<Event>>();
+
+int getColumnsCount(BoxConstraints constraints) {
+  if (constraints.maxWidth < 750) {
+    return 1;
+  } else if (constraints.maxWidth < 1500) {
+    return 2;
+  } else {
+    return 3;
+  }
+}

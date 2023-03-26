@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/project.dart';
 import '../models/sequence.dart';
@@ -35,15 +36,22 @@ class _SequencesState extends ConsumerState<Sequences> {
                 children: <Widget>[
                   if (project.isMovie()) const InfoHeaderProject() else const InfoHeaderEpisode(),
                   Expanded(
-                      child: ListView(
-                          padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
-                          children: <SequenceCard>[
-                        ...sequences.map((Sequence sequence) {
-                          return SequenceCard(
-                            sequence: sequence,
-                          );
-                        })
-                      ]))
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return MasonryGridView.count(
+                          itemCount: sequences.length,
+                          padding: const EdgeInsets.only(
+                              bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                          itemBuilder: (BuildContext context, int index) {
+                            return SequenceCard(sequence: sequences[index]);
+                          },
+                          crossAxisCount: getColumnsCount(constraints),
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                        );
+                      },
+                    ),
+                  ),
                 ],
               );
             }, error: (Object error, StackTrace stackTrace) {

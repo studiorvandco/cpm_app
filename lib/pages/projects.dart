@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../dialogs/new_project.dart';
 import '../models/project.dart';
@@ -32,19 +33,26 @@ class ProjectsState extends ConsumerState<Projects> {
               onPressed: add,
               child: const Icon(Icons.add),
             ),
-            body: ref.watch(projectsProvider).when(data: (List<Project> projects) {
-              return ListView(
-                  padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
-                  children: <ProjectCard>[
-                    ...projects.map((Project project) {
-                      return ProjectCard(project: project);
-                    })
-                  ]);
-            }, error: (Object error, StackTrace stackTrace) {
-              return requestPlaceholderError;
-            }, loading: () {
-              return requestPlaceholderLoading;
-            }),
+            body: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return ref.watch(projectsProvider).when(data: (List<Project> projects) {
+                  return MasonryGridView.count(
+                    itemCount: projects.length,
+                    padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ProjectCard(project: projects[index]);
+                    },
+                    crossAxisCount: getColumnsCount(constraints),
+                    mainAxisSpacing: 2,
+                    crossAxisSpacing: 2,
+                  );
+                }, error: (Object error, StackTrace stackTrace) {
+                  return requestPlaceholderError;
+                }, loading: () {
+                  return requestPlaceholderLoading;
+                });
+              },
+            ),
           ),
         );
       case HomePage.episodes:

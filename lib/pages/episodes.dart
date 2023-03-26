@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../dialogs/new_episode.dart';
 import '../models/episode.dart';
@@ -36,15 +37,20 @@ class EpisodesState extends ConsumerState<Episodes> {
             children: <Widget>[
               const InfoHeaderProject(),
               Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64),
-                  children: <EpisodeCard>[
-                    ...episodes.map(
-                      (Episode episode) {
-                        return EpisodeCard(episode: episode);
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return MasonryGridView.count(
+                      itemCount: episodes.length,
+                      padding:
+                          const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                      itemBuilder: (BuildContext context, int index) {
+                        return EpisodeCard(episode: episodes[index]);
                       },
-                    )
-                  ],
+                      crossAxisCount: getColumnsCount(constraints),
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                    );
+                  },
                 ),
               )
             ],

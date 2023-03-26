@@ -29,24 +29,20 @@ class HomeState extends ConsumerState<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext buildContext, BoxConstraints boxConstraints) {
-        return Scaffold(
-            appBar: !kIsWeb && (Platform.isAndroid || Platform.isIOS) ? const CustomAppBar() : null,
-            drawer: !kIsWeb && (Platform.isAndroid || Platform.isIOS)
-                ? CustomNavigationDrawer(selectedIndex: _selectedIndex, navigate: (int index) => navigate(index))
-                : null,
-            body: SafeArea(
-              child: Row(
-                children: <Widget>[
-                  if (kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isFuchsia)
-                    CustomNavigationRail(navigate: (int index) => navigate(index)),
-                  getPage()
-                ],
-              ),
-            ));
-      },
-    );
+    return Scaffold(
+        appBar: !kIsWeb && (Platform.isAndroid || Platform.isIOS) ? const CustomAppBar() : null,
+        drawer: !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+            ? CustomNavigationDrawer(selectedIndex: _selectedIndex, navigate: (int index) => navigate(index))
+            : null,
+        body: SafeArea(
+          child: Row(
+            children: <Widget>[
+              if (kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isFuchsia)
+                CustomNavigationRail(navigate: (int index) => navigate(index)),
+              getPage()
+            ],
+          ),
+        ));
   }
 
   void navigate(int index) {
