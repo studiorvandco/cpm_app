@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,10 +5,10 @@ import '../models/project.dart';
 import '../models/sequence.dart';
 import '../providers/projects.dart';
 import '../providers/sequences.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/cards/sequence.dart';
 import '../widgets/info_headers/episode.dart';
 import '../widgets/info_headers/project.dart';
-import '../widgets/request_placeholder.dart';
 
 class Sequences extends ConsumerStatefulWidget {
   const Sequences({super.key});
@@ -45,14 +44,14 @@ class _SequencesState extends ConsumerState<Sequences> {
               ],
             );
           }, error: (Object error, StackTrace stackTrace) {
-            return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+            return requestPlaceholderError;
           }, loading: () {
-            return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+            return requestPlaceholderLoading;
           });
         }, error: (Object error, StackTrace stackTrace) {
-          return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+          return requestPlaceholderError;
         }, loading: () {
-          return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+          return requestPlaceholderLoading;
         }),
       ),
     );

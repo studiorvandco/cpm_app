@@ -1,12 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/shot.dart';
 import '../providers/shots.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/cards/shot.dart';
 import '../widgets/info_headers/sequence.dart';
-import '../widgets/request_placeholder.dart';
 
 class Shots extends ConsumerStatefulWidget {
   const Shots({super.key});
@@ -29,9 +28,9 @@ class _ShotsState extends ConsumerState<Shots> {
                 ],
               );
             }, error: (Object error, StackTrace stackTrace) {
-              return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+              return requestPlaceholderError;
             }, loading: () {
-              return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+              return requestPlaceholderLoading;
             })));
   }
 

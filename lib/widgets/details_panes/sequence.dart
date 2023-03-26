@@ -8,8 +8,8 @@ import '../../models/sequence.dart';
 import '../../providers/episodes.dart';
 import '../../providers/projects.dart';
 import '../../providers/sequences.dart';
+import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
-import '../request_placeholder.dart';
 
 class DetailsPaneSequence extends ConsumerStatefulWidget {
   const DetailsPaneSequence({super.key});
@@ -45,6 +45,7 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
           return Padding(
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Focus(
                     onFocusChange: (bool hasFocus) {
@@ -65,11 +66,14 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
                       }
                     },
                     child: TextField(
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
-                        controller: descriptionController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
+                      controller: descriptionController,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 3,
+                      maxLines: null,
+                      maxLength: 280,
+                    ),
                   ),
                   const Padding(padding: EdgeInsets.only(bottom: 16)),
                   GestureDetector(
@@ -84,19 +88,19 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
                 ],
               ));
         }, error: (Object error, StackTrace stackTrace) {
-          return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+          return requestPlaceholderError;
         }, loading: () {
-          return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+          return requestPlaceholderLoading;
         });
       }, error: (Object error, StackTrace stackTrace) {
-        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        return requestPlaceholderError;
       }, loading: () {
-        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        return requestPlaceholderLoading;
       });
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

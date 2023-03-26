@@ -8,7 +8,6 @@ import '../exceptions/invalid_direction.dart';
 import '../models/location.dart';
 import '../providers/locations.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 import '../widgets/tiles/location_tile.dart';
 
@@ -88,9 +87,9 @@ class _LocationsState extends ConsumerState<Locations> {
               },
               itemCount: locations.length);
         }, error: (Object error, StackTrace stackTrace) {
-          return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+          return requestPlaceholderError;
         }, loading: () {
-          return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+          return requestPlaceholderLoading;
         }),
       ),
     );

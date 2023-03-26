@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/sequence.dart';
 import '../../providers/sequences.dart';
+import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
 import '../info_sheets/sequence.dart';
-import '../request_placeholder.dart';
 
 class InfoHeaderSequence extends ConsumerStatefulWidget {
   const InfoHeaderSequence({super.key});
@@ -61,9 +61,9 @@ class _InfoHeaderSequenceState extends ConsumerState<InfoHeaderSequence> {
         },
       );
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

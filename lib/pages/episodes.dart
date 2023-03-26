@@ -7,9 +7,9 @@ import '../models/episode.dart';
 import '../models/project.dart';
 import '../providers/episodes.dart';
 import '../providers/projects.dart';
+import '../utils/constants_globals.dart';
 import '../widgets/cards/episode.dart';
 import '../widgets/info_headers/project.dart';
-import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 
 class Episodes extends ConsumerStatefulWidget {
@@ -47,9 +47,9 @@ class EpisodesState extends ConsumerState<Episodes> {
           ],
         );
       }, error: (Object error, StackTrace stackTrace) {
-        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        return requestPlaceholderError;
       }, loading: () {
-        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        return requestPlaceholderLoading;
       }),
     ));
   }

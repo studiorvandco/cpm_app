@@ -10,7 +10,6 @@ import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
 import '../../utils/constants_globals.dart';
 import '../info_sheets/episode.dart';
-import '../request_placeholder.dart';
 import '../snack_bars.dart';
 
 class InfoHeaderEpisode extends ConsumerStatefulWidget {
@@ -81,14 +80,14 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
           },
         );
       }, error: (Object error, StackTrace stackTrace) {
-        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        return requestPlaceholderError;
       }, loading: () {
-        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        return requestPlaceholderLoading;
       });
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

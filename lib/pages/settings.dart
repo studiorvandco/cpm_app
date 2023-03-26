@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/theme.dart';
-import '../widgets/request_placeholder.dart';
+import '../utils/constants_globals.dart';
 
 class Settings extends ConsumerStatefulWidget {
   const Settings({super.key});
@@ -95,9 +95,9 @@ class _SettingsState extends ConsumerState<Settings> {
         )),
       );
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

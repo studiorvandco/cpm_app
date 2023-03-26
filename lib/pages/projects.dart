@@ -8,7 +8,6 @@ import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/project.dart';
-import '../widgets/request_placeholder.dart';
 import '../widgets/snack_bars.dart';
 import 'episodes.dart';
 import 'planning.dart';
@@ -42,9 +41,9 @@ class ProjectsState extends ConsumerState<Projects> {
                     })
                   ]);
             }, error: (Object error, StackTrace stackTrace) {
-              return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+              return requestPlaceholderError;
             }, loading: () {
-              return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+              return requestPlaceholderLoading;
             }),
           ),
         );

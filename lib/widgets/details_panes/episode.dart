@@ -6,7 +6,7 @@ import '../../models/episode.dart';
 import '../../models/project.dart';
 import '../../providers/episodes.dart';
 import '../../providers/projects.dart';
-import '../request_placeholder.dart';
+import '../../utils/constants_globals.dart';
 
 class DetailsPaneEpisode extends ConsumerStatefulWidget {
   const DetailsPaneEpisode({super.key});
@@ -62,7 +62,7 @@ class _DetailsPaneEpisodeState extends ConsumerState<DetailsPaneEpisode>
                     decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
                     controller: descriptionController,
                     keyboardType: TextInputType.multiline,
-                    minLines: 1,
+                    minLines: 3,
                     maxLines: null,
                     maxLength: 280,
                   ),
@@ -70,14 +70,14 @@ class _DetailsPaneEpisodeState extends ConsumerState<DetailsPaneEpisode>
               ],
             ));
       }, error: (Object error, StackTrace stackTrace) {
-        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        return requestPlaceholderError;
       }, loading: () {
-        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        return requestPlaceholderLoading;
       });
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

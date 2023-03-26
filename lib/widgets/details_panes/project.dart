@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project.dart';
 import '../../providers/projects.dart';
+import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
-import '../request_placeholder.dart';
 
 class DetailsPaneProject extends ConsumerStatefulWidget {
   const DetailsPaneProject({super.key});
@@ -66,7 +66,7 @@ class _DetailsPaneProjectState extends ConsumerState<DetailsPaneProject>
                 decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
-                minLines: 1,
+                minLines: 3,
                 maxLines: null,
                 maxLength: 280,
               ),
@@ -85,9 +85,9 @@ class _DetailsPaneProjectState extends ConsumerState<DetailsPaneProject>
         ),
       );
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

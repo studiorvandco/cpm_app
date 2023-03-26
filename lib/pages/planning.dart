@@ -9,7 +9,6 @@ import '../models/sequence.dart';
 import '../providers/projects.dart';
 import '../providers/sequences.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/request_placeholder.dart';
 
 class Planning extends ConsumerStatefulWidget {
   const Planning({super.key});
@@ -44,14 +43,14 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
             return Expanded(child: _buildDayView(project));
         }
       }, error: (Object error, StackTrace stackTrace) {
-        return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+        return requestPlaceholderError;
       }, loading: () {
-        return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+        return requestPlaceholderLoading;
       });
     }, error: (Object error, StackTrace stackTrace) {
-      return RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+      return requestPlaceholderError;
     }, loading: () {
-      return const RequestPlaceholder(placeholder: CircularProgressIndicator());
+      return requestPlaceholderLoading;
     });
   }
 

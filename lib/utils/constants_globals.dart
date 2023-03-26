@@ -1,10 +1,12 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../models/event.dart';
 import '../pages/episodes.dart';
 import '../pages/projects.dart';
 import '../services/api.dart';
+import '../widgets/request_placeholder.dart';
 
 String token = '';
 
@@ -28,6 +30,9 @@ enum Preferences { theme, locale, authenticated, token }
 enum HomePage { projects, episodes, sequences, shots, planning }
 
 enum CalendarView { month, week, day }
+
+final RequestPlaceholder requestPlaceholderError = RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
+const RequestPlaceholder requestPlaceholderLoading = RequestPlaceholder(placeholder: CircularProgressIndicator());
 
 const Divider divider = Divider(height: 0, thickness: 1, indent: 16, endIndent: 16);
 
