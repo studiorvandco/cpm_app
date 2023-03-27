@@ -5,9 +5,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import '../models/episode.dart';
-import '../models/project.dart';
-import '../models/sequence.dart';
+import '../../models/episode.dart';
+import '../../models/project.dart';
+import '../../models/sequence.dart';
 
 class NewProjectDialog extends StatefulWidget {
   const NewProjectDialog({super.key});

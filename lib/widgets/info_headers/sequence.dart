@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../dialogs/confirm_dialog.dart';
 import '../../models/episode.dart';
 import '../../models/project.dart';
 import '../../models/sequence.dart';
@@ -11,6 +10,7 @@ import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
 import '../../providers/sequences.dart';
 import '../../utils/constants_globals.dart';
+import '../dialogs/confirm_dialog.dart';
 import '../icon_label.dart';
 import '../info_sheets/sequence.dart';
 import '../snack_bars.dart';

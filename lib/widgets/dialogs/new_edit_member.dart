@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import '../models/member.dart';
+import '../../models/member.dart';
 
 class MemberDialog extends StatefulWidget {
   const MemberDialog({super.key, required this.edit, this.id, this.firstName, this.lastName, this.phone, this.image});

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../models/episode.dart';
-import '../models/sequence.dart';
+import '../../models/episode.dart';
+import '../../models/sequence.dart';
 
 class NewEpisodeDialog extends StatefulWidget {
   const NewEpisodeDialog({

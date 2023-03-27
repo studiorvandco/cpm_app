@@ -4,11 +4,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../dialogs/confirm_dialog.dart';
 import '../../models/project.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
 import '../../utils/constants_globals.dart';
+import '../dialogs/confirm_dialog.dart';
 import '../icon_label.dart';
 import '../info_sheets/project.dart';
 import '../snack_bars.dart';
