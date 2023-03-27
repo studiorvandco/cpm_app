@@ -9,7 +9,7 @@ import '../utils/constants_globals.dart';
 import '../widgets/dialogs/confirm.dart';
 import '../widgets/dialogs/new_edit_location.dart';
 import '../widgets/snack_bars.dart';
-import '../widgets/tiles/location_tile.dart';
+import '../widgets/tiles/location.dart';
 
 class Locations extends ConsumerStatefulWidget {
   const Locations({super.key});

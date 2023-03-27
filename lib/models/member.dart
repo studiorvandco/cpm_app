@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+
 
 class Member {
-  Member({required this.id, required this.firstName, this.lastName, this.phone, this.image});
+  Member({required this.id, required this.firstName, this.lastName, this.phone, this.imageURL});
 
   factory Member.fromJson(json) {
     return Member(
@@ -24,5 +24,5 @@ class Member {
   String firstName;
   String? lastName;
   String? phone;
-  Image? image;
+  String? imageURL;
 }
