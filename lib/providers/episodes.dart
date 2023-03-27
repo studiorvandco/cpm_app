@@ -39,7 +39,7 @@ class Episodes extends _$Episodes {
 
   Future<Map<String, dynamic>> add(String projectID, Episode newEpisode) async {
     final List<dynamic> result = await EpisodeService().add(projectID, newEpisode);
-    state = AsyncData<List<Episode>>(<Episode>[...state.value ?? <Episode>[], newEpisode]);
+    await get(); // Get the episodes in order to get the new episode's ID
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 

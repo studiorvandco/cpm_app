@@ -24,16 +24,25 @@ class Members extends _$Members {
 
   Future<Map<String, dynamic>> add(Member member) async {
     final List<dynamic> result = await MemberService().addMember(member);
+    await get(); // Get the members in order to get the new member's ID
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> edit(Member member) async {
-    final List<dynamic> result = await MemberService().editMember(member);
+  Future<Map<String, dynamic>> edit(Member editedMember) async {
+    final List<dynamic> result = await MemberService().editMember(editedMember);
+    state = AsyncData<List<Member>>(<Member>[
+      for (final Member member in state.value ?? <Member>[])
+        if (member.id != editedMember.id) member else editedMember,
+    ]);
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> delete(String id) async {
-    final List<dynamic> result = await MemberService().deleteMember(id);
+  Future<Map<String, dynamic>> delete(String memberID) async {
+    final List<dynamic> result = await MemberService().deleteMember(memberID);
+    state = AsyncData<List<Member>>(<Member>[
+      for (final Member members in state.value ?? <Member>[])
+        if (members.id != memberID) members,
+    ]);
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 }

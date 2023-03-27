@@ -111,7 +111,6 @@ class _MembersState extends ConsumerState<Members> {
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(membersProvider.notifier).get();
   }
 
   Future<void> edit(Member member) async {
@@ -136,7 +135,6 @@ class _MembersState extends ConsumerState<Members> {
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(membersProvider.notifier).get();
   }
 
   Future<void> delete(Member member) async {
@@ -148,6 +146,5 @@ class _MembersState extends ConsumerState<Members> {
       ScaffoldMessenger.of(context)
           .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
     }
-    ref.read(membersProvider.notifier).get();
   }
 }

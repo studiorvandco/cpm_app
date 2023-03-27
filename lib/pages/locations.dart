@@ -106,12 +106,11 @@ class _LocationsState extends ConsumerState<Locations> {
       if (context.mounted) {
         final bool succeeded = result['succeeded'] as bool;
         final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.member.added'.tr() : 'snack_bars.member.not_added'.tr();
+        final String message = succeeded ? 'snack_bars.location.added'.tr() : 'snack_bars.location.not_added'.tr();
         ScaffoldMessenger.of(context)
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(locationsProvider.notifier).get();
   }
 
   Future<void> edit(Location location) async {
@@ -130,12 +129,11 @@ class _LocationsState extends ConsumerState<Locations> {
       if (context.mounted) {
         final bool succeeded = result['succeeded'] as bool;
         final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.member.edited'.tr() : 'snack_bars.member.not_edited'.tr();
+        final String message = succeeded ? 'snack_bars.location.edited'.tr() : 'snack_bars.location.not_edited'.tr();
         ScaffoldMessenger.of(context)
             .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
-    ref.read(locationsProvider.notifier).get();
   }
 
   Future<void> delete(Location location) async {
@@ -143,10 +141,9 @@ class _LocationsState extends ConsumerState<Locations> {
     if (context.mounted) {
       final bool succeeded = result['succeeded'] as bool;
       final int code = result['code'] as int;
-      final String message = succeeded ? 'snack_bars.member.deleted'.tr() : 'snack_bars.member.not_deleted'.tr();
+      final String message = succeeded ? 'snack_bars.location.deleted'.tr() : 'snack_bars.location.not_deleted'.tr();
       ScaffoldMessenger.of(context)
           .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
     }
-    ref.read(locationsProvider.notifier).get();
   }
 }

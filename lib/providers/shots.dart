@@ -59,7 +59,7 @@ class Shots extends _$Shots {
 
   Future<Map<String, dynamic>> add(String projectID, String episodeID, String sequenceID, Shot newShot) async {
     final List<dynamic> result = await ShotService().add(projectID, episodeID, sequenceID, newShot);
-    state = AsyncData<List<Shot>>(<Shot>[...state.value ?? <Shot>[], newShot]);
+    await get(); // Get the shots in order to get the new shot's ID
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 

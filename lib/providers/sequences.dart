@@ -51,7 +51,7 @@ class Sequences extends _$Sequences {
 
   Future<Map<String, dynamic>> add(String projectID, String episodeID, Sequence newSequence) async {
     final List<dynamic> result = await SequenceService().add(projectID, episodeID, newSequence);
-    state = AsyncData<List<Sequence>>(<Sequence>[...state.value ?? <Sequence>[], newSequence]);
+    await get(); // Get the sequences in order to get the new sequence's ID
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 

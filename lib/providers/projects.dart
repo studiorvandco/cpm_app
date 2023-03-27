@@ -24,7 +24,7 @@ class Projects extends _$Projects {
 
   Future<Map<String, dynamic>> add(Project newProject) async {
     final List<dynamic> result = await ProjectService().add(newProject);
-    state = AsyncData<List<Project>>(<Project>[...state.value ?? <Project>[], newProject]);
+    await get(); // Get the projects in order to get the new project's ID
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
