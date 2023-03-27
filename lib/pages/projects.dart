@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../dialogs/new_project.dart';
 import '../models/project.dart';
 import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/project.dart';
+import '../widgets/dialogs/new_project.dart';
 import '../widgets/snack_bars.dart';
 import 'episodes.dart';
 import 'planning.dart';

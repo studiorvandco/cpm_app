@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../dialogs/confirm_dialog.dart';
-import '../dialogs/new_edit_location.dart';
 import '../exceptions/invalid_direction.dart';
 import '../models/location.dart';
 import '../providers/locations.dart';
 import '../utils/constants_globals.dart';
+import '../widgets/dialogs/confirm.dart';
+import '../widgets/dialogs/new_edit_location.dart';
 import '../widgets/snack_bars.dart';
 import '../widgets/tiles/location_tile.dart';
 
@@ -99,7 +99,7 @@ class _LocationsState extends ConsumerState<Locations> {
     final dynamic location = await showDialog(
         context: context,
         builder: (BuildContext context) {
-          return const LocationDialog(edit: false);
+          return ProviderScope(parent: ProviderScope.containerOf(context), child: const LocationDialog(edit: false));
         });
     if (location is Location) {
       final Map<String, dynamic> result = await ref.read(locationsProvider.notifier).add(location);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../dialogs/new_shot.dart';
 import '../models/episode.dart';
 import '../models/project.dart';
 import '../models/sequence.dart';
@@ -15,6 +14,7 @@ import '../providers/sequences.dart';
 import '../providers/shots.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/shot.dart';
+import '../widgets/dialogs/new_shot.dart';
 import '../widgets/info_headers/sequence.dart';
 import '../widgets/snack_bars.dart';
 
