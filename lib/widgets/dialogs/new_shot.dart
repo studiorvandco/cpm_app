@@ -9,8 +9,6 @@ class NewShotDialog extends StatefulWidget {
 }
 
 class _NewShotDialogState extends State<NewShotDialog> {
-  _NewShotDialogState();
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController lineController = TextEditingController();

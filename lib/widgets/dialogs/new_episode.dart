@@ -17,17 +17,10 @@ class NewEpisodeDialog extends StatefulWidget {
 }
 
 class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
-  _NewEpisodeDialogState();
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   DateTimeRange dates = DateTimeRange(start: DateTime.now(), end: DateTime.now().add(const Duration(days: 2)));
   String dateText = '';
-
-  @override
-  void initState() {
-    return super.initState();
-  }
 
   void updateDateText() {
     String res;

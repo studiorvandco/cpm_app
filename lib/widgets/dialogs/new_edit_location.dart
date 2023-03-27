@@ -24,6 +24,7 @@ class _LocationDialogState extends State<LocationDialog> {
 
   @override
   void initState() {
+    super.initState();
     title = widget.edit
         ? '${'edit.upper'.tr()} ${widget.name!}'
         : '${'new.masc.eau.upper'.tr()} ${'locations.location.lower'.plural(1)}';
@@ -32,7 +33,6 @@ class _LocationDialogState extends State<LocationDialog> {
         : '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'locations.location.lower'.plural(1)}.';
     nameController = TextEditingController(text: widget.name);
     positionController = TextEditingController(text: widget.position);
-    return super.initState();
   }
 
   @override

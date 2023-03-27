@@ -17,19 +17,12 @@ class NewProjectDialog extends StatefulWidget {
 }
 
 class _NewProjectDialogState extends State<NewProjectDialog> {
-  _NewProjectDialogState();
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   Image? image;
   DateTimeRange dates = DateTimeRange(start: DateTime.now(), end: DateTime.now().add(const Duration(days: 7)));
   ProjectType type = ProjectType.movie;
   String dateText = '';
-
-  @override
-  void initState() {
-    return super.initState();
-  }
 
   void updateDateText() {
     String res;
