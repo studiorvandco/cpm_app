@@ -48,7 +48,8 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
               children: <Text>[
                 Text('${'new.masc.eau.upper'.tr()} ${'projects.project.lower'.plural(1)}'),
                 Text(
-                  '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'projects.project.lower'.plural(1)}.',
+                  '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'
+                      .tr()} ${'projects.project.lower'.plural(1)}.',
                   style: const TextStyle(fontSize: 12),
                 )
               ],
@@ -59,12 +60,12 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
                 if (image != null) {
                   return SizedBox(height: 80, width: 80, child: image);
                 } else {
-                  return const Icon(Icons.add_a_photo_outlined, size: 80);
+                  return const Icon(Icons.add_a_photo, size: 80);
                 }
               }),
               onPressed: () async {
                 final FilePickerResult? result =
-                    await FilePicker.platform.pickFiles(type: FileType.image, lockParentWindow: true);
+                await FilePicker.platform.pickFiles(type: FileType.image, lockParentWindow: true);
                 if (result != null) {
                   Image imgRes;
                   if (kIsWeb) {
@@ -173,7 +174,11 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
   void submit() {
     final List<Episode> episodes = <Episode>[];
     if (type == ProjectType.movie) {
-      episodes.add(Episode(id: '', number: 0, title: '', description: '', sequences: <Sequence>[]));
+      episodes.add(Episode(id: '',
+          number: 0,
+          title: '',
+          description: '',
+          sequences: <Sequence>[]));
     }
     final Project newProject = Project(
         id: '',

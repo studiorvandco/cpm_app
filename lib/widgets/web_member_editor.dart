@@ -24,7 +24,7 @@ class WebMemberEditor extends StatelessWidget {
       return const Center(
           child: Padding(
         padding: EdgeInsets.all(16),
-        child: Icon(Icons.camera_alt_outlined),
+        child: Icon(Icons.camera_alt),
       ));
     } else {
       return picture!;

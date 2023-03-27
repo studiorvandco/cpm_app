@@ -41,7 +41,8 @@ class _MemberDialogState extends State<MemberDialog> {
         : '${'new.masc.eau.upper'.tr()} ${'members.member.lower'.plural(1)}';
     subtitle = widget.edit
         ? '${'edit.upper'.tr()} ${'articles.this.masc.lower'.plural(1)} ${'members.member.lower'.plural(1)}.'
-        : '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'members.member.lower'.plural(1)}.';
+        : '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'members.member.lower'
+        .plural(1)}.';
     return super.initState();
   }
 
@@ -75,7 +76,7 @@ class _MemberDialogState extends State<MemberDialog> {
                             shape: BoxShape.circle, image: DecorationImage(image: image!.image, fit: BoxFit.cover)));
                   } else {
                     return const Icon(
-                      Icons.add_a_photo_outlined,
+                      Icons.add_a_photo,
                       size: 80,
                     );
                   }
@@ -83,7 +84,7 @@ class _MemberDialogState extends State<MemberDialog> {
               ),
               onPressed: () async {
                 final FilePickerResult? result =
-                    await FilePicker.platform.pickFiles(type: FileType.image, lockParentWindow: true, withData: kIsWeb);
+                await FilePicker.platform.pickFiles(type: FileType.image, lockParentWindow: true, withData: kIsWeb);
                 if (result != null) {
                   Image imgRes;
                   if (kIsWeb) {
@@ -117,7 +118,9 @@ class _MemberDialogState extends State<MemberDialog> {
                       maxLength: 64,
                       decoration: InputDecoration(
                           labelText: 'attributes.firstname.upper'.tr(),
-                          errorText: firstNameController.text.trim().isEmpty ? 'error.empty'.tr() : null,
+                          errorText: firstNameController.text
+                              .trim()
+                              .isEmpty ? 'error.empty'.tr() : null,
                           border: const OutlineInputBorder(),
                           isDense: true),
                       onEditingComplete: submit,
@@ -175,7 +178,9 @@ class _MemberDialogState extends State<MemberDialog> {
   }
 
   void submit() {
-    if (firstNameController.text.trim().isEmpty) {
+    if (firstNameController.text
+        .trim()
+        .isEmpty) {
       return;
     }
     final Member newMember = Member(

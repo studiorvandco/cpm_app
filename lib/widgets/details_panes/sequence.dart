@@ -43,7 +43,10 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
           descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 
           return Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
+              padding: EdgeInsets.only(bottom: MediaQuery
+                  .of(context)
+                  .viewInsets
+                  .bottom + 8, top: 8, left: 8, right: 8),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -54,7 +57,10 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
                       }
                     },
                     child: TextField(
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleMedium,
                         decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'.tr()),
                         controller: titleController),
                   ),
@@ -66,7 +72,10 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
                       }
                     },
                     child: TextField(
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium,
                       decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
@@ -81,8 +90,11 @@ class _DetailsPaneSequenceState extends ConsumerState<DetailsPaneSequence>
                     behavior: HitTestBehavior.translucent,
                     child: IconLabel(
                       text: getDateText(),
-                      icon: Icons.event_outlined,
-                      textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      icon: Icons.event,
+                      textStyle: TextStyle(color: Theme
+                          .of(context)
+                          .colorScheme
+                          .primary),
                     ),
                   )
                 ],

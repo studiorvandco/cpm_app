@@ -33,9 +33,8 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
             }),
             labelType: NavigationRailLabelType.all,
             destinations: <NavigationRailDestination>[
-              NavigationRailDestination(icon: const Icon(Icons.home_outlined), label: Text('home'.tr())),
-              NavigationRailDestination(
-                  icon: const Icon(Icons.people_outline), label: Text('members.member.upper'.plural(2))),
+              NavigationRailDestination(icon: const Icon(Icons.movie), label: Text('projects.project.upper'.plural(2))),
+              NavigationRailDestination(icon: const Icon(Icons.people), label: Text('members.member.upper'.plural(2))),
               NavigationRailDestination(icon: const Icon(Icons.map), label: Text('locations.location.upper'.plural(2))),
               NavigationRailDestination(icon: const Icon(Icons.settings), label: Text('settings.settings'.tr())),
               NavigationRailDestination(icon: const Icon(Icons.info), label: Text('about.about'.tr())),
