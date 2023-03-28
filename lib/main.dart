@@ -64,9 +64,11 @@ class CPM extends ConsumerWidget {
           locale: context.locale,
         );
       }, error: (Object error, StackTrace stackTrace) {
-        return const Center();
+        print("e");
+        return requestPlaceholderError;
       }, loading: () {
-        return const Center();
+        print("l");
+        return requestPlaceholderLoading;
       }),
     );
   }
