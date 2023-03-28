@@ -25,7 +25,6 @@ void main() async {
   await Config.init();
   await EasyLocalization.ensureInitialized();
   await getToken();
-  FlutterNativeSplash.remove();
   runApp(
     EasyLocalization(
         supportedLocales: const <Locale>[Locale('en', 'US'), Locale('fr', 'FR')],
@@ -42,6 +41,7 @@ class CPM extends ConsumerWidget {
     return CalendarControllerProvider<Event>(
       controller: EventController<Event>(),
       child: ref.watch(themeProvider).when(data: (ThemeMode theme) {
+        FlutterNativeSplash.remove();
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: ref.watch(authenticationProvider).when(data: (bool authenticated) {
@@ -64,11 +64,9 @@ class CPM extends ConsumerWidget {
           locale: context.locale,
         );
       }, error: (Object error, StackTrace stackTrace) {
-        print("e");
-        return requestPlaceholderError;
+        return Container();
       }, loading: () {
-        print("l");
-        return requestPlaceholderLoading;
+        return Container();
       }),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:calendar_view/calendar_view.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../models/event.dart';
 import '../models/project.dart';
@@ -18,13 +18,14 @@ class Planning extends ConsumerStatefulWidget {
 }
 
 class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMixin {
-  CalendarView view = CalendarView.week;
-
   @override
   Widget build(BuildContext context) {
     return ref.watch(currentProjectProvider).when(data: (Project project) {
       return ref.watch(sequencesProvider).when(data: (List<Sequence> sequences) {
-        CalendarControllerProvider.of<Event>(context).controller.addAll(<CalendarEventData<Event>>[
+        CalendarControllerProvider
+            .of<Event>(context)
+            .controller
+            .addAll(<CalendarEventData<Event>>[
           ...sequences.map((Sequence sequence) {
             return CalendarEventData<Event>(
                 event: Event(title: sequence.title, description: sequence.description ?? ''),
@@ -34,14 +35,12 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                 endTime: sequence.endDate);
           })
         ]);
-        switch (view) {
-          case CalendarView.month:
-            return Expanded(child: _buildMonthView(project));
-          case CalendarView.week:
-            return Expanded(child: _buildWeekView(project));
-          case CalendarView.day:
-            return Expanded(child: _buildDayView(project));
-        }
+        return Expanded(
+          child: SfCalendar(
+            firstDayOfWeek: 1,
+            view: CalendarView.week,
+          ),
+        );
       }, error: (Object error, StackTrace stackTrace) {
         return requestPlaceholderError;
       }, loading: () {
@@ -54,6 +53,8 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
     });
   }
 
+/* TODO(mael): rebuild planning page
+
   HeaderStyle _buildHeader() {
     return HeaderStyle(
         decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
@@ -62,13 +63,13 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
             IconButton(
                 onPressed: () {
                   switch (view) {
-                    case CalendarView.month:
+                    case CalendarView_.month:
                       calendarMonthKey.currentState?.previousPage();
                       break;
-                    case CalendarView.week:
+                    case CalendarView_.week:
                       calendarWeekKey.currentState?.previousPage();
                       break;
-                    case CalendarView.day:
+                    case CalendarView_.day:
                       calendarDayKey.currentState?.previousPage();
                       break;
                   }
@@ -78,13 +79,13 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
             IconButton(
                 onPressed: () {
                   switch (view) {
-                    case CalendarView.month:
+                    case CalendarView_.month:
                       calendarMonthKey.currentState?.nextPage();
                       break;
-                    case CalendarView.week:
+                    case CalendarView_.week:
                       calendarWeekKey.currentState?.nextPage();
                       break;
-                    case CalendarView.day:
+                    case CalendarView_.day:
                       calendarDayKey.currentState?.nextPage();
                       break;
                   }
@@ -92,12 +93,12 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                 icon: const Icon(Icons.chevron_right))
           ],
         ),
-        rightIcon: DropdownButton<CalendarView>(
+        rightIcon: DropdownButton<CalendarView_>(
           focusColor: Colors.transparent,
           value: view,
-          items: <DropdownMenuItem<CalendarView>>[
-            DropdownMenuItem<CalendarView>(
-                value: CalendarView.month,
+          items: <DropdownMenuItem<CalendarView_>>[
+            DropdownMenuItem<CalendarView_>(
+                value: CalendarView_.month,
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.calendar_view_month),
@@ -105,8 +106,8 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                     Text('planning.date.month.upper'.tr()),
                   ],
                 )),
-            DropdownMenuItem<CalendarView>(
-                value: CalendarView.week,
+            DropdownMenuItem<CalendarView_>(
+                value: CalendarView_.week,
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.calendar_view_week),
@@ -114,8 +115,8 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                     Text('planning.date.week.upper'.tr()),
                   ],
                 )),
-            DropdownMenuItem<CalendarView>(
-                value: CalendarView.day,
+            DropdownMenuItem<CalendarView_>(
+                value: CalendarView_.day,
                 child: Row(
                   children: <Widget>[
                     const Icon(Icons.calendar_view_day),
@@ -124,7 +125,7 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
                   ],
                 ))
           ],
-          onChanged: (CalendarView? newView) {
+          onChanged: (CalendarView_? newView) {
             setState(() {
               view = newView!;
             });
@@ -182,4 +183,5 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
       );
     });
   }
+  */
 }

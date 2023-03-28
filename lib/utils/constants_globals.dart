@@ -29,8 +29,6 @@ enum Preferences { theme, locale, authenticated, token }
 
 enum HomePage { projects, episodes, sequences, shots, planning }
 
-enum CalendarView { month, week, day }
-
 final RequestPlaceholder requestPlaceholderError = RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
 const RequestPlaceholder requestPlaceholderLoading = RequestPlaceholder(placeholder: CircularProgressIndicator());
 
