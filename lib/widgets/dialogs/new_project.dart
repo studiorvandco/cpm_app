@@ -5,9 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import '../../models/episode.dart';
 import '../../models/project.dart';
-import '../../models/sequence.dart';
 
 class NewProjectDialog extends StatefulWidget {
   const NewProjectDialog({super.key});
@@ -48,8 +46,7 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
               children: <Text>[
                 Text('${'new.masc.eau.upper'.tr()} ${'projects.project.lower'.plural(1)}'),
                 Text(
-                  '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'
-                      .tr()} ${'projects.project.lower'.plural(1)}.',
+                  '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'projects.project.lower'.plural(1)}.',
                   style: const TextStyle(fontSize: 12),
                 )
               ],
@@ -65,7 +62,7 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
               }),
               onPressed: () async {
                 final FilePickerResult? result =
-                await FilePicker.platform.pickFiles(type: FileType.image, lockParentWindow: true);
+                    await FilePicker.platform.pickFiles(type: FileType.image, lockParentWindow: true);
                 if (result != null) {
                   Image imgRes;
                   if (kIsWeb) {
@@ -172,22 +169,13 @@ class _NewProjectDialogState extends State<NewProjectDialog> {
   }
 
   void submit() {
-    final List<Episode> episodes = <Episode>[];
-    if (type == ProjectType.movie) {
-      episodes.add(Episode(id: '',
-          number: 0,
-          title: '',
-          description: '',
-          sequences: <Sequence>[]));
-    }
     final Project newProject = Project(
         id: '',
         projectType: type,
         title: titleController.text,
         description: descriptionController.text,
         startDate: dates.start,
-        endDate: dates.end,
-        episodes: episodes);
+        endDate: dates.end);
     Navigator.pop(context, newProject);
   }
 }
