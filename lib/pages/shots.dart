@@ -32,7 +32,7 @@ class _ShotsState extends ConsumerState<Shots> {
       onWillPop: handleBackButton,
       child: Expanded(
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(onPressed: add, child: const Icon(Icons.add)),
+          floatingActionButton: FloatingActionButton(onPressed: () => add(), child: const Icon(Icons.add)),
           body: ref.watch(shotsProvider).when(
             data: (List<Shot> shots) {
               return Column(
@@ -75,9 +75,11 @@ class _ShotsState extends ConsumerState<Shots> {
   }
 
   Future<void> add() async {
-    if (!ref.read(currentProjectProvider).hasValue ||
-        !ref.read(currentEpisodeProvider).hasValue ||
-        !ref.read(currentSequenceProvider).hasValue) {
+    var currentProjectReader = ref.read(currentProjectProvider);
+    var currentEpisodeReader = ref.read(currentEpisodeProvider);
+    var currentSequenceReader = ref.read(currentSequenceProvider);
+
+    if (!currentProjectReader.hasValue || !currentEpisodeReader.hasValue || !currentSequenceReader.hasValue) {
       return;
     }
 
@@ -88,9 +90,9 @@ class _ShotsState extends ConsumerState<Shots> {
       },
     );
     if (shot is Shot) {
-      final Project project = ref.read(currentProjectProvider).value!;
-      final Episode episode = ref.read(currentEpisodeProvider).value!;
-      final Sequence sequence = ref.read(currentSequenceProvider).value!;
+      final Project project = currentProjectReader.value!;
+      final Episode episode = currentEpisodeReader.value!;
+      final Sequence sequence = currentSequenceReader.value!;
       final Map<String, dynamic> result =
           await ref.read(shotsProvider.notifier).add(project.id, episode.id, sequence.id, shot);
       if (context.mounted) {
