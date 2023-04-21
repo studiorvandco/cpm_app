@@ -45,7 +45,12 @@ class _ShotsState extends ConsumerState<Shots> {
                         padding:
                             const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
                         itemBuilder: (BuildContext context, int index) {
-                          return ShotCard(shot: shots[index], onPressed: () {});
+                          return ShotCard(
+                            shot: shots[index],
+                            onPressed: () {
+                              // TODO
+                            },
+                          );
                         },
                         crossAxisCount: getColumnsCount(constraints),
                         mainAxisSpacing: 2,
