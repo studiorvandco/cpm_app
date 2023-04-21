@@ -27,19 +27,14 @@ class EpisodesState extends ConsumerState<Episodes> {
     return WillPopScope(
       onWillPop: handleBackButton,
       child: Expanded(
-          child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => add(),
-          child: const Icon(Icons.add),
-        ),
-        body: ref.watch(episodesProvider).when(data: (List<Episode> episodes) {
-          return Column(
-            children: <Widget>[
-              const InfoHeaderProject(),
-              Expanded(
-                child: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return MasonryGridView.count(
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(onPressed: () => add(), child: const Icon(Icons.add)),
+          body: ref.watch(episodesProvider).when(
+            data: (List<Episode> episodes) {
+              return Column(children: <Widget>[
+                const InfoHeaderProject(),
+                Expanded(child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+                  return MasonryGridView.count(
                       itemCount: episodes.length,
                       padding:
                           const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
@@ -48,24 +43,25 @@ class EpisodesState extends ConsumerState<Episodes> {
                       },
                       crossAxisCount: getColumnsCount(constraints),
                       mainAxisSpacing: 2,
-                      crossAxisSpacing: 2,
-                    );
-                  },
-                ),
-              )
-            ],
-          );
-        }, error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        }, loading: () {
-          return requestPlaceholderLoading;
-        }),
-      )),
+                      crossAxisSpacing: 2);
+                })),
+              ]);
+            },
+            error: (Object error, StackTrace stackTrace) {
+              return requestPlaceholderError;
+            },
+            loading: () {
+              return requestPlaceholderLoading;
+            },
+          ),
+        ),
+      ),
     );
   }
 
   Future<bool> handleBackButton() {
     ref.read(homePageNavigationProvider.notifier).set(HomePage.projects);
+
     return Future<bool>(() => false);
   }
 
@@ -75,11 +71,12 @@ class EpisodesState extends ConsumerState<Episodes> {
     }
 
     final int number = ref.read(episodesProvider).value!.length + 1;
-    final dynamic episode = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return NewEpisodeDialog(number: number);
-        });
+    final episode = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewEpisodeDialog(number: number);
+      },
+    );
     if (episode is Episode) {
       final Project project = ref.read(currentProjectProvider).value!;
       final Map<String, dynamic> result = await ref.read(episodesProvider.notifier).add(project.id, episode);

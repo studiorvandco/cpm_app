@@ -31,60 +31,73 @@ class _ShotsState extends ConsumerState<Shots> {
     return WillPopScope(
       onWillPop: handleBackButton,
       child: Expanded(
-          child: Scaffold(
-              floatingActionButton: FloatingActionButton(onPressed: add, child: const Icon(Icons.add)),
-              body: ref.watch(shotsProvider).when(data: (List<Shot> shots) {
-                return Column(
-                  children: <Widget>[
-                    const InfoHeaderSequence(),
-                    LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
-                        return MasonryGridView.count(
-                          itemCount: shots.length,
-                          padding: const EdgeInsets.only(
-                              bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
-                          itemBuilder: (BuildContext context, int index) {
-                            return ShotCard(shot: shots[index], onPressed: () {});
-                          },
-                          crossAxisCount: getColumnsCount(constraints),
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                        );
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(onPressed: add, child: const Icon(Icons.add)),
+          body: ref.watch(shotsProvider).when(data: (List<Shot> shots) {
+            return Column(
+              children: <Widget>[
+                const InfoHeaderSequence(),
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return MasonryGridView.count(
+                      itemCount: shots.length,
+                      padding: const EdgeInsets.only(
+                          bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShotCard(shot: shots[index], onPressed: () {});
                       },
-                    ),
-                  ],
-                );
-              }, error: (Object error, StackTrace stackTrace) {
-                return requestPlaceholderError;
-              }, loading: () {
-                return requestPlaceholderLoading;
-              }))),
+                      crossAxisCount: getColumnsCount(constraints),
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                    );
+                  },
+                ),
+              ],
+            );
+          }, error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          }, loading: () {
+            return requestPlaceholderLoading;
+          },),),),
     );
   }
 
   Future<bool> handleBackButton() {
     ref.read(homePageNavigationProvider.notifier).set(HomePage.sequences);
+
     return Future<bool>(() => false);
   }
 
   Future<void> add() async {
-    if (!ref.read(currentProjectProvider).hasValue ||
-        !ref.read(currentEpisodeProvider).hasValue ||
-        !ref.read(currentSequenceProvider).hasValue) {
+    if (!ref
+        .read(currentProjectProvider)
+        .hasValue ||
+        !ref
+            .read(currentEpisodeProvider)
+            .hasValue ||
+        !ref
+            .read(currentSequenceProvider)
+            .hasValue) {
       return;
     }
 
-    final dynamic shot = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const NewShotDialog();
-        });
+    final shot = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const NewShotDialog();
+      },);
     if (shot is Shot) {
-      final Project project = ref.read(currentProjectProvider).value!;
-      final Episode episode = ref.read(currentEpisodeProvider).value!;
-      final Sequence sequence = ref.read(currentSequenceProvider).value!;
+      final Project project = ref
+          .read(currentProjectProvider)
+          .value!;
+      final Episode episode = ref
+          .read(currentEpisodeProvider)
+          .value!;
+      final Sequence sequence = ref
+          .read(currentSequenceProvider)
+          .value!;
       final Map<String, dynamic> result =
-          await ref.read(shotsProvider.notifier).add(project.id, episode.id, sequence.id, shot);
+      await ref.read(shotsProvider.notifier).add(project.id, episode.id, sequence.id, shot);
       if (context.mounted) {
         final bool succeeded = result['succeeded'] as bool;
         final int code = result['code'] as int;

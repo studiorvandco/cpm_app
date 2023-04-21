@@ -16,6 +16,7 @@ class Theme extends _$Theme {
   Future<ThemeMode> get() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final int index = preferences.getInt(Preferences.theme.name) ?? 0;
+
     return ThemeMode.values[index];
   }
 

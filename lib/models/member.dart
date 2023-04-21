@@ -1,6 +1,10 @@
-
-
 class Member {
+  final String id;
+  String firstName;
+  String? lastName;
+  String? phone;
+  String? imageURL;
+
   Member({required this.id, required this.firstName, this.lastName, this.phone, this.imageURL});
 
   factory Member.fromJson(json) {
@@ -19,10 +23,4 @@ class Member {
       'phone': phone,
     };
   }
-
-  final String id;
-  String firstName;
-  String? lastName;
-  String? phone;
-  String? imageURL;
 }

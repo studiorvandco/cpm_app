@@ -35,22 +35,27 @@ class ProjectsState extends ConsumerState<Projects> {
             ),
             body: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                return ref.watch(projectsProvider).when(data: (List<Project> projects) {
-                  return MasonryGridView.count(
-                    itemCount: projects.length,
-                    padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
-                    itemBuilder: (BuildContext context, int index) {
-                      return ProjectCard(project: projects[index]);
-                    },
-                    crossAxisCount: getColumnsCount(constraints),
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                  );
-                }, error: (Object error, StackTrace stackTrace) {
-                  return requestPlaceholderError;
-                }, loading: () {
-                  return requestPlaceholderLoading;
-                });
+                return ref.watch(projectsProvider).when(
+                  data: (List<Project> projects) {
+                    return MasonryGridView.count(
+                      itemCount: projects.length,
+                      padding:
+                          const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProjectCard(project: projects[index]);
+                      },
+                      crossAxisCount: getColumnsCount(constraints),
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                    );
+                  },
+                  error: (Object error, StackTrace stackTrace) {
+                    return requestPlaceholderError;
+                  },
+                  loading: () {
+                    return requestPlaceholderLoading;
+                  },
+                );
               },
             ),
           ),
@@ -67,11 +72,12 @@ class ProjectsState extends ConsumerState<Projects> {
   }
 
   Future<void> add() async {
-    final dynamic project = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const NewProjectDialog();
-        });
+    final project = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const NewProjectDialog();
+      },
+    );
     if (project is Project) {
       final Map<String, dynamic> result = await ref.read(projectsProvider.notifier).add(project);
       if (context.mounted) {

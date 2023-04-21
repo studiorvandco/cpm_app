@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../services/login.dart';
+import '../services/login_service.dart';
 import '../utils/constants_globals.dart';
 
 part 'authentication.g.dart';
@@ -17,19 +17,21 @@ class Authentication extends _$Authentication {
 
   Future<bool> get() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
+
     return preferences.getBool(Preferences.authenticated.name) ?? false;
   }
 
   Future<Map<String, dynamic>> login(String username, String password) async {
     state = const AsyncLoading<bool>();
-    final List<dynamic> result = await LoginService().login(username, password);
+    final List result = await LoginService().login(username, password);
     final bool authenticated = result[0] as bool;
     save(authenticated, result[1] as String);
     state = AsyncValue<bool>.data(authenticated);
+
     return <String, dynamic>{'succeeded': authenticated, 'statusCode': result[2] as int};
   }
 
-  Future<void> logout() async {
+  void logout() {
     save(false, '');
     state = const AsyncValue<bool>.data(false);
   }

@@ -1,20 +1,33 @@
+import '../utils/constants_globals.dart';
 import 'episode.dart';
 
-enum ProjectType { movie, series, placeholder }
-
 class Project implements Comparable<Project> {
-  Project(
-      {required this.id,
-      required this.projectType,
-      required this.title,
-      required this.description,
-      required this.startDate,
-      required this.endDate,
-      this.shotsTotal,
-      this.shotsCompleted,
-      this.director,
-      this.writer,
-      this.episodes});
+  final String id;
+  ProjectType projectType;
+  String title;
+  String description;
+  DateTime startDate;
+  DateTime endDate;
+  int? shotsTotal;
+  int? shotsCompleted;
+  String? director;
+  String? writer;
+  List<Episode>? episodes;
+  bool favorite = false;
+
+  Project({
+    required this.id,
+    required this.projectType,
+    required this.title,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+    this.shotsTotal,
+    this.shotsCompleted,
+    this.director,
+    this.writer,
+    this.episodes,
+  });
 
   factory Project.fromJson(json) {
     final ProjectType projectType = (json['isFilm'] as bool) ? ProjectType.movie : ProjectType.series;
@@ -54,25 +67,13 @@ class Project implements Comparable<Project> {
     if (shotsCompleted == null || shotsTotal == null || shotsTotal == 0) {
       return 0.0;
     }
+
     return shotsCompleted! / shotsTotal!;
   }
 
   bool isMovie() {
     return projectType == ProjectType.movie;
   }
-
-  final String id;
-  ProjectType projectType;
-  String title;
-  String description;
-  DateTime startDate;
-  DateTime endDate;
-  int? shotsTotal;
-  int? shotsCompleted;
-  String? director;
-  String? writer;
-  List<Episode>? episodes;
-  bool favorite = false;
 
   @override
   int compareTo(Project other) {

@@ -1,11 +1,19 @@
 class Shot {
-  Shot(
-      {required this.id,
-      required this.number,
-      this.value,
-      required this.title,
-      this.description,
-      required this.completed});
+  final String id;
+  int number;
+  String? value;
+  String title;
+  String? description;
+  bool completed;
+
+  Shot({
+    required this.id,
+    required this.number,
+    this.value,
+    required this.title,
+    this.description,
+    required this.completed,
+  });
 
   factory Shot.fromJson(json) {
     return Shot(
@@ -27,11 +35,4 @@ class Shot {
       'completed': completed,
     };
   }
-
-  final String id;
-  int number;
-  String? value;
-  String title;
-  String? description;
-  bool completed;
 }

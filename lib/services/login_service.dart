@@ -9,21 +9,21 @@ import 'api.dart';
 class LoginService {
   final API api = API();
 
-  Future<List<dynamic>> login(String username, String password) async {
+  Future<List> login(String username, String password) async {
     try {
       final Response response = await post(Uri.parse(api.login),
           headers: <String, String>{'accept': '*/*', 'content-type': 'application/json'},
           body: jsonEncode(<String, String>{'Username': username, 'Password': password}));
 
       if (response.statusCode == 200) {
-        return <dynamic>[true, response.body, response.statusCode, response.reasonPhrase];
+        return [true, response.body, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint(response.toString());
-        return <dynamic>[false, response.body, response.statusCode, response.reasonPhrase];
+        return [false, response.body, response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
       debugPrint(stackTrace.toString());
-      return <dynamic>[false, '', 408, 'error.timeout'.tr()];
+      return [false, '', 408, 'error.timeout'.tr()];
     }
   }
 

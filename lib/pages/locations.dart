@@ -23,31 +23,16 @@ class _LocationsState extends ConsumerState<Locations> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: add,
-          child: const Icon(Icons.add),
-        ),
-        body: ref.watch(locationsProvider).when(data: (List<Location> locations) {
-          return ListView.separated(
+        body: ref.watch(locationsProvider).when(
+          data: (List<Location> locations) {
+            return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 return ClipRRect(
                   clipBehavior: Clip.hardEdge,
                   child: Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (DismissDirection direction) {
-                      switch (direction) {
-                        case DismissDirection.startToEnd:
-                          delete(locations[index]);
-                          break;
-                        case DismissDirection.endToStart:
-                        case DismissDirection.vertical:
-                        case DismissDirection.horizontal:
-                        case DismissDirection.up:
-                        case DismissDirection.down:
-                        case DismissDirection.none:
-                          throw InvalidDirectionException('error.direction'.tr());
-                      }
-                    },
+                    background: deleteBackground(),
+                    secondaryBackground: editBackground(),
                     confirmDismiss: (DismissDirection dismissDirection) async {
                       switch (dismissDirection) {
                         case DismissDirection.endToStart:
@@ -62,10 +47,23 @@ class _LocationsState extends ConsumerState<Locations> {
                         case DismissDirection.none:
                           assert(false);
                       }
+
                       return false;
                     },
-                    background: deleteBackground(),
-                    secondaryBackground: editBackground(),
+                    onDismissed: (DismissDirection direction) {
+                      switch (direction) {
+                        case DismissDirection.startToEnd:
+                          delete(locations[index]);
+                          break;
+                        case DismissDirection.endToStart:
+                        case DismissDirection.vertical:
+                        case DismissDirection.horizontal:
+                        case DismissDirection.up:
+                        case DismissDirection.down:
+                        case DismissDirection.none:
+                          throw InvalidDirection('error.direction'.tr());
+                      }
+                    },
                     child: LocationTile(
                       location: locations[index],
                       onEdit: (Location location) {
@@ -85,22 +83,31 @@ class _LocationsState extends ConsumerState<Locations> {
               separatorBuilder: (BuildContext context, int index) {
                 return divider;
               },
-              itemCount: locations.length);
-        }, error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        }, loading: () {
-          return requestPlaceholderLoading;
-        }),
+              itemCount: locations.length,
+            );
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          },
+          loading: () {
+            return requestPlaceholderLoading;
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: add,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
 
   Future<void> add() async {
-    final dynamic location = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ProviderScope(parent: ProviderScope.containerOf(context), child: const LocationDialog(edit: false));
-        });
+    final location = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ProviderScope(parent: ProviderScope.containerOf(context), child: const LocationDialog(edit: false));
+      },
+    );
     if (location is Location) {
       final Map<String, dynamic> result = await ref.read(locationsProvider.notifier).add(location);
       if (context.mounted) {
@@ -114,16 +121,17 @@ class _LocationsState extends ConsumerState<Locations> {
   }
 
   Future<void> edit(Location location) async {
-    final dynamic editedLocation = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return LocationDialog(
-            edit: true,
-            id: location.id,
-            name: location.name,
-            position: location.position,
-          );
-        });
+    final editedLocation = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return LocationDialog(
+          edit: true,
+          id: location.id,
+          name: location.name,
+          position: location.position,
+        );
+      },
+    );
     if (editedLocation is Location) {
       final Map<String, dynamic> result = await ref.read(locationsProvider.notifier).edit(editedLocation);
       if (context.mounted) {

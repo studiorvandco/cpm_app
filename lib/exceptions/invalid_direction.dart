@@ -1,4 +1,5 @@
-class InvalidDirectionException implements Exception {
-  InvalidDirectionException(this.cause);
+class InvalidDirection implements Exception {
   String cause;
+
+  InvalidDirection(this.cause);
 }

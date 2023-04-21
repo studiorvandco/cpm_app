@@ -2,16 +2,20 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:yaml/yaml.dart';
 
 class Config {
+  late final dynamic config;
+
+  static Config? _instance;
+
   Config._(String yaml) {
     config = loadYaml(yaml);
   }
 
-  static Config? _instance;
-  late final dynamic config;
+  static dynamic get(String key) {
+    if (_instance == null) {
+      throw Exception('Configuration not yet initialized');
+    }
 
-  dynamic _get(String key) {
-    // ignore: avoid_dynamic_calls
-    return config[key];
+    return _instance!._get(key);
   }
 
   static Future<void> init() async {
@@ -19,10 +23,7 @@ class Config {
     _instance = Config._(yaml);
   }
 
-  static dynamic get(String key) {
-    if (_instance == null) {
-      throw Exception('Configuration not yet initialized');
-    }
-    return _instance!._get(key);
+  dynamic _get(String key) {
+    return config[key];
   }
 }

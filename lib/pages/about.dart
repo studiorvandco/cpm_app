@@ -18,69 +18,91 @@ class About extends StatelessWidget {
           children: <Widget>[
             verticalPadding,
             Wrap(
+              alignment: WrapAlignment.spaceEvenly,
               spacing: 30,
               runSpacing: 30,
-              alignment: WrapAlignment.spaceEvenly,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: <Builder>[
-                Builder(
-                  builder: (BuildContext context) {
-                    if (Theme.of(context).brightness == Brightness.light) {
-                      return Image.asset(Logos.camera_light.value,
-                          fit: BoxFit.fitWidth, height: 100, filterQuality: FilterQuality.medium);
-                    } else {
-                      return Image.asset(Logos.camera_dark.value,
-                          fit: BoxFit.fitWidth, height: 100, filterQuality: FilterQuality.medium);
-                    }
-                  },
-                ),
-                Builder(
-                  builder: (BuildContext context) {
-                    if (Theme.of(context).brightness == Brightness.light) {
-                      return Image.asset(Logos.rvandco_light.value,
-                          fit: BoxFit.fitWidth, height: 150, filterQuality: FilterQuality.medium);
-                    } else {
-                      return Image.asset(Logos.rvandco_dark.value,
-                          fit: BoxFit.fitWidth, height: 150, filterQuality: FilterQuality.medium);
-                    }
-                  },
-                )
+                Builder(builder: (BuildContext context) {
+                  return Theme.of(context).brightness == Brightness.light
+                      ? Image.asset(
+                          Logos.cameraLight.value,
+                          height: 100,
+                          fit: BoxFit.fitWidth,
+                          filterQuality: FilterQuality.medium,
+                        )
+                      : Image.asset(
+                          Logos.cameraDark.value,
+                          height: 100,
+                          fit: BoxFit.fitWidth,
+                          filterQuality: FilterQuality.medium,
+                        );
+                }),
+                Builder(builder: (BuildContext context) {
+                  return Theme.of(context).brightness == Brightness.light
+                      ? Image.asset(
+                          Logos.rvandcoLight.value,
+                          height: 150,
+                          fit: BoxFit.fitWidth,
+                          filterQuality: FilterQuality.medium,
+                        )
+                      : Image.asset(
+                          Logos.rvandcoDark.value,
+                          height: 150,
+                          fit: BoxFit.fitWidth,
+                          filterQuality: FilterQuality.medium,
+                        );
+                }),
               ],
             ),
             verticalPadding,
-            const Text('Cinema Project Manager',
-                textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+            const Text(
+              'Cinema Project Manager',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             verticalPadding,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text('about.description'.tr(), textAlign: TextAlign.center),
             ),
             verticalPadding,
-            Text('${'about.more_about'.tr()} CPM',
-                textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '${'about.more_about'.tr()} CPM',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             Row(children: <Widget>[
               const Spacer(),
               TextButton(
-                  onPressed: () => launchUrl(Uri.parse('https://github.com/StudioRvAndCo')),
-                  child: const Text('GitHub')),
-              const Spacer()
+                onPressed: () => launchUrl(Uri.parse('https://github.com/StudioRvAndCo')),
+                child: const Text('GitHub'),
+              ),
+              const Spacer(),
             ]),
             verticalPadding,
-            Text('${'about.more_about'.tr()} Studio Rv & Co',
-                textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              '${'about.more_about'.tr()} Studio Rv & Co',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             Row(children: <Widget>[
               const Spacer(),
               TextButton(
-                  onPressed: () => launchUrl(Uri.parse('https://linktr.ee/studiorvandco')),
-                  child: const Text('Linktree')),
+                onPressed: () => launchUrl(Uri.parse('https://linktr.ee/studiorvandco')),
+                child: const Text('Linktree'),
+              ),
               horizontalPadding,
               TextButton(
-                  onPressed: () => launchUrl(Uri.parse('https://rvandco.fr')), child: Text('about.website'.tr())),
+                onPressed: () => launchUrl(Uri.parse('https://rvandco.fr')),
+                child: Text('about.website'.tr()),
+              ),
               horizontalPadding,
               TextButton(
-                  onPressed: () => launchUrl(Uri.parse('https://www.youtube.com/@studiorvandco')),
-                  child: const Text('YouTube')),
-              const Spacer()
+                onPressed: () => launchUrl(Uri.parse('https://www.youtube.com/@studiorvandco')),
+                child: const Text('YouTube'),
+              ),
+              const Spacer(),
             ]),
             verticalPadding,
           ],

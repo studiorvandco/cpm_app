@@ -26,9 +26,9 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
           child: NavigationRail(
             leading: Builder(builder: (BuildContext context) {
               if (Theme.of(context).brightness == Brightness.light) {
-                return Image.asset(Logos.cpm_light.value, width: 50, filterQuality: FilterQuality.medium);
+                return Image.asset(Logos.cpmLight.value, width: 50, filterQuality: FilterQuality.medium);
               } else {
-                return Image.asset(Logos.cpm_dark.value, width: 50, filterQuality: FilterQuality.medium);
+                return Image.asset(Logos.cpmDark.value, width: 50, filterQuality: FilterQuality.medium);
               }
             }),
             labelType: NavigationRailLabelType.all,

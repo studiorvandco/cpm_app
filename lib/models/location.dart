@@ -1,4 +1,8 @@
 class Location {
+  final String id;
+  String name;
+  String? position;
+
   Location({required this.id, required this.name, this.position});
 
   factory Location.fromJson(json) {
@@ -15,8 +19,4 @@ class Location {
       'position': position,
     };
   }
-
-  final String id;
-  String name;
-  String? position;
 }

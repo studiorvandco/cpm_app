@@ -9,87 +9,95 @@ import '../models/project.dart';
 import '../utils/constants_globals.dart';
 
 class ProjectService {
-  Future<List<dynamic>> getAll() async {
+  Future<List> getAll() async {
     try {
       final Response response = await get(Uri.parse(api.projects),
-          headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token});
+        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},);
 
-      final List<dynamic> projectsJson = json.decode(response.body) as List<dynamic>;
+      final List projectsJson = json.decode(response.body) as List;
       final List<Project> projects = projectsJson.map((project) => Project.fromJson(project)).toList();
 
       if (response.statusCode == 200) {
-        return <dynamic>[true, projects, response.statusCode, response.reasonPhrase];
+        return [true, projects, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint('ProjectService getAll request error: ${response.statusCode} ${response.reasonPhrase}');
-        return <dynamic>[false, <Project>[], response.statusCode, response.reasonPhrase];
+
+        return [false, <Project>[], response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
       debugPrint(stackTrace.toString());
-      return <dynamic>[false, <Project>[], 408, 'error.timeout'.tr()];
+
+      return [false, <Project>[], 408, 'error.timeout'.tr()];
     }
   }
 
-  Future<List<dynamic>> add(Project project) async {
+  Future<List> add(Project project) async {
     try {
       final Response response = await post(Uri.parse(api.projects),
-          headers: <String, String>{
-            'accept': '*/*',
-            'Content-Type': 'application/json',
-            api.authorization: api.bearer + token
-          },
-          body: jsonEncode(project));
+        headers: <String, String>{
+          'accept': '*/*',
+          'Content-Type': 'application/json',
+          api.authorization: api.bearer + token,
+        },
+        body: jsonEncode(project),);
 
       if (response.statusCode == 201) {
-        return <dynamic>[true, response.statusCode, response.reasonPhrase];
+        return [true, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint('ProjectService add request error: ${response.statusCode} ${response.reasonPhrase}');
-        return <dynamic>[false, response.statusCode, response.reasonPhrase];
+
+        return [false, response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
       debugPrint(stackTrace.toString());
-      return <dynamic>[false, 408, 'error.timeout'.tr()];
+
+      return [false, 408, 'error.timeout'.tr()];
     }
   }
 
-  Future<List<dynamic>> edit(Project project) async {
+  Future<List> edit(Project project) async {
     try {
       final Response response = await put(Uri.parse('${api.projects}/${project.id}'),
-          headers: <String, String>{
-            'accept': '*/*',
-            'Content-Type': 'application/json',
-            api.authorization: api.bearer + token
-          },
-          body: jsonEncode(project));
+        headers: <String, String>{
+          'accept': '*/*',
+          'Content-Type': 'application/json',
+          api.authorization: api.bearer + token,
+        },
+        body: jsonEncode(project),);
 
       if (response.statusCode == 204) {
-        return <dynamic>[true, response.statusCode, response.reasonPhrase];
+        return [true, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint('ProjectService edit request error: ${response.statusCode} ${response.reasonPhrase}');
-        return <dynamic>[false, response.statusCode, response.reasonPhrase];
+
+        return [false, response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
       debugPrint(stackTrace.toString());
-      return <dynamic>[false, 408, 'error.timeout'.tr()];
+
+      return [false, 408, 'error.timeout'.tr()];
     }
   }
 
-  Future<List<dynamic>> delete(String projectID) async {
+  Future<List> delete(String projectID) async {
     try {
       final Response response = await http.delete(Uri.parse('${api.projects}/$projectID'), headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json',
-        api.authorization: api.bearer + token
+        api.authorization: api.bearer + token,
       });
 
       if (response.statusCode == 204) {
-        return <dynamic>[true, response.statusCode, response.reasonPhrase];
+        return [true, response.statusCode, response.reasonPhrase];
       } else {
         debugPrint('ProjectService delete request error: ${response.statusCode} ${response.reasonPhrase}');
-        return <dynamic>[false, response.statusCode, response.reasonPhrase];
+
+        return [false, response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
       debugPrint(stackTrace.toString());
-      return <dynamic>[false, 408, 'error.timeout'.tr()];
+
+      return [false, 408, 'error.timeout'.tr()];
     }
   }
 }

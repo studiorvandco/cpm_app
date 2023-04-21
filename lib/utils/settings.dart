@@ -4,31 +4,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 // TODO(mael): rework favorites with riverpod
 
 class MyFavorites {
-  static const String FAVORITES_KEY = 'favorites_key';
+  static const String favoritesKey = 'favorites_key';
 
   Future<void> setFavorites(List<String> ids) async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setStringList(FAVORITES_KEY, ids);
+    sharedPreferences.setStringList(favoritesKey, ids);
   }
 
   Future<List<String>> getFavorites() async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final List<String>? result = sharedPreferences.getStringList(FAVORITES_KEY);
-    if (result == null) {
-      return <String>[];
-    } else {
-      return result;
-    }
+    final List<String>? result = sharedPreferences.getStringList(favoritesKey);
+
+    return result ?? <String>[];
   }
 }
 
 class ModelFav extends ChangeNotifier {
-  ModelFav() {
-    _favoriteProjects = <String>[];
-    _savedFavorites = MyFavorites();
-    getFavorites();
-  }
-
   late List<String> _favoriteProjects;
   late MyFavorites _savedFavorites;
 
@@ -38,6 +29,12 @@ class ModelFav extends ChangeNotifier {
     _favoriteProjects = favorites;
     _savedFavorites.setFavorites(favorites);
     notifyListeners();
+  }
+
+  ModelFav() {
+    _favoriteProjects = <String>[];
+    _savedFavorites = MyFavorites();
+    getFavorites();
   }
 
   Future<void> getFavorites() async {

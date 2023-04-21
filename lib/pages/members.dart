@@ -45,7 +45,7 @@ class _MembersState extends ConsumerState<Members> {
                         case DismissDirection.up:
                         case DismissDirection.down:
                         case DismissDirection.none:
-                          throw InvalidDirectionException('error.direction'.tr());
+                          throw InvalidDirection('error.direction'.tr());
                       }
                     },
                     confirmDismiss: (DismissDirection dismissDirection) async {

@@ -1,14 +1,23 @@
 import 'sequence.dart';
 
 class Episode {
-  Episode(
-      {required this.id,
-      required this.number,
-      required this.title,
-      required this.description,
-      this.director,
-      this.writer,
-      required this.sequences});
+  final String id;
+  final int number;
+  String title;
+  String description;
+  final String? director;
+  final String? writer;
+  final List<Sequence> sequences;
+
+  Episode({
+    required this.id,
+    required this.number,
+    required this.title,
+    required this.description,
+    this.director,
+    this.writer,
+    required this.sequences,
+  });
 
   factory Episode.fromJson(json) {
     final sequencesJson = json['Sequences'];
@@ -35,12 +44,4 @@ class Episode {
       'sequences': sequences,
     };
   }
-
-  final String id;
-  final int number;
-  String title;
-  String description;
-  final String? director;
-  final String? writer;
-  final List<Sequence> sequences;
 }

@@ -20,37 +20,44 @@ class Planning extends ConsumerStatefulWidget {
 class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return ref.watch(currentProjectProvider).when(data: (Project project) {
-      return ref.watch(sequencesProvider).when(data: (List<Sequence> sequences) {
-        CalendarControllerProvider
-            .of<Event>(context)
-            .controller
-            .addAll(<CalendarEventData<Event>>[
-          ...sequences.map((Sequence sequence) {
-            return CalendarEventData<Event>(
-                event: Event(title: sequence.title, description: sequence.description ?? ''),
-                title: sequence.title,
-                date: sequence.startDate,
-                startTime: sequence.startDate,
-                endTime: sequence.endDate);
-          })
-        ]);
-        return Expanded(
-          child: SfCalendar(
-            firstDayOfWeek: 1,
-            view: CalendarView.week,
-          ),
+    return ref.watch(currentProjectProvider).when(
+      data: (Project project) {
+        return ref.watch(sequencesProvider).when(
+          data: (List<Sequence> sequences) {
+            CalendarControllerProvider.of<Event>(context).controller.addAll(<CalendarEventData<Event>>[
+              ...sequences.map((Sequence sequence) {
+                return CalendarEventData<Event>(
+                  event: Event(title: sequence.title, description: sequence.description ?? ''),
+                  title: sequence.title,
+                  date: sequence.startDate,
+                  startTime: sequence.startDate,
+                  endTime: sequence.endDate,
+                );
+              }),
+            ]);
+
+            return Expanded(
+              child: SfCalendar(
+                firstDayOfWeek: 1,
+                view: CalendarView.week,
+              ),
+            );
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          },
+          loading: () {
+            return requestPlaceholderLoading;
+          },
         );
-      }, error: (Object error, StackTrace stackTrace) {
+      },
+      error: (Object error, StackTrace stackTrace) {
         return requestPlaceholderError;
-      }, loading: () {
+      },
+      loading: () {
         return requestPlaceholderLoading;
-      });
-    }, error: (Object error, StackTrace stackTrace) {
-      return requestPlaceholderError;
-    }, loading: () {
-      return requestPlaceholderLoading;
-    });
+      },
+    );
   }
 
 /* TODO(mael): rebuild planning page
