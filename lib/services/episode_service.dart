@@ -35,13 +35,15 @@ class EpisodeService {
 
   Future<List> add(String projectID, Episode episode) async {
     try {
-      final Response response = await post(Uri.parse('${api.episodes}/$projectID'),
+      final Response response = await post(
+        Uri.parse('${api.episodes}/$projectID'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(episode),);
+        body: jsonEncode(episode),
+      );
 
       if (response.statusCode == 201) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -59,13 +61,15 @@ class EpisodeService {
 
   Future<List> edit(String projectID, Episode episode) async {
     try {
-      final Response response = await put(Uri.parse('${api.episodes}/$projectID/${episode.id}'),
+      final Response response = await put(
+        Uri.parse('${api.episodes}/$projectID/${episode.id}'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(episode),);
+        body: jsonEncode(episode),
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -83,12 +87,14 @@ class EpisodeService {
 
   Future<List> delete(String projectID, String episodeID) async {
     try {
-      final Response response = await http.delete(Uri.parse('${api.episodes}/$projectID/$episodeID'),
+      final Response response = await http.delete(
+        Uri.parse('${api.episodes}/$projectID/$episodeID'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
-        },);
+        },
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];

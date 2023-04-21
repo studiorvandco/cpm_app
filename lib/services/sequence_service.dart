@@ -11,8 +11,10 @@ import '../utils/constants_globals.dart';
 class SequenceService {
   Future<List> getAll(String projectId, String episodeID) async {
     try {
-      final Response response = await get(Uri.parse('${api.sequences}/$projectId/$episodeID'),
-        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},);
+      final Response response = await get(
+        Uri.parse('${api.sequences}/$projectId/$episodeID'),
+        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},
+      );
 
       if (response.body.isNotEmpty && response.statusCode == 200) {
         final List sequencesJson = json.decode(response.body) as List;
@@ -33,13 +35,15 @@ class SequenceService {
 
   Future<List> add(String projectID, String episodeID, Sequence sequence) async {
     try {
-      final Response response = await post(Uri.parse('${api.sequences}/$projectID/$episodeID'),
+      final Response response = await post(
+        Uri.parse('${api.sequences}/$projectID/$episodeID'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(sequence),);
+        body: jsonEncode(sequence),
+      );
 
       if (response.statusCode == 201) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -57,13 +61,15 @@ class SequenceService {
 
   Future<List> edit(String projectID, String episodeID, Sequence sequence) async {
     try {
-      final Response response = await put(Uri.parse('${api.sequences}/$projectID/$episodeID/${sequence.id}'),
+      final Response response = await put(
+        Uri.parse('${api.sequences}/$projectID/$episodeID/${sequence.id}'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(sequence),);
+        body: jsonEncode(sequence),
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -81,12 +87,14 @@ class SequenceService {
 
   Future<List> delete(String projectID, String episodeID, String sequenceID) async {
     try {
-      final Response response = await http.delete(Uri.parse('${api.sequences}/$projectID/$episodeID/$sequenceID'),
+      final Response response = await http.delete(
+        Uri.parse('${api.sequences}/$projectID/$episodeID/$sequenceID'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
-        },);
+        },
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];

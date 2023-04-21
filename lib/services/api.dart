@@ -1,7 +1,6 @@
 import 'config.dart';
 
 class API {
-
   final String authorization = 'Authorization';
   final String bearer = 'Bearer ';
 
@@ -24,5 +23,4 @@ class API {
     members = '${_api}Members';
     locations = '${_api}Locations';
   }
-
 }

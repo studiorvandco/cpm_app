@@ -28,34 +28,31 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero,
             shape: const ContinuousRectangleBorder(),
-            backgroundColor: Theme
-                .of(context)
-                .colorScheme
-                .background),
+            backgroundColor: Theme.of(context).colorScheme.background),
         child: Stack(
           children: <Widget>[
             Positioned.fill(
                 child: ClipRect(
-                  child: ShaderMask(
-                    shaderCallback: (Rect rect) {
-                      return LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.2),
-                          Colors.black.withOpacity(0.2),
-                          Colors.transparent
-                        ],
-                      ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-                    },
-                    blendMode: BlendMode.dstIn,
-                    child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                      child: const FittedBox(fit: BoxFit.cover, child: null),
-                    ),
-                  ),
-                )),
+              child: ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.2),
+                      Colors.black.withOpacity(0.2),
+                      Colors.transparent
+                    ],
+                  ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                },
+                blendMode: BlendMode.dstIn,
+                child: ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                  child: const FittedBox(fit: BoxFit.cover, child: null),
+                ),
+              ),
+            )),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
@@ -64,10 +61,7 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
                     Expanded(
                       child: Text(
                         project.title,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -83,10 +77,7 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         project.description,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
@@ -94,14 +85,8 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
                   IconLabel(
                     text: _getDateText(context, project),
                     icon: Icons.event,
-                    iconColor: Theme
-                        .of(context)
-                        .iconTheme
-                        .color,
-                    textStyle: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyMedium,
+                    iconColor: Theme.of(context).iconTheme.color,
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Row(children: <Widget>[
                     if (project.director != null) ...<Widget>[
@@ -116,10 +101,7 @@ class _InfoHeaderProjectState extends ConsumerState<InfoHeaderProject> {
                   const Padding(padding: EdgeInsets.only(bottom: 8)),
                   LinearProgressIndicator(
                     value: project.getProgress(),
-                    backgroundColor: Theme
-                        .of(context)
-                        .colorScheme
-                        .onPrimaryContainer,
+                    backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                   )
                 ],
               ),

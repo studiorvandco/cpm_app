@@ -10,8 +10,10 @@ import '../utils/constants_globals.dart';
 class LocationService {
   Future<List> getLocations() async {
     try {
-      final Response response = await get(Uri.parse(api.locations),
-        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},);
+      final Response response = await get(
+        Uri.parse(api.locations),
+        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},
+      );
 
       if (response.statusCode == 200) {
         final List membersJson = json.decode(response.body) as List;
@@ -32,13 +34,15 @@ class LocationService {
 
   Future<List> addLocation(Location location) async {
     try {
-      final Response response = await post(Uri.parse(api.locations),
+      final Response response = await post(
+        Uri.parse(api.locations),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(location),);
+        body: jsonEncode(location),
+      );
 
       if (response.statusCode == 201) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -56,13 +60,15 @@ class LocationService {
 
   Future<List> editLocation(Location location) async {
     try {
-      final Response response = await put(Uri.parse('${api.locations}/${location.id}'),
+      final Response response = await put(
+        Uri.parse('${api.locations}/${location.id}'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(location),);
+        body: jsonEncode(location),
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];

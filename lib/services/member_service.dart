@@ -10,8 +10,10 @@ import '../utils/constants_globals.dart';
 class MemberService {
   Future<List> getMembers() async {
     try {
-      final Response response = await get(Uri.parse(api.members),
-        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},);
+      final Response response = await get(
+        Uri.parse(api.members),
+        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},
+      );
 
       if (response.statusCode == 200) {
         final List membersJson = json.decode(response.body) as List;
@@ -32,13 +34,15 @@ class MemberService {
 
   Future<List> addMember(Member member) async {
     try {
-      final Response response = await post(Uri.parse(api.members),
+      final Response response = await post(
+        Uri.parse(api.members),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(member),);
+        body: jsonEncode(member),
+      );
 
       if (response.statusCode == 201) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -56,13 +60,15 @@ class MemberService {
 
   Future<List> editMember(Member member) async {
     try {
-      final Response response = await put(Uri.parse('${api.members}/${member.id}'),
+      final Response response = await put(
+        Uri.parse('${api.members}/${member.id}'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(member),);
+        body: jsonEncode(member),
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];

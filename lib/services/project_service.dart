@@ -11,8 +11,10 @@ import '../utils/constants_globals.dart';
 class ProjectService {
   Future<List> getAll() async {
     try {
-      final Response response = await get(Uri.parse(api.projects),
-        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},);
+      final Response response = await get(
+        Uri.parse(api.projects),
+        headers: <String, String>{'accept': 'application/json', api.authorization: api.bearer + token},
+      );
 
       final List projectsJson = json.decode(response.body) as List;
       final List<Project> projects = projectsJson.map((project) => Project.fromJson(project)).toList();
@@ -33,13 +35,15 @@ class ProjectService {
 
   Future<List> add(Project project) async {
     try {
-      final Response response = await post(Uri.parse(api.projects),
+      final Response response = await post(
+        Uri.parse(api.projects),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(project),);
+        body: jsonEncode(project),
+      );
 
       if (response.statusCode == 201) {
         return [true, response.statusCode, response.reasonPhrase];
@@ -57,13 +61,15 @@ class ProjectService {
 
   Future<List> edit(Project project) async {
     try {
-      final Response response = await put(Uri.parse('${api.projects}/${project.id}'),
+      final Response response = await put(
+        Uri.parse('${api.projects}/${project.id}'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json',
           api.authorization: api.bearer + token,
         },
-        body: jsonEncode(project),);
+        body: jsonEncode(project),
+      );
 
       if (response.statusCode == 204) {
         return [true, response.statusCode, response.reasonPhrase];

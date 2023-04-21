@@ -35,41 +35,52 @@ class _SequencesState extends ConsumerState<Sequences> {
             onPressed: add,
             child: const Icon(Icons.add),
           ),
-          body: ref.watch(currentProjectProvider).when(data: (Project project) {
-            return ref.watch(sequencesProvider).when(data: (List<Sequence> sequences) {
-              return Column(
-                children: <Widget>[
-                  if (project.isMovie()) const InfoHeaderProject() else
-                    const InfoHeaderEpisode(),
-                  Expanded(
-                    child: LayoutBuilder(
-                      builder: (BuildContext context, BoxConstraints constraints) {
-                        return MasonryGridView.count(
-                          itemCount: sequences.length,
-                          padding: const EdgeInsets.only(
-                            bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4,),
-                          itemBuilder: (BuildContext context, int index) {
-                            return SequenceCard(sequence: sequences[index]);
+          body: ref.watch(currentProjectProvider).when(
+            data: (Project project) {
+              return ref.watch(sequencesProvider).when(
+                data: (List<Sequence> sequences) {
+                  return Column(
+                    children: <Widget>[
+                      if (project.isMovie()) const InfoHeaderProject() else const InfoHeaderEpisode(),
+                      Expanded(
+                        child: LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return MasonryGridView.count(
+                              itemCount: sequences.length,
+                              padding: const EdgeInsets.only(
+                                bottom: kFloatingActionButtonMargin + 64,
+                                top: 4,
+                                left: 4,
+                                right: 4,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return SequenceCard(sequence: sequences[index]);
+                              },
+                              crossAxisCount: getColumnsCount(constraints),
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
+                            );
                           },
-                          crossAxisCount: getColumnsCount(constraints),
-                          mainAxisSpacing: 2,
-                          crossAxisSpacing: 2,
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                error: (Object error, StackTrace stackTrace) {
+                  return requestPlaceholderError;
+                },
+                loading: () {
+                  return requestPlaceholderLoading;
+                },
               );
-            }, error: (Object error, StackTrace stackTrace) {
+            },
+            error: (Object error, StackTrace stackTrace) {
               return requestPlaceholderError;
-            }, loading: () {
+            },
+            loading: () {
               return requestPlaceholderLoading;
-            },);
-          }, error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          }, loading: () {
-            return requestPlaceholderLoading;
-          },),
+            },
+          ),
         ),
       ),
     );
@@ -84,11 +95,7 @@ class _SequencesState extends ConsumerState<Sequences> {
   }
 
   Future<void> add() async {
-    if (!ref
-        .read(currentProjectProvider)
-        .hasValue || !ref
-        .read(currentEpisodeProvider)
-        .hasValue) {
+    if (!ref.read(currentProjectProvider).hasValue || !ref.read(currentEpisodeProvider).hasValue) {
       return;
     }
 
@@ -96,16 +103,13 @@ class _SequencesState extends ConsumerState<Sequences> {
       context: context,
       builder: (BuildContext context) {
         return const NewSequenceDialog(locations: <String>[]);
-      },);
+      },
+    );
     if (sequence is Sequence) {
-      final Project project = ref
-          .read(currentProjectProvider)
-          .value!;
-      final Episode episode = ref
-          .read(currentEpisodeProvider)
-          .value!;
+      final Project project = ref.read(currentProjectProvider).value!;
+      final Episode episode = ref.read(currentEpisodeProvider).value!;
       final Map<String, dynamic> result =
-      await ref.read(sequencesProvider.notifier).add(project.id, episode.id, sequence);
+          await ref.read(sequencesProvider.notifier).add(project.id, episode.id, sequence);
       if (context.mounted) {
         final bool succeeded = result['succeeded'] as bool;
         final int code = result['code'] as int;

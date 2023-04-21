@@ -27,10 +27,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero,
             shape: const ContinuousRectangleBorder(),
-            backgroundColor: Theme
-                .of(context)
-                .colorScheme
-                .background),
+            backgroundColor: Theme.of(context).colorScheme.background),
         child: Column(
           children: <Widget>[
             Padding(
@@ -41,10 +38,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
                     Expanded(
                       child: Text(
                         episode.title,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .titleLarge,
+                        style: Theme.of(context).textTheme.titleLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -60,10 +54,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         episode.description,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       )),
@@ -98,17 +89,13 @@ class _InfoHeaderEpisodeState extends ConsumerState<InfoHeaderEpisode> {
   }
 
   Future<void> delete(Episode episode) async {
-    if (!ref
-        .read(currentProjectProvider)
-        .hasValue) {
+    if (!ref.read(currentProjectProvider).hasValue) {
       return;
     }
 
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
-        final Project project = ref
-            .read(currentProjectProvider)
-            .value!;
+        final Project project = ref.read(currentProjectProvider).value!;
         final Map<String, dynamic> result = await ref.read(episodesProvider.notifier).delete(project.id, episode.id);
         if (context.mounted) {
           final bool succeeded = result['succeeded'] as bool;
