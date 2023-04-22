@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class IconLabel extends StatelessWidget {
-  const IconLabel(
-      {super.key, required this.text, required this.icon, this.spacing = 8, this.iconColor, this.textStyle});
+  const IconLabel({
+    super.key,
+    required this.text,
+    required this.icon,
+    this.spacing = 8,
+    this.iconColor,
+    this.textStyle,
+  });
 
   final String text;
   final IconData icon;

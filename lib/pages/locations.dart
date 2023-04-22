@@ -6,10 +6,10 @@ import '../exceptions/invalid_direction.dart';
 import '../models/location.dart';
 import '../providers/locations.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/dialogs/confirm.dart';
-import '../widgets/dialogs/new_edit_location.dart';
-import '../widgets/snack_bars.dart';
-import '../widgets/tiles/location.dart';
+import '../widgets/custom_snack_bars.dart';
+import '../widgets/dialogs/confirm_dialog.dart';
+import '../widgets/dialogs/location_dialog.dart';
+import '../widgets/tiles/location_tile.dart';
 
 class Locations extends ConsumerStatefulWidget {
   const Locations({super.key});
@@ -94,7 +94,7 @@ class _LocationsState extends ConsumerState<Locations> {
           },
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: add,
+          onPressed: () => add,
           child: const Icon(Icons.add),
         ),
       ),
@@ -115,7 +115,7 @@ class _LocationsState extends ConsumerState<Locations> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.location.added'.tr() : 'snack_bars.location.not_added'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }
@@ -139,7 +139,7 @@ class _LocationsState extends ConsumerState<Locations> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.location.edited'.tr() : 'snack_bars.location.not_edited'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }
@@ -151,7 +151,7 @@ class _LocationsState extends ConsumerState<Locations> {
       final int code = result['code'] as int;
       final String message = succeeded ? 'snack_bars.location.deleted'.tr() : 'snack_bars.location.not_deleted'.tr();
       ScaffoldMessenger.of(context)
-          .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+          .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
     }
   }
 }

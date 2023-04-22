@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/member.dart';
-
-enum MenuAction { edit, delete }
+import '../../utils/constants_globals.dart';
 
 class MemberTile extends StatefulWidget {
   const MemberTile({super.key, required this.member, required this.onEdit, required this.onDelete});
@@ -48,23 +47,25 @@ class _MemberTileState extends State<MemberTile> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             IconButton(
-                tooltip: 'members.call'.tr(),
-                color: Theme.of(context).colorScheme.onBackground,
-                onPressed: hasPhone()
-                    ? () {
-                        launchUrl(Uri.parse('tel://${widget.member.phone}'));
-                      }
-                    : null,
-                icon: const Icon(Icons.phone)),
+              tooltip: 'members.call'.tr(),
+              color: Theme.of(context).colorScheme.onBackground,
+              onPressed: hasPhone()
+                  ? () {
+                      launchUrl(Uri.parse('tel://${widget.member.phone}'));
+                    }
+                  : null,
+              icon: const Icon(Icons.phone),
+            ),
             IconButton(
-                tooltip: 'members.message'.tr(),
-                color: Theme.of(context).colorScheme.onBackground,
-                onPressed: hasPhone()
-                    ? () {
-                        launchUrl(Uri.parse('sms://${widget.member.phone}'));
-                      }
-                    : null,
-                icon: const Icon(Icons.message)),
+              tooltip: 'members.message'.tr(),
+              color: Theme.of(context).colorScheme.onBackground,
+              onPressed: hasPhone()
+                  ? () {
+                      launchUrl(Uri.parse('sms://${widget.member.phone}'));
+                    }
+                  : null,
+              icon: const Icon(Icons.message),
+            ),
             PopupMenuButton<MenuAction>(
               icon: Icon(
                 Icons.more_horiz,
@@ -72,23 +73,25 @@ class _MemberTileState extends State<MemberTile> {
               ),
               itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuAction>>[
                 PopupMenuItem<MenuAction>(
-                    value: MenuAction.edit,
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.edit,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                      title: Text('edit.upper'.tr()),
-                    )),
+                  value: MenuAction.edit,
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.edit,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                    title: Text('edit.upper'.tr()),
+                  ),
+                ),
                 PopupMenuItem<MenuAction>(
-                    value: MenuAction.delete,
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.delete,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                      title: Text('delete.upper'.tr()),
-                    )),
+                  value: MenuAction.delete,
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                    title: Text('delete.upper'.tr()),
+                  ),
+                ),
               ],
               onSelected: (MenuAction action) {
                 setState(() {
@@ -102,7 +105,7 @@ class _MemberTileState extends State<MemberTile> {
                   }
                 });
               },
-            )
+            ),
           ],
         ),
       ),
@@ -110,6 +113,8 @@ class _MemberTileState extends State<MemberTile> {
   }
 
   bool hasPhone() {
-    return widget.member.phone != null && widget.member.phone!.isNotEmpty;
+    String? phone = widget.member.phone;
+
+    return phone != null && phone.isNotEmpty;
   }
 }

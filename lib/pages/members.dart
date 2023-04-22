@@ -6,10 +6,10 @@ import '../exceptions/invalid_direction.dart';
 import '../models/member.dart';
 import '../providers/members.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/dialogs/confirm.dart';
-import '../widgets/dialogs/new_edit_member.dart';
-import '../widgets/snack_bars.dart';
-import '../widgets/tiles/member.dart';
+import '../widgets/custom_snack_bars.dart';
+import '../widgets/dialogs/confirm_dialog.dart';
+import '../widgets/dialogs/member_dialog.dart';
+import '../widgets/tiles/member_tile.dart';
 
 class Members extends ConsumerStatefulWidget {
   const Members({super.key});
@@ -24,11 +24,12 @@ class _MembersState extends ConsumerState<Members> {
     return Expanded(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: add,
+          onPressed: () => add(),
           child: const Icon(Icons.add),
         ),
-        body: ref.watch(membersProvider).when(data: (List<Member> members) {
-          return ListView.separated(
+        body: ref.watch(membersProvider).when(
+          data: (List<Member> members) {
+            return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 return ClipRRect(
                   clipBehavior: Clip.hardEdge,
@@ -62,6 +63,7 @@ class _MembersState extends ConsumerState<Members> {
                         case DismissDirection.none:
                           assert(false);
                       }
+
                       return false;
                     },
                     background: deleteBackground(),
@@ -85,22 +87,27 @@ class _MembersState extends ConsumerState<Members> {
               separatorBuilder: (BuildContext context, int index) {
                 return divider;
               },
-              itemCount: members.length);
-        }, error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        }, loading: () {
-          return requestPlaceholderLoading;
-        }),
+              itemCount: members.length,
+            );
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          },
+          loading: () {
+            return requestPlaceholderLoading;
+          },
+        ),
       ),
     );
   }
 
   Future<void> add() async {
-    final dynamic member = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const MemberDialog(edit: false);
-        });
+    final member = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const MemberDialog(edit: false);
+      },
+    );
     if (member is Member) {
       final Map<String, dynamic> result = await ref.read(membersProvider.notifier).add(member);
       if (context.mounted) {
@@ -108,23 +115,24 @@ class _MembersState extends ConsumerState<Members> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.member.added'.tr() : 'snack_bars.member.not_added'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }
 
   Future<void> edit(Member member) async {
-    final dynamic editedMember = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return MemberDialog(
-            edit: true,
-            id: member.id,
-            firstName: member.firstName,
-            lastName: member.lastName,
-            phone: member.phone,
-          );
-        });
+    final editedMember = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MemberDialog(
+          edit: true,
+          id: member.id,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          phone: member.phone,
+        );
+      },
+    );
     if (editedMember is Member) {
       final Map<String, dynamic> result = await ref.read(membersProvider.notifier).edit(editedMember);
       if (context.mounted) {
@@ -132,7 +140,7 @@ class _MembersState extends ConsumerState<Members> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.member.edited'.tr() : 'snack_bars.member.not_edited'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }
@@ -144,7 +152,7 @@ class _MembersState extends ConsumerState<Members> {
       final int code = result['code'] as int;
       final String message = succeeded ? 'snack_bars.member.deleted'.tr() : 'snack_bars.member.not_deleted'.tr();
       ScaffoldMessenger.of(context)
-          .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+          .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
     }
   }
 }

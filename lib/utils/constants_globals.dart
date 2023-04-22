@@ -31,6 +31,8 @@ enum HomePage { projects, episodes, sequences, shots, planning }
 
 enum ProjectType { movie, series, placeholder }
 
+enum MenuAction { edit, delete }
+
 final RequestPlaceholder requestPlaceholderError = RequestPlaceholder(placeholder: Text('error.request_failed'.tr()));
 const RequestPlaceholder requestPlaceholderLoading = RequestPlaceholder(placeholder: CircularProgressIndicator());
 

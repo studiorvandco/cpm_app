@@ -50,7 +50,7 @@ class _LocationDialogState extends State<LocationDialog> {
                 Text(
                   subtitle,
                   style: const TextStyle(fontSize: 12),
-                )
+                ),
               ],
             ),
           ],
@@ -71,10 +71,11 @@ class _LocationDialogState extends State<LocationDialog> {
                       controller: nameController,
                       maxLength: 64,
                       decoration: InputDecoration(
-                          labelText: 'attributes.name.upper'.tr(),
-                          errorText: nameController.text.trim().isEmpty ? 'error.empty'.tr() : null,
-                          border: const OutlineInputBorder(),
-                          isDense: true),
+                        labelText: 'attributes.name.upper'.tr(),
+                        errorText: nameController.text.trim().isEmpty ? 'error.empty'.tr() : null,
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
                       autofocus: true,
                       onEditingComplete: submit,
                     );
@@ -89,7 +90,10 @@ class _LocationDialogState extends State<LocationDialog> {
                 child: TextField(
                   controller: positionController,
                   decoration: InputDecoration(
-                      labelText: 'attributes.position.upper'.tr(), border: const OutlineInputBorder(), isDense: true),
+                    labelText: 'attributes.position.upper'.tr(),
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                  ),
                   onEditingComplete: submit,
                 ),
               ),
@@ -101,15 +105,16 @@ class _LocationDialogState extends State<LocationDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('cancel'.tr())),
-                TextButton(onPressed: submit, child: Text('confirm'.tr()))
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('cancel'.tr()),
+                ),
+                TextButton(onPressed: submit, child: Text('confirm'.tr())),
               ],
-            )
+            ),
           ]),
-        )
+        ),
       ],
     );
   }

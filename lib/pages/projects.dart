@@ -7,9 +7,9 @@ import '../models/project.dart';
 import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/cards/project.dart';
-import '../widgets/dialogs/new_project.dart';
-import '../widgets/snack_bars.dart';
+import '../widgets/cards/project_card.dart';
+import '../widgets/custom_snack_bars.dart';
+import '../widgets/dialogs/project_dialog.dart';
 import 'episodes.dart';
 import 'planning.dart';
 import 'sequences.dart';
@@ -30,7 +30,7 @@ class ProjectsState extends ConsumerState<Projects> {
         return Expanded(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: add,
+              onPressed: () => add(),
               child: const Icon(Icons.add),
             ),
             body: LayoutBuilder(
@@ -75,7 +75,7 @@ class ProjectsState extends ConsumerState<Projects> {
     final project = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const NewProjectDialog();
+        return const ProjectDialog();
       },
     );
     if (project is Project) {
@@ -85,7 +85,7 @@ class ProjectsState extends ConsumerState<Projects> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.project.added'.tr() : 'snack_bars.project.not_added'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }

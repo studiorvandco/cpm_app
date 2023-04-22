@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/authentication.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/snack_bars.dart';
+import '../widgets/custom_snack_bars.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -143,7 +143,7 @@ class _LoginState extends ConsumerState<Login> {
         .then((Map<String, dynamic> result) {
       if (!(result['succeeded'] as bool) && scaffoldMessengerKey.currentContext != null) {
         ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!)
-            .showSnackBar(CustomSnackBar().getLoginSnackBar(context, result['statusCode'] as int));
+            .showSnackBar(CustomSnackBars().getLoginSnackBar(context, result['statusCode'] as int));
       }
     });
   }

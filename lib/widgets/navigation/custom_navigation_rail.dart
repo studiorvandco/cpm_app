@@ -25,11 +25,9 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
         child: IntrinsicHeight(
           child: NavigationRail(
             leading: Builder(builder: (BuildContext context) {
-              if (Theme.of(context).brightness == Brightness.light) {
-                return Image.asset(Logos.cpmLight.value, width: 50, filterQuality: FilterQuality.medium);
-              } else {
-                return Image.asset(Logos.cpmDark.value, width: 50, filterQuality: FilterQuality.medium);
-              }
+              return Theme.of(context).brightness == Brightness.light
+                  ? Image.asset(Logos.cpmLight.value, width: 50, filterQuality: FilterQuality.medium)
+                  : Image.asset(Logos.cpmDark.value, width: 50, filterQuality: FilterQuality.medium);
             }),
             labelType: NavigationRailLabelType.all,
             destinations: <NavigationRailDestination>[

@@ -11,11 +11,11 @@ import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../providers/sequences.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/cards/sequence.dart';
+import '../widgets/cards/sequence_card.dart';
+import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/new_sequence.dart';
-import '../widgets/info_headers/episode.dart';
-import '../widgets/info_headers/project.dart';
-import '../widgets/snack_bars.dart';
+import '../widgets/info_headers/episode_info_header.dart';
+import '../widgets/info_headers/project_info_header.dart';
 
 class Sequences extends ConsumerStatefulWidget {
   const Sequences({super.key});
@@ -32,7 +32,7 @@ class _SequencesState extends ConsumerState<Sequences> {
       child: Expanded(
         child: Scaffold(
           floatingActionButton: FloatingActionButton(
-            onPressed: add,
+            onPressed: () => add(),
             child: const Icon(Icons.add),
           ),
           body: ref.watch(currentProjectProvider).when(
@@ -41,7 +41,7 @@ class _SequencesState extends ConsumerState<Sequences> {
                 data: (List<Sequence> sequences) {
                   return Column(
                     children: <Widget>[
-                      if (project.isMovie()) const InfoHeaderProject() else const InfoHeaderEpisode(),
+                      if (project.isMovie()) const ProjectInfoHeader() else const EpisodeInfoHeader(),
                       Expanded(
                         child: LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints constraints) {
@@ -115,7 +115,7 @@ class _SequencesState extends ConsumerState<Sequences> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.sequence.added'.tr() : 'snack_bars.sequence.not_added'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }

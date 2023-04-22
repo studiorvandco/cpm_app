@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../models/episode.dart';
 import '../../models/sequence.dart';
 
-class NewEpisodeDialog extends StatefulWidget {
-  const NewEpisodeDialog({
+class EpisodeDialog extends StatefulWidget {
+  const EpisodeDialog({
     super.key,
     required this.number,
   });
@@ -13,10 +13,10 @@ class NewEpisodeDialog extends StatefulWidget {
   final int number;
 
   @override
-  State<StatefulWidget> createState() => _NewEpisodeDialogState();
+  State<StatefulWidget> createState() => _EpisodeDialogState();
 }
 
-class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
+class _EpisodeDialogState extends State<EpisodeDialog> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   DateTimeRange dates = DateTimeRange(start: DateTime.now(), end: DateTime.now().add(const Duration(days: 2)));
@@ -35,6 +35,7 @@ class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
   @override
   Widget build(BuildContext context) {
     updateDateText();
+
     return SimpleDialog(
       title: SizedBox(
         width: 300,
@@ -50,7 +51,7 @@ class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
                   Text(
                     '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.el.lower'.tr()} ${'episodes.episode.lower'.plural(1)}.',
                     style: const TextStyle(fontSize: 12),
-                  )
+                  ),
                 ],
               ),
             ],
@@ -70,7 +71,10 @@ class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
                     maxLength: 64,
                     controller: titleController,
                     decoration: InputDecoration(
-                        labelText: 'attributes.title.upper'.tr(), border: const OutlineInputBorder(), isDense: true),
+                      labelText: 'attributes.title.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
                     autofocus: true,
                     onEditingComplete: submit,
                   ),
@@ -85,9 +89,10 @@ class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
                     maxLines: 4,
                     controller: descriptionController,
                     decoration: InputDecoration(
-                        labelText: 'attributes.description.upper'.tr(),
-                        border: const OutlineInputBorder(),
-                        isDense: true),
+                      labelText: 'attributes.description.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
                   ),
                 ),
               ),
@@ -96,17 +101,7 @@ class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
                 child: SizedBox(
                   width: 330,
                   child: OutlinedButton.icon(
-                    onPressed: () async {
-                      final DateTimeRange? picked = await showDateRangePicker(
-                          context: context,
-                          firstDate: DateTime(1970),
-                          lastDate: DateTime(3000),
-                          initialDateRange: dates);
-                      if (picked != null) {
-                        dates = DateTimeRange(start: picked.start, end: picked.end);
-                        updateDateText();
-                      }
-                    },
+                    onPressed: () => changeDate(),
                     icon: const Icon(Icons.calendar_month),
                     label: Text(dateText),
                   ),
@@ -119,27 +114,42 @@ class _NewEpisodeDialogState extends State<NewEpisodeDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('cancel.upper'.tr())),
-                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr()))
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('cancel.upper'.tr()),
+                  ),
+                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
                 ],
-              )
+              ),
             ]),
           ),
-        )
+        ),
       ],
     );
   }
 
+  Future<void> changeDate() async {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(1970),
+      lastDate: DateTime(3000),
+      initialDateRange: dates,
+    );
+    if (picked != null) {
+      dates = DateTimeRange(start: picked.start, end: picked.end);
+      updateDateText();
+    }
+  }
+
   void submit() {
     final Episode newEpisode = Episode(
-        id: '',
-        number: widget.number,
-        title: titleController.text,
-        description: descriptionController.text,
-        sequences: <Sequence>[]);
+      id: '',
+      number: widget.number,
+      title: titleController.text,
+      description: descriptionController.text,
+      sequences: <Sequence>[],
+    );
     Navigator.pop(context, newEpisode);
   }
 }

@@ -21,5 +21,4 @@ dart_code_metrics:
     - prefer-trailing-comma
     - prefer-conditional-expressions
     - no-equal-then-else
-    - prefer-moving-to-variable
     - prefer-match-file-name

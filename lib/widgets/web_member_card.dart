@@ -10,24 +10,27 @@ class WebMemberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        clipBehavior: Clip.antiAlias,
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-                width: 120,
-                height: 120,
-                child: FittedBox(fit: BoxFit.cover, clipBehavior: Clip.hardEdge, child: picture)),
-            const SizedBox(width: 16),
-            Flexible(
-                fit: FlexFit.tight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(name, style: Theme.of(context).textTheme.titleLarge),
-                    Text(phone, style: Theme.of(context).textTheme.labelLarge)
-                  ],
-                ))
-          ],
-        ));
+      clipBehavior: Clip.antiAlias,
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 120,
+            height: 120,
+            child: FittedBox(fit: BoxFit.cover, clipBehavior: Clip.hardEdge, child: picture),
+          ),
+          const SizedBox(width: 16),
+          Flexible(
+            fit: FlexFit.tight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(name, style: Theme.of(context).textTheme.titleLarge),
+                Text(phone, style: Theme.of(context).textTheme.labelLarge),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

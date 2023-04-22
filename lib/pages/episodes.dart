@@ -9,10 +9,10 @@ import '../providers/episodes.dart';
 import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/cards/episode.dart';
-import '../widgets/dialogs/new_episode.dart';
-import '../widgets/info_headers/project.dart';
-import '../widgets/snack_bars.dart';
+import '../widgets/cards/episode_card.dart';
+import '../widgets/custom_snack_bars.dart';
+import '../widgets/dialogs/episode_dialog.dart';
+import '../widgets/info_headers/project_info_header.dart';
 
 class Episodes extends ConsumerStatefulWidget {
   const Episodes({required Key key}) : super(key: key);
@@ -32,7 +32,7 @@ class EpisodesState extends ConsumerState<Episodes> {
           body: ref.watch(episodesProvider).when(
             data: (List<Episode> episodes) {
               return Column(children: <Widget>[
-                const InfoHeaderProject(),
+                const ProjectInfoHeader(),
                 Expanded(child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
                   return MasonryGridView.count(
                       itemCount: episodes.length,
@@ -74,7 +74,7 @@ class EpisodesState extends ConsumerState<Episodes> {
     final episode = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewEpisodeDialog(number: number);
+        return EpisodeDialog(number: number);
       },
     );
     if (episode is Episode) {
@@ -85,7 +85,7 @@ class EpisodesState extends ConsumerState<Episodes> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.episode.added'.tr() : 'snack_bars.episode.not_added'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }

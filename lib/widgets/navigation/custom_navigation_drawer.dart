@@ -30,11 +30,9 @@ class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
         children: <Widget>[
           DrawerHeader(
             child: Builder(builder: (BuildContext context) {
-              if (Theme.of(context).brightness == Brightness.light) {
-                return Image.asset(Logos.cpmLight.value, width: 50, filterQuality: FilterQuality.medium);
-              } else {
-                return Image.asset(Logos.cpmDark.value, width: 50, filterQuality: FilterQuality.medium);
-              }
+              return Theme.of(context).brightness == Brightness.light
+                  ? Image.asset(Logos.cpmLight.value, width: 50, filterQuality: FilterQuality.medium)
+                  : Image.asset(Logos.cpmDark.value, width: 50, filterQuality: FilterQuality.medium);
             }),
           ),
           NavigationDrawerDestination(icon: const Icon(Icons.movie), label: Text('projects.project.upper'.plural(2))),
@@ -42,7 +40,6 @@ class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
           NavigationDrawerDestination(icon: const Icon(Icons.map), label: Text('locations.location.upper'.plural(2))),
           NavigationDrawerDestination(icon: const Icon(Icons.settings), label: Text('settings.settings'.tr())),
           NavigationDrawerDestination(icon: const Icon(Icons.info), label: Text('about.about'.tr())),
-          // const NavigationDrawerDestination(icon: Icon(Icons.quiz), label: Text('Test')),
         ],
       ),
     );

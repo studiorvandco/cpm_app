@@ -24,40 +24,43 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-          onPressed: () => openProject(widget.project),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-              Row(children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        widget.project.title,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const Padding(padding: EdgeInsets.only(bottom: 4)),
-                      Text(
-                        widget.project.description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        ),
+        onPressed: () => openProject(widget.project),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+            Row(children: <Widget>[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      widget.project.title,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 4)),
+                    Text(
+                      widget.project.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                const Padding(padding: EdgeInsets.only(right: 16)),
-                IconButton(onPressed: () => toggleFavorite(widget.project), icon: favoriteIcon),
-                IconButton(onPressed: () => openPlanning(widget.project), icon: const Icon(Icons.event))
-              ]),
-              const SizedBox(height: 8),
-              LinearProgressIndicator(value: widget.project.getProgress()),
+              ),
+              const Padding(padding: EdgeInsets.only(right: 16)),
+              IconButton(onPressed: () => toggleFavorite(widget.project), icon: favoriteIcon),
+              IconButton(onPressed: () => openPlanning(widget.project), icon: const Icon(Icons.event)),
             ]),
-          )),
+            const SizedBox(height: 8),
+            LinearProgressIndicator(value: widget.project.getProgress()),
+          ]),
+        ),
+      ),
     );
   }
 

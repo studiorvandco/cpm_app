@@ -13,10 +13,10 @@ import '../providers/projects.dart';
 import '../providers/sequences.dart';
 import '../providers/shots.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/cards/shot.dart';
+import '../widgets/cards/shot_card.dart';
+import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/new_shot.dart';
-import '../widgets/info_headers/sequence.dart';
-import '../widgets/snack_bars.dart';
+import '../widgets/info_headers/sequence_info_header.dart';
 
 class Shots extends ConsumerStatefulWidget {
   const Shots({super.key});
@@ -37,7 +37,7 @@ class _ShotsState extends ConsumerState<Shots> {
             data: (List<Shot> shots) {
               return Column(
                 children: <Widget>[
-                  const InfoHeaderSequence(),
+                  const SequenceInfoHeader(),
                   LayoutBuilder(
                     builder: (BuildContext context, BoxConstraints constraints) {
                       return MasonryGridView.count(
@@ -105,7 +105,7 @@ class _ShotsState extends ConsumerState<Shots> {
         final int code = result['code'] as int;
         final String message = succeeded ? 'snack_bars.shot.added'.tr() : 'snack_bars.shot.not_added'.tr();
         ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBar().getModelSnackBar(context, succeeded, code, message: message));
+            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
       }
     }
   }
