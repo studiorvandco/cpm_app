@@ -30,31 +30,30 @@ class Project implements Comparable<Project> {
   });
 
   factory Project.fromJson(json) {
-    final ProjectType projectType = (json['isFilm'] as bool) ? ProjectType.movie : ProjectType.series;
+    final ProjectType projectType = (json['is_movie'] as bool) ? ProjectType.movie : ProjectType.series;
 
     return Project(
       id: json['Id'].toString(),
       projectType: projectType,
-      title: json['Title'].toString(),
-      description: json['Description'].toString(),
-      startDate: DateTime.parse(json['BeginDate'].toString()),
-      endDate: DateTime.parse(json['EndDate'].toString()),
-      shotsTotal: json['ShotsTotal'] as int,
-      shotsCompleted: json['ShotsCompleted'] as int,
+      title: json['title'].toString(),
+      description: json['description'].toString(),
+      startDate: DateTime.parse(json['begin_date'].toString()),
+      endDate: DateTime.parse(json['end_date'].toString()),
+      shotsTotal: json['shots_total'] as int,
+      shotsCompleted: json['shots_completed'] as int,
       episodes: <Episode>[],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'isFilm': projectType == ProjectType.movie,
-      'isSeries': projectType == ProjectType.series,
+      'is_movie': projectType == ProjectType.movie,
       'title': title,
       'description': description,
-      'beginDate': startDate.toIso8601String(),
-      'endDate': endDate.toIso8601String(),
-      'shotsTotal': shotsTotal ?? 0,
-      'shotsCompleted': shotsCompleted ?? 0,
+      'begin_date': startDate.toIso8601String(),
+      'end_date': endDate.toIso8601String(),
+      'shots_total': shotsTotal ?? 0,
+      'shots_completed': shotsCompleted ?? 0,
       'episodes': episodes,
     };
   }

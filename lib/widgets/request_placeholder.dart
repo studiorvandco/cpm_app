@@ -7,8 +7,6 @@ class RequestPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(child: placeholder),
-    );
+    return Center(child: placeholder);
   }
 }
