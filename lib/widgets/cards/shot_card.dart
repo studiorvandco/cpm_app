@@ -115,7 +115,7 @@ class CollapsedShotCard extends StatelessWidget {
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
-      onPressed: () => print('click shot'),
+      onPressed: () => debugPrint('click shot'),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
