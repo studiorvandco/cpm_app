@@ -1,4 +1,4 @@
-name: Lint
+name: Lint | Test
 
 on: [ push, pull_request ]
 
@@ -13,7 +13,16 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          cache: true
       - run: flutter pub get
       - run: dart format -l 120 --set-exit-if-changed ./lib ./test
       - run: dart analyze --fatal-infos
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter test
