@@ -1,3 +1,5 @@
+<center>
+
 ![Supported platforms](https://img.shields.io/badge/Supported%20platforms-Android%20%7C%20iOS%20%7C%20Windows%20%7C%20macOS%20%7C%20Web-blue)
 ![Flutter](https://img.shields.io/badge/Flutter-3.10.0-blue)
 ![Dart](https://img.shields.io/badge/Dart-%3E%3D3.0.0%20%3C4.0.0-blue)
@@ -9,6 +11,7 @@
 ![GitHub downloads (all releases)](https://img.shields.io/github/downloads/StudioRvAndCo/CPM-frontend/total?style=social)
 ![GitHub stars](https://img.shields.io/github/stars/StudioRvAndCo/CPM-frontend?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/StudioRvAndCo/CPM-frontend?style=social)
+</center>
 
 # CPM-frontend
 
