@@ -1,6 +1,7 @@
 ![Supported platforms](https://img.shields.io/badge/Supported%20platforms-Android%20%7C%20iOS%20%7C%20Windows%20%7C%20macOS%20%7C%20Web-blue)
 ![Flutter](https://img.shields.io/badge/Flutter-3.10.0-blue)
 ![Dart](https://img.shields.io/badge/Dart-%3E%3D3.0.0%20%3C4.0.0-blue)
+![Style](https://img.shields.io/badge/Style-Dart%20Code%20Metrics-blue)
 
 ![GitHub license](https://img.shields.io/github/license/StudioRvAndCo/CPM-frontend)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/StudioRvAndCo/CPM-frontend)
