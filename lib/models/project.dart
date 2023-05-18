@@ -32,7 +32,7 @@ class Project implements Comparable<Project> {
   factory Project.fromJson(json) {
     return Project(
       id: json['id'].toString(),
-      projectType: ProjectType.fromIndex(json['project_type']),
+      projectType: ProjectType.values[(json['project_type'])],
       title: json['title'].toString(),
       description: json['description'].toString(),
       startDate: DateTime.parse(json['begin_date'].toString()),
@@ -45,7 +45,7 @@ class Project implements Comparable<Project> {
 
   Map<String, dynamic> toJson() {
     return {
-      'is_movie': projectType == ProjectType.movie,
+      'project_type': projectType.index,
       'title': title,
       'description': description,
       'begin_date': startDate.toIso8601String(),

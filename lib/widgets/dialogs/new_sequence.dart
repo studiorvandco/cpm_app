@@ -108,18 +108,7 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                 child: SizedBox(
                   width: 330,
                   child: OutlinedButton.icon(
-                    onPressed: () async {
-                      final DateTimeRange? picked = await showDateRangePicker(
-                        context: context,
-                        firstDate: DateTime(1970),
-                        lastDate: DateTime(3000),
-                        initialDateRange: dates,
-                      );
-                      if (picked != null) {
-                        dates = DateTimeRange(start: picked.start, end: picked.end);
-                        updateDateText();
-                      }
-                    },
+                    onPressed: pickDate,
                     icon: const Icon(Icons.calendar_month),
                     label: Text(dateText),
                   ),
@@ -169,6 +158,19 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
         ),
       ],
     );
+  }
+
+  void pickDate() async {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(1970),
+      lastDate: DateTime(3000),
+      initialDateRange: dates,
+    );
+    if (picked != null) {
+      dates = DateTimeRange(start: picked.start, end: picked.end);
+      updateDateText();
+    }
   }
 
   void submit() {

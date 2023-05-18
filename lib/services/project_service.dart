@@ -27,6 +27,7 @@ class ProjectService {
         return [false, <Project>[], response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
+      debugPrint(exception.toString());
       debugPrint(stackTrace.toString());
 
       return [false, <Project>[], 408, 'error.timeout'.tr()];
