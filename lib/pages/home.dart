@@ -53,7 +53,7 @@ class HomeState extends ConsumerState<Home> {
   Widget getPage() {
     switch (_selectedIndex) {
       case 0:
-        Future<void>(() => ref.read(homePageNavigationProvider.notifier).set(HomePage.projects));
+        Future<void>(() => ref.read(navigationProvider.notifier).set(HomePage.projects));
         return Projects(key: projectsStateKey);
       case 1:
         return const Members();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../providers/navigation.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
@@ -25,7 +25,7 @@ class Projects extends ConsumerStatefulWidget {
 class ProjectsState extends ConsumerState<Projects> {
   @override
   Widget build(BuildContext context) {
-    switch (ref.watch(homePageNavigationProvider)) {
+    switch (ref.watch(navigationProvider)) {
       case HomePage.projects:
         return Expanded(
           child: Scaffold(

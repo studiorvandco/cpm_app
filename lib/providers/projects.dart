@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/project.dart';
-import '../models/project_type.dart';
+import '../models/project/project.dart';
+import '../models/project/project_type.dart';
 import '../services/project_service.dart';
 
 part 'projects.g.dart';

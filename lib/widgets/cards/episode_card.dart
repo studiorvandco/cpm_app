@@ -79,6 +79,6 @@ class _EpisodeCardState extends ConsumerState<EpisodeCard> {
 
   void openEpisode(Episode episode) {
     ref.read(currentEpisodeProvider.notifier).set(episode);
-    ref.read(homePageNavigationProvider.notifier).set(HomePage.sequences);
+    ref.read(navigationProvider.notifier).set(HomePage.sequences);
   }
 }

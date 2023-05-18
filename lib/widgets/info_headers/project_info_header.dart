@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/project.dart';
+import '../../models/project/project.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
 import '../../utils/constants_globals.dart';
@@ -111,7 +111,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     ]),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
                     LinearProgressIndicator(
-                      value: project.getProgress(),
+                      value: project.progress,
                       backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
                   ],
@@ -152,7 +152,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
           ScaffoldMessenger.of(context)
               .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
         }
-        ref.read(homePageNavigationProvider.notifier).set(HomePage.projects);
+        ref.read(navigationProvider.notifier).set(HomePage.projects);
       }
     });
   }

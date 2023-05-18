@@ -77,6 +77,6 @@ class _SequenceCardState extends ConsumerState<SequenceCard> {
   }
 
   void openShots() {
-    ref.read(homePageNavigationProvider.notifier).set(HomePage.shots);
+    ref.read(navigationProvider.notifier).set(HomePage.shots);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/episode.dart';
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../models/sequence.dart';
 import '../models/shot.dart';
 import '../services/sequence_service.dart';

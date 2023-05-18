@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../models/event.dart';
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../models/sequence.dart';
 import '../providers/projects.dart';
 import '../providers/sequences.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/episode.dart';
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../models/sequence.dart';
 import '../providers/episodes.dart';
 import '../providers/navigation.dart';
@@ -41,7 +41,7 @@ class _SequencesState extends ConsumerState<Sequences> {
                 data: (List<Sequence> sequences) {
                   return Column(
                     children: <Widget>[
-                      if (project.isMovie()) const ProjectInfoHeader() else const EpisodeInfoHeader(),
+                      if (project.isMovie) const ProjectInfoHeader() else const EpisodeInfoHeader(),
                       Expanded(
                         child: LayoutBuilder(
                           builder: (BuildContext context, BoxConstraints constraints) {
@@ -88,7 +88,7 @@ class _SequencesState extends ConsumerState<Sequences> {
 
   Future<bool> handleBackButton() {
     ref.watch(currentProjectProvider).whenData((Project project) {
-      ref.read(homePageNavigationProvider.notifier).set(project.isMovie() ? HomePage.projects : HomePage.episodes);
+      ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.projects : HomePage.episodes);
     });
 
     return Future<bool>(() => false);

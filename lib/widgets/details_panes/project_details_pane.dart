@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/project.dart';
+import '../../models/project/project.dart';
 import '../../providers/projects.dart';
 import '../../utils/constants_globals.dart';
 import '../icon_label.dart';

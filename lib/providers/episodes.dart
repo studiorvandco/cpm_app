@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/episode.dart';
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../models/sequence.dart';
 import '../services/episode_service.dart';
 import 'projects.dart';

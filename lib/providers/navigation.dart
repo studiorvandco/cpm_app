@@ -5,7 +5,7 @@ import '../utils/constants_globals.dart';
 part 'navigation.g.dart';
 
 @riverpod
-class Navigation extends _$HomePageNavigation {
+class Navigation extends _$Navigation {
   @override
   HomePage build() {
     return HomePage.projects;

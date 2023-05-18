@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../utils/constants_globals.dart';
 
 class ProjectService {

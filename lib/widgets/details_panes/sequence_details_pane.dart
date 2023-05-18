@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/episode.dart';
-import '../../models/project.dart';
+import '../../models/project/project.dart';
 import '../../models/sequence.dart';
 import '../../providers/episodes.dart';
 import '../../providers/projects.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/project.dart';
+import '../../models/project/project.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
@@ -57,7 +57,7 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
               IconButton(onPressed: () => openPlanning(widget.project), icon: const Icon(Icons.event)),
             ]),
             const SizedBox(height: 8),
-            LinearProgressIndicator(value: widget.project.getProgress()),
+            LinearProgressIndicator(value: widget.project.progress),
           ]),
         ),
       ),
@@ -66,15 +66,15 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
 
   void openProject(Project project) {
     ref.read(currentProjectProvider.notifier).set(project);
-    if (project.isMovie() && project.episodes != null && project.episodes!.length > 1) {
+    if (project.isMovie && project.episodes != null && project.episodes!.length > 1) {
       ref.read(currentEpisodeProvider.notifier).set(project.episodes![0]);
     }
-    ref.read(homePageNavigationProvider.notifier).set(project.isMovie() ? HomePage.sequences : HomePage.episodes);
+    ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.sequences : HomePage.episodes);
   }
 
   void openPlanning(Project project) {
     ref.read(currentProjectProvider.notifier).set(project);
-    ref.read(homePageNavigationProvider.notifier).set(HomePage.planning);
+    ref.read(navigationProvider.notifier).set(HomePage.planning);
   }
 
   void toggleFavorite(Project project) {

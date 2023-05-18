@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/episode.dart';
-import '../../models/project.dart';
+import '../../models/project/project.dart';
 import '../../models/sequence.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
@@ -123,7 +123,7 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
           ScaffoldMessenger.of(context)
               .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
         }
-        ref.read(homePageNavigationProvider.notifier).set(HomePage.episodes);
+        ref.read(navigationProvider.notifier).set(HomePage.episodes);
       }
     });
   }

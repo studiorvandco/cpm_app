@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/episode.dart';
-import '../models/project.dart';
+import '../models/project/project.dart';
 import '../models/sequence.dart';
 import '../models/shot.dart';
 import '../providers/episodes.dart';
@@ -74,7 +74,7 @@ class _ShotsState extends ConsumerState<Shots> {
   }
 
   Future<bool> handleBackButton() {
-    ref.read(homePageNavigationProvider.notifier).set(HomePage.sequences);
+    ref.read(navigationProvider.notifier).set(HomePage.sequences);
 
     return Future<bool>(() => false);
   }
