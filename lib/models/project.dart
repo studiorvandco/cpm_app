@@ -33,7 +33,7 @@ class Project implements Comparable<Project> {
     final ProjectType projectType = (json['is_movie'] as bool) ? ProjectType.movie : ProjectType.series;
 
     return Project(
-      id: json['Id'].toString(),
+      id: json['id'].toString(),
       projectType: projectType,
       title: json['title'].toString(),
       description: json['description'].toString(),

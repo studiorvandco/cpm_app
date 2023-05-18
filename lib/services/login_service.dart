@@ -11,18 +11,23 @@ class LoginService {
 
   Future<List> login(String username, String password) async {
     try {
-      final Response response = await post(Uri.parse(api.login),
-          headers: <String, String>{'accept': '*/*', 'content-type': 'application/json'},
-          body: jsonEncode(<String, String>{'Username': username, 'Password': password}));
+      final Response response = await post(
+        Uri.parse(api.login),
+        headers: <String, String>{'accept': '*/*', 'content-type': 'application/json'},
+        body: jsonEncode(<String, String>{'Username': username, 'Password': password}),
+      );
 
       if (response.statusCode == 200) {
         return [true, response.body, response.statusCode, response.reasonPhrase];
       } else {
-        debugPrint(response.toString());
+        debugPrint('${response.statusCode}: ${response.reasonPhrase}');
+
         return [false, response.body, response.statusCode, response.reasonPhrase];
       }
     } catch (exception, stackTrace) {
+      debugPrint(exception.toString());
       debugPrint(stackTrace.toString());
+
       return [false, '', 408, 'error.timeout'.tr()];
     }
   }
