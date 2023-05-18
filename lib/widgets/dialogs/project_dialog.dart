@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../../models/project.dart';
-import '../../utils/constants_globals.dart';
+import '../../models/project_type.dart';
 
 class ProjectDialog extends StatefulWidget {
   const ProjectDialog({super.key});

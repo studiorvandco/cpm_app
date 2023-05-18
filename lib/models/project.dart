@@ -1,5 +1,5 @@
-import '../utils/constants_globals.dart';
 import 'episode.dart';
+import 'project_type.dart';
 
 class Project implements Comparable<Project> {
   final String id;
@@ -30,11 +30,9 @@ class Project implements Comparable<Project> {
   });
 
   factory Project.fromJson(json) {
-    final ProjectType projectType = (json['is_movie'] as bool) ? ProjectType.movie : ProjectType.series;
-
     return Project(
       id: json['id'].toString(),
-      projectType: projectType,
+      projectType: ProjectType.fromIndex(json['project_type']),
       title: json['title'].toString(),
       description: json['description'].toString(),
       startDate: DateTime.parse(json['begin_date'].toString()),

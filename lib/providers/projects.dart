@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/project.dart';
+import '../models/project_type.dart';
 import '../services/project_service.dart';
-import '../utils/constants_globals.dart';
 
 part 'projects.g.dart';
 

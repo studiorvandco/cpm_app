@@ -21,6 +21,7 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
   @override
   void initState() {
     locations = widget.locations;
+
     return super.initState();
   }
 
@@ -41,6 +42,7 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
   @override
   Widget build(BuildContext context) {
     updateDateText();
+
     return SimpleDialog(
       title: SizedBox(
         width: 300,
@@ -56,7 +58,7 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                   Text(
                     '${'add.upper'.tr()} ${'articles.a.fem.lower'.tr()} ${'new.fem.lower'.tr()} ${'sequences.sequence.lower'.plural(1)}.',
                     style: const TextStyle(fontSize: 12),
-                  )
+                  ),
                 ],
               ),
             ],
@@ -76,7 +78,10 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                     maxLength: 64,
                     controller: titleController,
                     decoration: InputDecoration(
-                        labelText: 'attributes.title.upper'.tr(), border: const OutlineInputBorder(), isDense: true),
+                      labelText: 'attributes.title.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
                     autofocus: true,
                     onEditingComplete: submit,
                   ),
@@ -91,9 +96,10 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                     maxLines: 4,
                     controller: descriptionController,
                     decoration: InputDecoration(
-                        labelText: 'attributes.description.upper'.tr(),
-                        border: const OutlineInputBorder(),
-                        isDense: true),
+                      labelText: 'attributes.description.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
                   ),
                 ),
               ),
@@ -104,10 +110,11 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                   child: OutlinedButton.icon(
                     onPressed: () async {
                       final DateTimeRange? picked = await showDateRangePicker(
-                          context: context,
-                          firstDate: DateTime(1970),
-                          lastDate: DateTime(3000),
-                          initialDateRange: dates);
+                        context: context,
+                        firstDate: DateTime(1970),
+                        lastDate: DateTime(3000),
+                        initialDateRange: dates,
+                      );
                       if (picked != null) {
                         dates = DateTimeRange(start: picked.start, end: picked.end);
                         updateDateText();
@@ -136,9 +143,10 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                     });
                   },
                   decoration: InputDecoration(
-                      labelText: 'locations.location.upper'.plural(1),
-                      border: const OutlineInputBorder(),
-                      isDense: true),
+                    labelText: 'locations.location.upper'.plural(1),
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -148,16 +156,17 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('cancel.upper'.tr())),
-                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr()))
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('cancel.upper'.tr()),
+                  ),
+                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
                 ],
-              )
+              ),
             ]),
           ),
-        )
+        ),
       ],
     );
   }

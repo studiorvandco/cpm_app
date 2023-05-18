@@ -24,7 +24,7 @@ class _NewShotDialogState extends State<NewShotDialog> {
     'attributes.values.sequence'.tr(),
     'attributes.values.landscape'.tr(),
     'attributes.values.drone'.tr(),
-    'attributes.values.other'.tr()
+    'attributes.values.other'.tr(),
   ];
   String? selectedValue;
 
@@ -43,7 +43,7 @@ class _NewShotDialogState extends State<NewShotDialog> {
                 Text(
                   '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'shots.shot.lower'.plural(1)}.',
                   style: const TextStyle(fontSize: 12),
-                )
+                ),
               ],
             ),
           ],
@@ -61,7 +61,10 @@ class _NewShotDialogState extends State<NewShotDialog> {
                   maxLength: 64,
                   controller: titleController,
                   decoration: InputDecoration(
-                      labelText: 'attributes.title.upper'.tr(), border: const OutlineInputBorder(), isDense: true),
+                    labelText: 'attributes.title.upper'.tr(),
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                  ),
                   autofocus: true,
                   onEditingComplete: submit,
                 ),
@@ -76,9 +79,10 @@ class _NewShotDialogState extends State<NewShotDialog> {
                   maxLines: 4,
                   controller: descriptionController,
                   decoration: InputDecoration(
-                      labelText: 'attributes.description.upper'.tr(),
-                      border: const OutlineInputBorder(),
-                      isDense: true),
+                    labelText: 'attributes.description.upper'.tr(),
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                  ),
                 ),
               ),
             ),
@@ -90,7 +94,10 @@ class _NewShotDialogState extends State<NewShotDialog> {
                   maxLength: 64,
                   controller: lineController,
                   decoration: InputDecoration(
-                      labelText: 'attributes.line.upper'.tr(), border: const OutlineInputBorder(), isDense: true),
+                    labelText: 'attributes.line.upper'.tr(),
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                  ),
                   onEditingComplete: submit,
                 ),
               ),
@@ -115,7 +122,10 @@ class _NewShotDialogState extends State<NewShotDialog> {
                     });
                   },
                   decoration: InputDecoration(
-                      labelText: 'shots.value.upper'.plural(1), border: const OutlineInputBorder(), isDense: true),
+                    labelText: 'shots.value.upper'.plural(1),
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                  ),
                 ),
               ),
             ),
@@ -126,15 +136,16 @@ class _NewShotDialogState extends State<NewShotDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('cancel.upper'.tr())),
-                TextButton(onPressed: submit, child: Text('confirm.upper'.tr()))
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('cancel.upper'.tr()),
+                ),
+                TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
               ],
-            )
+            ),
           ]),
-        )
+        ),
       ],
     );
   }

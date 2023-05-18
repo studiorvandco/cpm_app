@@ -35,15 +35,15 @@ class EpisodesState extends ConsumerState<Episodes> {
                 const ProjectInfoHeader(),
                 Expanded(child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
                   return MasonryGridView.count(
-                      itemCount: episodes.length,
-                      padding:
-                          const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
-                      itemBuilder: (BuildContext context, int index) {
-                        return EpisodeCard(episode: episodes[index]);
-                      },
-                      crossAxisCount: getColumnsCount(constraints),
-                      mainAxisSpacing: 2,
-                      crossAxisSpacing: 2);
+                    itemCount: episodes.length,
+                    padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                    itemBuilder: (BuildContext context, int index) {
+                      return EpisodeCard(episode: episodes[index]);
+                    },
+                    crossAxisCount: getColumnsCount(constraints),
+                    mainAxisSpacing: 2,
+                    crossAxisSpacing: 2,
+                  );
                 })),
               ]);
             },

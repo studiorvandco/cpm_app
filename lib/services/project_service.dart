@@ -10,7 +10,6 @@ import '../utils/constants_globals.dart';
 
 class ProjectService {
   Future<List> getAll() async {
-    print(Uri.parse(api.projects));
     try {
       final Response response = await get(
         Uri.parse(api.projects),
