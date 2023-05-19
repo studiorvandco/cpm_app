@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:cpm/utils/secure_storage/secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/login_service.dart';
 import '../utils/constants_globals.dart';
+import '../utils/secure_storage/secure_storage_key.dart';
 
 part 'authentication.g.dart';
 
@@ -25,21 +27,21 @@ class Authentication extends _$Authentication {
     state = const AsyncLoading<bool>();
     final List result = await LoginService().login(username, password);
     final bool authenticated = result[0] as bool;
-    save(authenticated, result[1] as String);
+    saveToken(authenticated, result[1] as String);
     state = AsyncValue<bool>.data(authenticated);
 
     return <String, dynamic>{'succeeded': authenticated, 'statusCode': result[2] as int};
   }
 
   void logout() {
-    save(false, '');
+    saveToken(false, '');
     state = const AsyncValue<bool>.data(false);
   }
 
-  Future<void> save(bool authenticated, String newToken) async {
+  Future<void> saveToken(bool authenticated, String newToken) async {
     token = newToken;
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setBool(Preferences.authenticated.name, authenticated);
-    preferences.setString(Preferences.token.name, token);
+    SecureStorage().write(SecureStorageKey.apiToken, newToken);
   }
 }
