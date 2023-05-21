@@ -65,7 +65,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: cpm_linux.zip
-          path: build/linux/x64/bundle
+          path: build/linux/Release/bundle
   
   build_web:
     name: Build (web)
