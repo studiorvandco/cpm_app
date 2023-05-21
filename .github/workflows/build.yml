@@ -20,8 +20,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: ls -la
-      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - run: |
+          mkdir assets/config
+          touch assets/config/config.yaml
+          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: cat assets/config/config.yaml
       - run: |
           flutter pub get
