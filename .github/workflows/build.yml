@@ -21,12 +21,10 @@ jobs:
         with:
           channel: 'stable'
       - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
-      - run: |
-          flutter pub get
-          flutter build apk --release
+      - run: flutter build apk --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_android.apk
+          name: cpm.apk
           path: build/app/outputs/flutter-apk/app-release.apk
   
   build_windows:
@@ -38,9 +36,7 @@ jobs:
         with:
           channel: 'stable'
       - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
-      - run: |
-          flutter pub get
-          flutter build windows --release
+      - run: flutter build windows --release
       - uses: actions/upload-artifact@v3
         with:
           name: cpm_windows.zip
@@ -54,18 +50,16 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
           sudo apt-get install -y libsecret-1-dev libjsoncpp-dev
-      - run: |
-          flutter pub get
-          flutter build linux --release
+      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - run: flutter build linux --release
       - uses: actions/upload-artifact@v3
         with:
           name: cpm_linux.zip
-          path: build/linux/Release/bundle
+          path: build/linux/x64/bundle
   
   build_web:
     name: Build (web)
@@ -76,9 +70,7 @@ jobs:
         with:
           channel: 'stable'
       - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
-      - run: |
-          flutter pub get
-          flutter build web
+      - run: flutter build web
       - uses: actions/upload-artifact@v3
         with:
           name: cpm_web.zip
