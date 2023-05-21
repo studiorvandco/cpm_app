@@ -9,7 +9,7 @@ on:
 
 jobs:
   build_android:
-    name: Build (Android)
+    name: Android
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
   
   build_windows:
-    name: Build (Windows)
+    name: Windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,6 +41,7 @@ jobs:
         with:
           name: cpm_windows.zip
           path: build/windows/runner/Release
+      - run: mkdir setup
       - uses: caphyon/advinst-github-action@v1.0
         with:
           aip-path: 'Cinema Project Manager.aip'
@@ -53,7 +54,7 @@ jobs:
           path: setup/cpm.msi
   
   build_linux:
-    name: Build (Linux)
+    name: Linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -72,7 +73,7 @@ jobs:
           path: build/linux/release/bundle
   
   build_web:
-    name: Build (web)
+    name: Web
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
