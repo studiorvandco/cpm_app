@@ -24,7 +24,7 @@ jobs:
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm.apk
+          name: Android
           path: build/app/outputs/flutter-apk/app-release.apk
   
   build_windows:
@@ -39,7 +39,7 @@ jobs:
       - run: flutter build windows --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_windows.zip
+          name: Windows
           path: build/windows/runner/Release
       - run: mkdir setup
       - uses: caphyon/advinst-github-action@v1.0
@@ -50,8 +50,8 @@ jobs:
           aip-output-dir: 'setup'
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm.msi
-          path: setup/cpm.msi
+          name: Windows (MSI)
+          path: ${{ github.workspace }}/setup/cpm.msi
   
   build_linux:
     name: Linux
@@ -69,7 +69,7 @@ jobs:
       - run: flutter build linux --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_linux.zip
+          name: Linux
           path: build/linux/release/bundle
   
   build_web:
@@ -84,5 +84,5 @@ jobs:
       - run: flutter build web --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_web.zip
+          name: Web
           path: web
