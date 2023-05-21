@@ -66,10 +66,11 @@ jobs:
           sudo apt-get install -y libsecret-1-dev libjsoncpp-dev
       - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: flutter build linux --release
+      - run: tree build/linux
       - uses: actions/upload-artifact@v3
         with:
           name: Linux
-          path: build/linux/release/bundle
+          path: build/linux/Release/bundle
   
   build_web:
     name: Web
