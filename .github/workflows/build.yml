@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - develop
-      - test_build
+      - build
 
 permissions: read-all
 
@@ -25,3 +25,7 @@ jobs:
       - run: |
           flutter pub get
           flutter build apk --release
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cpm_android.apk
+          path: build\app\outputs\flutter-apk\app-release.apk
