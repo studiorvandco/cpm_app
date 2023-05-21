@@ -20,33 +20,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: |
-          mkdir assets/config
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: |
           flutter pub get
           flutter build apk --release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cpm_android.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-  
-  build_ios:
-    name: Build (iOS)
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: |
-          mkdir assets/config
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
-      - run: |
-          flutter pub get
-          flutter build ios --release
       - uses: actions/upload-artifact@v3
         with:
           name: cpm_android.apk
@@ -60,17 +37,14 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: |
-          mkdir assets/config
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: |
           flutter pub get
           flutter build windows --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_android.apk
-          path: build\windows\runner\Release\sandbox.exe
+          name: cpm_windows.exe
+          path: build/windows/runner/Release/sandbox.exe
   
   build_linux:
     name: Build (Linux)
@@ -80,10 +54,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: |
-          mkdir assets/config
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
@@ -94,27 +65,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: cpm_android.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-  
-  build_macos:
-    name: Build (macOS)
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: |
-          mkdir assets/config
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
-      - run: |
-          flutter pub get
-          flutter build macos --release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: cpm_android.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/linux/x64/bundle
   
   build_web:
     name: Build (web)
@@ -124,10 +75,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: |
-          mkdir assets/config
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: |
           flutter pub get
           flutter build web
