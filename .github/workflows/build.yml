@@ -41,6 +41,16 @@ jobs:
         with:
           name: cpm_windows.zip
           path: build/windows/runner/Release
+      - uses: caphyon/advinst-github-action@v1.0
+        with:
+          aip-path: 'Cinema Project Manager.aip'
+          aip-build-name: 'DefaultBuild'
+          aip-package-name: 'cpm.msi'
+          aip-output-dir: 'setup'
+      - uses: actions/upload-artifact@v3
+        with:
+          name: cpm.msi
+          path: setup/cpm.msi
   
   build_linux:
     name: Build (Linux)
