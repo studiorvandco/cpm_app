@@ -70,7 +70,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Linux
-          path: build/linux/Release/bundle
+          path: build/linux/x64/release/bundle
   
   build_web:
     name: Web
