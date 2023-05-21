@@ -47,7 +47,6 @@ jobs:
           aip-path: 'Cinema Project Manager.aip'
           aip-build-name: 'DefaultBuild'
           aip-package-name: 'cpm.msi'
-          # aip-output-dir: 'setup'
       - uses: actions/upload-artifact@v3
         with:
           name: Windows (MSI)
