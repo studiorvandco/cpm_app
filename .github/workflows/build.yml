@@ -7,8 +7,6 @@ on:
       - develop
       - build
 
-permissions: read-all
-
 jobs:
   build_android:
     name: Build (Android)
@@ -22,7 +20,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: echo "${{ vars.CPM_CONFIG }}" > ~/assets/config/config.yaml
+      - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: cat assets/config/config.yaml
       - run: |
           flutter pub get
