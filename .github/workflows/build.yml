@@ -43,8 +43,8 @@ jobs:
           flutter build windows --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_windows.exe
-          path: build/windows/runner/Release/sandbox.exe
+          name: cpm_windows.zip
+          path: build/windows/runner/Release
   
   build_linux:
     name: Build (Linux)
@@ -64,7 +64,7 @@ jobs:
           flutter build linux --release
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_android.apk
+          name: cpm_linux.zip
           path: build/linux/x64/bundle
   
   build_web:
@@ -81,5 +81,5 @@ jobs:
           flutter build web
       - uses: actions/upload-artifact@v3
         with:
-          name: cpm_android.apk
+          name: cpm_web.zip
           path: web
