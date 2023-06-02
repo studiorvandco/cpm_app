@@ -71,7 +71,8 @@ jobs:
       - name: Get version
         run: |
           choco install yq
-          echo "version=$(yq -r '.version' 'pubspec.yaml')" >> "$GITHUB_ENV"
+          set version (yq -r '.version' 'pubspec.yaml')
+          echo "version=$version" >> "$GITHUB_ENV"
       - name: Upload to releases
         uses: ncipollo/release-action@v1
         with:
