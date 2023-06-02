@@ -33,12 +33,11 @@ jobs:
           cmd: yq -r '.version' 'pubspec.yaml'
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM.apk
-      - name: Upload to releases
-        uses: ncipollo/release-action@v1
+      - name: Archive APK
+        uses: actions/upload-artifact@v3
         with:
-          artifacts: 'build/app/outputs/flutter-apk/CPM.apk'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.yq.outputs.result }}
+          name: CPM
+          path: build/app/outputs/flutter-apk/CPM.apk
 
   # TODO: build and release
   build_ios:
@@ -61,7 +60,8 @@ jobs:
         run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - name: Build app
         run: flutter build windows --release
-      - run: mkdir setup
+      - name: Create setup directory
+        run: mkdir setup
       - name: Build MSI
         uses: caphyon/advinst-github-action@v1.0
         with:
@@ -72,12 +72,11 @@ jobs:
         run: |
           choco install yq
           echo "version=$(yq -r '.version' 'pubspec.yaml')" >> $env:GITHUB_ENV
-      - name: Upload to releases
-        uses: ncipollo/release-action@v1
+      - name: Archive MSI
+        uses: actions/upload-artifact@v3
         with:
-          artifacts: '${{ github.workspace }}/setup/CPM.msi'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.version }}
+          name: MSI
+          path: ${{ github.workspace }}/setup/CPM.msi
 
   # TODO: release
   build_linux:
@@ -132,3 +131,18 @@ jobs:
         with:
           name: Web
           path: web
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Upload to releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'APK/CPM.apk, MSI/CPM.msi'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.yq.outputs.result }}
