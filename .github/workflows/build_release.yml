@@ -26,10 +26,11 @@ jobs:
         run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - name: Build app
         run: flutter build apk --release
-      - name: Read version
-        run: |
-          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
-          echo "version=$VERSION" >> "$GITHUB_ENV"
+      - name: Get version
+        id: yq
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -r '.version' 'pubspec.yaml'
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM.apk
       - name: Upload to releases
@@ -37,7 +38,7 @@ jobs:
         with:
           artifacts: 'build/app/outputs/flutter-apk/CPM.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.version }}
+          tag: ${{ steps.yq.outputs.result }}
 
   # TODO: build and release
   build_ios:
@@ -45,7 +46,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - run: echo TODO
-  
+
   build_windows:
     name: Windows
     runs-on: windows-latest
@@ -67,16 +68,17 @@ jobs:
           aip-path: 'Cinema Project Manager.aip'
           aip-build-name: 'DefaultBuild'
           aip-package-name: 'CPM.msi'
-      - name: Read version
-        run: |
-          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
-          echo "version=$VERSION" >> "$GITHUB_ENV"
+      - name: Get version
+        id: yq
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -r '.version' 'pubspec.yaml'
       - name: Upload to releases
         uses: ncipollo/release-action@v1
         with:
           artifacts: '${{ github.workspace }}/setup/CPM.msi'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.version }}
+          tag: ${{ steps.yq.outputs.result }}
 
   # TODO: release
   build_linux:
