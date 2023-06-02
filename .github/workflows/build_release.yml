@@ -134,6 +134,7 @@ jobs:
 
   release:
     name: Release
+    needs: [ build_android, build_ios, build_windows, build_linux, build_macos, build_web ]
     runs-on: ubuntu-latest
     steps:
       - name: Download all workflow run artifacts
