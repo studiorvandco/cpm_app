@@ -19,7 +19,7 @@ jobs:
           set version (yq -r '.version' 'pubspec.yaml')
           echo $version
           echo "version=$version" >> "$GITHUB_ENV"
-          echo VERSION=${{ env.VERSION }}
+          echo VERSION=${{ env.version }}
       - run: echo %version%
 
   build_android:
