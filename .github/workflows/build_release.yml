@@ -17,7 +17,7 @@ jobs:
         run: |
           choco install yq
           echo "version=$(yq -r '.version' 'pubspec.yaml')" >> "$GITHUB_ENV"
-          echo VERSION=${{ env.version }}
+          echo "${{ env.version }}"
 
   build_android:
     name: Android
