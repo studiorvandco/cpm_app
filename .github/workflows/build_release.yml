@@ -26,11 +26,6 @@ jobs:
         run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - name: Build app
         run: flutter build apk --release
-      - name: Get version
-        id: yq
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq -r '.version' 'pubspec.yaml'
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM.apk
       - name: Archive APK
@@ -68,10 +63,6 @@ jobs:
           aip-path: 'Cinema Project Manager.aip'
           aip-build-name: 'DefaultBuild'
           aip-package-name: 'CPM.msi'
-      - name: Get version
-        run: |
-          choco install yq
-          echo "version=$(yq -r '.version' 'pubspec.yaml')" >> $env:GITHUB_ENV
       - name: Archive MSI
         uses: actions/upload-artifact@v3
         with:
@@ -141,6 +132,11 @@ jobs:
         uses: actions/download-artifact@v3
       - name: Display structure of downloaded files
         run: ls -R
+      - name: Get version
+        id: yq
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -r '.version' 'pubspec.yaml'
       - name: Upload to releases
         uses: ncipollo/release-action@v1
         with:
