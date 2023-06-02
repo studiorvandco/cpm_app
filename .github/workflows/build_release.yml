@@ -7,6 +7,20 @@ on:
       - release
 
 jobs:
+  test:
+    build_windows:
+      name: Test
+      runs-on: windows-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Get version
+          run: |
+            choco install yq
+            set version (yq -r '.version' 'pubspec.yaml')
+            echo "version=$version" >> "$GITHUB_ENV"
+            echo ${{ env.version }}
+
   build_android:
     name: Android
     runs-on: ubuntu-latest
