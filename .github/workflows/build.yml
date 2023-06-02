@@ -21,21 +21,15 @@ jobs:
           channel: 'stable'
       - run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - run: flutter build apk --release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Android
-          path: build/app/outputs/flutter-apk/app-release.apk
-      - name: Retrieve Release Version
-        id: versionstep
-        run: |
+      - run: |
           VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
-          echo "::set-output name=VERSION::$VERSION"
-      - name: Upload the APK onto Github
-        uses: ncipollo/release-action@v1
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      - run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM.apk
+      - uses: ncipollo/release-action@v1
         with:
-          artifacts: 'build/app/outputs/flutter-apk/app-release.apk'
+          artifacts: 'build/app/outputs/flutter-apk/CPM.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.versionstep.outputs.VERSION }}
+          tag: ${{ env.VERSION }}
   
   build_windows:
     name: Windows
