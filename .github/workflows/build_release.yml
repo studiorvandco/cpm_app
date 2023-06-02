@@ -39,10 +39,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.version }}
 
+  # TODO: build and release
   build_ios:
     name: iOS
     runs-on: macos-latest
-    # TODO: build and release
+    steps:
+      - run: echo TODO
   
   build_windows:
     name: Windows
@@ -75,7 +77,8 @@ jobs:
           artifacts: '${{ github.workspace }}/setup/CPM.msi'
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.version }}
-  
+
+  # TODO: release
   build_linux:
     name: Linux
     runs-on: ubuntu-latest
@@ -100,13 +103,15 @@ jobs:
         with:
           name: Linux
           path: build/linux/x64/release/bundle
-      # TODO: release
 
+  # TODO: build and release
   build_macos:
     name: MacOS
     runs-on: macos-latest
-    # TODO: build and release
+    steps:
+      - run: echo TODO
 
+  # TODO: release
   build_web:
     name: Web
     runs-on: ubuntu-latest
@@ -126,4 +131,3 @@ jobs:
         with:
           name: Web
           path: web
-      # TODO: release
