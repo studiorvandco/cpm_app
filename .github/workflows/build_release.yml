@@ -16,8 +16,6 @@ jobs:
       - name: Get version
         run: |
           choco install yq
-          set version 
-          echo "version=$version" >> "$GITHUB_ENV"
           echo "version=$(yq -r '.version' 'pubspec.yaml')" >> "$GITHUB_ENV"
           echo VERSION=${{ env.version }}
 
