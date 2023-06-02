@@ -20,6 +20,7 @@ jobs:
           echo $version
           echo "version=$version" >> "$GITHUB_ENV"
           echo VERSION=${{ env.VERSION }}
+      - run: echo %version%
 
   build_android:
     name: Android
