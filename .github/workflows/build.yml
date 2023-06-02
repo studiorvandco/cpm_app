@@ -23,13 +23,13 @@ jobs:
       - run: flutter build apk --release
       - run: |
           VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_ENV"
       - run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM.apk
       - uses: ncipollo/release-action@v1
         with:
           artifacts: 'build/app/outputs/flutter-apk/CPM.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.VERSION }}
+          tag: ${{ env.version }}
   
   build_windows:
     name: Windows
