@@ -24,6 +24,17 @@ jobs:
         with:
           name: Android
           path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Retrieve Release Version
+        id: versionstep
+        run: |
+          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
+          echo "::set-output name=VERSION::$VERSION"
+      - name: Upload the APK onto Github
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'build/app/outputs/flutter-apk/app-release.apk'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.versionstep.outputs.VERSION }}
   
   build_windows:
     name: Windows
