@@ -128,10 +128,10 @@ jobs:
     needs: [ build_android, build_ios, build_windows, build_linux, build_macos, build_web ]
     runs-on: ubuntu-latest
     steps:
-      - name: Download all workflow run artifacts
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download all artifacts
         uses: actions/download-artifact@v3
-      - name: Display structure of downloaded files
-        run: ls -R
       - name: Get version
         id: yq
         uses: mikefarah/yq@master
