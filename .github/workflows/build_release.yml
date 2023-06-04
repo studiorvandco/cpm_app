@@ -27,12 +27,12 @@ jobs:
       - name: Build app
         run: flutter build apk --release
       - name: Rename APK
-        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM.apk
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/CPM_Android.apk
       - name: Archive APK
         uses: actions/upload-artifact@v3
         with:
-          name: CPM
-          path: build/app/outputs/flutter-apk/CPM.apk
+          name: Android
+          path: build/app/outputs/flutter-apk/CPM_Android.apk
 
   # TODO: build and release
   build_ios:
@@ -62,12 +62,12 @@ jobs:
         with:
           aip-path: 'Cinema Project Manager.aip'
           aip-build-name: 'DefaultBuild'
-          aip-package-name: 'CPM.msi'
+          aip-package-name: 'CPM_Windows.msi'
       - name: Archive MSI
         uses: actions/upload-artifact@v3
         with:
-          name: MSI
-          path: ${{ github.workspace }}/setup/CPM.msi
+          name: Windows
+          path: ${{ github.workspace }}/setup/CPM_Windows.msi
 
   # TODO: release
   build_linux:
@@ -142,6 +142,6 @@ jobs:
       - name: Upload to releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: 'APK/CPM.apk, MSI/CPM.msi'
+          artifacts: 'Android/CPM_Android.apk, Windows/CPM_Windows.msi'
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.yq.outputs.result }}
