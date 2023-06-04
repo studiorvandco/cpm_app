@@ -1,5 +1,6 @@
 ![Supported platforms](https://img.shields.io/badge/Supported%20platforms-Android%20%7C%20Windows%20%7C%20Web-green)
 ![Untested platforms](https://img.shields.io/badge/Untested%20platforms-Linux%20%7C%20iOS%20%7C%20macOS-orange)
+
 [![Flutter](https://img.shields.io/badge/Flutter-3.10.0-blue)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-%3E%3D3.0.0%20%3C4.0.0-blue)](https://dart.dev/)
 [![Style](https://img.shields.io/badge/Style-Dart%20Code%20Metrics-blue)](https://dartcodemetrics.dev/)
