@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="20.6" version="20.6" Modules="simple" RootPath="." Language="en_GB" Id="{65743620-9272-4B3C-9018-5901F00E8423}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="20.6" version="20.7.1" Modules="simple" RootPath="." Language="en_GB" Id="{65743620-9272-4B3C-9018-5901F00E8423}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;FixupComponent;MsiXDiffComponent;MsixManifestEditorComponent"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="AI_APP_FILE" Value="[#cpm.exe]"/>
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="AI_README_FILE" Value="https://github.com/StudioRvAndCo/CPM-frontend/blob/main/README.md"/>
     <ROW Property="ALLUSERS" Value="1"/>
-    <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPCOMMENTS" Value="[|ProductName] is a tool to efficiently manage the production of a cinema project." ValueLocId="*"/>
     <ROW Property="ARPCONTACT" Value="studio@rvandco.fr"/>
     <ROW Property="ARPHELPLINK" Value="https://github.com/StudioRvAndCo/CPM-frontend/blob/main/README.md"/>
     <ROW Property="ARPPRODUCTICON" Value="cpm_dark_1024_square.exe" Type="8"/>
     <ROW Property="ARPURLINFOABOUT" Value="https://rvandco.fr/"/>
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/StudioRvAndCo/CPM-frontend/releases"/>
     <ROW Property="AiLicenseAgreementLink" Value="https://github.com/StudioRvAndCo/CPM-frontend/blob/main/LICENSE" Type="4"/>
+    <ROW Property="CTRLS" Value="3"/>
     <ROW Property="IAgree" Value="No" Type="4"/>
     <ROW Property="Manufacturer" Value="Studio Rv &amp; Co"/>
     <ROW Property="ProductCode" Value="2057:{0A5A65C2-B8B8-474C-892A-2CFC9DBA2BFD} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Cinema Project Manager"/>
-    <ROW Property="ProductVersion" Value="1.0.0"/>
+    <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
+    <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{E4205E31-62C9-4FE4-B9D9-353684FA8A8A}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -32,7 +36,10 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
     <ROW Directory="Release_Dir" Directory_Parent="APPDIR" DefaultDir="Release"/>
+    <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
+    <ROW Directory="StartMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="STARTM~1|StartMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="assets_Dir" Directory_Parent="flutter_assets_Dir" DefaultDir="assets"/>
     <ROW Directory="config_Dir" Directory_Parent="assets_Dir" DefaultDir="config"/>
@@ -53,6 +60,7 @@
     <ROW Component="AssetManifest.json" ComponentId="{8ACE2EE3-CCE9-43BB-A1C0-452B8AC7825D}" Directory_="flutter_assets_Dir" Attributes="0" KeyPath="AssetManifest.json" Type="0"/>
     <ROW Component="MaterialIconsRegular.otf" ComponentId="{56E47E45-F122-4667-B74A-20CB51F086EC}" Directory_="fonts_Dir" Attributes="0" KeyPath="MaterialIconsRegular.otf" Type="0"/>
     <ROW Component="ProductInformation" ComponentId="{69DE4917-1F19-47ED-832A-62E05E92AE63}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="SHORTCUTDIR" ComponentId="{F8F2984C-81C7-4532-8726-1FB8B0FEFA4E}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="app.so" ComponentId="{62FC63FE-5F04-408D-9D90-E7EA44D0030C}" Directory_="data_Dir" Attributes="0" KeyPath="app.so" Type="0"/>
     <ROW Component="arDZ.json" ComponentId="{EA0C2A9A-CD72-4295-9146-1BA26D72F3DC}" Directory_="i18n_Dir" Attributes="0" KeyPath="arDZ.json" Type="0"/>
     <ROW Component="camera_dark_2048.png" ComponentId="{1294154E-7E1F-43FA-B27F-6212A384082D}" Directory_="logos_Dir" Attributes="0" KeyPath="camera_dark_2048.png" Type="0"/>
@@ -107,7 +115,7 @@
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="setup" PackageFileName="cpm" Languages="en_GB" InstallationType="4" ExtUI="true" UseLargeSchema="true"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="setup" PackageFileName="CPM_Windows" Languages="en_GB" InstallationType="4" ExtUI="true" UseLargeSchema="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -166,6 +174,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
+    <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
@@ -173,6 +182,7 @@
     <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
     <ROW Action="AI_EnableDebugLog" Type="321" Source="aicustact.dll" Target="EnableDebugLog"/>
     <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
+    <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="LaunchApp"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
     <ROW Action="AI_PRESERVE_INSTALL_TYPE" Type="65" Source="aicustact.dll" Target="PreserveInstallType"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
@@ -180,6 +190,7 @@
     <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="AI_ViewReadme" Type="1" Source="aicustact.dll" Target="ViewReadMe"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
@@ -201,6 +212,7 @@
     <ROW Feature_="MainFeature" Component_="flutter_windows.dll"/>
     <ROW Feature_="MainFeature" Component_="maps_launcher_plugin.dll"/>
     <ROW Feature_="MainFeature" Component_="url_launcher_windows_plugin.dll"/>
+    <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="cpm_dark_1024_square.exe" SourcePath="assets\icons\cpm_dark_1024_square.ico" Index="0"/>
@@ -234,6 +246,11 @@
     <ROW Registry="ProductName" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="\"/>
     <ROW Registry="Software" Root="-1" Key="Software" Name="\"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="CPM" Directory_="SHORTCUTDIR" Name="CINEMA~2|Cinema Project Manager (CPM)" Component_="cpm.exe" Target="[#cpm.exe]" Description="Cinema Project Manager is a tool to efficiently manage the production of a cinema project" Hotkey="0" Icon_="cpm_dark_1024_square.exe" IconIndex="0" ShowCmd="1" WkDir="Release_Dir"/>
+    <ROW Shortcut="CPM_1" Directory_="DesktopFolder" Name="CINEMA~1|Cinema Project Manager" Component_="cpm.exe" Target="[#cpm.exe]" Description="Cinema Project Manager is a tool to efficiently manage the production of a cinema project" Hotkey="0" Icon_="cpm_dark_1024_square.exe" IconIndex="0" ShowCmd="1" WkDir="Release_Dir"/>
+    <ROW Shortcut="CPM_2" Directory_="StartMenuFolder" Name="CINEMA~2|Cinema Project Manager (CPM)" Component_="cpm.exe" Target="[#cpm.exe]" Description="Cinema Project Manager is a tool to efficiently manage the production of a cinema project" Hotkey="0" Icon_="cpm_dark_1024_square.exe" IconIndex="0" ShowCmd="1" WkDir="Release_Dir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
