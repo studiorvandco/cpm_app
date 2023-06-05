@@ -18,10 +18,10 @@
     <ROW Property="CTRLS" Value="3"/>
     <ROW Property="IAgree" Value="No" Type="4"/>
     <ROW Property="Manufacturer" Value="Studio Rv &amp; Co"/>
-    <ROW Property="ProductCode" Value="2057:{0A5A65C2-B8B8-474C-892A-2CFC9DBA2BFD} " Type="16"/>
+    <ROW Property="ProductCode" Value="2057:{377411DE-975D-405B-93D3-66F507184DC5} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Cinema Project Manager"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="0" Options="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{E4205E31-62C9-4FE4-B9D9-353684FA8A8A}"/>

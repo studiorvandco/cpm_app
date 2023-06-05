@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - release
 
 jobs:
   build_android:
@@ -56,12 +57,18 @@ jobs:
         run: flutter build windows --release
       - name: Create setup directory
         run: mkdir setup
+      - name: Get version
+        run: |
+          choco install yq
+          echo "VERSION=$(yq -r .version pubspec.yaml)" >> $env:GITHUB_ENV
       - name: Build MSI
         uses: caphyon/advinst-github-action@v1.0
         with:
           aip-path: 'Cinema Project Manager.aip'
           aip-build-name: 'DefaultBuild'
           aip-package-name: 'CPM_Windows.msi'
+          aip-commands: |
+            SetVersion ${{ env.VERSION }}
       - name: Archive MSI
         uses: actions/upload-artifact@v3
         with:
