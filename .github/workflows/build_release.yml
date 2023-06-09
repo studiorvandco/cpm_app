@@ -26,7 +26,7 @@ jobs:
       - name: Add configuration
         run: echo "${{ vars.CONFIG }}" > assets/config/config.yaml
       - name: Add keystore
-        run: echo "${{ secrets.ANDROID_KEYSTORE }}" > android/studiorvandco_keystore.jks
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > android/studiorvandco_keystore.jks
       - name: Add key properties
         run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
       - name: Build app
