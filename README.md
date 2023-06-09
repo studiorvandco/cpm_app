@@ -17,6 +17,6 @@
 
 Frontend of Cinema Project Manager, a tool to efficiently manage the production of a cinema project
 
-## Install
+## Build
 
-See [INSTALL.md](INSTALL.md).
+See [BUILD.md](BUILD.md).
