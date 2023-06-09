@@ -8,6 +8,7 @@ on:
 jobs:
   build_android:
     name: Android
+    environment: release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,8 +22,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - name: Add config
-        run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+      - name: Add configuration
+        run: echo "${{ vars.CONFIG }}" > assets/config/config.yaml
+      - name: Add keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > android/studiorvandco_keystore.jks
+      - name: Add key properties
+        run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
       - name: Build app
         run: flutter build apk --release
       - name: Rename APK
@@ -36,12 +41,14 @@ jobs:
   # TODO: build and release
   build_ios:
     name: iOS
+    environment: release
     runs-on: macos-latest
     steps:
       - run: echo TODO
 
   build_windows:
     name: Windows
+    environment: release
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -77,6 +84,7 @@ jobs:
   # TODO: release
   build_linux:
     name: Linux
+    environment: release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -103,6 +111,7 @@ jobs:
   # TODO: build and release
   build_macos:
     name: MacOS
+    environment: release
     runs-on: macos-latest
     steps:
       - run: echo TODO
@@ -110,6 +119,7 @@ jobs:
   # TODO: release
   build_web:
     name: Web
+    environment: release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -130,6 +140,7 @@ jobs:
 
   release:
     name: Release
+    environment: release
     needs: [ build_android, build_ios, build_windows, build_linux, build_macos, build_web ]
     runs-on: ubuntu-latest
     steps:
