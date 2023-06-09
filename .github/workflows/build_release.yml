@@ -24,7 +24,7 @@ jobs:
         with:
           channel: 'stable'
       - name: Add configuration
-        run: echo "${{ env.CPM_CONFIG }}" > assets/config/config.yaml
+        run: echo "${{ vars.CONFIG }}" > assets/config/config.yaml
       - name: Add keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE }}" > android/studiorvandco_keystore.jks
       - name: Add key properties
