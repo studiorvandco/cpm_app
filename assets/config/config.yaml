@@ -1,2 +1,2 @@
 api:
-  url: 'https://localhost:7169/api/'
+  url: 'https://10.0.2.2:5000/api/'
