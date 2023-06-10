@@ -17,6 +17,7 @@ class Project implements Comparable<Project> {
   int? shotsCompleted;
   String? director;
   String? writer;
+  Map<String, String>? links;
   List<Episode>? episodes;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,6 +46,7 @@ class Project implements Comparable<Project> {
     this.shotsCompleted,
     this.director,
     this.writer,
+    this.links,
     this.episodes,
   });
 
