@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/project/project.dart';
 import '../../providers/navigation.dart';
@@ -32,6 +33,8 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   Widget build(BuildContext context) {
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
+        List<MapEntry<String, String>>? links = project.links?.entries.toList();
+
         return FilledButton(
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero,
@@ -92,7 +95,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(bottom: 8)),
+                    const Padding(padding: EdgeInsets.only(bottom: 16)),
                     IconLabel(
                       text: _getDateText(context, project),
                       icon: Icons.event,
@@ -110,6 +113,28 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                       ],
                     ]),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
+                    Row(
+                      children: [
+                        const Icon(Icons.link),
+                        Expanded(
+                          child: SizedBox(
+                            height: 42,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: links!.map<Widget>((link) {
+                                return TextButton(
+                                  onPressed: () {
+                                    launchUrl(Uri.parse(link.value));
+                                  },
+                                  child: Text(link.key),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 8)),
                     LinearProgressIndicator(
                       value: project.progress,
                       backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -117,7 +142,6 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                   ],
                 ),
               ),
-              //_getCardContent(context),
             ],
           ),
           onPressed: () {

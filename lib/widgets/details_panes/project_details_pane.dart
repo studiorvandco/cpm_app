@@ -36,7 +36,6 @@ class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane>
         descriptionController.text = project.description;
         titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
         descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
-        List<MapEntry<String, String>>? links = project.links?.entries.toList();
 
         return Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
@@ -55,13 +54,6 @@ class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane>
                   controller: titleController,
                   maxLength: 64,
                 ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 16)),
-              ListView.builder(
-                itemCount: links?.length,
-                itemBuilder: (context, index) {
-                  return Text(links![index].value);
-                },
               ),
               const Padding(padding: EdgeInsets.only(bottom: 16)),
               Focus(
