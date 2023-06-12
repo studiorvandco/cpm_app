@@ -119,17 +119,22 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                         Expanded(
                           child: SizedBox(
                             height: 42,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: links!.map<Widget>((link) {
-                                return TextButton(
-                                  onPressed: () {
-                                    launchUrl(Uri.parse(link.value));
-                                  },
-                                  child: Text(link.key),
-                                );
-                              }).toList(),
-                            ),
+                            child: links != null
+                                ? ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: links.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      var link = links[index];
+
+                                      return TextButton(
+                                        onPressed: () {
+                                          launchUrl(Uri.parse(link.value));
+                                        },
+                                        child: Text(link.key),
+                                      );
+                                    },
+                                  )
+                                : null,
                           ),
                         ),
                       ],

@@ -1,3 +1,4 @@
+import 'package:cpm/widgets/details_panes/links/links_tab.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _ProjectInfoSheetState extends State<ProjectInfoSheet> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -42,17 +43,20 @@ class _ProjectInfoSheetState extends State<ProjectInfoSheet> with SingleTickerPr
             },
             tabs: [
               Tab(text: 'details.upper'.plural(2)),
+              Tab(text: 'Links'),
               Tab(text: 'members.member.upper'.plural(2)),
               Tab(text: 'locations.location.upper'.plural(2)),
             ],
           ),
           Builder(builder: (BuildContext builder) {
             if (_selectedTab == 0) {
-              return const ProjectDetailsPane(); //1st custom tabBarView
+              return const ProjectDetailsPane();
             } else if (_selectedTab == 1) {
-              return const Center(child: Text('Coming soon!')); //2nd tabView
+              return const LinksTab();
             } else if (_selectedTab == 2) {
-              return const Center(child: Text('Coming soon!')); //3rd tabView
+              return const Center(child: Text('Coming soon!'));
+            } else if (_selectedTab == 3) {
+              return const Center(child: Text('Coming soon!'));
             } else {
               throw InvalidTabIndex('Invalid tab index: $_selectedTab');
             }
