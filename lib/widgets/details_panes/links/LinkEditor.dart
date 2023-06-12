@@ -46,8 +46,6 @@ class _LinkEditorState extends State<LinkEditor> {
           ),
         ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
-        const Icon(Icons.link),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
         Expanded(
           flex: 2,
           child: Focus(
@@ -64,6 +62,22 @@ class _LinkEditorState extends State<LinkEditor> {
             ),
           ),
         ),
+        PopupMenuButton(itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.launch),
+                title: Text('Open'),
+              ),
+            ),
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.remove),
+                title: Text('Remove'),
+              ),
+            ),
+          ];
+        }),
       ],
     );
   }
