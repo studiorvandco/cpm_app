@@ -14,6 +14,7 @@ class LinkEditor extends StatefulWidget {
 class _LinkEditorState extends State<LinkEditor> {
   late TextEditingController labelController;
   late TextEditingController urlController;
+  final urlFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -33,10 +34,14 @@ class _LinkEditorState extends State<LinkEditor> {
                 widget.edit(MapEntry(labelController.text, widget.link.value));
               }
             },
-            child: TextField(
+            child: TextFormField(
               controller: labelController,
               decoration: InputDecoration.collapsed(hintText: 'Label'),
               maxLines: 1,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) {
+                urlFocusNode.requestFocus();
+              },
             ),
           ),
         ),
@@ -51,11 +56,11 @@ class _LinkEditorState extends State<LinkEditor> {
                 widget.edit(MapEntry(widget.link.key, urlController.text));
               }
             },
-            child: TextField(
+            child: TextFormField(
               controller: urlController,
-              decoration: InputDecoration.collapsed(hintText: 'URL'),
+              decoration: InputDecoration.collapsed(hintText: 'Label'),
               maxLines: 1,
-              keyboardType: TextInputType.url,
+              focusNode: urlFocusNode,
             ),
           ),
         ),
