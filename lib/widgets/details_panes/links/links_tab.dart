@@ -27,8 +27,11 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
 
         return Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
-          child: links != null
-              ? ListView.separated(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (links != null)
+                ListView.separated(
                   shrinkWrap: true,
                   itemCount: links.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -37,8 +40,12 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                     return LinkEditor(
                       link: link,
                       edit: (newLink) {
-                        links[index] = newLink;
-                        project.links = {for (var link in links) link.key: link.value};
+                        if (newLink != null) {
+                          project.links?.remove(link.key);
+                          project.links?.addAll(newLink);
+                        } else {
+                          project.links?.remove(link.key); // TODO bug when deleting
+                        }
                         _edit(project);
                       },
                     );
@@ -48,8 +55,16 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                       padding: EdgeInsets.symmetric(vertical: 4),
                     );
                   },
-                )
-              : null,
+                ),
+              IconButton.filledTonal(
+                onPressed: () {
+                  project.links?.addAll({"": ""});
+                  _edit(project);
+                },
+                icon: const Icon(Icons.add),
+              ),
+            ],
+          ),
         );
       },
       error: (Object error, StackTrace stackTrace) {
