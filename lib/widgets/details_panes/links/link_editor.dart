@@ -4,11 +4,12 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../models/project/link.dart';
 
 class LinkEditor extends StatefulWidget {
-  const LinkEditor({super.key, required this.link, required this.edit});
+  const LinkEditor({super.key, required this.link, required this.edit, required this.delete});
 
   final Link link;
 
   final Function(Link) edit;
+  final Function() delete;
 
   @override
   State<LinkEditor> createState() => _LinkEditorState();
@@ -22,6 +23,7 @@ class _LinkEditorState extends State<LinkEditor> {
   @override
   void initState() {
     super.initState();
+    print(widget.link.label);
     labelController = TextEditingController(text: widget.link.label);
     urlController = TextEditingController(text: widget.link.url);
   }
@@ -69,7 +71,7 @@ class _LinkEditorState extends State<LinkEditor> {
           return [
             PopupMenuItem(
               child: ListTile(
-                leading: Icon(Icons.launch),
+                leading: const Icon(Icons.launch),
                 title: Text('Open'),
                 onTap: () {
                   launchUrlString(widget.link.url);
@@ -79,11 +81,11 @@ class _LinkEditorState extends State<LinkEditor> {
             ),
             PopupMenuItem(
               child: ListTile(
-                leading: Icon(Icons.remove),
+                leading: const Icon(Icons.remove),
                 title: Text('Remove'),
                 onTap: () {
                   Navigator.of(context).pop();
-                  //widget.edit(null);
+                  widget.delete();
                 },
               ),
             ),

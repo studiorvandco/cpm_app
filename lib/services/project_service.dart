@@ -17,7 +17,6 @@ class ProjectService {
       );
 
       final List projectsJson = json.decode(response.body) as List;
-      print(projectsJson);
       final List<Project> projects = projectsJson.map((project) => Project.fromJson(project)).toList();
 
       if (response.statusCode == 200) {

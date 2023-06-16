@@ -152,6 +152,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
               context: context,
               isScrollControlled: true,
               useSafeArea: true,
+              showDragHandle: true,
               builder: (BuildContext context) {
                 return const ProjectInfoSheet();
               },

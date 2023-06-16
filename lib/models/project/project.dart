@@ -51,6 +51,14 @@ class Project implements Comparable<Project> {
     this.episodes,
   });
 
+  Project.empty()
+      : id = '',
+        projectType = ProjectType.placeholder,
+        title = '',
+        description = '',
+        startDate = DateTime.now(),
+        endDate = DateTime.now();
+
   factory Project.fromJson(json) => _$ProjectFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);

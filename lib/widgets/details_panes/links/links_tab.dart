@@ -1,5 +1,5 @@
 import 'package:cpm/models/project/link.dart';
-import 'package:cpm/widgets/details_panes/links/LinkEditor.dart';
+import 'package:cpm/widgets/details_panes/links/link_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,12 +34,15 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                   shrinkWrap: true,
                   itemCount: project.links!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    var link = project.links![index];
-
                     return LinkEditor(
-                      link: link,
+                      key: ValueKey(project.links![index]),
+                      link: project.links![index],
                       edit: (newLink) {
                         project.links?[index] = newLink;
+                        _edit(project);
+                      },
+                      delete: () {
+                        project.links?.removeAt(index);
                         _edit(project);
                       },
                     );

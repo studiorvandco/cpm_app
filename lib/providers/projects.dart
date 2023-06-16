@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/project/project.dart';
-import '../models/project/project_type.dart';
 import '../services/project_service.dart';
 
 part 'projects.g.dart';
@@ -57,14 +56,7 @@ class Projects extends _$Projects {
 class CurrentProject extends _$CurrentProject {
   @override
   FutureOr<Project> build() {
-    return Project(
-      id: '',
-      projectType: ProjectType.placeholder,
-      title: '',
-      description: '',
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-    );
+    return Project.empty();
   }
 
   void set(Project project) {
