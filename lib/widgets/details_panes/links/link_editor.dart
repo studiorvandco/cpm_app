@@ -4,12 +4,21 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../models/project/link.dart';
 
 class LinkEditor extends StatefulWidget {
-  const LinkEditor({super.key, required this.link, required this.edit, required this.delete});
+  const LinkEditor({
+    super.key,
+    required this.link,
+    required this.edit,
+    required this.delete,
+    required this.moveUp,
+    required this.moveDown,
+  });
 
   final Link link;
 
   final Function(Link) edit;
   final Function() delete;
+  final Function()? moveUp;
+  final Function()? moveDown;
 
   @override
   State<LinkEditor> createState() => _LinkEditorState();
@@ -23,7 +32,6 @@ class _LinkEditorState extends State<LinkEditor> {
   @override
   void initState() {
     super.initState();
-    print(widget.link.label);
     labelController = TextEditingController(text: widget.link.label);
     urlController = TextEditingController(text: widget.link.url);
   }
@@ -79,9 +87,31 @@ class _LinkEditorState extends State<LinkEditor> {
                 },
               ),
             ),
+            if (widget.moveUp != null)
+              PopupMenuItem(
+                child: ListTile(
+                  leading: const Icon(Icons.arrow_upward),
+                  title: Text('Move up'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    widget.moveUp!();
+                  },
+                ),
+              ),
+            if (widget.moveDown != null)
+              PopupMenuItem(
+                child: ListTile(
+                  leading: const Icon(Icons.arrow_downward),
+                  title: Text('Move down'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    widget.moveDown!();
+                  },
+                ),
+              ),
             PopupMenuItem(
               child: ListTile(
-                leading: const Icon(Icons.remove),
+                leading: const Icon(Icons.remove_circle),
                 title: Text('Remove'),
                 onTap: () {
                   Navigator.of(context).pop();

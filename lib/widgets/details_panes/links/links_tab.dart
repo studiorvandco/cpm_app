@@ -1,3 +1,4 @@
+import 'package:cpm/extensions/move_element.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/widgets/details_panes/links/link_editor.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,18 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                         project.links?.removeAt(index);
                         _edit(project);
                       },
+                      moveUp: index != 0
+                          ? () {
+                              project.links?.move(index, index - 1);
+                              _edit(project);
+                            }
+                          : null,
+                      moveDown: index != project.links!.length - 1
+                          ? () {
+                              project.links?.move(index, index + 1);
+                              _edit(project);
+                            }
+                          : null,
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {
