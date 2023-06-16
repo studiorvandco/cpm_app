@@ -1,3 +1,4 @@
+import 'package:cpm/models/project/link.dart';
 import 'package:cpm/widgets/details_panes/links/LinkEditor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,29 +24,22 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
   Widget build(BuildContext context) {
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
-        List<MapEntry<String, String>>? links = project.links?.entries.toList();
-
         return Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (links != null)
+              if (project.links != null)
                 ListView.separated(
                   shrinkWrap: true,
-                  itemCount: links.length,
+                  itemCount: project.links!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    var link = links[index];
+                    var link = project.links![index];
 
                     return LinkEditor(
                       link: link,
                       edit: (newLink) {
-                        if (newLink != null) {
-                          project.links?.remove(link.key);
-                          project.links?.addAll(newLink);
-                        } else {
-                          project.links?.remove(link.key); // TODO bug when deleting
-                        }
+                        project.links?[index] = newLink;
                         _edit(project);
                       },
                     );
@@ -58,7 +52,7 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                 ),
               IconButton.filledTonal(
                 onPressed: () {
-                  project.links?.addAll({"": ""});
+                  project.links?.add(const Link.empty());
                   _edit(project);
                 },
                 icon: const Icon(Icons.add),

@@ -33,8 +33,6 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   Widget build(BuildContext context) {
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
-        List<MapEntry<String, String>>? links = project.links?.entries.toList();
-
         return FilledButton(
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.zero,
@@ -119,18 +117,18 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                         Expanded(
                           child: SizedBox(
                             height: 42,
-                            child: links != null
+                            child: project.links != null
                                 ? ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: links.length,
+                                    itemCount: project.links!.length,
                                     itemBuilder: (BuildContext context, int index) {
-                                      var link = links[index];
+                                      var link = project.links![index];
 
                                       return TextButton(
                                         onPressed: () {
-                                          launchUrlString(link.value);
+                                          launchUrlString(link.url);
                                         },
-                                        child: Text(link.key),
+                                        child: Text(link.label),
                                       );
                                     },
                                   )

@@ -26,9 +26,9 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => $checkedCreate(
           writer: $checkedConvert('writer', (v) => v as String?),
           links: $checkedConvert(
               'links',
-              (v) => (v as Map<String, dynamic>?)?.map(
-                    (k, e) => MapEntry(k, e as String),
-                  )),
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => Link.fromJson(e as Map<String, dynamic>))
+                  .toList()),
           episodes: $checkedConvert('episodes',
               (v) => (v as List<dynamic>?)?.map(Episode.fromJson).toList()),
         );

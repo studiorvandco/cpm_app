@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../models/project/link.dart';
+
 class LinkEditor extends StatefulWidget {
   const LinkEditor({super.key, required this.link, required this.edit});
 
-  final MapEntry<String, String> link;
+  final Link link;
 
-  final Function(Map<String, String>?) edit;
+  final Function(Link) edit;
 
   @override
   State<LinkEditor> createState() => _LinkEditorState();
@@ -20,8 +22,8 @@ class _LinkEditorState extends State<LinkEditor> {
   @override
   void initState() {
     super.initState();
-    labelController = TextEditingController(text: widget.link.key);
-    urlController = TextEditingController(text: widget.link.value);
+    labelController = TextEditingController(text: widget.link.label);
+    urlController = TextEditingController(text: widget.link.url);
   }
 
   @override
@@ -31,8 +33,8 @@ class _LinkEditorState extends State<LinkEditor> {
         Expanded(
           child: Focus(
             onFocusChange: (bool hasFocus) {
-              if (!hasFocus && labelController.text != widget.link.key) {
-                widget.edit({labelController.text: widget.link.value});
+              if (!hasFocus && labelController.text != widget.link.label) {
+                widget.edit(Link(labelController.text, widget.link.url));
               }
             },
             child: TextFormField(
@@ -51,8 +53,8 @@ class _LinkEditorState extends State<LinkEditor> {
           flex: 2,
           child: Focus(
             onFocusChange: (bool hasFocus) {
-              if (!hasFocus && urlController.text != widget.link.value) {
-                widget.edit({widget.link.key: urlController.text});
+              if (!hasFocus && urlController.text != widget.link.url) {
+                widget.edit(Link(widget.link.label, urlController.text));
               }
             },
             child: TextFormField(
@@ -70,7 +72,7 @@ class _LinkEditorState extends State<LinkEditor> {
                 leading: Icon(Icons.launch),
                 title: Text('Open'),
                 onTap: () {
-                  launchUrlString(widget.link.value);
+                  launchUrlString(widget.link.url);
                   Navigator.of(context).pop();
                 },
               ),
@@ -81,7 +83,7 @@ class _LinkEditorState extends State<LinkEditor> {
                 title: Text('Remove'),
                 onTap: () {
                   Navigator.of(context).pop();
-                  widget.edit(null);
+                  //widget.edit(null);
                 },
               ),
             ),
