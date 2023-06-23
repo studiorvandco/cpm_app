@@ -40,13 +40,10 @@ class _LinkEditorState extends State<LinkEditor> {
   Widget build(BuildContext context) {
     return Focus(
       onFocusChange: (bool hasFocus) {
-        if (!hasFocus) {
-          if (labelController.text != widget.link.label) {
-            widget.edit(Link(labelController.text, widget.link.url));
-          }
-          if (urlController.text != widget.link.url) {
-            widget.edit(Link(widget.link.label, urlController.text));
-          }
+        if (!hasFocus && (labelController.text != widget.link.label || urlController.text != widget.link.url)) {
+          var label = labelController.text != widget.link.label ? labelController.text : widget.link.label;
+          var url = urlController.text != widget.link.url ? urlController.text : widget.link.url;
+          widget.edit(Link(label, url));
         }
       },
       child: Row(
