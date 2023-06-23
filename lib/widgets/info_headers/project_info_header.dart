@@ -114,6 +114,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     Row(
                       children: [
                         const Icon(Icons.link),
+                        const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
                         Expanded(
                           child: SizedBox(
                             height: 42,
