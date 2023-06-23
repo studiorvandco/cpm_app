@@ -120,3 +120,4 @@ app.*.symbols
 # Setup files
 Cinema Project Manager-cache/
 setup/
+config.yaml

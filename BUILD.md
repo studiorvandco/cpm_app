@@ -55,7 +55,7 @@ The following indications will help you run the frontend of CPM.
 
 ## Run
 
-- Replace the API URL in the [config.yaml](assets/config/config.yaml) file
+- Rename the config file [config.yaml.sample](assets/config/config.yaml) to `config.yaml` and replace the URL to your API
 - Get the dependencies: `flutter pub get`
 - Run the app: `flutter run`
 
@@ -64,9 +64,9 @@ The following indications will help you run the frontend of CPM.
 In order to allow the application to connect to an API running locally:
 
 - Android emulator:
-  - Use the API path `https://localhost:<port>/api`
-- Physical device:
   - Use the API path `https://10.0.2.2:<port>/api`
+- Physical device:
+  - Use the API path `http://localhost:<port>/api`
   - Connect your device, and identify your device name: `adb devices`
   - Expose the port used by your API on your device: `adb -s <device name> reverse tcp:<port> tcp:<port>`
 
