@@ -38,15 +38,20 @@ class _LinkEditorState extends State<LinkEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Focus(
-            onFocusChange: (bool hasFocus) {
-              if (!hasFocus && labelController.text != widget.link.label) {
-                widget.edit(Link(labelController.text, widget.link.url));
-              }
-            },
+    return Focus(
+      onFocusChange: (bool hasFocus) {
+        if (!hasFocus) {
+          if (labelController.text != widget.link.label) {
+            widget.edit(Link(labelController.text, widget.link.url));
+          }
+          if (urlController.text != widget.link.url) {
+            widget.edit(Link(widget.link.label, urlController.text));
+          }
+        }
+      },
+      child: Row(
+        children: [
+          Expanded(
             child: TextFormField(
               controller: labelController,
               decoration: InputDecoration.collapsed(hintText: 'Label'),
@@ -57,16 +62,9 @@ class _LinkEditorState extends State<LinkEditor> {
               },
             ),
           ),
-        ),
-        const Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
-        Expanded(
-          flex: 2,
-          child: Focus(
-            onFocusChange: (bool hasFocus) {
-              if (!hasFocus && urlController.text != widget.link.url) {
-                widget.edit(Link(widget.link.label, urlController.text));
-              }
-            },
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
+          Expanded(
+            flex: 2,
             child: TextFormField(
               controller: urlController,
               decoration: InputDecoration.collapsed(hintText: 'URL'),
@@ -74,54 +72,54 @@ class _LinkEditorState extends State<LinkEditor> {
               focusNode: urlFocusNode,
             ),
           ),
-        ),
-        PopupMenuButton(itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: ListTile(
-                leading: const Icon(Icons.launch),
-                title: Text('Open'),
-                onTap: () {
-                  launchUrlString(widget.link.url);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            if (widget.moveUp != null)
+          PopupMenuButton(itemBuilder: (context) {
+            return [
               PopupMenuItem(
                 child: ListTile(
-                  leading: const Icon(Icons.arrow_upward),
-                  title: Text('Move up'),
+                  leading: const Icon(Icons.launch),
+                  title: Text('Open'),
                   onTap: () {
+                    launchUrlString(widget.link.url);
                     Navigator.of(context).pop();
-                    widget.moveUp!();
                   },
                 ),
               ),
-            if (widget.moveDown != null)
+              if (widget.moveUp != null)
+                PopupMenuItem(
+                  child: ListTile(
+                    leading: const Icon(Icons.arrow_upward),
+                    title: Text('Move up'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      widget.moveUp!();
+                    },
+                  ),
+                ),
+              if (widget.moveDown != null)
+                PopupMenuItem(
+                  child: ListTile(
+                    leading: const Icon(Icons.arrow_downward),
+                    title: Text('Move down'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      widget.moveDown!();
+                    },
+                  ),
+                ),
               PopupMenuItem(
                 child: ListTile(
-                  leading: const Icon(Icons.arrow_downward),
-                  title: Text('Move down'),
+                  leading: const Icon(Icons.remove_circle),
+                  title: Text('Remove'),
                   onTap: () {
                     Navigator.of(context).pop();
-                    widget.moveDown!();
+                    widget.delete();
                   },
                 ),
               ),
-            PopupMenuItem(
-              child: ListTile(
-                leading: const Icon(Icons.remove_circle),
-                title: Text('Remove'),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  widget.delete();
-                },
-              ),
-            ),
-          ];
-        }),
-      ],
+            ];
+          }),
+        ],
+      ),
     );
   }
 }
