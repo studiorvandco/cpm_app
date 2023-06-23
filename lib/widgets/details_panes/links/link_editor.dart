@@ -25,6 +25,7 @@ class LinkEditor extends StatefulWidget {
 }
 
 class _LinkEditorState extends State<LinkEditor> {
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController labelController;
   late TextEditingController urlController;
   final urlFocusNode = FocusNode();
@@ -38,84 +39,99 @@ class _LinkEditorState extends State<LinkEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      onFocusChange: (bool hasFocus) {
-        if (!hasFocus && (labelController.text != widget.link.label || urlController.text != widget.link.url)) {
-          var label = labelController.text != widget.link.label ? labelController.text : widget.link.label;
-          var url = urlController.text != widget.link.url ? urlController.text : widget.link.url;
-          widget.edit(Link(label, url));
-        }
-      },
-      child: Row(
-        children: [
-          Expanded(
-            child: TextFormField(
-              controller: labelController,
-              decoration: InputDecoration.collapsed(hintText: 'Label'),
-              maxLines: 1,
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (_) {
-                urlFocusNode.requestFocus();
-              },
-            ),
-          ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
-          Expanded(
-            flex: 2,
-            child: TextFormField(
-              controller: urlController,
-              decoration: InputDecoration.collapsed(hintText: 'URL'),
-              maxLines: 1,
-              focusNode: urlFocusNode,
-            ),
-          ),
-          PopupMenuButton(itemBuilder: (context) {
-            return [
-              PopupMenuItem(
-                child: ListTile(
-                  leading: const Icon(Icons.launch),
-                  title: Text('Open'),
-                  onTap: () {
-                    launchUrlString(widget.link.url);
-                    Navigator.of(context).pop();
-                  },
-                ),
+    return Form(
+      key: _formKey,
+      child: Focus(
+        onFocusChange: (bool hasFocus) {
+          if (!hasFocus &&
+              (labelController.text != widget.link.label || urlController.text != widget.link.url) &&
+              _formKey.currentState!.validate()) {
+            var label = labelController.text != widget.link.label ? labelController.text : widget.link.label;
+            var url = urlController.text != widget.link.url ? urlController.text : widget.link.url;
+            widget.edit(Link(label, url));
+          }
+        },
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: labelController,
+                decoration: InputDecoration.collapsed(hintText: 'Label'),
+                maxLines: 1,
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  urlFocusNode.requestFocus();
+                },
               ),
-              if (widget.moveUp != null)
+            ),
+            const Padding(padding: EdgeInsets.symmetric(horizontal: 8)),
+            Expanded(
+              flex: 2,
+              child: TextFormField(
+                controller: urlController,
+                decoration: InputDecoration.collapsed(hintText: 'URL'),
+                maxLines: 1,
+                focusNode: urlFocusNode,
+                validator: (value) {
+                  if (value != null && value.isNotEmpty && !Uri.tryParse(value)!.isAbsolute) {
+                    return 'Invalid URL';
+                  }
+
+                  return null;
+                },
+                onChanged: (value) {
+                  _formKey.currentState!.validate();
+                },
+              ),
+            ),
+            PopupMenuButton(itemBuilder: (context) {
+              return [
                 PopupMenuItem(
                   child: ListTile(
-                    leading: const Icon(Icons.arrow_upward),
-                    title: Text('Move up'),
+                    leading: const Icon(Icons.launch),
+                    title: Text('Open'),
                     onTap: () {
+                      launchUrlString(widget.link.url);
                       Navigator.of(context).pop();
-                      widget.moveUp!();
                     },
                   ),
                 ),
-              if (widget.moveDown != null)
+                if (widget.moveUp != null)
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: const Icon(Icons.arrow_upward),
+                      title: Text('Move up'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        widget.moveUp!();
+                      },
+                    ),
+                  ),
+                if (widget.moveDown != null)
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: const Icon(Icons.arrow_downward),
+                      title: Text('Move down'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        widget.moveDown!();
+                      },
+                    ),
+                  ),
                 PopupMenuItem(
                   child: ListTile(
-                    leading: const Icon(Icons.arrow_downward),
-                    title: Text('Move down'),
+                    leading: const Icon(Icons.remove_circle),
+                    title: Text('Remove'),
                     onTap: () {
                       Navigator.of(context).pop();
-                      widget.moveDown!();
+                      widget.delete();
                     },
                   ),
                 ),
-              PopupMenuItem(
-                child: ListTile(
-                  leading: const Icon(Icons.remove_circle),
-                  title: Text('Remove'),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    widget.delete();
-                  },
-                ),
-              ),
-            ];
-          }),
-        ],
+              ];
+            }),
+          ],
+        ),
       ),
     );
   }
