@@ -43,7 +43,7 @@ class _ProjectInfoSheetState extends State<ProjectInfoSheet> with SingleTickerPr
             },
             tabs: [
               Tab(text: 'details.upper'.plural(2)),
-              Tab(text: 'Links'),
+              Tab(text: 'links.upper'.plural(2)),
               Tab(text: 'members.member.upper'.plural(2)),
               Tab(text: 'locations.location.upper'.plural(2)),
             ],

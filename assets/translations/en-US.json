@@ -13,6 +13,16 @@
       "other": "details"
     }
   },
+  "links": {
+    "upper": {
+      "one": "Link",
+      "other": "Links"
+    },
+    "lower": {
+      "one": "link",
+      "other": "links"
+    }
+  },
   "members": {
     "member": {
       "upper": {
