@@ -126,9 +126,11 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                                       var link = project.links![index];
 
                                       return TextButton(
-                                        onPressed: () {
-                                          launchUrlString(link.url);
-                                        },
+                                        onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
+                                            ? () {
+                                                launchUrlString(link.url, mode: LaunchMode.externalApplication);
+                                              }
+                                            : null,
                                         child: Text(link.label),
                                       );
                                     },

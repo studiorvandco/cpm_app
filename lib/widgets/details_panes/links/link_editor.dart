@@ -86,16 +86,17 @@ class _LinkEditorState extends State<LinkEditor> {
             ),
             PopupMenuButton(itemBuilder: (context) {
               return [
-                PopupMenuItem(
-                  child: ListTile(
-                    leading: const Icon(Icons.launch),
-                    title: Text('Open'),
-                    onTap: () {
-                      launchUrlString(widget.link.url);
-                      Navigator.of(context).pop();
-                    },
+                if (urlController.text.isNotEmpty && _formKey.currentState!.validate())
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: const Icon(Icons.launch),
+                      title: Text('Open'),
+                      onTap: () {
+                        launchUrlString(urlController.text, mode: LaunchMode.externalApplication);
+                        Navigator.of(context).pop();
+                      },
+                    ),
                   ),
-                ),
                 if (widget.moveUp != null)
                   PopupMenuItem(
                     child: ListTile(
