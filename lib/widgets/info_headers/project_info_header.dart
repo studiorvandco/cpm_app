@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cpm/utils/platform_identifier.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,8 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
+
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
         return FilledButton(
@@ -119,21 +122,26 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                           child: SizedBox(
                             height: 42,
                             child: project.links != null
-                                ? ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: project.links!.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      var link = project.links![index];
+                                ? Scrollbar(
+                                    controller: _scrollController,
+                                    thickness: PlatformIdentifier().isDesktop() ? 4 : 0,
+                                    child: ListView.builder(
+                                      controller: _scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: project.links!.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        var link = project.links![index];
 
-                                      return TextButton(
-                                        onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
-                                            ? () {
-                                                launchUrlString(link.url, mode: LaunchMode.externalApplication);
-                                              }
-                                            : null,
-                                        child: Text(link.label),
-                                      );
-                                    },
+                                        return TextButton(
+                                          onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
+                                              ? () {
+                                                  launchUrlString(link.url, mode: LaunchMode.externalApplication);
+                                                }
+                                              : null,
+                                          child: Text(link.label),
+                                        );
+                                      },
+                                    ),
                                   )
                                 : null,
                           ),
