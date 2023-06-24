@@ -24,10 +24,8 @@ class ProjectInfoHeader extends ConsumerStatefulWidget {
 
 class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   String _getDateText(BuildContext context, Project project) {
-    final String firstText =
-        DateFormat.yMd(context.locale.toString()).format(project.startDate);
-    final String lastText =
-        DateFormat.yMd(context.locale.toString()).format(project.endDate);
+    final String firstText = DateFormat.yMd(context.locale.toString()).format(project.startDate);
+    final String lastText = DateFormat.yMd(context.locale.toString()).format(project.endDate);
 
     return '$firstText - $lastText';
   }
@@ -59,8 +57,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                           Colors.black.withOpacity(0.2),
                           Colors.transparent,
                         ],
-                      ).createShader(
-                          Rect.fromLTRB(0, 0, rect.width, rect.height));
+                      ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                     },
                     blendMode: BlendMode.dstIn,
                     child: ImageFiltered(
@@ -120,33 +117,25 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     Row(
                       children: [
                         const Icon(Icons.link),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 2)),
+                        const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
                         Expanded(
                           child: SizedBox(
                             height: 42,
                             child: project.links != null
                                 ? Scrollbar(
                                     controller: scrollController,
-                                    thickness: PlatformIdentifier().isDesktop()
-                                        ? 4
-                                        : 0,
+                                    thickness: PlatformIdentifier().isDesktop() ? 4 : 0,
                                     child: ListView.builder(
                                       controller: scrollController,
                                       scrollDirection: Axis.horizontal,
                                       itemCount: project.links!.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
+                                      itemBuilder: (BuildContext context, int index) {
                                         var link = project.links![index];
 
                                         return TextButton(
-                                          onPressed: link.url.isNotEmpty &&
-                                                  Uri.tryParse(link.url)!
-                                                      .isAbsolute
+                                          onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
                                               ? () {
-                                                  launchUrlString(link.url,
-                                                      mode: LaunchMode
-                                                          .externalApplication);
+                                                  launchUrlString(link.url, mode: LaunchMode.externalApplication);
                                                 }
                                               : null,
                                           child: Text(link.label),
@@ -162,8 +151,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
                     LinearProgressIndicator(
                       value: project.progress,
-                      backgroundColor:
-                          Theme.of(context).colorScheme.onPrimaryContainer,
+                      backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     ),
                   ],
                 ),
@@ -193,19 +181,15 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   }
 
   Future<void> delete(Project project) async {
-    showConfirmationDialog(context, 'delete.lower'.tr())
-        .then((bool? result) async {
+    showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
-        final Map<String, dynamic> result =
-            await ref.read(projectsProvider.notifier).delete(project.id);
+        final Map<String, dynamic> result = await ref.read(projectsProvider.notifier).delete(project.id);
         if (context.mounted) {
           final bool succeeded = result['succeeded'] as bool;
           final int code = result['code'] as int;
-          final String message = succeeded
-              ? 'snack_bars.project.deleted'.tr()
-              : 'snack_bars.project.not_deleted'.tr();
-          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars()
-              .getModelSnackBar(context, succeeded, code, message: message));
+          final String message = succeeded ? 'snack_bars.project.deleted'.tr() : 'snack_bars.project.not_deleted'.tr();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
         }
         ref.read(navigationProvider.notifier).set(HomePage.projects);
       }
