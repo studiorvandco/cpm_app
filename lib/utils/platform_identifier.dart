@@ -13,6 +13,10 @@ class PlatformIdentifier {
 
   /// Whether the platform is a mobile device (only native app).
   bool isMobile() {
+    if (kIsWeb) {
+      return false;
+    }
+
     return Platform.isAndroid || Platform.isIOS;
   }
 
@@ -20,6 +24,10 @@ class PlatformIdentifier {
   ///
   /// Only desktop app.
   bool isDesktop() {
+    if (kIsWeb) {
+      return true;
+    }
+
     return Platform.isWindows || Platform.isLinux || Platform.isMacOS;
   }
 
