@@ -121,29 +121,27 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                         Expanded(
                           child: SizedBox(
                             height: 42,
-                            child: project.links != null
-                                ? Scrollbar(
-                                    controller: scrollController,
-                                    thickness: PlatformIdentifier().isComputer() ? 4 : 0,
-                                    child: ListView.builder(
-                                      controller: scrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: project.links!.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        var link = project.links![index];
+                            child: Scrollbar(
+                              controller: scrollController,
+                              thickness: PlatformIdentifier().isComputer() ? 4 : 0,
+                              child: ListView.builder(
+                                controller: scrollController,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: project.links.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var link = project.links[index];
 
-                                        return TextButton(
-                                          onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
-                                              ? () {
-                                                  launchUrlString(link.url, mode: LaunchMode.externalApplication);
-                                                }
-                                              : null,
-                                          child: Text(link.label),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : null,
+                                  return TextButton(
+                                    onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
+                                        ? () {
+                                            launchUrlString(link.url, mode: LaunchMode.externalApplication);
+                                          }
+                                        : null,
+                                    child: Text(link.label),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ],

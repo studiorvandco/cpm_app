@@ -61,7 +61,6 @@ class ProjectService {
   }
 
   Future<List> edit(Project project) async {
-    print(jsonEncode(project));
     try {
       final Response response = await put(
         Uri.parse('${api.projects}/${project.id}'),
