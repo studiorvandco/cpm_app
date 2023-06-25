@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:cpm/utils/platform_identifier.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../models/project/project.dart';
 import '../../providers/navigation.dart';
@@ -30,6 +32,8 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = ScrollController();
+
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
         return FilledButton(
@@ -92,7 +96,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(bottom: 8)),
+                    const Padding(padding: EdgeInsets.only(bottom: 16)),
                     IconLabel(
                       text: _getDateText(context, project),
                       icon: Icons.event,
@@ -110,6 +114,41 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                       ],
                     ]),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
+                    Row(
+                      children: [
+                        const Icon(Icons.link),
+                        const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
+                        Expanded(
+                          child: SizedBox(
+                            height: 42,
+                            child: project.links != null
+                                ? Scrollbar(
+                                    controller: scrollController,
+                                    thickness: PlatformIdentifier().isComputer() ? 4 : 0,
+                                    child: ListView.builder(
+                                      controller: scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: project.links!.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        var link = project.links![index];
+
+                                        return TextButton(
+                                          onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
+                                              ? () {
+                                                  launchUrlString(link.url, mode: LaunchMode.externalApplication);
+                                                }
+                                              : null,
+                                          child: Text(link.label),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 8)),
                     LinearProgressIndicator(
                       value: project.progress,
                       backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -117,7 +156,6 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                   ],
                 ),
               ),
-              //_getCardContent(context),
             ],
           ),
           onPressed: () {
@@ -125,6 +163,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
               context: context,
               isScrollControlled: true,
               useSafeArea: true,
+              showDragHandle: true,
               builder: (BuildContext context) {
                 return const ProjectInfoSheet();
               },

@@ -1,6 +1,4 @@
-import 'dart:io' show Platform;
-
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:cpm/utils/platform_identifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,15 +28,14 @@ class HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !kIsWeb && (Platform.isAndroid || Platform.isIOS) ? const CustomAppBar() : null,
+      appBar: PlatformIdentifier().isNotComputer() ? const CustomAppBar() : null,
       body: SafeArea(
         child: Row(children: <Widget>[
-          if (kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isFuchsia)
-            CustomNavigationRail(navigate: (int index) => navigate(index)),
+          if (PlatformIdentifier().isComputer()) CustomNavigationRail(navigate: (int index) => navigate(index)),
           getPage(),
         ]),
       ),
-      drawer: !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+      drawer: PlatformIdentifier().isNotComputer()
           ? CustomNavigationDrawer(navigate: (int index) => navigate(index), selectedIndex: _selectedIndex)
           : null,
     );

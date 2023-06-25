@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../episode.dart';
+import 'link.dart';
 import 'project_type.dart';
 
 part 'project.g.dart';
@@ -17,6 +18,7 @@ class Project implements Comparable<Project> {
   int? shotsCompleted;
   String? director;
   String? writer;
+  List<Link>? links;
   List<Episode>? episodes;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,8 +47,17 @@ class Project implements Comparable<Project> {
     this.shotsCompleted,
     this.director,
     this.writer,
+    this.links,
     this.episodes,
   });
+
+  Project.empty()
+      : id = '',
+        projectType = ProjectType.placeholder,
+        title = '',
+        description = '',
+        startDate = DateTime.now(),
+        endDate = DateTime.now();
 
   factory Project.fromJson(json) => _$ProjectFromJson(json);
 

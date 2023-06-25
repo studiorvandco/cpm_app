@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cpm/utils/secure_storage/secure_storage.dart';
 import 'package:cpm/utils/secure_storage/secure_storage_key.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,6 +12,15 @@ import 'cpm.dart';
 import 'services/config.dart';
 import 'utils/constants_globals.dart';
 
+// TODO remove for release
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
   Future<void> getToken() async {
     token = await SecureStorage().read(SecureStorageKey.apiToken) ?? '';
@@ -21,6 +32,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   EasyLocalization.logger.enableLevels = [LevelMessages.error, LevelMessages.warning];
   await getToken();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(
     EasyLocalization(
       supportedLocales: const <Locale>[Locale('en', 'US'), Locale('fr', 'FR')],

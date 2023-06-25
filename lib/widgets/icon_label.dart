@@ -5,7 +5,7 @@ class IconLabel extends StatelessWidget {
     super.key,
     required this.text,
     required this.icon,
-    this.spacing = 8,
+    this.spacing = 4,
     this.iconColor,
     this.textStyle,
   });
@@ -21,7 +21,7 @@ class IconLabel extends StatelessWidget {
     return Row(
       children: <Widget>[
         Icon(icon, color: iconColor),
-        Padding(padding: EdgeInsets.only(left: spacing)),
+        Padding(padding: EdgeInsets.symmetric(horizontal: spacing)),
         Text(text, style: textStyle),
       ],
     );

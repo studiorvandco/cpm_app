@@ -88,6 +88,7 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
           onPressed: () {
             showModalBottomSheet(
               context: context,
+              showDragHandle: true,
               builder: (BuildContext context) {
                 return const SequenceInfoSheet();
               },

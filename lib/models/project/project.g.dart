@@ -21,6 +21,8 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => $checkedCreate(
           shotsCompleted: $checkedConvert('shots_completed', (v) => v as int?),
           director: $checkedConvert('director', (v) => v as String?),
           writer: $checkedConvert('writer', (v) => v as String?),
+          links: $checkedConvert(
+              'links', (v) => (v as List<dynamic>?)?.map((e) => Link.fromJson(e as Map<String, dynamic>)).toList()),
           episodes: $checkedConvert('episodes', (v) => (v as List<dynamic>?)?.map(Episode.fromJson).toList()),
         );
         return val;
@@ -45,6 +47,7 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'shots_completed': instance.shotsCompleted,
       'director': instance.director,
       'writer': instance.writer,
+      'links': instance.links,
       'episodes': instance.episodes,
     };
 

@@ -13,6 +13,16 @@
       "other": "details"
     }
   },
+  "links": {
+    "upper": {
+      "one": "Link",
+      "other": "Links"
+    },
+    "lower": {
+      "one": "link",
+      "other": "links"
+    }
+  },
   "members": {
     "member": {
       "upper": {
@@ -199,7 +209,12 @@
     "line": {
       "upper": "Line",
       "lower": "line"
-    }
+    },
+    "label": {
+      "upper": "Label",
+      "lower": "label"
+    },
+    "url": "URL"
   },
   "snack_bars": {
     "project": {
@@ -270,6 +285,22 @@
   "delete": {
     "upper": "Delete",
     "lower": "delete"
+  },
+  "remove": {
+    "upper": "Remove",
+    "lower": "remove"
+  },
+  "moveUp": {
+    "upper": "Move up",
+    "lower": "move up"
+  },
+  "moveDown": {
+    "upper": "Move down",
+    "lower": "move down"
+  },
+  "open": {
+    "upper": "Open",
+    "lower": "open"
   },
   "cancel": "Cancel",
   "confirm": "OK",

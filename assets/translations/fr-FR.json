@@ -199,7 +199,12 @@
     "line": {
       "upper": "Réplique",
       "lower": "réplique"
-    }
+    },
+    "label": {
+      "upper": "Label",
+      "lower": "label"
+    },
+    "url": "URL"
   },
   "snack_bars": {
     "project": {
@@ -270,6 +275,22 @@
   "delete": {
     "upper": "Supprimer",
     "lower": "supprimer"
+  },
+  "remove": {
+    "upper": "Retirer",
+    "lower": "retirer"
+  },
+  "moveUp": {
+    "upper": "Monter",
+    "lower": "monter"
+  },
+  "moveDown": {
+    "upper": "Descendre",
+    "lower": "descendre"
+  },
+  "open": {
+    "upper": "Ouvrir",
+    "lower": "ouvrir"
   },
   "cancel": "Annuler",
   "confirm": "OK",
