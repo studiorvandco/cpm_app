@@ -8,6 +8,7 @@ part 'project.g.dart';
 
 @JsonSerializable()
 class Project implements Comparable<Project> {
+  @JsonKey(includeToJson: false)
   final String id;
   ProjectType projectType;
   String title;
@@ -18,7 +19,7 @@ class Project implements Comparable<Project> {
   int? shotsCompleted;
   String? director;
   String? writer;
-  List<Link>? links;
+  List<Link> links;
   List<Episode>? episodes;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -47,7 +48,7 @@ class Project implements Comparable<Project> {
     this.shotsCompleted,
     this.director,
     this.writer,
-    this.links,
+    this.links = const [],
     this.episodes,
   });
 
@@ -57,7 +58,8 @@ class Project implements Comparable<Project> {
         title = '',
         description = '',
         startDate = DateTime.now(),
-        endDate = DateTime.now();
+        endDate = DateTime.now(),
+        links = [];
 
   factory Project.fromJson(json) => _$ProjectFromJson(json);
 
