@@ -124,7 +124,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                             child: project.links != null
                                 ? Scrollbar(
                                     controller: scrollController,
-                                    thickness: PlatformIdentifier().isDesktop() ? 4 : 0,
+                                    thickness: PlatformIdentifier().isComputer() ? 4 : 0,
                                     child: ListView.builder(
                                       controller: scrollController,
                                       scrollDirection: Axis.horizontal,
