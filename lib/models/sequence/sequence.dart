@@ -1,7 +1,13 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../location/location.dart';
 import '../shot/shot.dart';
 
+part 'sequence.g.dart';
+
+@JsonSerializable()
 class Sequence {
+  @JsonKey(includeToJson: false)
   final String id;
   int number;
   String title;
@@ -9,7 +15,7 @@ class Sequence {
   DateTime startDate;
   DateTime endDate;
   Location? location;
-  List<Shot> shots;
+  List<Shot>? shots;
 
   Sequence({
     required this.id,
@@ -19,34 +25,10 @@ class Sequence {
     required this.startDate,
     required this.endDate,
     this.location,
-    required this.shots,
+    this.shots,
   });
 
-  factory Sequence.fromJson(json) {
-    final shotsJson = json['Shots'];
-    final List<Shot> shots = shotsJson.map<Shot>((shot) => Shot.fromJson(shot)).toList() as List<Shot>;
+  factory Sequence.fromJson(json) => _$SequenceFromJson(json);
 
-    return Sequence(
-      id: json['Id'].toString(),
-      number: json['Number'] as int,
-      title: json['Title'].toString(),
-      description: json['Description'].toString(),
-      startDate: DateTime.parse(json['BeginDate'].toString()),
-      endDate: DateTime.parse(json['EndDate'].toString()),
-      shots: shots,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id.isEmpty ? null : id,
-      'number': number,
-      'title': title,
-      'description': description,
-      'beginDate': startDate.toIso8601String(),
-      'endDate': endDate.toIso8601String(),
-      'location': location,
-      'shots': shots,
-    };
-  }
+  Map<String, dynamic> toJson() => _$SequenceToJson(this);
 }

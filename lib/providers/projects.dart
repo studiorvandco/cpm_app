@@ -19,7 +19,7 @@ class Projects extends _$Projects {
   Future<Map<String, dynamic>> get() async {
     state = const AsyncLoading<List<Project>>();
     final List result = await ProjectService().getAll();
-    state = AsyncValue<List<Project>>.data(result[1] as List<Project>);
+    state = AsyncData<List<Project>>(result[1] as List<Project>);
 
     return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
   }
@@ -56,7 +56,7 @@ class Projects extends _$Projects {
 class CurrentProject extends _$CurrentProject {
   @override
   FutureOr<Project> build() {
-    return Project.empty();
+    return Future.value(null);
   }
 
   void set(Project project) {

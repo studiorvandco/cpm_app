@@ -1,13 +1,19 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../sequence/sequence.dart';
 
+part 'episode.g.dart';
+
+@JsonSerializable()
 class Episode {
+  @JsonKey(includeToJson: false)
   final String id;
-  final int number;
+  int number;
   String title;
   String description;
-  final String? director;
-  final String? writer;
-  final List<Sequence> sequences;
+  String? director;
+  String? writer;
+  List<Sequence>? sequences;
 
   Episode({
     required this.id,
@@ -16,32 +22,16 @@ class Episode {
     required this.description,
     this.director,
     this.writer,
-    required this.sequences,
+    this.sequences,
   });
 
-  factory Episode.fromJson(json) {
-    final sequencesJson = json['Sequences'];
-    final List<Sequence> sequences =
-        sequencesJson.map<Sequence>((sequence) => Sequence.fromJson(sequence)).toList() as List<Sequence>;
+  Episode.empty()
+      : id = '-1',
+        number = -1,
+        title = '',
+        description = '';
 
-    return Episode(
-      id: json['Id'].toString(),
-      number: json['Number'] as int,
-      title: json['Title'].toString(),
-      description: json['Description'].toString(),
-      sequences: sequences,
-    );
-  }
+  factory Episode.fromJson(json) => _$EpisodeFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id.isEmpty ? null : id,
-      'number': number,
-      'title': title,
-      'description': description,
-      'director': director ?? '',
-      'writer': writer ?? '',
-      'sequences': sequences,
-    };
-  }
+  Map<String, dynamic> toJson() => _$EpisodeToJson(this);
 }

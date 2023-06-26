@@ -34,6 +34,8 @@ class SequenceService {
   }
 
   Future<List> add(String projectID, String episodeID, Sequence sequence) async {
+    print(Uri.parse('${api.sequences}/$projectID/$episodeID'));
+    print(jsonEncode(sequence));
     try {
       final Response response = await post(
         Uri.parse('${api.sequences}/$projectID/$episodeID'),

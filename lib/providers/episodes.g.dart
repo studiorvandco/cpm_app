@@ -6,27 +6,32 @@ part of 'episodes.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$episodesHash() => r'6543e6afe7ccebc89f908e2abfa641caa8773ca1';
+String _$episodesHash() => r'3b44838b37691c5aa3bd0f63aa951fd5e5565e05';
 
 /// See also [Episodes].
 @ProviderFor(Episodes)
-final episodesProvider = AutoDisposeAsyncNotifierProvider<Episodes, List<Episode>>.internal(
+final episodesProvider =
+    AutoDisposeAsyncNotifierProvider<Episodes, List<Episode>>.internal(
   Episodes.new,
   name: r'episodesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$episodesHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$episodesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 typedef _$Episodes = AutoDisposeAsyncNotifier<List<Episode>>;
-String _$currentEpisodeHash() => r'90a6c8b285fa36d0985750fb92de61ef0e110c36';
+String _$currentEpisodeHash() => r'4eb9b0aa4a9a02f1af0bb132be456be2897fb46c';
 
 /// See also [CurrentEpisode].
 @ProviderFor(CurrentEpisode)
-final currentEpisodeProvider = AsyncNotifierProvider<CurrentEpisode, Episode>.internal(
+final currentEpisodeProvider =
+    AsyncNotifierProvider<CurrentEpisode, Episode>.internal(
   CurrentEpisode.new,
   name: r'currentEpisodeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentEpisodeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentEpisodeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

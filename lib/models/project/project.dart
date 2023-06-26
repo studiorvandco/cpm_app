@@ -53,7 +53,7 @@ class Project implements Comparable<Project> {
   });
 
   Project.empty()
-      : id = '',
+      : id = '-1',
         projectType = ProjectType.placeholder,
         title = '',
         description = '',

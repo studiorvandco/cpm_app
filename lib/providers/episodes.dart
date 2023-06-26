@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/episode/episode.dart';
 import '../models/project/project.dart';
-import '../models/sequence/sequence.dart';
 import '../services/episode_service.dart';
 import 'projects.dart';
 
@@ -17,6 +16,9 @@ class Episodes extends _$Episodes {
     return ref.watch(currentProjectProvider).when(
       data: (Project project) async {
         final List result = await EpisodeService().getAll(project.id);
+        if (project.isMovie) {
+          ref.read(currentEpisodeProvider.notifier).set(result[1][0]);
+        }
 
         return result[1] as List<Episode>;
       },
@@ -36,6 +38,9 @@ class Episodes extends _$Episodes {
       data: (Project project) async {
         final List result = await EpisodeService().getAll(project.id);
         state = AsyncData<List<Episode>>(result[1] as List<Episode>);
+        if (project.isMovie) {
+          ref.read(currentEpisodeProvider.notifier).set(result[1][0]);
+        }
 
         return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
       },
@@ -80,7 +85,7 @@ class Episodes extends _$Episodes {
 class CurrentEpisode extends _$CurrentEpisode {
   @override
   FutureOr<Episode> build() {
-    return Episode(id: '', number: -1, title: '', description: '', sequences: <Sequence>[]);
+    return Future.value(null);
   }
 
   void set(Episode episode) {

@@ -1,8 +1,8 @@
+import 'package:cpm/providers/episodes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project/project.dart';
-import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
 import '../../utils/constants_globals.dart';
@@ -66,8 +66,8 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
 
   void openProject(Project project) {
     ref.read(currentProjectProvider.notifier).set(project);
-    if (project.isMovie && project.episodes != null && project.episodes!.length > 1) {
-      ref.read(currentEpisodeProvider.notifier).set(project.episodes![0]);
+    if (project.isMovie) {
+      ref.read(episodesProvider.notifier).build();
     }
     ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.sequences : HomePage.episodes);
   }

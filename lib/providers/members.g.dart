@@ -10,10 +10,12 @@ String _$membersHash() => r'c3ef113cb6fb73f47ce12cbce7e1f53817547a79';
 
 /// See also [Members].
 @ProviderFor(Members)
-final membersProvider = AutoDisposeAsyncNotifierProvider<Members, List<Member>>.internal(
+final membersProvider =
+    AutoDisposeAsyncNotifierProvider<Members, List<Member>>.internal(
   Members.new,
   name: r'membersProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$membersHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$membersHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
