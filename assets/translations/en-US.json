@@ -1,7 +1,17 @@
 {
   "username": "Username",
   "password": "Password",
-  "login": "Log in",
+  "authentication": {
+    "login": {
+      "upper": "Log in",
+      "lower": "log in"
+    },
+    "logout": {
+      "upper": "Log out",
+      "lower": "log out"
+    },
+    "logout_confirmation": "Do you really want to log out?"
+  },
   "home": "Home",
   "details": {
     "upper": {

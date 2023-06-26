@@ -12,15 +12,17 @@ class API {
   late final String members;
   late final String locations;
 
-  final String _api = Config.get('api')['url'] as String;
+  late final String _apiUrl;
 
   API() {
-    login = '${_api}Login/login';
-    projects = '${_api}Projects';
-    episodes = '${_api}Episodes';
-    sequences = '${_api}Sequences';
-    shots = '${_api}Shots';
-    members = '${_api}Members';
-    locations = '${_api}Locations';
+    String configApiUrl = Config.get('api')['url'] as String;
+    _apiUrl = '$configApiUrl${configApiUrl.endsWith('/') ? '' : '/'}';
+    login = '${_apiUrl}Login/login';
+    projects = '${_apiUrl}Projects';
+    episodes = '${_apiUrl}Episodes';
+    sequences = '${_apiUrl}Sequences';
+    shots = '${_apiUrl}Shots';
+    members = '${_apiUrl}Members';
+    locations = '${_apiUrl}Locations';
   }
 }
