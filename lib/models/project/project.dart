@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../episode.dart';
+import '../episode/episode.dart';
 import 'link.dart';
 import 'project_type.dart';
 

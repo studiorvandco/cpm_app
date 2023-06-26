@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/location.dart';
+import '../../models/location/location.dart';
 
 class LocationDialog extends StatefulWidget {
   const LocationDialog({super.key, required this.edit, this.id, this.name, this.position});

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/episode.dart';
+import '../models/episode/episode.dart';
 import '../models/project/project.dart';
-import '../models/sequence.dart';
+import '../models/sequence/sequence.dart';
 import '../services/episode_service.dart';
 import 'projects.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/episode.dart';
+import '../../models/episode/episode.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../utils/constants_globals.dart';

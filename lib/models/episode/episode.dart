@@ -1,4 +1,4 @@
-import 'sequence.dart';
+import '../sequence/sequence.dart';
 
 class Episode {
   final String id;

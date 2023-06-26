@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/member.dart';
+import '../models/member/member.dart';
 import '../services/member_service.dart';
 
 part 'members.g.dart';

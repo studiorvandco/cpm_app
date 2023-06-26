@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../models/location.dart';
+import '../models/location/location.dart';
 import '../utils/constants_globals.dart';
 
 class LocationService {

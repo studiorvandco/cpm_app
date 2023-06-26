@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../models/member.dart';
+import '../../models/member/member.dart';
 import '../../utils/constants_globals.dart';
 
 class MemberTile extends StatefulWidget {

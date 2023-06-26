@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/location.dart';
+import '../models/location/location.dart';
 import '../services/location_service.dart';
 
 part 'locations.g.dart';

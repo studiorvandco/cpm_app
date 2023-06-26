@@ -1,5 +1,5 @@
-import 'location.dart';
-import 'shot.dart';
+import '../location/location.dart';
+import '../shot/shot.dart';
 
 class Sequence {
   final String id;

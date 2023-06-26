@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/episode.dart';
+import '../../models/episode/episode.dart';
 import '../../models/project/project.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';

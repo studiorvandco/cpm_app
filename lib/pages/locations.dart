@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../exceptions/invalid_direction.dart';
-import '../models/location.dart';
+import '../models/location/location.dart';
 import '../providers/locations.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/custom_snack_bars.dart';

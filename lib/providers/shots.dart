@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/episode.dart';
+import '../models/episode/episode.dart';
 import '../models/project/project.dart';
-import '../models/sequence.dart';
-import '../models/shot.dart';
+import '../models/sequence/sequence.dart';
+import '../models/shot/shot.dart';
 import '../services/sequence_service.dart';
 import '../services/shot_service.dart';
 import 'episodes.dart';

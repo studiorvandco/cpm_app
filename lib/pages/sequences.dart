@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../models/episode.dart';
+import '../models/episode/episode.dart';
 import '../models/project/project.dart';
-import '../models/sequence.dart';
+import '../models/sequence/sequence.dart';
 import '../providers/episodes.dart';
 import '../providers/navigation.dart';
 import '../providers/projects.dart';

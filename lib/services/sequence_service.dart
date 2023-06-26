@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/sequence.dart';
+import '../models/sequence/sequence.dart';
 import '../utils/constants_globals.dart';
 
 class SequenceService {
