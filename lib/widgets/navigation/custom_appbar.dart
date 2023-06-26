@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/authentication.dart';
+import 'logout.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -25,12 +26,14 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
       ),
       title: const Center(child: Text('CPM')),
       actions: <IconButton>[
-        IconButton(icon: const Icon(Icons.logout), onPressed: logout),
+        IconButton(icon: const Icon(Icons.logout), onPressed: () => logout()),
       ],
     );
   }
 
-  void logout() {
-    ref.read(authenticationProvider.notifier).logout();
+  Future<void> logout() async {
+    if (await Logout().confirm(context)) {
+      ref.read(authenticationProvider.notifier).logout();
+    }
   }
 }

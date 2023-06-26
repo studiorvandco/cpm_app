@@ -110,7 +110,7 @@ class _LoginState extends ConsumerState<Login> {
                         width: 300,
                         child: FilledButton(
                           onPressed: submit,
-                          child: Text('login'.tr()),
+                          child: Text('authentication.login.upper'.tr()),
                         ),
                       );
                     },
@@ -119,7 +119,7 @@ class _LoginState extends ConsumerState<Login> {
                         width: 300,
                         child: FilledButton(
                           onPressed: submit,
-                          child: Text('login'.tr()),
+                          child: Text('authentication.login.upper'.tr()),
                         ),
                       );
                     },

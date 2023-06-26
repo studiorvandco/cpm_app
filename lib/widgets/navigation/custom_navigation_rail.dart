@@ -1,3 +1,4 @@
+import 'package:cpm/widgets/navigation/logout.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,7 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: IconButton(icon: const Icon(Icons.logout), onPressed: logout),
+                  child: IconButton(icon: const Icon(Icons.logout), onPressed: () => logout()),
                 ),
               ),
             ),
@@ -60,7 +61,9 @@ class _CustomNavigationRailState extends ConsumerState<CustomNavigationRail> {
     );
   }
 
-  void logout() {
-    ref.read(authenticationProvider.notifier).logout();
+  Future<void> logout() async {
+    if (await Logout().confirm(context)) {
+      ref.read(authenticationProvider.notifier).logout();
+    }
   }
 }

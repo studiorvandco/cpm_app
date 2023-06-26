@@ -1,7 +1,17 @@
 {
   "username": "Identifiant",
   "password": "Mot de passe",
-  "login": "Connexion",
+  "authentication": {
+    "login": {
+      "upper": "Connexion",
+      "lower": "connexion"
+    },
+    "logout": {
+      "upper": "Déconnexion",
+      "lower": "déconnexion"
+    },
+    "logout_confirmation": "Voulez-vous vraiment vous déconnecter ?"
+  },
   "home": "Accueil",
   "details": {
     "upper": {
