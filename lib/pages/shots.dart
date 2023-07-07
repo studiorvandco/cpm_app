@@ -15,7 +15,7 @@ import '../providers/shots.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/shot_card.dart';
 import '../widgets/custom_snack_bars.dart';
-import '../widgets/dialogs/new_shot.dart';
+import '../widgets/dialogs/shot_dialog.dart';
 import '../widgets/info_headers/sequence_info_header.dart';
 
 class Shots extends ConsumerStatefulWidget {
@@ -91,7 +91,7 @@ class _ShotsState extends ConsumerState<Shots> {
     final shot = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const NewShotDialog();
+        return const ShotDialog();
       },
     );
     if (shot is Shot) {

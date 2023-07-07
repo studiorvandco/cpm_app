@@ -1,16 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class NewSequenceDialog extends StatefulWidget {
-  const NewSequenceDialog({super.key, required this.locations});
+import '../../models/sequence/sequence.dart';
 
+class SequenceDialog extends StatefulWidget {
+  const SequenceDialog({super.key, required this.locations, required this.number});
+
+  final int number;
   final List<String> locations;
 
   @override
-  State<StatefulWidget> createState() => _NewSequenceDialogState();
+  State<StatefulWidget> createState() => _SequenceDialogState();
 }
 
-class _NewSequenceDialogState extends State<NewSequenceDialog> {
+class _SequenceDialogState extends State<SequenceDialog> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   late final List<String> locations;
@@ -174,6 +177,14 @@ class _NewSequenceDialogState extends State<NewSequenceDialog> {
   }
 
   void submit() {
-    Navigator.pop(context);
+    final Sequence newSequence = Sequence(
+      id: '',
+      number: widget.number,
+      title: titleController.text,
+      description: descriptionController.text,
+      startDate: dates?.start ?? DateTime.now(),
+      endDate: dates?.end ?? DateTime.now(),
+    );
+    Navigator.pop(context, newSequence);
   }
 }

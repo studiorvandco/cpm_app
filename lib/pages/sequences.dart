@@ -13,7 +13,7 @@ import '../providers/sequences.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/sequence_card.dart';
 import '../widgets/custom_snack_bars.dart';
-import '../widgets/dialogs/new_sequence.dart';
+import '../widgets/dialogs/sequence_dialog.dart';
 import '../widgets/info_headers/episode_info_header.dart';
 import '../widgets/info_headers/project_info_header.dart';
 
@@ -95,16 +95,19 @@ class _SequencesState extends ConsumerState<Sequences> {
   }
 
   Future<void> add() async {
-    if (!ref.read(currentProjectProvider).hasValue || !ref.read(currentEpisodeProvider).hasValue) {
+    if (!ref.read(currentProjectProvider).hasValue ||
+        !ref.read(currentEpisodeProvider).hasValue ||
+        !ref.read(sequencesProvider).hasValue) {
       return;
     }
 
     final sequence = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const NewSequenceDialog(locations: <String>[]);
+        return SequenceDialog(locations: const <String>[], number: ref.read(sequencesProvider).value!.length + 1);
       },
     );
+
     if (sequence is Sequence) {
       final Project project = ref.read(currentProjectProvider).value!;
       final Episode episode = ref.read(currentEpisodeProvider).value!;

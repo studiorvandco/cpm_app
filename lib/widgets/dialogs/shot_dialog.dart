@@ -1,14 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class NewShotDialog extends StatefulWidget {
-  const NewShotDialog({super.key});
+class ShotDialog extends StatefulWidget {
+  const ShotDialog({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NewShotDialogState();
+  State<StatefulWidget> createState() => _ShotDialogState();
 }
 
-class _NewShotDialogState extends State<NewShotDialog> {
+class _ShotDialogState extends State<ShotDialog> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController lineController = TextEditingController();
