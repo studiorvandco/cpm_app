@@ -1,3 +1,4 @@
+import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../episode/episode.dart';
@@ -7,7 +8,7 @@ import 'project_type.dart';
 part 'project.g.dart';
 
 @JsonSerializable()
-class Project implements Comparable<Project> {
+class Project extends BaseModel implements Comparable<Project> {
   @JsonKey(includeToJson: false)
   final String id;
   ProjectType projectType;
@@ -63,6 +64,7 @@ class Project implements Comparable<Project> {
 
   factory Project.fromJson(json) => _$ProjectFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
 
   void toggleFavorite() {

@@ -1,19 +1,21 @@
+import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'link.g.dart';
 
 @JsonSerializable()
-class Link {
+class Link extends BaseModel {
   final String label;
   final String url;
 
-  const Link(this.label, this.url);
+  Link(this.label, this.url);
 
-  const Link.empty()
+  Link.empty()
       : label = '',
         url = '';
 
-  factory Link.fromJson(json) => _$LinkFromJson(json);
+  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$LinkToJson(this);
 }

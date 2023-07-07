@@ -1,38 +1,18 @@
-import 'dart:convert';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-
-import 'api.dart';
+import '../utils/constants_globals.dart';
 
 class LoginService {
-  final API api = API();
+  Future<bool> login(String email, String password) async {
+    final AuthResponse res = await supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
 
-  Future<List> login(String username, String password) async {
-    try {
-      final Response response = await post(
-        Uri.parse(api.login),
-        headers: <String, String>{'accept': '*/*', 'content-type': 'application/json'},
-        body: jsonEncode(<String, String>{'Username': username, 'Password': password}),
-      );
-
-      if (response.statusCode == 200) {
-        return [true, response.body, response.statusCode, response.reasonPhrase];
-      } else {
-        debugPrint('${response.statusCode}: ${response.reasonPhrase}');
-
-        return [false, response.body, response.statusCode, response.reasonPhrase];
-      }
-    } catch (exception, stackTrace) {
-      debugPrint(exception.toString());
-      debugPrint(stackTrace.toString());
-
-      return [false, '', 408, 'error.timeout'.tr()];
-    }
+    return res.session != null;
   }
 
-  bool logout() {
-    return false;
+  Future<void> logout() async {
+    await supabase.auth.signOut();
   }
 }
