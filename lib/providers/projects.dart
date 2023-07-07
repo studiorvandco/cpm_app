@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/project/project.dart';
-import '../services/project_service.dart';
+import 'base_provider.dart';
 
 part 'projects.g.dart';
 
 @riverpod
-class Projects extends _$Projects {
+class Projects extends _$Projects with BaseProvider {
+  final SupabaseTable table = SupabaseTable.project;
+
   @override
   FutureOr<List<Project>> build() {
     get();
@@ -16,39 +19,31 @@ class Projects extends _$Projects {
     return <Project>[];
   }
 
-  Future<Map<String, dynamic>> get() async {
+  Future<void> get() async {
     state = const AsyncLoading<List<Project>>();
-    final List result = await ProjectService().getAll();
-    state = AsyncData<List<Project>>(result[1] as List<Project>);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
+    final List<Project> projects = await selectProjectService.selectProjects();
+    state = AsyncData<List<Project>>(projects);
   }
 
-  Future<Map<String, dynamic>> add(Project newProject) async {
-    final List result = await ProjectService().add(newProject);
+  Future<void> add(Project newProject) async {
+    await insertService.insert(table, newProject);
     await get(); // Get the projects in order to get the new project's ID
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> edit(Project editedProject) async {
-    final List result = await ProjectService().edit(editedProject);
+  Future<void> edit(Project editedProject) async {
+    await updateService.update(table, editedProject);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])
         if (project.id != editedProject.id) project else editedProject,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> delete(String projectID) async {
-    final List result = await ProjectService().delete(projectID);
+  Future<void> delete(int id) async {
+    await deleteService.delete(table, id);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])
-        if (project.id != projectID) project,
+        if (project.id != id) project,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 }
 

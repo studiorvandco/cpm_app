@@ -4,16 +4,18 @@ import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/select/select_service.dart';
 import 'package:cpm/utils/constants_globals.dart';
 
-class SelectProjectService {
+class SelectProjectService extends SelectService {
+  SupabaseTable table = SupabaseTable.project;
+
   Future<List<Project>> selectProjects() async {
-    return await SelectService().select(
-      await supabase.from(SupabaseTable.project.name).select('*'),
+    return await select<Project>(
+      await supabase.from(table.name).select('*'),
       Project.fromJson,
     );
   }
 
   Future<List<Link>> selectLinks(int id) async {
-    return await SelectService().select(
+    return await select<Link>(
       await supabase.from(SupabaseTable.link.name).select('*').eq('project', id),
       Link.fromJson,
     );

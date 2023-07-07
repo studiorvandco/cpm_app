@@ -1,3 +1,4 @@
+import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../sequence/sequence.dart';
@@ -5,9 +6,7 @@ import '../sequence/sequence.dart';
 part 'episode.g.dart';
 
 @JsonSerializable()
-class Episode {
-  @JsonKey(includeToJson: false)
-  final String id;
+class Episode extends BaseModel {
   int number;
   String title;
   String description;
@@ -16,7 +15,7 @@ class Episode {
   List<Sequence>? sequences;
 
   Episode({
-    required this.id,
+    super.id,
     required this.number,
     required this.title,
     required this.description,
@@ -26,12 +25,13 @@ class Episode {
   });
 
   Episode.empty()
-      : id = '-1',
-        number = -1,
+      : number = -1,
         title = '',
-        description = '';
+        description = '',
+        super();
 
-  factory Episode.fromJson(json) => _$EpisodeFromJson(json);
+  factory Episode.fromJson(Map<String, dynamic> json) => _$EpisodeFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$EpisodeToJson(this);
 }

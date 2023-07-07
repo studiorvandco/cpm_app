@@ -9,8 +9,6 @@ part 'project.g.dart';
 
 @JsonSerializable()
 class Project extends BaseModel implements Comparable<Project> {
-  @JsonKey(includeToJson: false)
-  final String id;
   ProjectType projectType;
   String title;
   String description;
@@ -39,7 +37,7 @@ class Project extends BaseModel implements Comparable<Project> {
   }
 
   Project({
-    required this.id,
+    super.id,
     required this.projectType,
     required this.title,
     required this.description,
@@ -54,15 +52,14 @@ class Project extends BaseModel implements Comparable<Project> {
   });
 
   Project.empty()
-      : id = '-1',
-        projectType = ProjectType.placeholder,
+      : projectType = ProjectType.unknown,
         title = '',
         description = '',
         startDate = DateTime.now(),
         endDate = DateTime.now(),
         links = [];
 
-  factory Project.fromJson(json) => _$ProjectFromJson(json);
+  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$ProjectToJson(this);

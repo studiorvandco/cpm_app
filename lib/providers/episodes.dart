@@ -1,26 +1,30 @@
 import 'dart:async';
 
+import 'package:cpm/providers/base_provider.dart';
+import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/episode/episode.dart';
 import '../models/project/project.dart';
-import '../services/episode_service.dart';
 import 'projects.dart';
 
 part 'episodes.g.dart';
 
 @riverpod
-class Episodes extends _$Episodes {
+class Episodes extends _$Episodes with BaseProvider {
+  SupabaseTable table = SupabaseTable.episode;
+
   @override
   FutureOr<List<Episode>> build() {
     return ref.watch(currentProjectProvider).when(
       data: (Project project) async {
-        final List result = await EpisodeService().getAll(project.id);
+        final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
+
         if (project.isMovie) {
-          ref.read(currentEpisodeProvider.notifier).set(result[1][0]);
+          ref.read(currentEpisodeProvider.notifier).set(episodes.first);
         }
 
-        return result[1] as List<Episode>;
+        return episodes;
       },
       error: (Object error, StackTrace stackTrace) {
         return <Episode>[];
@@ -31,33 +35,30 @@ class Episodes extends _$Episodes {
     );
   }
 
-  Future<Map<String, dynamic>> get() {
+  Future<void> get() {
     state = const AsyncLoading<List<Episode>>();
 
     return ref.watch(currentProjectProvider).when(
       data: (Project project) async {
-        final List result = await EpisodeService().getAll(project.id);
-        state = AsyncData<List<Episode>>(result[1] as List<Episode>);
-        if (project.isMovie) {
-          ref.read(currentEpisodeProvider.notifier).set(result[1][0]);
-        }
+        final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
+        state = AsyncData<List<Episode>>(episodes);
 
-        return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
+        if (project.isMovie) {
+          ref.read(currentEpisodeProvider.notifier).set(episodes.first);
+        }
       },
       error: (Object error, StackTrace stackTrace) {
-        return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
+        return Future.value();
       },
       loading: () {
-        return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
+        return Future.value();
       },
     );
   }
 
-  Future<Map<String, dynamic>> add(String projectID, Episode newEpisode) async {
-    final List result = await EpisodeService().add(projectID, newEpisode);
+  Future<void> add(Episode newEpisode) async {
+    await insertService.insert(table, newEpisode);
     await get(); // Get the episodes in order to get the new episode's ID
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
   Future<Map<String, dynamic>> edit(String projectID, Episode editedEpisode) async {

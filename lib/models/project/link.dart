@@ -8,7 +8,7 @@ class Link extends BaseModel {
   final String label;
   final String url;
 
-  Link(this.label, this.url);
+  Link({super.id, required this.label, required this.url});
 
   Link.empty()
       : label = '',
