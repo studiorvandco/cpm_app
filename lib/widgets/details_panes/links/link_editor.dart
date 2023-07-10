@@ -17,7 +17,7 @@ class LinkEditor extends StatefulWidget {
   final Link link;
 
   final Function(Link) edit;
-  final Function() delete;
+  final Function(int) delete;
   final Function()? moveUp;
   final Function()? moveDown;
 
@@ -49,7 +49,7 @@ class _LinkEditorState extends State<LinkEditor> {
               _formKey.currentState!.validate()) {
             var label = labelController.text != widget.link.label ? labelController.text : widget.link.label;
             var url = urlController.text != widget.link.url ? urlController.text : widget.link.url;
-            widget.edit(Link.insert(label: label, url: url));
+            widget.edit(Link.insert(project: widget.link.project, label: label, url: url));
           }
         },
         child: Row(
@@ -126,7 +126,7 @@ class _LinkEditorState extends State<LinkEditor> {
                     title: Text('remove.upper'.tr()),
                     onTap: () {
                       Navigator.of(context).pop();
-                      widget.delete();
+                      widget.delete(widget.link.id);
                     },
                   ),
                 ),

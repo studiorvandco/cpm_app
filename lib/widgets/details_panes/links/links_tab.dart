@@ -16,9 +16,16 @@ class LinksTab extends ConsumerStatefulWidget {
 }
 
 class _LinksEditorState extends ConsumerState<LinksTab> {
-  void _edit(Project project) {
-    ref.read(projectsProvider.notifier).edit(project);
-    ref.read(currentProjectProvider.notifier).set(project);
+  void _add(Link link) {
+    ref.read(currentProjectProvider.notifier).addLink(link);
+  }
+
+  void _edit(Link link) {
+    ref.read(currentProjectProvider.notifier).editLink(link);
+  }
+
+  void _delete(int id) {
+    ref.read(currentProjectProvider.notifier).deleteLink(id);
   }
 
   @override
@@ -38,24 +45,18 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                     return LinkEditor(
                       key: ValueKey(project.links![index]),
                       link: project.links![index],
-                      edit: (newLink) {
-                        project.links![index] = newLink;
-                        _edit(project);
-                      },
-                      delete: () {
-                        project.links!.removeAt(index);
-                        _edit(project);
-                      },
+                      edit: (editedLink) => _edit(editedLink),
+                      delete: (id) => _delete(id),
                       moveUp: index != 0
                           ? () {
                               project.links!.move(index, index - 1);
-                              _edit(project);
+                              // _edit(project);
                             }
                           : null,
                       moveDown: index != project.links!.length - 1
                           ? () {
                               project.links!.move(index, index + 1);
-                              _edit(project);
+                              // _edit(project);
                             }
                           : null,
                     );
@@ -70,7 +71,7 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                 onPressed: () {
                   project.links ??= [];
                   project.links!.add(Link.empty());
-                  _edit(project);
+                  _add(Link.insert(project: project.id));
                 },
                 icon: const Icon(Icons.add),
               ),

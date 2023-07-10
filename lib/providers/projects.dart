@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../models/project/link.dart';
 import '../models/project/project.dart';
 import 'base_provider.dart';
 
@@ -48,13 +49,37 @@ class Projects extends _$Projects with BaseProvider {
 }
 
 @Riverpod(keepAlive: true)
-class CurrentProject extends _$CurrentProject {
+class CurrentProject extends _$CurrentProject with BaseProvider {
+  final SupabaseTable linkTable = SupabaseTable.link;
+
   @override
   FutureOr<Project> build() {
     return Future.value(null);
   }
 
-  void set(Project project) {
+  Future<void> set(Project project) async {
+    project.links = await selectLinkService.selectLinks(project.id);
     state = AsyncData<Project>(project);
+  }
+
+  Future<void> addLink(Link newLink) async {
+    await insertService.insert(linkTable, newLink);
+    if (state.value != null) {
+      await set(state.value!); // Get the new list of links
+    }
+  }
+
+  Future<void> editLink(Link editedLink) async {
+    await updateService.update(linkTable, editedLink);
+    if (state.value != null) {
+      await set(state.value!); // Get the new list of links
+    }
+  }
+
+  Future<void> deleteLink(int? id) async {
+    await deleteService.delete(linkTable, id);
+    if (state.value != null) {
+      await set(state.value!); // Get the new list of links
+    }
   }
 }

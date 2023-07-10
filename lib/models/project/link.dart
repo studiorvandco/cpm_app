@@ -5,23 +5,29 @@ part 'link.g.dart';
 
 @JsonSerializable()
 class Link extends BaseModel {
-  final String label;
-  final String url;
+  int project;
+  String? label;
+  String? url;
+
+  String get getLabel => label ?? 'Unlabeled';
+
+  String get getUrl => url ?? '';
 
   Link({
     required super.id,
-    required this.label,
-    required this.url,
+    required this.project,
+    this.label,
+    this.url,
   });
 
   Link.insert({
-    required this.label,
-    required this.url,
+    required this.project,
+    this.label,
+    this.url,
   }) : super(id: -1);
 
   Link.empty()
-      : label = '',
-        url = '',
+      : project = -1,
         super(id: -1);
 
   factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
