@@ -38,14 +38,14 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.project.title,
+                      widget.project.getTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 4)),
                     Text(
-                      widget.project.description,
+                      widget.project.getDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

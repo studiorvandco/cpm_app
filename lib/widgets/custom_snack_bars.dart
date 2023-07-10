@@ -19,9 +19,9 @@ class CustomSnackBars {
     );
   }
 
-  SnackBar getModelSnackBar(BuildContext context, bool succeeded, int code, {String message = 'error.no_message'}) {
+  SnackBar getModelSnackBar(BuildContext context, bool succeeded, {String message = 'error.no_message'}) {
     if (!succeeded) {
-      message = '${'error.error'.tr()} $code - $message';
+      message = '${'error.error'.tr()} - $message';
     }
 
     return SnackBar(

@@ -38,9 +38,9 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane>
           data: (Episode episode) {
             return ref.watch(currentSequenceProvider).when(
               data: (Sequence sequence) {
-                start = sequence.startDate;
-                end = sequence.endDate;
-                titleController.text = sequence.title;
+                start = sequence.getStartDate;
+                end = sequence.getEndDate;
+                titleController.text = sequence.getTitle;
                 descriptionController.text = sequence.description ?? '';
                 titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
                 descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
@@ -54,7 +54,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane>
                       Focus(
                         onFocusChange: (bool hasFocus) {
                           if (!hasFocus && titleController.text != project.title) {
-                            edit(project.id, episode.id, sequence);
+                            edit(sequence);
                           }
                         },
                         child: TextField(
@@ -67,7 +67,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane>
                       Focus(
                         onFocusChange: (bool hasFocus) {
                           if (!hasFocus && descriptionController.text != project.description) {
-                            edit(project.id, episode.id, sequence);
+                            edit(sequence);
                           }
                         },
                         child: TextField(
@@ -82,7 +82,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane>
                       ),
                       const Padding(padding: EdgeInsets.only(bottom: 16)),
                       GestureDetector(
-                        onTap: () => editDate(project.id, episode.id, sequence),
+                        onTap: () => editDate(sequence),
                         behavior: HitTestBehavior.translucent,
                         child: IconLabel(
                           text: getDateText(),
@@ -126,7 +126,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane>
     return '$firstText - $lastText';
   }
 
-  Future<void> editDate(String projectID, String episodeID, Sequence sequence) async {
+  Future<void> editDate(Sequence sequence) async {
     final DateTimeRange? newDates = await showDateRangePicker(
       context: context,
       initialDateRange: DateTimeRange(start: start, end: end),
@@ -139,16 +139,16 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane>
         end = newDates.end;
       });
     }
-    edit(projectID, episodeID, sequence);
+    edit(sequence);
   }
 
-  void edit(String projectID, String episodeID, Sequence sequence) {
+  void edit(Sequence sequence) {
     sequence.title = titleController.text;
     sequence.description = descriptionController.text;
     sequence.startDate = start;
     sequence.endDate = end;
 
-    ref.read(sequencesProvider.notifier).edit(projectID, episodeID, sequence);
+    ref.read(sequencesProvider.notifier).edit(sequence);
     ref.read(currentSequenceProvider.notifier).set(sequence);
   }
 }

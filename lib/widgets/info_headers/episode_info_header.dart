@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/episode/episode.dart';
-import '../../models/project/project.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
 import '../../providers/projects.dart';
@@ -39,7 +38,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<EpisodeInfoHeader> {
                     Row(children: <Widget>[
                       Expanded(
                         child: Text(
-                          episode.title,
+                          episode.getTitle,
                           style: Theme.of(context).textTheme.titleLarge,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -55,7 +54,7 @@ class _InfoHeaderEpisodeState extends ConsumerState<EpisodeInfoHeader> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        episode.description,
+                        episode.getDescription,
                         style: Theme.of(context).textTheme.bodyMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -103,14 +102,10 @@ class _InfoHeaderEpisodeState extends ConsumerState<EpisodeInfoHeader> {
 
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
-        final Project project = ref.read(currentProjectProvider).value!;
-        final Map<String, dynamic> result = await ref.read(episodesProvider.notifier).delete(project.id, episode.id);
-        if (context.mounted) {
-          final bool succeeded = result['succeeded'] as bool;
-          final int code = result['code'] as int;
-          final String message = succeeded ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+        await ref.read(episodesProvider.notifier).delete(episode.id);
+        if (true) {
+          final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
         }
         ref.read(navigationProvider.notifier).set(HomePage.episodes);
       }

@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../models/episode/episode.dart';
-import '../models/project/project.dart';
-import '../models/sequence/sequence.dart';
 import '../models/shot/shot.dart';
 import '../providers/episodes.dart';
 import '../providers/navigation.dart';
@@ -88,24 +85,17 @@ class _ShotsState extends ConsumerState<Shots> {
       return;
     }
 
-    final shot = await showDialog(
+    final newShot = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return const ShotDialog();
       },
     );
-    if (shot is Shot) {
-      final Project project = currentProjectReader.value!;
-      final Episode episode = currentEpisodeReader.value!;
-      final Sequence sequence = currentSequenceReader.value!;
-      final Map<String, dynamic> result =
-          await ref.read(shotsProvider.notifier).add(project.id, episode.id, sequence.id, shot);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.shot.added'.tr() : 'snack_bars.shot.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+    if (newShot is Shot) {
+      await ref.read(shotsProvider.notifier).add(newShot);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }

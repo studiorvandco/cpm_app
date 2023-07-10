@@ -84,14 +84,6 @@ class CompactShotCard extends StatelessWidget {
                 ),
               ),
               const Padding(padding: EdgeInsets.only(right: 12)),
-              Expanded(
-                child: Text(
-                  widget.shot.title,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
               Checkbox(value: widget.shot.completed, onChanged: onCheck),
             ]),
           ]),
@@ -137,14 +129,6 @@ class CollapsedShotCard extends StatelessWidget {
               ),
             ),
             const Padding(padding: EdgeInsets.only(right: 12)),
-            Expanded(
-              child: Text(
-                widget.shot.title,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
             Checkbox(value: widget.shot.completed, onChanged: onCheck),
           ]),
           Text(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../models/episode/episode.dart';
 import '../models/project/project.dart';
 import '../models/sequence/sequence.dart';
 import '../providers/episodes.dart';
@@ -101,24 +100,23 @@ class _SequencesState extends ConsumerState<Sequences> {
       return;
     }
 
-    final sequence = await showDialog(
+    final int episode = ref.read(currentEpisodeProvider).value!.id;
+    final newSequence = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SequenceDialog(locations: const <String>[], number: ref.read(sequencesProvider).value!.length + 1);
+        return SequenceDialog(
+          locations: const <String>[],
+          episode: episode,
+          number: ref.read(sequencesProvider).value!.length + 1,
+        );
       },
     );
 
-    if (sequence is Sequence) {
-      final Project project = ref.read(currentProjectProvider).value!;
-      final Episode episode = ref.read(currentEpisodeProvider).value!;
-      final Map<String, dynamic> result =
-          await ref.read(sequencesProvider.notifier).add(project.id, episode.id, sequence);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.sequence.added'.tr() : 'snack_bars.sequence.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+    if (newSequence is Sequence) {
+      await ref.read(sequencesProvider.notifier).add(newSequence);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }

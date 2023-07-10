@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import '../../models/sequence/sequence.dart';
 
 class SequenceDialog extends StatefulWidget {
-  const SequenceDialog({super.key, required this.locations, required this.number});
+  const SequenceDialog({super.key, required this.episode, required this.locations, required this.number});
 
+  final int episode;
   final int number;
   final List<String> locations;
 
@@ -177,8 +178,8 @@ class _SequenceDialogState extends State<SequenceDialog> {
   }
 
   void submit() {
-    final Sequence newSequence = Sequence(
-      id: '',
+    final Sequence newSequence = Sequence.insert(
+      episode: widget.episode,
       number: widget.number,
       title: titleController.text,
       description: descriptionController.text,

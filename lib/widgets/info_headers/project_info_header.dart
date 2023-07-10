@@ -24,8 +24,8 @@ class ProjectInfoHeader extends ConsumerStatefulWidget {
 
 class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   String _getDateText(BuildContext context, Project project) {
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(project.startDate);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(project.endDate);
+    final String firstText = DateFormat.yMd(context.locale.toString()).format(project.getStartDate);
+    final String lastText = DateFormat.yMd(context.locale.toString()).format(project.getEndDate);
 
     return '$firstText - $lastText';
   }
@@ -74,7 +74,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     Row(children: <Widget>[
                       Expanded(
                         child: Text(
-                          project.title,
+                          project.getTitle,
                           style: Theme.of(context).textTheme.titleLarge,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -90,7 +90,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        project.description,
+                        project.getDescription,
                         style: Theme.of(context).textTheme.bodyMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -127,9 +127,9 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                               child: ListView.builder(
                                 controller: scrollController,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: project.links.length,
+                                itemCount: project.links?.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  var link = project.links[index];
+                                  var link = project.links![index];
 
                                   return TextButton(
                                     onPressed: link.url.isNotEmpty && Uri.tryParse(link.url)!.isAbsolute
@@ -181,13 +181,10 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   Future<void> delete(Project project) async {
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
-        final Map<String, dynamic> result = await ref.read(projectsProvider.notifier).delete(project.id);
-        if (context.mounted) {
-          final bool succeeded = result['succeeded'] as bool;
-          final int code = result['code'] as int;
-          final String message = succeeded ? 'snack_bars.project.deleted'.tr() : 'snack_bars.project.not_deleted'.tr();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+        await ref.read(projectsProvider.notifier).delete(project.id);
+        if (true) {
+          final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
         }
         ref.read(navigationProvider.notifier).set(HomePage.projects);
       }

@@ -30,44 +30,46 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              ListView.separated(
-                shrinkWrap: true,
-                itemCount: project.links.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return LinkEditor(
-                    key: ValueKey(project.links[index]),
-                    link: project.links[index],
-                    edit: (newLink) {
-                      project.links[index] = newLink;
-                      _edit(project);
-                    },
-                    delete: () {
-                      project.links.removeAt(index);
-                      _edit(project);
-                    },
-                    moveUp: index != 0
-                        ? () {
-                            project.links.move(index, index - 1);
-                            _edit(project);
-                          }
-                        : null,
-                    moveDown: index != project.links.length - 1
-                        ? () {
-                            project.links.move(index, index + 1);
-                            _edit(project);
-                          }
-                        : null,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 4),
-                  );
-                },
-              ),
+              if (project.links != null)
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: project.links!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return LinkEditor(
+                      key: ValueKey(project.links![index]),
+                      link: project.links![index],
+                      edit: (newLink) {
+                        project.links![index] = newLink;
+                        _edit(project);
+                      },
+                      delete: () {
+                        project.links!.removeAt(index);
+                        _edit(project);
+                      },
+                      moveUp: index != 0
+                          ? () {
+                              project.links!.move(index, index - 1);
+                              _edit(project);
+                            }
+                          : null,
+                      moveDown: index != project.links!.length - 1
+                          ? () {
+                              project.links!.move(index, index + 1);
+                              _edit(project);
+                            }
+                          : null,
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4),
+                    );
+                  },
+                ),
               IconButton.filledTonal(
                 onPressed: () {
-                  project.links.add(const Link.empty());
+                  project.links ??= [];
+                  project.links!.add(Link.empty());
                   _edit(project);
                 },
                 icon: const Icon(Icons.add),

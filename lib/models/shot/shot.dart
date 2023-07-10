@@ -1,38 +1,43 @@
-class Shot {
-  final String id;
+import 'package:cpm/models/base_model.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'shot.g.dart';
+
+@JsonSerializable()
+class Shot extends BaseModel {
+  int sequence;
   int number;
   String? value;
-  String title;
   String? description;
   bool completed;
 
+  String get getDescription => description ?? '';
+
   Shot({
-    required this.id,
+    required super.id,
+    required this.sequence,
     required this.number,
     this.value,
-    required this.title,
     this.description,
     required this.completed,
   });
 
-  factory Shot.fromJson(json) {
-    return Shot(
-      id: json['Id'].toString(),
-      number: json['Number'] as int,
-      title: json['Title'].toString(),
-      description: json['Description'].toString(),
-      completed: json['Completed'] as bool,
-    );
-  }
+  Shot.insert({
+    required this.sequence,
+    required this.number,
+    this.value,
+    this.description,
+    required this.completed,
+  }) : super(id: -1);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id.isEmpty ? null : id,
-      'number': number,
-      'value': value,
-      'title': title,
-      'description': description,
-      'completed': completed,
-    };
-  }
+  Shot.empty()
+      : sequence = -1,
+        number = -1,
+        completed = false,
+        super(id: -1);
+
+  factory Shot.fromJson(Map<String, dynamic> json) => _$ShotFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ShotToJson(this);
 }

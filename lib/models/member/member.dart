@@ -1,26 +1,34 @@
-class Member {
-  final String id;
-  String firstName;
+import 'package:cpm/models/base_model.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'member.g.dart';
+
+@JsonSerializable()
+class Member extends BaseModel {
+  String? firstName;
   String? lastName;
   String? phone;
-  String? imageURL;
+  String? photo;
 
-  Member({required this.id, required this.firstName, this.lastName, this.phone, this.imageURL});
+  String get fullName => '$firstName${firstName != null ? ' ' : ''}${lastName?.toUpperCase()}';
 
-  factory Member.fromJson(json) {
-    return Member(
-      id: json['Id'].toString(),
-      firstName: json['FirstName'].toString(),
-      lastName: json['LastName'].toString(),
-      phone: json['Phone'].toString(),
-    );
-  }
+  Member({
+    required super.id,
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.photo,
+  });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'firstname': firstName,
-      'lastname': lastName,
-      'phone': phone,
-    };
-  }
+  Member.insert({
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.photo,
+  }) : super(id: -1);
+
+  factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$MemberToJson(this);
 }

@@ -109,13 +109,10 @@ class _MembersState extends ConsumerState<Members> {
       },
     );
     if (member is Member) {
-      final Map<String, dynamic> result = await ref.read(membersProvider.notifier).add(member);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.member.added'.tr() : 'snack_bars.member.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+      await ref.read(membersProvider.notifier).add(member);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
@@ -126,7 +123,6 @@ class _MembersState extends ConsumerState<Members> {
       builder: (BuildContext context) {
         return MemberDialog(
           edit: true,
-          id: member.id,
           firstName: member.firstName,
           lastName: member.lastName,
           phone: member.phone,
@@ -134,25 +130,19 @@ class _MembersState extends ConsumerState<Members> {
       },
     );
     if (editedMember is Member) {
-      final Map<String, dynamic> result = await ref.read(membersProvider.notifier).edit(editedMember);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.member.edited'.tr() : 'snack_bars.member.not_edited'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+      await ref.read(membersProvider.notifier).edit(editedMember);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
 
   Future<void> delete(Member member) async {
-    final Map<String, dynamic> result = await ref.read(membersProvider.notifier).delete(member.id);
-    if (context.mounted) {
-      final bool succeeded = result['succeeded'] as bool;
-      final int code = result['code'] as int;
-      final String message = succeeded ? 'snack_bars.member.deleted'.tr() : 'snack_bars.member.not_deleted'.tr();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+    await ref.read(membersProvider.notifier).delete(member.id);
+    if (true) {
+      final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
     }
   }
 }

@@ -2,8 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/episode/episode.dart';
-import '../../models/project/project.dart';
 import '../../models/sequence/sequence.dart';
 import '../../providers/episodes.dart';
 import '../../providers/navigation.dart';
@@ -24,8 +22,8 @@ class SequenceInfoHeader extends ConsumerStatefulWidget {
 
 class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
   String _getDateText(BuildContext context, Sequence sequence) {
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(sequence.startDate);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(sequence.endDate);
+    final String firstText = DateFormat.yMd(context.locale.toString()).format(sequence.getStartDate);
+    final String lastText = DateFormat.yMd(context.locale.toString()).format(sequence.getEndDate);
 
     return '$firstText - $lastText';
   }
@@ -49,7 +47,7 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
                     Row(children: <Widget>[
                       Expanded(
                         child: Text(
-                          sequence.title,
+                          sequence.getTitle,
                           style: Theme.of(context).textTheme.titleLarge,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -112,17 +110,10 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
 
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
-        final Project project = ref.read(currentProjectProvider).value!;
-        final Episode episode = ref.read(currentEpisodeProvider).value!;
-        final Map<String, dynamic> result =
-            await ref.read(sequencesProvider.notifier).delete(project.id, episode.id, sequence.id);
-        if (context.mounted) {
-          final bool succeeded = result['succeeded'] as bool;
-          final int code = result['code'] as int;
-          final String message =
-              succeeded ? 'snack_bars.sequence.deleted'.tr() : 'snack_bars.sequence.not_deleted'.tr();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+        await ref.read(sequencesProvider.notifier).delete(sequence.id);
+        if (true) {
+          final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
         }
         ref.read(navigationProvider.notifier).set(HomePage.episodes);
       }

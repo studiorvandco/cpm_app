@@ -53,7 +53,7 @@ class _SequenceCardState extends ConsumerState<SequenceCard> {
                         ),
                         const Padding(padding: EdgeInsets.only(right: 12)),
                         Text(
-                          widget.sequence.title,
+                          widget.sequence.getTitle,
                           style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

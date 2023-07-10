@@ -27,9 +27,9 @@ class _PlanningState extends ConsumerState<Planning> with TickerProviderStateMix
             CalendarControllerProvider.of<Event>(context).controller.addAll(<CalendarEventData<Event>>[
               ...sequences.map((Sequence sequence) {
                 return CalendarEventData<Event>(
-                  event: Event(title: sequence.title, description: sequence.description ?? ''),
-                  title: sequence.title,
-                  date: sequence.startDate,
+                  event: Event(title: sequence.getTitle, description: sequence.description ?? ''),
+                  title: sequence.getTitle,
+                  date: sequence.getStartDate,
                   startTime: sequence.startDate,
                   endTime: sequence.endDate,
                 );

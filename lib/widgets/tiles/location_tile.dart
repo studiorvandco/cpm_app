@@ -22,7 +22,7 @@ class _LocationTileState extends State<LocationTile> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        widget.location.name,
+        widget.location.getName,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),

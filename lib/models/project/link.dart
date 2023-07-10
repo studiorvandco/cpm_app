@@ -8,11 +8,21 @@ class Link extends BaseModel {
   final String label;
   final String url;
 
-  Link({super.id, required this.label, required this.url});
+  Link({
+    required super.id,
+    required this.label,
+    required this.url,
+  });
+
+  Link.insert({
+    required this.label,
+    required this.url,
+  }) : super(id: -1);
 
   Link.empty()
       : label = '',
-        url = '';
+        url = '',
+        super(id: -1);
 
   factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
 

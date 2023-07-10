@@ -5,8 +5,9 @@ import '../../models/episode/episode.dart';
 import '../../models/sequence/sequence.dart';
 
 class EpisodeDialog extends StatefulWidget {
-  const EpisodeDialog({super.key, required this.number});
+  const EpisodeDialog({super.key, required this.project, required this.number});
 
+  final int project;
   final int number;
 
   @override
@@ -141,7 +142,8 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
 
   void submit() {
     final Episode newEpisode = Episode(
-      id: '',
+      id: -1,
+      project: widget.project,
       number: widget.number,
       title: titleController.text,
       description: descriptionController.text,

@@ -1,34 +1,22 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/episode/episode.dart';
-import '../models/project/project.dart';
 import '../models/sequence/sequence.dart';
-import '../models/shot/shot.dart';
-import '../services/sequence_service.dart';
+import '../services/config/supabase_table.dart';
+import 'base_provider.dart';
 import 'episodes.dart';
-import 'projects.dart';
 
 part 'sequences.g.dart';
 
 @riverpod
-class Sequences extends _$Sequences {
+class Sequences extends _$Sequences with BaseProvider {
+  SupabaseTable table = SupabaseTable.sequence;
+
   @override
   FutureOr<List<Sequence>> build() {
-    return ref.watch(currentProjectProvider).when(
-      data: (Project project) async {
-        return ref.watch(currentEpisodeProvider).when(
-          data: (Episode episode) async {
-            final List result = await SequenceService().getAll(project.id, episode.id);
-
-            return result[1] as List<Sequence>;
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return <Sequence>[];
-          },
-          loading: () {
-            return <Sequence>[];
-          },
-        );
+    return ref.watch(currentEpisodeProvider).when(
+      data: (Episode episode) async {
+        return await selectSequenceService.selectSequences(episode.id);
       },
       error: (Object error, StackTrace stackTrace) {
         return <Sequence>[];
@@ -39,60 +27,42 @@ class Sequences extends _$Sequences {
     );
   }
 
-  Future<Map<String, dynamic>> get() {
+  Future<void> get() {
     state = const AsyncLoading<List<Sequence>>();
 
-    return ref.watch(currentProjectProvider).when(
-      data: (Project project) async {
-        return ref.watch(currentEpisodeProvider).when(
-          data: (Episode episode) async {
-            final List result = await SequenceService().getAll(project.id, episode.id);
-            state = AsyncData<List<Sequence>>(result[1] as List<Sequence>);
-
-            return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
-          },
-          loading: () {
-            return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
-          },
-        );
+    return ref.watch(currentEpisodeProvider).when(
+      data: (Episode episode) async {
+        List<Sequence> sequences = await selectSequenceService.selectSequences(episode.id);
+        state = AsyncData<List<Sequence>>(sequences);
       },
       error: (Object error, StackTrace stackTrace) {
-        return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
+        return Future.value();
       },
       loading: () {
-        return Future<Map<String, dynamic>>(() => <String, dynamic>{'succeeded': false, 'code': -1});
+        return Future.value();
       },
     );
   }
 
-  Future<Map<String, dynamic>> add(String projectID, String episodeID, Sequence newSequence) async {
-    final List result = await SequenceService().add(projectID, episodeID, newSequence);
+  Future<void> add(Sequence newSequence) async {
+    await insertService.insert(table, newSequence);
     await get(); // Get the sequences in order to get the new sequence's ID
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> edit(String projectID, String episodeID, Sequence editedSequence) async {
-    final List result = await SequenceService().edit(projectID, episodeID, editedSequence);
+  Future<void> edit(Sequence editedSequence) async {
+    await updateService.update(table, editedSequence);
     state = AsyncData<List<Sequence>>(<Sequence>[
       for (final Sequence episode in state.value ?? <Sequence>[])
         if (episode.id != editedSequence.id) episode else editedSequence,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> delete(String projectID, String episodeID, String sequenceID) async {
-    final List result = await SequenceService().delete(projectID, episodeID, sequenceID);
+  Future<void> delete(int? id) async {
+    await deleteService.delete(table, id);
     state = AsyncData<List<Sequence>>(<Sequence>[
       for (final Sequence episode in state.value ?? <Sequence>[])
-        if (episode.id != episodeID) episode,
+        if (episode.id != id) episode,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 }
 
@@ -100,7 +70,7 @@ class Sequences extends _$Sequences {
 class CurrentSequence extends _$CurrentSequence {
   @override
   FutureOr<Sequence> build() {
-    return Sequence(id: '', number: -1, title: '', startDate: DateTime.now(), endDate: DateTime.now(), shots: <Shot>[]);
+    return Future.value(null);
   }
 
   void set(Sequence sequence) {

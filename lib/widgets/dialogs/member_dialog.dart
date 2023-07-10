@@ -8,9 +8,8 @@ import 'package:flutter/material.dart';
 import '../../models/member/member.dart';
 
 class MemberDialog extends StatefulWidget {
-  const MemberDialog({super.key, required this.edit, this.id, this.firstName, this.lastName, this.phone, this.image});
+  const MemberDialog({super.key, required this.edit, this.firstName, this.lastName, this.phone, this.image});
 
-  final String? id;
   final String? firstName;
   final String? lastName;
   final String? phone;
@@ -187,8 +186,7 @@ class _MemberDialogState extends State<MemberDialog> {
     if (firstNameController.text.trim().isEmpty) {
       return;
     }
-    final Member newMember = Member(
-      id: widget.id ?? '',
+    final Member newMember = Member.insert(
       firstName: firstNameController.text,
       lastName: lastNameController.text,
       phone: phoneController.text,

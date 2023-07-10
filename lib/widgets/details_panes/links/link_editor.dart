@@ -49,7 +49,7 @@ class _LinkEditorState extends State<LinkEditor> {
               _formKey.currentState!.validate()) {
             var label = labelController.text != widget.link.label ? labelController.text : widget.link.label;
             var url = urlController.text != widget.link.url ? urlController.text : widget.link.url;
-            widget.edit(Link(label, url));
+            widget.edit(Link.insert(label: label, url: url));
           }
         },
         child: Row(

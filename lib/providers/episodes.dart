@@ -61,24 +61,20 @@ class Episodes extends _$Episodes with BaseProvider {
     await get(); // Get the episodes in order to get the new episode's ID
   }
 
-  Future<Map<String, dynamic>> edit(String projectID, Episode editedEpisode) async {
-    final List result = await EpisodeService().edit(projectID, editedEpisode);
+  Future<void> edit(Episode editedEpisode) async {
+    await updateService.update(table, editedEpisode);
     state = AsyncData<List<Episode>>(<Episode>[
       for (final Episode episode in state.value ?? <Episode>[])
         if (episode.id != editedEpisode.id) episode else editedEpisode,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> delete(String projectID, String episodeID) async {
-    final List result = await EpisodeService().delete(projectID, episodeID);
+  Future<void> delete(int? id) async {
+    await deleteService.delete(table, id);
     state = AsyncData<List<Episode>>(<Episode>[
       for (final Episode episode in state.value ?? <Episode>[])
-        if (episode.id != episodeID) episode,
+        if (episode.id != id) episode,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 }
 

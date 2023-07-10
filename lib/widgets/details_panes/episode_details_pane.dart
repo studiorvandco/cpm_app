@@ -31,8 +31,8 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
       data: (Project project) {
         return ref.watch(currentEpisodeProvider).when(
           data: (Episode episode) {
-            titleController.text = episode.title;
-            descriptionController.text = episode.description;
+            titleController.text = episode.getTitle;
+            descriptionController.text = episode.getDescription;
             titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
             descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 
@@ -44,7 +44,7 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
                   Focus(
                     onFocusChange: (bool hasFocus) {
                       if (!hasFocus && titleController.text != project.title) {
-                        edit(project.id, episode);
+                        edit(episode);
                       }
                     },
                     child: TextField(
@@ -58,7 +58,7 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
                   Focus(
                     onFocusChange: (bool hasFocus) {
                       if (!hasFocus && descriptionController.text != project.description) {
-                        edit(project.id, episode);
+                        edit(episode);
                       }
                     },
                     child: TextField(
@@ -92,11 +92,11 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
     );
   }
 
-  void edit(String projectID, Episode episode) {
+  void edit(Episode episode) {
     episode.title = titleController.text;
     episode.description = descriptionController.text;
 
-    ref.read(episodesProvider.notifier).edit(projectID, episode);
+    ref.read(episodesProvider.notifier).edit(episode);
     ref.read(currentEpisodeProvider.notifier).set(episode);
   }
 }

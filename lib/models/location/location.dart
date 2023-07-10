@@ -1,22 +1,28 @@
-class Location {
-  final String id;
-  String name;
+import 'package:cpm/models/base_model.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'location.g.dart';
+
+@JsonSerializable()
+class Location extends BaseModel {
+  String? name;
   String? position;
 
-  Location({required this.id, required this.name, this.position});
+  String get getName => name ?? 'Unnamed';
 
-  factory Location.fromJson(json) {
-    return Location(
-      id: json['Id'].toString(),
-      name: json['Name'].toString(),
-      position: json['Position'].toString(),
-    );
-  }
+  Location({
+    required super.id,
+    this.name,
+    this.position,
+  });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'position': position,
-    };
-  }
+  Location.insert({
+    this.name,
+    this.position,
+  }) : super(id: -1);
+
+  factory Location.fromJson(Map<String, dynamic> json) => _$LocationFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$LocationToJson(this);
 }

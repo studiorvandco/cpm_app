@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/episode/episode.dart';
-import '../models/project/project.dart';
 import '../providers/episodes.dart';
 import '../providers/projects.dart';
 import '../utils/constants_globals.dart';
@@ -70,22 +69,19 @@ class EpisodesState extends ConsumerState<Episodes> {
       return;
     }
 
+    final int project = ref.read(currentProjectProvider).value!.id;
     final int number = ref.read(episodesProvider).value!.length + 1;
-    final episode = await showDialog(
+    final newEpisode = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EpisodeDialog(number: number);
+        return EpisodeDialog(project: project, number: number);
       },
     );
-    if (episode is Episode) {
-      final Project project = ref.read(currentProjectProvider).value!;
-      final Map<String, dynamic> result = await ref.read(episodesProvider.notifier).add(project.id, episode);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.episode.added'.tr() : 'snack_bars.episode.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+    if (newEpisode is Episode) {
+      await ref.read(episodesProvider.notifier).add(newEpisode);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }

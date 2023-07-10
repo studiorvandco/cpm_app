@@ -38,7 +38,7 @@ class Projects extends _$Projects with BaseProvider {
     ]);
   }
 
-  Future<void> delete(int id) async {
+  Future<void> delete(int? id) async {
     await deleteService.delete(table, id);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])

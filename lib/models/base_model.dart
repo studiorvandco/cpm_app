@@ -1,9 +1,10 @@
-
+import 'package:json_annotation/json_annotation.dart';
 
 abstract class BaseModel {
-  final int? id;
+  @JsonKey(includeToJson: false)
+  final int id;
 
-  const BaseModel({this.id});
+  const BaseModel({required this.id});
 
   Map<String, dynamic> toJson();
 }

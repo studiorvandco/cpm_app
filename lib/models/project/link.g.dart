@@ -11,8 +11,9 @@ Link _$LinkFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = Link(
-          $checkedConvert('label', (v) => v as String),
-          $checkedConvert('url', (v) => v as String),
+          id: $checkedConvert('id', (v) => v as int),
+          label: $checkedConvert('label', (v) => v as String),
+          url: $checkedConvert('url', (v) => v as String),
         );
         return val;
       },

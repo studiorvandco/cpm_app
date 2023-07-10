@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:cpm/providers/base_provider.dart';
+import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/location/location.dart';
-import '../services/location_service.dart';
 
 part 'locations.g.dart';
 
 @riverpod
-class Locations extends _$Locations {
+class Locations extends _$Locations with BaseProvider {
+  SupabaseTable table = SupabaseTable.location;
+
   @override
   FutureOr<List<Location>> build() {
     get();
@@ -16,38 +19,30 @@ class Locations extends _$Locations {
     return <Location>[];
   }
 
-  Future<Map<String, dynamic>> get() async {
+  Future<void> get() async {
     state = const AsyncLoading<List<Location>>();
-    final List result = await LocationService().getLocations();
-    state = AsyncData<List<Location>>(result[1] as List<Location>);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[2] as int};
+    List<Location> locations = await selectLocationService.selectLocations();
+    state = AsyncData<List<Location>>(locations);
   }
 
-  Future<Map<String, dynamic>> add(Location location) async {
-    final List result = await LocationService().addLocation(location);
+  Future<void> add(Location newLocation) async {
+    await insertService.insert(table, newLocation);
     await get(); // Get the locations in order to get the new location's ID
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> edit(Location editedLocation) async {
-    final List result = await LocationService().editLocation(editedLocation);
+  Future<void> edit(Location editedLocation) async {
+    await updateService.update(table, editedLocation);
     state = AsyncData<List<Location>>(<Location>[
       for (final Location location in state.value ?? <Location>[])
         if (location.id != editedLocation.id) location else editedLocation,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 
-  Future<Map<String, dynamic>> delete(String locationID) async {
-    final List result = await LocationService().deleteLocation(locationID);
+  Future<void> delete(int id) async {
+    await deleteService.delete(table, id);
     state = AsyncData<List<Location>>(<Location>[
       for (final Location location in state.value ?? <Location>[])
-        if (location.id != locationID) location,
+        if (location.id != id) location,
     ]);
-
-    return <String, dynamic>{'succeeded': result[0] as bool, 'code': result[1] as int};
   }
 }

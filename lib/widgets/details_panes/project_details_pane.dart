@@ -30,10 +30,10 @@ class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane>
 
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
-        start = project.startDate;
-        end = project.endDate;
-        titleController.text = project.title;
-        descriptionController.text = project.description;
+        start = project.getStartDate;
+        end = project.getEndDate;
+        titleController.text = project.getTitle;
+        descriptionController.text = project.getDescription;
         titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
         descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 

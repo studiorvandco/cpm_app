@@ -6,7 +6,7 @@ part of 'sequences.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sequencesHash() => r'8405fe1d3029a2b32df7538e26bad40c233fe122';
+String _$sequencesHash() => r'04e5ea84f0b9497f0445274081774aa23edcfc94';
 
 /// See also [Sequences].
 @ProviderFor(Sequences)
@@ -21,7 +21,7 @@ final sequencesProvider =
 );
 
 typedef _$Sequences = AutoDisposeAsyncNotifier<List<Sequence>>;
-String _$currentSequenceHash() => r'e07183703ecedddeccc80613c62fa03b342e5fcd';
+String _$currentSequenceHash() => r'dbd26f4baf421f684db15ed1658aedb9be11e82b';
 
 /// See also [CurrentSequence].
 @ProviderFor(CurrentSequence)
