@@ -15,7 +15,7 @@ Member _$MemberFromJson(Map<String, dynamic> json) => $checkedCreate(
           firstName: $checkedConvert('first_name', (v) => v as String?),
           lastName: $checkedConvert('last_name', (v) => v as String?),
           phone: $checkedConvert('phone', (v) => v as String?),
-          photo: $checkedConvert('photo', (v) => v as String?),
+          email: $checkedConvert('email', (v) => v as String?),
         );
         return val;
       },
@@ -26,5 +26,5 @@ Map<String, dynamic> _$MemberToJson(Member instance) => <String, dynamic>{
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'phone': instance.phone,
-      'photo': instance.photo,
+      'email': instance.email,
     };

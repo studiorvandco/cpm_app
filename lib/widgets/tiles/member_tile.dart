@@ -25,9 +25,9 @@ class _MemberTileState extends State<MemberTile> {
       child: ListTile(
         leading: SizedBox(
           height: double.infinity,
-          child: widget.member.photo != null
+          child: false
               ? CircleAvatar(
-                  backgroundImage: NetworkImage(widget.member.photo!), // No matter how big it is, it won't overflow
+                  backgroundImage: NetworkImage(''), // No matter how big it is, it won't overflow
                 )
               : Icon(Icons.person, color: Theme.of(context).iconTheme.color),
         ),

@@ -8,7 +8,7 @@ class Member extends BaseModel {
   String? firstName;
   String? lastName;
   String? phone;
-  String? photo;
+  String? email;
 
   String get fullName => '$firstName${firstName != null ? ' ' : ''}${lastName?.toUpperCase()}';
 
@@ -17,14 +17,14 @@ class Member extends BaseModel {
     this.firstName,
     this.lastName,
     this.phone,
-    this.photo,
+    this.email,
   });
 
   Member.insert({
     this.firstName,
     this.lastName,
     this.phone,
-    this.photo,
+    this.email,
   }) : super(id: -1);
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);

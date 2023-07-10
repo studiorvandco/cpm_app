@@ -57,7 +57,7 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
     };
 
 const _$ProjectTypeEnumMap = {
-  ProjectType.movie: 0,
-  ProjectType.series: 1,
-  ProjectType.unknown: 2,
+  ProjectType.unknown: 'Unknown',
+  ProjectType.movie: 'Movie',
+  ProjectType.series: 'Series',
 };
