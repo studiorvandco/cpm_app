@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../models/event.dart';
 import '../models/project/project.dart';
 import '../models/sequence/sequence.dart';
-import '../providers/projects.dart';
-import '../providers/sequences.dart';
+import '../providers/projects/projects.dart';
+import '../providers/sequences/sequences.dart';
 import '../utils/constants_globals.dart';
 
 class Planning extends ConsumerStatefulWidget {

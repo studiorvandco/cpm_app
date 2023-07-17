@@ -1,12 +1,12 @@
-import 'package:cpm/providers/navigation.dart';
+import 'package:cpm/providers/navigation/navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/episode/episode.dart';
-import '../providers/episodes.dart';
-import '../providers/projects.dart';
+import '../providers/episodes/episodes.dart';
+import '../providers/projects/projects.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/episode_card.dart';
 import '../widgets/custom_snack_bars.dart';

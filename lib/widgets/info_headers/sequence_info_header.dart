@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/sequence/sequence.dart';
-import '../../providers/episodes.dart';
-import '../../providers/navigation.dart';
-import '../../providers/projects.dart';
-import '../../providers/sequences.dart';
+import '../../providers/episodes/episodes.dart';
+import '../../providers/navigation/navigation.dart';
+import '../../providers/projects/projects.dart';
+import '../../providers/sequences/sequences.dart';
 import '../../utils/constants_globals.dart';
 import '../custom_snack_bars.dart';
 import '../dialogs/confirm_dialog.dart';

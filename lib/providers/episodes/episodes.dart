@@ -4,9 +4,9 @@ import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/episode/episode.dart';
-import '../models/project/project.dart';
-import 'projects.dart';
+import '../../models/episode/episode.dart';
+import '../../models/project/project.dart';
+import '../projects/projects.dart';
 
 part 'episodes.g.dart';
 

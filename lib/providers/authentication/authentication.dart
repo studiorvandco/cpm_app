@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../services/authentication_service.dart';
+import '../../services/authentication_service.dart';
 
 part 'authentication.g.dart';
 

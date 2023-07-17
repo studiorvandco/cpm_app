@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/authentication.dart';
+import '../providers/authentication/authentication.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/custom_snack_bars.dart';
 

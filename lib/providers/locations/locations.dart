@@ -4,7 +4,7 @@ import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/location/location.dart';
+import '../../models/location/location.dart';
 
 part 'locations.g.dart';
 

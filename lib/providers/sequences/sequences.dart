@@ -1,10 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/episode/episode.dart';
-import '../models/sequence/sequence.dart';
-import '../services/config/supabase_table.dart';
-import 'base_provider.dart';
-import 'episodes.dart';
+import '../../models/episode/episode.dart';
+import '../../models/sequence/sequence.dart';
+import '../../services/config/supabase_table.dart';
+import '../base_provider.dart';
+import '../episodes/episodes.dart';
 
 part 'sequences.g.dart';
 

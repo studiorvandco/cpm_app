@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../extensions/list_helpers.dart';
 import '../../../models/project/link.dart';
 import '../../../models/project/project.dart';
-import '../../../providers/projects.dart';
+import '../../../providers/projects/projects.dart';
 import '../../../utils/constants_globals.dart';
 import 'link_editor.dart';
 

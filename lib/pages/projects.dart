@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/project/project.dart';
-import '../providers/navigation.dart';
-import '../providers/projects.dart';
+import '../providers/navigation/navigation.dart';
+import '../providers/projects/projects.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/project_card.dart';
 import '../widgets/custom_snack_bars.dart';

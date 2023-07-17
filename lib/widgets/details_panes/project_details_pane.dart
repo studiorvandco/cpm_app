@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project/project.dart';
-import '../../providers/projects.dart';
+import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
 

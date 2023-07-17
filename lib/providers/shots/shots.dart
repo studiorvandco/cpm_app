@@ -2,9 +2,9 @@ import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/sequence/sequence.dart';
-import '../models/shot/shot.dart';
-import 'sequences.dart';
+import '../../models/sequence/sequence.dart';
+import '../../models/shot/shot.dart';
+import '../sequences/sequences.dart';
 
 part 'shots.g.dart';
 

@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../models/project/project.dart';
-import '../../providers/navigation.dart';
-import '../../providers/projects.dart';
+import '../../providers/navigation/navigation.dart';
+import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
 import '../custom_snack_bars.dart';
 import '../dialogs/confirm_dialog.dart';

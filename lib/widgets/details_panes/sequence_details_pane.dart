@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/episode/episode.dart';
 import '../../models/project/project.dart';
 import '../../models/sequence/sequence.dart';
-import '../../providers/episodes.dart';
-import '../../providers/projects.dart';
-import '../../providers/sequences.dart';
+import '../../providers/episodes/episodes.dart';
+import '../../providers/projects/projects.dart';
+import '../../providers/sequences/sequences.dart';
 import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
 

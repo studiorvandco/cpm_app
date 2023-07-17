@@ -5,10 +5,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../models/project/project.dart';
 import '../models/sequence/sequence.dart';
-import '../providers/episodes.dart';
-import '../providers/navigation.dart';
-import '../providers/projects.dart';
-import '../providers/sequences.dart';
+import '../providers/episodes/episodes.dart';
+import '../providers/navigation/navigation.dart';
+import '../providers/projects/projects.dart';
+import '../providers/sequences/sequences.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/sequence_card.dart';
 import '../widgets/custom_snack_bars.dart';

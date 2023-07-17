@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/project/link.dart';
-import '../models/project/project.dart';
-import '../services/config/supabase_table.dart';
-import 'base_provider.dart';
+import '../../models/project/link.dart';
+import '../../models/project/project.dart';
+import '../../services/config/supabase_table.dart';
+import '../base_provider.dart';
 
 part 'projects.g.dart';
 

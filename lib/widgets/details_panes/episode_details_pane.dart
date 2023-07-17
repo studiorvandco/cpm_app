@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/episode/episode.dart';
 import '../../models/project/project.dart';
-import '../../providers/episodes.dart';
-import '../../providers/projects.dart';
+import '../../providers/episodes/episodes.dart';
+import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
 
 class EpisodeDetailsPane extends ConsumerStatefulWidget {
