@@ -107,10 +107,12 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                       if (project.director != null) ...<Widget>[
                         const Padding(padding: EdgeInsets.only(bottom: 8)),
                         const Flexible(child: Icon(Icons.movie)),
+                        Text(project.director!),
                       ],
                       if (project.writer != null) ...<Widget>[
                         const Padding(padding: EdgeInsets.only(bottom: 8)),
                         const Flexible(child: Icon(Icons.description)),
+                        Text(project.writer!),
                       ],
                     ]),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
