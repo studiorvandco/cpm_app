@@ -1,8 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../utils/constants_globals.dart';
+import 'service.dart';
 
-class LoginService {
+class AuthenticationService extends Service {
+  bool isAuthenticated() {
+    return supabase.auth.currentSession != null;
+  }
+
   Future<bool> login(String email, String password) async {
     final AuthResponse res = await supabase.auth.signInWithPassword(
       email: email,

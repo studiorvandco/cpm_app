@@ -1,6 +1,7 @@
 import '../../models/base_model.dart';
+import '../service.dart';
 
-abstract class SelectService {
+abstract class SelectService extends Service {
   Future<List<Model>> select<Model extends BaseModel>(
     List data,
     Model Function(Map<String, dynamic>) constructor,

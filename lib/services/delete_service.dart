@@ -1,7 +1,7 @@
-import 'package:cpm/services/config/supabase_table.dart';
-import 'package:cpm/utils/constants_globals.dart';
+import 'config/supabase_table.dart';
+import 'service.dart';
 
-class DeleteService {
+class DeleteService extends Service {
   Future<void> delete(SupabaseTable table, int? id) async {
     await supabase.from(table.name).delete().match({'id': id});
   }

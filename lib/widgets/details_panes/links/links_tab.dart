@@ -1,7 +1,7 @@
-import 'package:cpm/extensions/list_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../extensions/list_helpers.dart';
 import '../../../models/project/link.dart';
 import '../../../models/project/project.dart';
 import '../../../providers/projects.dart';
