@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:cpm/services/config/supabase_table.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/project/link.dart';
 import '../models/project/project.dart';
+import '../services/config/supabase_table.dart';
 import 'base_provider.dart';
 
 part 'projects.g.dart';
@@ -22,7 +22,7 @@ class Projects extends _$Projects with BaseProvider {
 
   Future<void> get() async {
     state = const AsyncLoading<List<Project>>();
-    final List<Project> projects = await selectProjectService.selectProjects();
+    List<Project> projects = await selectProjectService.selectProjects();
     state = AsyncData<List<Project>>(projects);
   }
 

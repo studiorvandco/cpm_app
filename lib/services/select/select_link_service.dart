@@ -8,7 +8,7 @@ class SelectLinkService extends SelectService {
 
   Future<List<Link>> selectLinks(int projectId) async {
     return await select<Link>(
-      await supabase.from(table.name).select('*').eq('project', projectId),
+      await supabase.from(table.name).select('*').eq('project', projectId).order('index', ascending: true),
       Link.fromJson,
     );
   }

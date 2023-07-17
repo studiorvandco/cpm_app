@@ -1,12 +1,12 @@
-import 'package:cpm/extensions/move_element.dart';
-import 'package:cpm/models/project/link.dart';
-import 'package:cpm/widgets/details_panes/links/link_editor.dart';
+import 'package:cpm/extensions/list_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../models/project/link.dart';
 import '../../../models/project/project.dart';
 import '../../../providers/projects.dart';
 import '../../../utils/constants_globals.dart';
+import 'link_editor.dart';
 
 class LinksTab extends ConsumerStatefulWidget {
   const LinksTab({super.key});
@@ -28,10 +28,36 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
     ref.read(currentProjectProvider.notifier).deleteLink(id);
   }
 
+  void _move(Link moveUpLink, Link moveDownLink) {
+    if (moveUpLink.index != null) {
+      moveUpLink.index = moveUpLink.index! - 1;
+      _edit(moveUpLink);
+    }
+
+    if (moveDownLink.index != null) {
+      moveDownLink.index = moveDownLink.index! + 1;
+      _edit(moveDownLink);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
+        project.links?.sort(
+          (Link a, Link b) {
+            if (a.index == null && b.index == null) {
+              return 0;
+            } else if (a.index == null) {
+              return -1;
+            } else if (b.index == null) {
+              return 1;
+            }
+
+            return a.index!.compareTo(b.index!);
+          },
+        );
+
         return Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
           child: Column(
@@ -47,17 +73,9 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                       link: project.links![index],
                       edit: (editedLink) => _edit(editedLink),
                       delete: (id) => _delete(id),
-                      moveUp: index != 0
-                          ? () {
-                              project.links!.move(index, index - 1);
-                              // _edit(project);
-                            }
-                          : null,
+                      moveUp: index != 0 ? () => _move(project.links![index], project.links![index - 1]) : null,
                       moveDown: index != project.links!.length - 1
-                          ? () {
-                              project.links!.move(index, index + 1);
-                              // _edit(project);
-                            }
+                          ? () => _move(project.links![index + 1], project.links![index])
                           : null,
                     );
                   },
@@ -70,8 +88,12 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
               IconButton.filledTonal(
                 onPressed: () {
                   project.links ??= [];
-                  project.links!.add(Link.empty());
-                  _add(Link.insert(project: project.id));
+                  Link newLink = Link.empty(
+                    project: project.id,
+                    index: project.links!.nextIndex,
+                  );
+                  project.links!.add(newLink);
+                  _add(newLink);
                 },
                 icon: const Icon(Icons.add),
               ),
