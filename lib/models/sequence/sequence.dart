@@ -1,6 +1,6 @@
-import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../base_model.dart';
 import '../location/location.dart';
 import '../shot/shot.dart';
 

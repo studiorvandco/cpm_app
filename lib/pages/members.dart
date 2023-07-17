@@ -105,7 +105,7 @@ class _MembersState extends ConsumerState<Members> {
     final member = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const MemberDialog(edit: false);
+        return const MemberDialog();
       },
     );
     if (member is Member) {
@@ -121,12 +121,7 @@ class _MembersState extends ConsumerState<Members> {
     final editedMember = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return MemberDialog(
-          edit: true,
-          firstName: member.firstName,
-          lastName: member.lastName,
-          phone: member.phone,
-        );
+        return MemberDialog(member: member);
       },
     );
     if (editedMember is Member) {
