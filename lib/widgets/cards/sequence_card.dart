@@ -1,3 +1,4 @@
+import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -77,6 +78,7 @@ class _SequenceCardState extends ConsumerState<SequenceCard> {
   }
 
   void openShots() {
+    ref.read(currentSequenceProvider.notifier).set(widget.sequence);
     ref.read(navigationProvider.notifier).set(HomePage.shots);
   }
 }

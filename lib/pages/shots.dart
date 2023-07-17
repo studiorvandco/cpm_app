@@ -35,25 +35,27 @@ class _ShotsState extends ConsumerState<Shots> {
               return Column(
                 children: <Widget>[
                   const SequenceInfoHeader(),
-                  LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return MasonryGridView.count(
-                        itemCount: shots.length,
-                        padding:
-                            const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
-                        itemBuilder: (BuildContext context, int index) {
-                          return ShotCard(
-                            shot: shots[index],
-                            onPressed: () {
-                              // TODO
-                            },
-                          );
-                        },
-                        crossAxisCount: getColumnsCount(constraints),
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                      );
-                    },
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return MasonryGridView.count(
+                          itemCount: shots.length,
+                          padding: const EdgeInsets.only(
+                              bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                          itemBuilder: (BuildContext context, int index) {
+                            return ShotCard(
+                              shot: shots[index],
+                              onPressed: () {
+                                // TODO
+                              },
+                            );
+                          },
+                          crossAxisCount: getColumnsCount(constraints),
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                        );
+                      },
+                    ),
                   ),
                 ],
               );
