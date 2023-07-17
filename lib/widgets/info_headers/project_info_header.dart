@@ -132,7 +132,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                                 itemCount: project.links?.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   var link = project.links![index];
-
+                                  print(link.label);
                                   return TextButton(
                                     onPressed: link.getUrl.isNotEmpty && Uri.tryParse(link.getUrl)!.isAbsolute
                                         ? () {

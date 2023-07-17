@@ -10,7 +10,13 @@ class Link extends BaseModel {
   String? label;
   String? url;
 
-  String get getLabel => label ?? 'Unlabeled';
+  String get getLabel {
+    if (label == null || label!.isEmpty) {
+      return 'Unlabeled';
+    }
+
+    return label!;
+  }
 
   String get getUrl => url ?? '';
 
@@ -22,7 +28,7 @@ class Link extends BaseModel {
     this.url,
   });
 
-  Link.insertOrEdit({
+  Link.insert({
     required this.project,
     this.index,
     this.label,
