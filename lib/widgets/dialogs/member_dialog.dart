@@ -15,7 +15,7 @@ class MemberDialog extends StatefulWidget {
 class _MemberDialogState extends State<MemberDialog> {
   late final bool edit;
 
-  late String title;
+  late final String title;
 
   late final TextEditingController firstNameController;
   late final TextEditingController lastNameController;

@@ -23,6 +23,10 @@ class _LocationsState extends ConsumerState<Locations> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => add(),
+          child: const Icon(Icons.add),
+        ),
         body: ref.watch(locationsProvider).when(
           data: (List<Location> locations) {
             return ListView.separated(
@@ -93,10 +97,6 @@ class _LocationsState extends ConsumerState<Locations> {
             return requestPlaceholderLoading;
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => add,
-          child: const Icon(Icons.add),
-        ),
       ),
     );
   }
@@ -105,7 +105,7 @@ class _LocationsState extends ConsumerState<Locations> {
     final location = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ProviderScope(parent: ProviderScope.containerOf(context), child: const LocationDialog(edit: false));
+        return const LocationDialog();
       },
     );
     if (location is Location) {
@@ -121,11 +121,7 @@ class _LocationsState extends ConsumerState<Locations> {
     final editedLocation = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LocationDialog(
-          edit: true,
-          name: location.name,
-          position: location.position,
-        );
+        return LocationDialog(location: location);
       },
     );
     if (editedLocation is Location) {

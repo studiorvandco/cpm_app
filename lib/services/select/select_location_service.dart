@@ -1,14 +1,13 @@
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/select/select_service.dart';
-import 'package:cpm/utils/constants_globals.dart';
 
 class SelectLocationService extends SelectService {
-  SupabaseTable table = SupabaseTable.shot;
+  SupabaseTable table = SupabaseTable.location;
 
   Future<List<Location>> selectLocations() async {
     return await select<Location>(
-      await supabase.from(table.name).select('*'),
+      await supabase.from(table.name).select('*').order('name', ascending: true),
       Location.fromJson,
     );
   }

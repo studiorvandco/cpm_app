@@ -4,34 +4,32 @@ import 'package:flutter/material.dart';
 import '../../models/location/location.dart';
 
 class LocationDialog extends StatefulWidget {
-  const LocationDialog({super.key, required this.edit, this.name, this.position});
+  const LocationDialog({super.key, this.location});
 
-  final String? name;
-  final String? position;
-  final bool edit;
+  final Location? location;
 
   @override
   State<StatefulWidget> createState() => _LocationDialogState();
 }
 
 class _LocationDialogState extends State<LocationDialog> {
+  late final bool edit;
+
+  late final String title;
+
   late final TextEditingController nameController;
   late final TextEditingController positionController;
-
-  late String title;
-  late String subtitle;
 
   @override
   void initState() {
     super.initState();
-    title = widget.edit
-        ? '${'edit.upper'.tr()} ${widget.name!}'
-        : '${'new.masc.eau.upper'.tr()} ${'locations.location.lower'.plural(1)}';
-    subtitle = widget.edit
-        ? '${'edit.upper'.tr()} ${'articles.this.masc.lower'.plural(1)} ${'locations.location.lower'.plural(1)}.'
-        : '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'locations.location.lower'.plural(1)}.';
-    nameController = TextEditingController(text: widget.name);
-    positionController = TextEditingController(text: widget.position);
+
+    edit = widget.location != null;
+
+    title = edit ? 'edit.upper'.tr() : 'new.masc.eau.upper'.tr();
+
+    nameController = TextEditingController(text: widget.location?.name);
+    positionController = TextEditingController(text: widget.location?.position);
   }
 
   @override
@@ -46,10 +44,6 @@ class _LocationDialogState extends State<LocationDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Text>[
                 Text(title),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 12),
-                ),
               ],
             ),
           ],
@@ -119,13 +113,17 @@ class _LocationDialogState extends State<LocationDialog> {
   }
 
   void submit() {
-    if (nameController.text.trim().isEmpty) {
-      return;
-    }
-    final Location newLocation = Location.insert(
-      name: nameController.text,
-      position: positionController.text,
-    );
-    Navigator.pop(context, newLocation);
+    Location location = edit
+        ? Location(
+            id: widget.location!.id,
+            name: nameController.text,
+            position: positionController.text,
+          )
+        : Location.insert(
+            name: nameController.text,
+            position: positionController.text,
+          );
+
+    Navigator.pop(context, location);
   }
 }

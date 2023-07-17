@@ -8,12 +8,12 @@ class AuthenticationService extends Service {
   }
 
   Future<bool> login(String email, String password) async {
-    final AuthResponse res = await supabase.auth.signInWithPassword(
+    AuthResponse response = await supabase.auth.signInWithPassword(
       email: email,
       password: password,
     );
 
-    return res.session != null;
+    return response.session != null;
   }
 
   Future<void> logout() async {
