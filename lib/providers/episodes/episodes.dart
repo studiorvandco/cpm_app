@@ -20,10 +20,6 @@ class Episodes extends _$Episodes with BaseProvider {
       data: (Project project) async {
         final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
 
-        if (project.isMovie) {
-          ref.read(currentEpisodeProvider.notifier).set(episodes.first);
-        }
-
         return episodes;
       },
       error: (Object error, StackTrace stackTrace) {
@@ -54,6 +50,11 @@ class Episodes extends _$Episodes with BaseProvider {
         return Future.value();
       },
     );
+  }
+
+  Future<void> set(int projectId) async {
+    final Episode episodes = await selectEpisodeService.selectFirstEpisode(projectId);
+    ref.read(currentEpisodeProvider.notifier).set(episodes);
   }
 
   Future<void> add(Episode newEpisode) async {

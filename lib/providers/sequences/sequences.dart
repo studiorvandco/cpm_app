@@ -16,6 +16,7 @@ class Sequences extends _$Sequences with BaseProvider {
   FutureOr<List<Sequence>> build() {
     return ref.watch(currentEpisodeProvider).when(
       data: (Episode episode) async {
+        print(episode.id);
         return await selectSequenceService.selectSequences(episode.id);
       },
       error: (Object error, StackTrace stackTrace) {
