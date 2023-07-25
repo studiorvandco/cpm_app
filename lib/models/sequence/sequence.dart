@@ -1,14 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../base_model.dart';
-import '../location/location.dart';
-import '../shot/shot.dart';
 
 part 'sequence.g.dart';
 
 @JsonSerializable()
 class Sequence extends BaseModel {
   int episode;
+  int index;
+  @JsonKey(includeToJson: false)
   int number;
   String? title;
   String? description;
@@ -26,6 +26,7 @@ class Sequence extends BaseModel {
   Sequence({
     required super.id,
     required this.episode,
+    required this.index,
     required this.number,
     this.title,
     this.description,
@@ -35,15 +36,17 @@ class Sequence extends BaseModel {
 
   Sequence.insert({
     required this.episode,
-    required this.number,
+    required this.index,
     this.title,
     this.description,
     this.startDate,
     this.endDate,
-  }) : super(id: -1);
+  })  : number = -1,
+        super(id: -1);
 
   Sequence.empty()
       : episode = -1,
+        index = -1,
         number = -1,
         super(id: -1);
 

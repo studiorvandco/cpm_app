@@ -7,8 +7,9 @@ class SelectSequenceService extends SelectService {
 
   Future<List<Sequence>> selectSequences(int? episodeId) async {
     return await select<Sequence>(
-      await supabase.from(table.name).select('*').eq('episode', episodeId).order('number', ascending: true),
+      await supabase.from(table.name).select('*').eq('episode', episodeId).order('index', ascending: true),
       Sequence.fromJson,
+      addNumberByIndex: true,
     );
   }
 }

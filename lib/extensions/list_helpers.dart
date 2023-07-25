@@ -1,4 +1,9 @@
+import 'package:cpm/models/episode/episode.dart';
+
+import '../models/base_model.dart';
 import '../models/project/link.dart';
+import '../models/sequence/sequence.dart';
+import '../models/shot/shot.dart';
 
 extension ListHelpers<T> on List<T> {
   void move(int from, int to) {
@@ -13,17 +18,17 @@ extension ListHelpers<T> on List<T> {
     this[to] = element;
   }
 
-  int get nextIndex {
-    assert(runtimeType == List<Link>);
+  int getNextIndex<Model extends BaseModel>() {
+    assert(Model == Link || Model == Episode || Model == Sequence || Model == Shot);
 
     if (length == 0) {
       return 1;
     }
 
-    int maxIndex = 2;
-    forEach((link) {
-      if ((link as Link).index != null && link.index! > maxIndex) {
-        maxIndex = link.index!;
+    int maxIndex = 1;
+    forEach((dynamic element) {
+      if (element.index != null && element.index! >= maxIndex) {
+        maxIndex = element.index!;
       }
     });
 

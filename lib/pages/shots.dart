@@ -1,3 +1,4 @@
+import 'package:cpm/extensions/list_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,7 +94,7 @@ class _ShotsState extends ConsumerState<Shots> {
       builder: (BuildContext context) {
         return ShotDialog(
           sequence: sequence,
-          number: ref.read(shotsProvider).value!.length + 1,
+          index: ref.read(shotsProvider).value!.getNextIndex<Shot>(),
         );
       },
     );

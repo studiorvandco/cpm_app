@@ -13,6 +13,7 @@ Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
         final val = Shot(
           id: $checkedConvert('id', (v) => v as int),
           sequence: $checkedConvert('sequence', (v) => v as int),
+          index: $checkedConvert('index', (v) => v as int),
           number: $checkedConvert('number', (v) => v as int),
           value: $checkedConvert('value', (v) => v as String?),
           description: $checkedConvert('description', (v) => v as String?),
@@ -24,7 +25,7 @@ Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$ShotToJson(Shot instance) => <String, dynamic>{
       'sequence': instance.sequence,
-      'number': instance.number,
+      'index': instance.index,
       'value': instance.value,
       'description': instance.description,
       'completed': instance.completed,

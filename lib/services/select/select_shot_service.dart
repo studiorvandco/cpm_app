@@ -7,8 +7,9 @@ class SelectShotService extends SelectService {
 
   Future<List<Shot>> selectShots(int? sequenceId) async {
     return await select<Shot>(
-      await supabase.from(table.name).select('*').eq('sequence', sequenceId).order('number', ascending: true),
+      await supabase.from(table.name).select('*').eq('sequence', sequenceId).order('index', ascending: true),
       Shot.fromJson,
+      addNumberByIndex: true,
     );
   }
 }

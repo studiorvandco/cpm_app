@@ -1,3 +1,4 @@
+import 'package:cpm/extensions/list_helpers.dart';
 import 'package:cpm/providers/navigation/navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -70,11 +71,13 @@ class EpisodesState extends ConsumerState<Episodes> {
     }
 
     final int project = ref.read(currentProjectProvider).value!.id;
-    final int number = ref.read(episodesProvider).value!.length + 1;
     final newEpisode = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EpisodeDialog(project: project, number: number);
+        return EpisodeDialog(
+          project: project,
+          index: ref.read(episodesProvider).value!.getNextIndex<Episode>(),
+        );
       },
     );
     if (newEpisode is Episode) {

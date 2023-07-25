@@ -10,6 +10,7 @@ class SelectEpisodeService extends SelectService {
     return await select<Episode>(
       await supabase.from(table.name).select('*').eq('project', projectId),
       Episode.fromJson,
+      addNumberByIndex: true,
     );
   }
 

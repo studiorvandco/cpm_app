@@ -13,6 +13,7 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) => $checkedCreate(
         final val = Episode(
           id: $checkedConvert('id', (v) => v as int),
           project: $checkedConvert('project', (v) => v as int),
+          index: $checkedConvert('index', (v) => v as int),
           number: $checkedConvert('number', (v) => v as int),
           title: $checkedConvert('title', (v) => v as String?),
           description: $checkedConvert('description', (v) => v as String?),
@@ -25,7 +26,7 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$EpisodeToJson(Episode instance) => <String, dynamic>{
       'project': instance.project,
-      'number': instance.number,
+      'index': instance.index,
       'title': instance.title,
       'description': instance.description,
       'director': instance.director,

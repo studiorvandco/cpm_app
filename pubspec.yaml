@@ -27,6 +27,7 @@ dependencies:
   json_annotation: ^4.8.1
   flutter_secure_storage: ^8.0.0
   supabase_flutter: ^1.10.7
+  collection: ^1.17.1
 
   calendar_view: ^1.0.3 # TODO: remove
 

@@ -90,7 +90,7 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
                   project.links ??= [];
                   Link newLink = Link.empty(
                     project: project.id,
-                    index: project.links!.nextIndex,
+                    index: project.links!.getNextIndex<Link>(),
                   );
                   project.links!.add(newLink);
                   _add(newLink);

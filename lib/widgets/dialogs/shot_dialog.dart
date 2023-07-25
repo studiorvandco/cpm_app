@@ -3,10 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ShotDialog extends StatefulWidget {
-  const ShotDialog({super.key, required this.sequence, required this.number});
+  const ShotDialog({super.key, required this.sequence, required this.index});
 
   final int sequence;
-  final int number;
+  final int index;
 
   @override
   State<StatefulWidget> createState() => _ShotDialogState();
@@ -122,7 +122,7 @@ class _ShotDialogState extends State<ShotDialog> {
   void submit() {
     final Shot newShot = Shot.insert(
       sequence: widget.sequence,
-      number: widget.number,
+      index: widget.index,
       value: selectedValue,
       description: descriptionController.text,
     );

@@ -6,7 +6,7 @@ part of 'shots.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shotsHash() => r'f91d46beac23387fb57adaa907b4bd25a3696c09';
+String _$shotsHash() => r'8c5b2108753e68e1185af22b7ff820e4ac37e516';
 
 /// See also [Shots].
 @ProviderFor(Shots)
@@ -21,4 +21,5 @@ final shotsProvider =
 );
 
 typedef _$Shots = AutoDisposeAsyncNotifier<List<Shot>>;
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import '../../models/sequence/sequence.dart';
 
 class SequenceDialog extends StatefulWidget {
-  const SequenceDialog({super.key, required this.episode, required this.locations, required this.number});
+  const SequenceDialog({super.key, required this.episode, required this.locations, required this.index});
 
   final int episode;
-  final int number;
+  final int index;
   final List<String> locations;
 
   @override
@@ -180,7 +180,7 @@ class _SequenceDialogState extends State<SequenceDialog> {
   void submit() {
     final Sequence newSequence = Sequence.insert(
       episode: widget.episode,
-      number: widget.number,
+      index: widget.index,
       title: titleController.text,
       description: descriptionController.text,
       startDate: dates?.start ?? DateTime.now(),

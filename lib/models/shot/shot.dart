@@ -6,6 +6,8 @@ part 'shot.g.dart';
 @JsonSerializable()
 class Shot extends BaseModel {
   int sequence;
+  int index;
+  @JsonKey(includeToJson: false)
   int number;
   String? value;
   String? description;
@@ -16,6 +18,7 @@ class Shot extends BaseModel {
   Shot({
     required super.id,
     required this.sequence,
+    required this.index,
     required this.number,
     this.value,
     this.description,
@@ -24,14 +27,16 @@ class Shot extends BaseModel {
 
   Shot.insert({
     required this.sequence,
-    required this.number,
+    required this.index,
     this.value,
     this.description,
-  })  : completed = false,
+  })  : number = -1,
+        completed = false,
         super(id: -1);
 
   Shot.empty()
       : sequence = -1,
+        index = -1,
         number = -1,
         completed = false,
         super(id: -1);

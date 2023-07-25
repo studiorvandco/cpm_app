@@ -6,6 +6,8 @@ part 'episode.g.dart';
 @JsonSerializable()
 class Episode extends BaseModel {
   int project;
+  int index;
+  @JsonKey(includeToJson: false)
   int number;
   String? title;
   String? description;
@@ -19,6 +21,7 @@ class Episode extends BaseModel {
   Episode({
     required super.id,
     required this.project,
+    required this.index,
     required this.number,
     this.title,
     this.description,
@@ -28,20 +31,23 @@ class Episode extends BaseModel {
 
   Episode.insert({
     required this.project,
-    required this.number,
+    required this.index,
     this.title,
     this.description,
     this.director,
     this.writer,
-  }) : super(id: -1);
+  })  : number = -1,
+        super(id: -1);
 
   Episode.empty()
       : project = -1,
+        index = -1,
         number = -1,
         super(id: -1);
 
   Episode.movie({required this.project})
-      : number = -1,
+      : index = -1,
+        number = -1,
         super(id: -1);
 
   factory Episode.fromJson(Map<String, dynamic> json) => _$EpisodeFromJson(json);
