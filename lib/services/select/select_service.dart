@@ -22,8 +22,13 @@ abstract class SelectService extends Service {
 
   Future<Model> selectSingle<Model extends BaseModel>(
     data,
-    Model Function(Map<String, dynamic>) constructor,
-  ) async {
+    Model Function(Map<String, dynamic>) constructor, {
+    addPlaceholderNumber = false,
+  }) async {
+    if (addPlaceholderNumber) {
+      data.addAll({'number': -1});
+    }
+
     return constructor(data);
   }
 }
