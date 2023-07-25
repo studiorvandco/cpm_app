@@ -12,24 +12,17 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         final val = Project(
           id: $checkedConvert('id', (v) => v as int),
-          projectType: $checkedConvert(
-              'project_type', (v) => $enumDecode(_$ProjectTypeEnumMap, v)),
+          projectType: $checkedConvert('project_type', (v) => $enumDecode(_$ProjectTypeEnumMap, v)),
           title: $checkedConvert('title', (v) => v as String?),
           description: $checkedConvert('description', (v) => v as String?),
-          startDate: $checkedConvert('start_date',
-              (v) => v == null ? null : DateTime.parse(v as String)),
-          endDate: $checkedConvert('end_date',
-              (v) => v == null ? null : DateTime.parse(v as String)),
+          startDate: $checkedConvert('start_date', (v) => v == null ? null : DateTime.parse(v as String)),
+          endDate: $checkedConvert('end_date', (v) => v == null ? null : DateTime.parse(v as String)),
           director: $checkedConvert('director', (v) => v as String?),
           writer: $checkedConvert('writer', (v) => v as String?),
         );
         return val;
       },
-      fieldKeyMap: const {
-        'projectType': 'project_type',
-        'startDate': 'start_date',
-        'endDate': 'end_date'
-      },
+      fieldKeyMap: const {'projectType': 'project_type', 'startDate': 'start_date', 'endDate': 'end_date'},
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
