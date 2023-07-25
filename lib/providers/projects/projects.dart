@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cpm/models/episode/episode.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../models/project/link.dart';
@@ -27,8 +28,13 @@ class Projects extends _$Projects with BaseProvider {
   }
 
   Future<void> add(Project newProject) async {
-    await insertService.insert(table, newProject);
-    await get(); // Get the projects in order to get the new project's ID
+    if (newProject.isMovie) {
+      Project project = await insertService.insertAndReturn<Project>(table, newProject, Project.fromJson);
+      await insertService.insert(SupabaseTable.episode, Episode.movie(project: project.id));
+    } else {
+      await insertService.insert(table, newProject);
+    }
+    await get();
   }
 
   Future<void> edit(Project editedProject) async {

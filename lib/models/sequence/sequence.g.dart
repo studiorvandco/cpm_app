@@ -20,16 +20,6 @@ Sequence _$SequenceFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => v == null ? null : DateTime.parse(v as String)),
           endDate: $checkedConvert('end_date',
               (v) => v == null ? null : DateTime.parse(v as String)),
-          location: $checkedConvert(
-              'location',
-              (v) => v == null
-                  ? null
-                  : Location.fromJson(v as Map<String, dynamic>)),
-          shots: $checkedConvert(
-              'shots',
-              (v) => (v as List<dynamic>?)
-                  ?.map((e) => Shot.fromJson(e as Map<String, dynamic>))
-                  .toList()),
         );
         return val;
       },
@@ -43,6 +33,4 @@ Map<String, dynamic> _$SequenceToJson(Sequence instance) => <String, dynamic>{
       'description': instance.description,
       'start_date': instance.startDate?.toIso8601String(),
       'end_date': instance.endDate?.toIso8601String(),
-      'location': instance.location,
-      'shots': instance.shots,
     };

@@ -27,8 +27,8 @@ class Shot extends BaseModel {
     required this.number,
     this.value,
     this.description,
-    required this.completed,
-  }) : super(id: -1);
+  })  : completed = false,
+        super(id: -1);
 
   Shot.empty()
       : sequence = -1,

@@ -46,7 +46,7 @@ class Sequences extends _$Sequences with BaseProvider {
 
   Future<void> add(Sequence newSequence) async {
     await insertService.insert(table, newSequence);
-    await get(); // Get the sequences in order to get the new sequence's ID
+    await get();
   }
 
   Future<void> edit(Sequence editedSequence) async {

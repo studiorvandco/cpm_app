@@ -45,8 +45,9 @@ class Shots extends _$Shots with BaseProvider {
   }
 
   Future<void> add(Shot newShot) async {
-    await insertService.insert(table, newShot);
-    await get(); // Get the shots in order to get the new shot's ID
+    print('object');
+    print(await insertService.insertAndReturn<Shot>(table, newShot, Shot.fromJson));
+    await get();
   }
 
   Future<void> edit(Shot editedShot) async {

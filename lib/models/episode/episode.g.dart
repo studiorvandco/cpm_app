@@ -18,8 +18,6 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) => $checkedCreate(
           description: $checkedConvert('description', (v) => v as String?),
           director: $checkedConvert('director', (v) => v as String?),
           writer: $checkedConvert('writer', (v) => v as String?),
-          sequences: $checkedConvert('sequences',
-              (v) => (v as List<dynamic>?)?.map(Sequence.fromJson).toList()),
         );
         return val;
       },
@@ -32,5 +30,4 @@ Map<String, dynamic> _$EpisodeToJson(Episode instance) => <String, dynamic>{
       'description': instance.description,
       'director': instance.director,
       'writer': instance.writer,
-      'sequences': instance.sequences,
     };

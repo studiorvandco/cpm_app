@@ -2,7 +2,6 @@ import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/select/select_service.dart';
-import 'package:cpm/utils/constants_globals.dart';
 
 class SelectProjectService extends SelectService {
   SupabaseTable table = SupabaseTable.project;

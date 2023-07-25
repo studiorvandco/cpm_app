@@ -14,8 +14,6 @@ class Sequence extends BaseModel {
   String? description;
   DateTime? startDate;
   DateTime? endDate;
-  Location? location;
-  List<Shot>? shots;
 
   String get getTitle => title ?? 'Untitled';
 
@@ -33,8 +31,6 @@ class Sequence extends BaseModel {
     this.description,
     this.startDate,
     this.endDate,
-    this.location,
-    this.shots,
   });
 
   Sequence.insert({
@@ -44,8 +40,6 @@ class Sequence extends BaseModel {
     this.description,
     this.startDate,
     this.endDate,
-    this.location,
-    this.shots,
   }) : super(id: -1);
 
   Sequence.empty()

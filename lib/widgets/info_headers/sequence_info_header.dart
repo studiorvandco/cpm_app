@@ -71,11 +71,9 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
                     IconLabel(text: _getDateText(context, sequence), icon: Icons.event),
-                    Row(children: <Widget>[
-                      if (sequence.location != null) ...<Widget>[
-                        const Padding(padding: EdgeInsets.only(bottom: 8)),
-                        const Flexible(child: Icon(Icons.map)),
-                      ],
+                    const Row(children: <Widget>[
+                      Padding(padding: EdgeInsets.only(bottom: 8)),
+                      Flexible(child: Icon(Icons.map)),
                     ]),
                   ],
                 ),

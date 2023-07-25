@@ -1,8 +1,6 @@
 import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../sequence/sequence.dart';
-
 part 'episode.g.dart';
 
 @JsonSerializable()
@@ -13,7 +11,6 @@ class Episode extends BaseModel {
   String? description;
   String? director;
   String? writer;
-  List<Sequence>? sequences;
 
   String get getTitle => title ?? 'Untitled';
 
@@ -27,7 +24,6 @@ class Episode extends BaseModel {
     this.description,
     this.director,
     this.writer,
-    this.sequences,
   });
 
   Episode.insert({
@@ -37,12 +33,15 @@ class Episode extends BaseModel {
     this.description,
     this.director,
     this.writer,
-    this.sequences,
   }) : super(id: -1);
 
   Episode.empty()
       : project = -1,
         number = -1,
+        super(id: -1);
+
+  Episode.movie({required this.project})
+      : number = -1,
         super(id: -1);
 
   factory Episode.fromJson(Map<String, dynamic> json) => _$EpisodeFromJson(json);

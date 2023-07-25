@@ -1,17 +1,19 @@
+import 'package:cpm/models/shot/shot.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ShotDialog extends StatefulWidget {
-  const ShotDialog({super.key});
+  const ShotDialog({super.key, required this.sequence, required this.number});
+
+  final int sequence;
+  final int number;
 
   @override
   State<StatefulWidget> createState() => _ShotDialogState();
 }
 
 class _ShotDialogState extends State<ShotDialog> {
-  TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController lineController = TextEditingController();
   final List<String> values = <String>[
     'attributes.values.full'.tr(),
     'attributes.values.medium_full'.tr(),
@@ -58,23 +60,6 @@ class _ShotDialogState extends State<ShotDialog> {
               child: SizedBox(
                 width: 330,
                 child: TextField(
-                  maxLength: 64,
-                  controller: titleController,
-                  decoration: InputDecoration(
-                    labelText: 'attributes.title.upper'.tr(),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                  autofocus: true,
-                  onEditingComplete: submit,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: TextField(
                   maxLength: 280,
                   maxLines: 4,
                   controller: descriptionController,
@@ -83,22 +68,6 @@ class _ShotDialogState extends State<ShotDialog> {
                     border: const OutlineInputBorder(),
                     isDense: true,
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: TextField(
-                  maxLength: 64,
-                  controller: lineController,
-                  decoration: InputDecoration(
-                    labelText: 'attributes.line.upper'.tr(),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                  onEditingComplete: submit,
                 ),
               ),
             ),
@@ -151,6 +120,12 @@ class _ShotDialogState extends State<ShotDialog> {
   }
 
   void submit() {
-    Navigator.pop(context);
+    final Shot newShot = Shot.insert(
+      sequence: widget.sequence,
+      number: widget.number,
+      value: selectedValue,
+      description: descriptionController.text,
+    );
+    Navigator.pop(context, newShot);
   }
 }

@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/episode/episode.dart';
-import '../../models/sequence/sequence.dart';
 
 class EpisodeDialog extends StatefulWidget {
   const EpisodeDialog({super.key, required this.project, required this.number});
@@ -147,7 +146,6 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
       number: widget.number,
       title: titleController.text,
       description: descriptionController.text,
-      sequences: <Sequence>[],
     );
     Navigator.pop(context, newEpisode);
   }

@@ -87,12 +87,17 @@ class _ShotsState extends ConsumerState<Shots> {
       return;
     }
 
+    final int sequence = currentSequenceReader.value!.id;
     final newShot = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const ShotDialog();
+        return ShotDialog(
+          sequence: sequence,
+          number: ref.read(shotsProvider).value!.length + 1,
+        );
       },
     );
+
     if (newShot is Shot) {
       await ref.read(shotsProvider.notifier).add(newShot);
       if (true) {

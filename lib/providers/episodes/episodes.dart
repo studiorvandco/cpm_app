@@ -59,7 +59,7 @@ class Episodes extends _$Episodes with BaseProvider {
 
   Future<void> add(Episode newEpisode) async {
     await insertService.insert(table, newEpisode);
-    await get(); // Get the episodes in order to get the new episode's ID
+    await get();
   }
 
   Future<void> edit(Episode editedEpisode) async {
