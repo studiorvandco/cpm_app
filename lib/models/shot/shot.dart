@@ -13,7 +13,11 @@ class Shot extends BaseModel {
   String? description;
   bool completed;
 
+  String get getNumber => number.toString();
+
   String get getDescription => description ?? '';
+
+  String get getValue => value ?? '';
 
   Shot({
     required super.id,
