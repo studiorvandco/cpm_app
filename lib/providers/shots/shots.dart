@@ -65,3 +65,15 @@ class Shots extends _$Shots with BaseProvider {
     ]);
   }
 }
+
+@Riverpod(keepAlive: true)
+class CurrentShot extends _$CurrentShot {
+  @override
+  FutureOr<Shot> build() {
+    return Future.value(null);
+  }
+
+  void set(Shot shot) {
+    state = AsyncData<Shot>(shot);
+  }
+}

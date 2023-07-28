@@ -1,16 +1,19 @@
 import 'package:cpm/models/shot/shot.dart';
+import 'package:cpm/providers/shots/shots.dart';
+import 'package:cpm/widgets/info_sheets/shot_info_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ShotCard extends StatefulWidget {
+class ShotCard extends ConsumerStatefulWidget {
   const ShotCard({super.key, required this.shot});
 
   final Shot shot;
 
   @override
-  State<ShotCard> createState() => _ShotCardState();
+  ConsumerState<ShotCard> createState() => _ShotCardState();
 }
 
-class _ShotCardState extends State<ShotCard> {
+class _ShotCardState extends ConsumerState<ShotCard> {
   late bool isCompleted;
 
   @override
@@ -77,10 +80,11 @@ class _ShotCardState extends State<ShotCard> {
   }
 
   void _showDetails() {
+    ref.read(currentShotProvider.notifier).set(widget.shot);
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Container();
+        return const ShotInfoSheet();
       },
     );
   }
