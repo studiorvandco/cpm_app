@@ -48,8 +48,14 @@ class _ShotCardState extends State<ShotCard> {
                     backgroundColor: Theme.of(context).colorScheme.secondary,
                     textColor: Theme.of(context).colorScheme.onSecondary,
                   ),
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
-                  Badge(label: Text(widget.shot.getValue)),
+                  const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
+                  Badge(
+                    label: Text(widget.shot.getValue),
+                    backgroundColor: widget.shot.value?.color,
+                    textColor: widget.shot.value!.color.computeLuminance() > 0.5
+                        ? Theme.of(context).colorScheme.onInverseSurface
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
                   const Spacer(),
                   Checkbox(value: isCompleted, onChanged: _complete),
                 ],

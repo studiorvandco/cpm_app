@@ -1,4 +1,5 @@
 import 'package:cpm/models/base_model.dart';
+import 'package:cpm/models/shot/shot_value.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shot.g.dart';
@@ -9,7 +10,7 @@ class Shot extends BaseModel {
   int index;
   @JsonKey(includeToJson: false)
   int number;
-  String? value;
+  ShotValue? value;
   String? description;
   bool completed;
 
@@ -17,7 +18,7 @@ class Shot extends BaseModel {
 
   String get getDescription => description ?? '';
 
-  String get getValue => value ?? '';
+  String get getValue => value?.label ?? ShotValue.other.label;
 
   Shot({
     required super.id,

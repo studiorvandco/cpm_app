@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonEnum(fieldRename: FieldRename.snake)
 enum ShotValue {
   full('Full', Color(0xFFff69b4)),
   mediumFull('Medium full', Color(0xFF7f0000)),
@@ -19,4 +22,11 @@ enum ShotValue {
   final Color color;
 
   const ShotValue(this.label, this.color);
+
+  factory ShotValue.fromString(String? label) {
+    return ShotValue.values.firstWhere(
+      (value) => value.label == label,
+      orElse: () => ShotValue.other,
+    );
+  }
 }
