@@ -21,6 +21,8 @@ enum ShotValue {
   final String label;
   final Color color;
 
+  static List<String> labels() => ShotValue.values.map((value) => value.label).toList();
+
   const ShotValue(this.label, this.color);
 
   factory ShotValue.fromString(String? label) {

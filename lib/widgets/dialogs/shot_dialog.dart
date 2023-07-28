@@ -15,7 +15,7 @@ class ShotDialog extends StatefulWidget {
 
 class _ShotDialogState extends State<ShotDialog> {
   TextEditingController descriptionController = TextEditingController();
-  final List<String> values = ShotValue.values.map((value) => value.label).toList();
+  final List<String> values = ShotValue.labels();
   String? selectedValue;
 
   @override

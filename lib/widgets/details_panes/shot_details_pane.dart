@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/episode/episode.dart';
 import '../../models/project/project.dart';
 import '../../models/sequence/sequence.dart';
+import '../../models/shot/shot_value.dart';
 import '../../providers/episodes/episodes.dart';
 import '../../providers/projects/projects.dart';
 import '../../providers/sequences/sequences.dart';
@@ -21,6 +22,8 @@ class ShotDetailsPane extends ConsumerStatefulWidget {
 
 class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> with AutomaticKeepAliveClientMixin<ShotDetailsPane> {
   TextEditingController descriptionController = TextEditingController();
+  final List<String> values = ShotValue.labels();
+  String? selectedValue;
 
   @override
   bool get wantKeepAlive => true;
@@ -37,6 +40,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> with Automati
               data: (Sequence sequence) {
                 return ref.watch(currentShotProvider).when(
                   data: (Shot shot) {
+                    selectedValue = shot.value?.label;
                     descriptionController.text = shot.description ?? '';
                     descriptionController.selection =
                         TextSelection.collapsed(offset: descriptionController.text.length);
@@ -51,6 +55,24 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> with Automati
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
+                          DropdownButtonFormField<String>(
+                            isExpanded: true,
+                            hint: Text('shots.value.upper'.plural(1)),
+                            items: values.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            value: selectedValue,
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedValue = value;
+                              });
+                              edit(shot);
+                            },
+                          ),
+                          const Padding(padding: EdgeInsets.only(bottom: 16)),
                           Focus(
                             onFocusChange: (bool hasFocus) {
                               if (!hasFocus && descriptionController.text != project.description) {
@@ -105,6 +127,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> with Automati
   }
 
   void edit(Shot shot) {
+    shot.value = ShotValue.fromString(selectedValue);
     shot.description = descriptionController.text;
 
     ref.read(shotsProvider.notifier).edit(shot);
