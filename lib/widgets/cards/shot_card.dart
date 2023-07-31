@@ -1,3 +1,4 @@
+import 'package:cpm/extensions/color_helpers.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/widgets/info_sheets/shot_info_sheet.dart';
@@ -55,9 +56,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                   Badge(
                     label: Text(widget.shot.getValue),
                     backgroundColor: widget.shot.value?.color,
-                    textColor: widget.shot.value!.color.computeLuminance() > 0.5
-                        ? Theme.of(context).colorScheme.onInverseSurface
-                        : Theme.of(context).colorScheme.onSurface,
+                    textColor: widget.shot.value!.color.getColorByLuminance(context),
                   ),
                   const Spacer(),
                   Checkbox(value: isCompleted, onChanged: _complete),
