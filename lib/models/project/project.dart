@@ -1,4 +1,5 @@
 import 'package:cpm/models/base_model.dart';
+import 'package:cpm/utils/favorites/Favorites.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'link.dart';
@@ -22,8 +23,8 @@ class Project extends BaseModel implements Comparable<Project> {
   int? shotsCompleted;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Link>? links;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  bool favorite = false;
+
+  String get getId => id.toString();
 
   String get getTitle => title ?? 'Untitled';
 
@@ -81,22 +82,23 @@ class Project extends BaseModel implements Comparable<Project> {
   @override
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
 
-  void toggleFavorite() {
-    favorite = !favorite;
-  }
-
   @override
   int compareTo(Project other) {
-    if (startDate == null) {
+    bool isFavorite = Favorites().isFavorite(getId);
+    bool isOtherFavorite = Favorites().isFavorite(other.getId);
+
+    if (isFavorite && !isOtherFavorite) {
       return -1;
-    } else if (other.startDate == null) {
+    } else if (!isFavorite && isOtherFavorite) {
       return 1;
-    } else if (favorite == other.favorite) {
-      return other.startDate!.compareTo(startDate!);
-    } else if (favorite) {
+    } else if (startDate == null && other.startDate != null) {
+      return 1;
+    } else if (startDate != null && other.startDate == null) {
       return -1;
+    } else if (startDate == null && other.startDate == null) {
+      return getTitle.compareTo(other.getTitle);
     } else {
-      return 1;
+      return startDate!.compareTo(other.startDate!);
     }
   }
 }
