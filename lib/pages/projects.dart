@@ -11,7 +11,7 @@ import '../widgets/cards/project_card.dart';
 import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/project_dialog.dart';
 import 'episodes.dart';
-import 'planning.dart';
+import 'schedule/schedule.dart';
 import 'sequences.dart';
 import 'shots.dart';
 
@@ -67,7 +67,7 @@ class ProjectsState extends ConsumerState<Projects> {
       case HomePage.shots:
         return const Shots();
       case HomePage.planning:
-        return const Planning();
+        return const Schedule();
     }
   }
 

@@ -15,6 +15,8 @@ class Sequence extends BaseModel {
   DateTime? startDate;
   DateTime? endDate;
 
+  String get getNumber => number.toString();
+
   String get getTitle => title ?? 'Untitled';
 
   String get getDescription => description ?? '';
