@@ -54,7 +54,7 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
               ),
               const Padding(padding: EdgeInsets.only(right: 16)),
               IconButton(onPressed: () => toggleFavorite(widget.project), icon: favoriteIcon),
-              IconButton(onPressed: () => openPlanning(widget.project), icon: const Icon(Icons.event)),
+              IconButton(onPressed: () => openSchedule(widget.project), icon: const Icon(Icons.event)),
             ]),
             const SizedBox(height: 8),
             LinearProgressIndicator(value: widget.project.progress),
@@ -72,9 +72,9 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
     ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.sequences : HomePage.episodes);
   }
 
-  void openPlanning(Project project) {
+  void openSchedule(Project project) {
     ref.read(currentProjectProvider.notifier).set(project);
-    ref.read(navigationProvider.notifier).set(HomePage.planning);
+    ref.read(navigationProvider.notifier).set(HomePage.schedule);
   }
 
   void toggleFavorite(Project project) {

@@ -66,7 +66,7 @@ class ProjectsState extends ConsumerState<Projects> {
         return const Sequences();
       case HomePage.shots:
         return const Shots();
-      case HomePage.planning:
+      case HomePage.schedule:
         return const Schedule();
     }
   }

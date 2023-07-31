@@ -1,3 +1,4 @@
+import 'package:cpm/extensions/date_helpers.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +34,9 @@ class AppointmentTile extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                  flex: -1,
                   child: Text(
-                    '${sequence.getStartDate} - ${sequence.getEndDate}',
+                    '${sequence.getStartDate.Hm} - ${sequence.getEndDate.Hm}',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

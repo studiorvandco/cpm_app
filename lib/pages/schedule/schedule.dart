@@ -12,10 +12,10 @@ class Schedule extends ConsumerStatefulWidget {
   const Schedule({super.key});
 
   @override
-  ConsumerState<Schedule> createState() => _PlanningState();
+  ConsumerState<Schedule> createState() => _ScheduleState();
 }
 
-class _PlanningState extends ConsumerState<Schedule> {
+class _ScheduleState extends ConsumerState<Schedule> {
   final CalendarController _calendarController = CalendarController();
 
   Widget _getAppointmentBuilder(BuildContext _, CalendarAppointmentDetails details) {
@@ -29,20 +29,7 @@ class _PlanningState extends ConsumerState<Schedule> {
         return Expanded(
           child: SfCalendar(
             controller: _calendarController,
-            dataSource: SequencesDataSource(
-              [
-                Sequence(
-                  id: 1,
-                  episode: 1,
-                  index: 1,
-                  number: 1,
-                  title: 'Test',
-                  description: 'This is a test of the calendar',
-                  startDate: DateTime(2023, 07, 31, 12, 30),
-                  endDate: DateTime(2023, 07, 31, 14, 45),
-                ),
-              ],
-            ),
+            dataSource: SequencesDataSource(sequences),
             firstDayOfWeek: 1,
             showNavigationArrow: true,
             showTodayButton: true,

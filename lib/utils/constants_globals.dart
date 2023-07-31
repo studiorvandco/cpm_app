@@ -22,7 +22,7 @@ enum Logos {
 
 enum Preferences { theme, locale, authenticated, token }
 
-enum HomePage { projects, episodes, sequences, shots, planning }
+enum HomePage { projects, episodes, sequences, shots, schedule }
 
 enum MenuAction { edit, delete }
 
