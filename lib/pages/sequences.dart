@@ -106,7 +106,6 @@ class _SequencesState extends ConsumerState<Sequences> {
       context: context,
       builder: (BuildContext context) {
         return SequenceDialog(
-          locations: const <String>[],
           episode: episode,
           index: ref.read(sequencesProvider).value!.getNextIndex<Sequence>(),
         );
