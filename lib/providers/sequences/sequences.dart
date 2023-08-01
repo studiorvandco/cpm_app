@@ -1,3 +1,5 @@
+import 'package:cpm/models/base_model.dart';
+import 'package:cpm/models/sequence_location/sequence_location.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../models/episode/episode.dart';
@@ -64,13 +66,22 @@ class Sequences extends _$Sequences with BaseProvider {
         if (episode.id != id) episode,
     ]);
   }
+
+  Future<BaseModel> getLocation(int sequenceId) async {
+    return await selectSequenceLocationService.selectLocation(sequenceId);
+  }
+
+  Future<void> setLocation(int sequenceId, int locationId) async {
+    SequenceLocation sequenceLocation = SequenceLocation.insert(sequence: sequenceId, location: locationId);
+    await upsertService.upsert(SupabaseTable.sequenceLocation, sequenceLocation);
+  }
 }
 
 @Riverpod(keepAlive: true)
 class CurrentSequence extends _$CurrentSequence {
   @override
   FutureOr<Sequence> build() {
-    return Future.value(null);
+    return Future.value(null); // ignore: null_argument_to_non_null_type
   }
 
   void set(Sequence sequence) {

@@ -41,7 +41,8 @@ class Projects extends _$Projects with BaseProvider {
     await updateService.update(table, editedProject);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])
-        if (project.id != editedProject.id) project else editedProject,
+        if (project.id != editedProject.id) project else
+          editedProject,
     ]);
   }
 
@@ -60,7 +61,7 @@ class CurrentProject extends _$CurrentProject with BaseProvider {
 
   @override
   FutureOr<Project> build() {
-    return Future.value(null);
+    return Future.value(null); // ignore: null_argument_to_non_null_type
   }
 
   Future<void> set(Project project) async {
