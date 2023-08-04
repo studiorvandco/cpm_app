@@ -19,7 +19,6 @@ class Config {
   }
 
   T get<T>(ConfigKey key) {
-    print(config);
     return config[key.parent][key.name] as T;
   }
 }
