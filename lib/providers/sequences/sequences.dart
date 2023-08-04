@@ -1,4 +1,3 @@
-import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/sequence_location/sequence_location.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -49,13 +48,17 @@ class Sequences extends _$Sequences with BaseProvider {
   Future<void> add(Sequence newSequence, [int? locationId]) async {
     Sequence createdSequence = await insertService.insertAndReturn(table, newSequence, Sequence.fromJson);
     if (locationId != null) {
-      await setLocation(createdSequence.id, locationId);
+      await _setLocation(createdSequence.id, locationId);
     }
     await get();
   }
 
-  Future<void> edit(Sequence editedSequence) async {
+  Future<void> edit(Sequence editedSequence, [int? locationId]) async {
     await updateService.update(table, editedSequence);
+    if (locationId != null) {
+      SequenceLocation newSequenceLocation = SequenceLocation.insert(sequence: editedSequence.id, location: locationId);
+      await _updateLocation(newSequenceLocation);
+    }
     state = AsyncData<List<Sequence>>(<Sequence>[
       for (final Sequence episode in state.value ?? <Sequence>[])
         if (episode.id != editedSequence.id) episode else editedSequence,
@@ -70,13 +73,19 @@ class Sequences extends _$Sequences with BaseProvider {
     ]);
   }
 
-  Future<BaseModel> getLocation(int sequenceId) async {
-    return await selectSequenceLocationService.selectLocation(sequenceId);
-  }
-
-  Future<void> setLocation(int sequenceId, int locationId) async {
+  Future<void> _setLocation(int sequenceId, int locationId) async {
     SequenceLocation sequenceLocation = SequenceLocation.insert(sequence: sequenceId, location: locationId);
     await upsertService.upsert(SupabaseTable.sequenceLocation, sequenceLocation);
+  }
+
+  Future<void> _updateLocation(SequenceLocation sequenceLocation) async {
+    await updateService.updateWhere(
+      SupabaseTable.sequenceLocation,
+      sequenceLocation,
+      'sequence',
+      sequenceLocation.sequence.toString(),
+    );
+    await get();
   }
 }
 

@@ -1,14 +1,18 @@
 import 'package:cpm/models/base_model.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'location.g.dart';
 
 @JsonSerializable()
-class Location extends BaseModel {
+class Location extends BaseModel with EquatableMixin {
   String? name;
   String? position;
 
   String get getName => name ?? 'Unnamed';
+
+  @override
+  List<Object?> get props => [name, position];
 
   Location({
     required super.id,
