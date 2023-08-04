@@ -15,13 +15,11 @@ class SequenceInfoSheet extends StatelessWidget {
           TabBar(tabs: <Tab>[
             Tab(text: 'details.upper'.plural(2)),
             Tab(text: 'members.member.upper'.plural(2)),
-            Tab(text: 'locations.location.upper'.plural(2)),
           ]),
           const Expanded(
             child: TabBarView(
               children: <Widget>[
                 SequenceDetailsPane(),
-                Center(child: Text('Coming soon!')),
                 Center(child: Text('Coming soon!')),
               ],
             ),

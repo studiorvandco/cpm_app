@@ -15,18 +15,12 @@ class EpisodeDetailsPane extends ConsumerStatefulWidget {
   ConsumerState<EpisodeDetailsPane> createState() => _DetailsPaneEpisodeState();
 }
 
-class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
-    with AutomaticKeepAliveClientMixin<EpisodeDetailsPane> {
+class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
         return ref.watch(currentEpisodeProvider).when(
