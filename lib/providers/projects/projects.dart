@@ -41,8 +41,7 @@ class Projects extends _$Projects with BaseProvider {
     await updateService.update(table, editedProject);
     state = AsyncData<List<Project>>(<Project>[
       for (final Project project in state.value ?? <Project>[])
-        if (project.id != editedProject.id) project else
-          editedProject,
+        if (project.id != editedProject.id) project else editedProject,
     ]);
   }
 
