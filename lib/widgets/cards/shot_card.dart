@@ -24,6 +24,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
   }
 
   void _complete(bool? checked) {
+    ref.read(shotsProvider.notifier).toggleComplete(widget.shot);
     if (checked != null) {
       setState(() {
         isCompleted = checked;
