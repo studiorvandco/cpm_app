@@ -1,33 +1,28 @@
+import 'package:cpm/utils/constants_globals.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/location/location.dart';
 import '../../models/sequence/sequence.dart';
+import '../../providers/locations/locations.dart';
 
-class SequenceDialog extends StatefulWidget {
-  const SequenceDialog({super.key, required this.episode, required this.locations, required this.index});
+class SequenceDialog extends ConsumerStatefulWidget {
+  const SequenceDialog({super.key, required this.episode, required this.index});
 
   final int episode;
   final int index;
-  final List<String> locations;
 
   @override
-  State<StatefulWidget> createState() => _SequenceDialogState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SequenceDialogState();
 }
 
-class _SequenceDialogState extends State<SequenceDialog> {
+class _SequenceDialogState extends ConsumerState<SequenceDialog> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  late final List<String> locations;
   DateTimeRange? dates;
-  String? selectedLocation;
+  Location? selectedLocation;
   String dateText = '';
-
-  @override
-  void initState() {
-    locations = widget.locations;
-
-    return super.initState();
-  }
 
   void updateDateText() {
     String res;
@@ -118,29 +113,39 @@ class _SequenceDialogState extends State<SequenceDialog> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButtonFormField<String>(
-                  isExpanded: true,
-                  hint: Text('attributes.position.upper'.tr()),
-                  items: locations.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  value: selectedLocation,
-                  onChanged: (String? value) {
-                    setState(() {
-                      selectedLocation = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'locations.location.upper'.plural(1),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
+              ref.watch(locationsProvider).when(
+                data: (locations) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButtonFormField<Location>(
+                      isExpanded: true,
+                      hint: Text('attributes.position.upper'.tr()),
+                      items: locations.map<DropdownMenuItem<Location>>((location) {
+                        return DropdownMenuItem<Location>(
+                          value: location,
+                          child: Text(location.getName),
+                        );
+                      }).toList(),
+                      value: selectedLocation,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedLocation = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'locations.location.upper'.plural(1),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
+                  );
+                },
+                loading: () {
+                  return requestPlaceholderLoading;
+                },
+                error: (Object error, StackTrace stackTrace) {
+                  return requestPlaceholderError;
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -186,6 +191,6 @@ class _SequenceDialogState extends State<SequenceDialog> {
       startDate: dates?.start ?? DateTime.now(),
       endDate: dates?.end ?? DateTime.now(),
     );
-    Navigator.pop(context, newSequence);
+    Navigator.pop(context, (newSequence, selectedLocation?.id));
   }
 }

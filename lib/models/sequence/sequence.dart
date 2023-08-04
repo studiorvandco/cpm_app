@@ -8,7 +8,7 @@ part 'sequence.g.dart';
 class Sequence extends BaseModel {
   int episode;
   int index;
-  @JsonKey(includeToJson: false)
+  @JsonKey(defaultValue: -1, includeToJson: false)
   int number;
   String? title;
   String? description;

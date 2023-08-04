@@ -46,8 +46,11 @@ class Sequences extends _$Sequences with BaseProvider {
     );
   }
 
-  Future<void> add(Sequence newSequence) async {
-    await insertService.insert(table, newSequence);
+  Future<void> add(Sequence newSequence, [int? locationId]) async {
+    Sequence createdSequence = await insertService.insertAndReturn(table, newSequence, Sequence.fromJson);
+    if (locationId != null) {
+      await setLocation(createdSequence.id, locationId);
+    }
     await get();
   }
 
