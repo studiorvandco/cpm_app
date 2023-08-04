@@ -6,6 +6,8 @@ class ShotInfoSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ShotDetailsPane();
+    return const SingleChildScrollView(
+      child: ShotDetailsPane(),
+    );
   }
 }

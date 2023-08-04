@@ -82,6 +82,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
     ref.read(currentShotProvider.notifier).set(widget.shot);
     showModalBottomSheet(
       context: context,
+      clipBehavior: Clip.hardEdge,
       builder: (context) {
         return const ShotInfoSheet();
       },

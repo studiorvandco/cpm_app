@@ -28,12 +28,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
         descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 
         return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom + 8,
-            top: 8,
-            left: 8,
-            right: 8,
-          ),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
