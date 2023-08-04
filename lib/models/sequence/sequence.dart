@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../base_model.dart';
+import '../location/location.dart';
 
 part 'sequence.g.dart';
 
@@ -14,6 +15,8 @@ class Sequence extends BaseModel {
   String? description;
   DateTime? startDate;
   DateTime? endDate;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Location? location;
 
   String get getTitle => title ?? 'Untitled';
 
@@ -32,6 +35,7 @@ class Sequence extends BaseModel {
     this.description,
     this.startDate,
     this.endDate,
+    this.location,
   });
 
   Sequence.insert({
