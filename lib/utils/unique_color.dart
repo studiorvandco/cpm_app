@@ -33,7 +33,6 @@ class UniqueColor {
   }
 
   Color get getTextColor {
-    print(_colors[_index].computeLuminance());
     return _colors[_index].computeLuminance() > 0.2 ? Colors.black : Colors.white;
   }
 

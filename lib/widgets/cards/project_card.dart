@@ -72,8 +72,12 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
     ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.sequences : HomePage.episodes);
   }
 
-  void openSchedule(Project project) {
+  Future<void> openSchedule(Project project) async {
     ref.read(currentProjectProvider.notifier).set(project);
+
+    if (project.isMovie) {
+      await ref.read(episodesProvider.notifier).set(project.id);
+    }
     ref.read(navigationProvider.notifier).set(HomePage.schedule);
   }
 
