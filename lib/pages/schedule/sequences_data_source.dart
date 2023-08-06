@@ -1,5 +1,4 @@
 import 'package:cpm/models/sequence/sequence.dart';
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class SequencesDataSource extends CalendarDataSource {
@@ -29,12 +28,7 @@ class SequencesDataSource extends CalendarDataSource {
 
   @override
   String getLocation(int index) {
-    return '15 chemin de la colline, 74000 Annecy, France';
-  }
-
-  @override
-  Color getColor(int index) {
-    return Colors.blue;
+    return ''; // TODO add location
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:cpm/pages/schedule/appointment_tile.dart';
 import 'package:cpm/pages/schedule/sequences_data_source.dart';
+import 'package:cpm/utils/unique_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -24,8 +25,12 @@ class _ScheduleState extends ConsumerState<Schedule> {
 
   @override
   Widget build(BuildContext context) {
+    UniqueColor().reset();
+
     return ref.watch(sequencesProvider).when(
       data: (List<Sequence> sequences) {
+        UniqueColor().next();
+
         return Expanded(
           child: SfCalendar(
             controller: _calendarController,

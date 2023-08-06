@@ -96,7 +96,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                       child: OutlinedButton.icon(
                         onPressed: () => pickDate(),
                         icon: const Icon(Icons.calendar_month),
-                        label: Text('${startDate?.test} - ${endDate?.test}'),
+                        label: Text('${startDate?.yMd} - ${endDate?.yMd}'),
                       ),
                     ),
                   ),
