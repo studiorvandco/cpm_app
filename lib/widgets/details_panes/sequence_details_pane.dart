@@ -155,6 +155,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
     sequence.description = descriptionController.text;
     sequence.startDate = start;
     sequence.endDate = end;
+    sequence.location = selectedLocation;
 
     ref.read(sequencesProvider.notifier).edit(sequence, selectedLocation?.id);
     ref.read(currentSequenceProvider.notifier).set(sequence);

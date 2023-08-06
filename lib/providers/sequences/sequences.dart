@@ -53,23 +53,27 @@ class Sequences extends _$Sequences with BaseProvider {
     await get();
   }
 
-  Future<void> edit(Sequence editedSequence, [int? locationId]) async {
+  Future<void> edit(Sequence editedSequence, int? locationId) async {
     await updateService.update(table, editedSequence);
     if (locationId != null) {
-      SequenceLocation newSequenceLocation = SequenceLocation.insert(sequence: editedSequence.id, location: locationId);
+      SequenceLocation newSequenceLocation = SequenceLocation.insert(
+        sequence: editedSequence.id,
+        location: locationId,
+      );
       await _updateLocation(newSequenceLocation);
+    } else {
+      state = AsyncData<List<Sequence>>(<Sequence>[
+        for (final Sequence sequence in state.value ?? <Sequence>[])
+          if (sequence.id != editedSequence.id) sequence else editedSequence,
+      ]);
     }
-    state = AsyncData<List<Sequence>>(<Sequence>[
-      for (final Sequence episode in state.value ?? <Sequence>[])
-        if (episode.id != editedSequence.id) episode else editedSequence,
-    ]);
   }
 
   Future<void> delete(int? id) async {
     await deleteService.delete(table, id);
     state = AsyncData<List<Sequence>>(<Sequence>[
-      for (final Sequence episode in state.value ?? <Sequence>[])
-        if (episode.id != id) episode,
+      for (final Sequence sequence in state.value ?? <Sequence>[])
+        if (sequence.id != id) sequence,
     ]);
   }
 
@@ -85,7 +89,6 @@ class Sequences extends _$Sequences with BaseProvider {
       'sequence',
       sequenceLocation.sequence.toString(),
     );
-    await get();
   }
 }
 
