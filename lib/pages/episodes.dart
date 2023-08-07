@@ -9,8 +9,9 @@ import '../models/episode/episode.dart';
 import '../providers/episodes/episodes.dart';
 import '../providers/projects/projects.dart';
 import '../utils/constants_globals.dart';
+import '../utils/snack_bar_manager/custom_snack_bar.dart';
+import '../utils/snack_bar_manager/snack_bar_manager.dart';
 import '../widgets/cards/episode_card.dart';
-import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/episode_dialog.dart';
 import '../widgets/info_headers/project_info_header.dart';
 
@@ -70,8 +71,8 @@ class EpisodesState extends ConsumerState<Episodes> {
       return;
     }
 
-    final int project = ref.read(currentProjectProvider).value!.id;
-    final newEpisode = await showDialog(
+    int project = ref.read(currentProjectProvider).value!.id;
+    Episode? newEpisode = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return EpisodeDialog(
@@ -80,11 +81,14 @@ class EpisodesState extends ConsumerState<Episodes> {
         );
       },
     );
-    if (newEpisode is Episode) {
+
+    if (newEpisode != null) {
       await ref.read(episodesProvider.notifier).add(newEpisode);
-      if (true) {
-        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
+      if (context.mounted) {
+        SnackBarManager().show(
+          context,
+          CustomSnackBar.getInfoSnackBar('snack_bars.episode.added'.tr()),
+        );
       }
     }
   }

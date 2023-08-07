@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/authentication/authentication.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/custom_snack_bars.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -137,14 +136,9 @@ class _LoginState extends ConsumerState<Login> {
   }
 
   Future<void> submit() async {
-    bool logged = await ref.read(authenticationProvider.notifier).login(
+    await ref.read(authenticationProvider.notifier).login(
           usernameController.text,
           passwordController.text,
         );
-    if (!logged && scaffoldMessengerKey.currentContext != null && context.mounted) {
-      ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!).showSnackBar(
-        CustomSnackBars().getLoginSnackBar(context),
-      );
-    }
   }
 }

@@ -6,7 +6,8 @@ import '../exceptions/invalid_direction.dart';
 import '../models/location/location.dart';
 import '../providers/locations/locations.dart';
 import '../utils/constants_globals.dart';
-import '../widgets/custom_snack_bars.dart';
+import '../utils/snack_bar_manager/custom_snack_bar.dart';
+import '../utils/snack_bar_manager/snack_bar_manager.dart';
 import '../widgets/dialogs/confirm_dialog.dart';
 import '../widgets/dialogs/location_dialog.dart';
 import '../widgets/tiles/location_tile.dart';
@@ -102,42 +103,49 @@ class _LocationsState extends ConsumerState<Locations> {
   }
 
   Future<void> add() async {
-    final location = await showDialog(
+    Location? location = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return const LocationDialog();
       },
     );
-    if (location is Location) {
+
+    if (location != null) {
       await ref.read(locationsProvider.notifier).add(location);
-      if (true) {
-        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
+      if (context.mounted) {
+        SnackBarManager().show(
+          context,
+          CustomSnackBar.getInfoSnackBar('snack_bars.location.added'.tr()),
+        );
       }
     }
   }
 
   Future<void> edit(Location location) async {
-    final editedLocation = await showDialog(
+    Location? editedLocation = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return LocationDialog(location: location);
       },
     );
-    if (editedLocation is Location) {
+    if (editedLocation != null) {
       await ref.read(locationsProvider.notifier).edit(editedLocation);
-      if (true) {
-        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
-        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
+      if (context.mounted) {
+        SnackBarManager().show(
+          context,
+          CustomSnackBar.getInfoSnackBar('snack_bars.location.edited'.tr()),
+        );
       }
     }
   }
 
   Future<void> delete(Location location) async {
     await ref.read(locationsProvider.notifier).delete(location.id);
-    if (true) {
-      final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
-      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
+    if (context.mounted) {
+      SnackBarManager().show(
+        context,
+        CustomSnackBar.getInfoSnackBar('snack_bars.location.deleted'.tr()),
+      );
     }
   }
 }
