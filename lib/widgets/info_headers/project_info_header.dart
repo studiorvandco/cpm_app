@@ -125,7 +125,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                             height: 42,
                             child: Scrollbar(
                               controller: scrollController,
-                              thickness: PlatformIdentifier().isComputer() ? 4 : 0,
+                              thickness: PlatformIdentifier().isComputer ? 4 : 0,
                               child: ListView.builder(
                                 controller: scrollController,
                                 scrollDirection: Axis.horizontal,

@@ -6,17 +6,16 @@ import 'package:flutter/foundation.dart';
 class PlatformIdentifier {
   static final PlatformIdentifier _instance = PlatformIdentifier._internal();
 
-  factory PlatformIdentifier() {
-    return _instance;
+  /// Whether the platform is web.
+  bool get isWeb {
+    return kIsWeb;
   }
-
-  PlatformIdentifier._internal();
 
   /// Whether the platform is a computer.
   ///
   /// Desktop app or running in a desktop web browser.
-  bool isComputer() {
-    return kIsWeb
+  bool get isComputer {
+    return isWeb
         ? defaultTargetPlatform == TargetPlatform.windows ||
             defaultTargetPlatform == TargetPlatform.linux ||
             defaultTargetPlatform == TargetPlatform.macOS
@@ -26,7 +25,13 @@ class PlatformIdentifier {
   /// Whether the platform is not a computer.
   ///
   /// Native mobile app or running in a mobile web browser.
-  bool isNotComputer() {
-    return !isComputer();
+  bool get isNotComputer {
+    return !isComputer;
   }
+
+  factory PlatformIdentifier() {
+    return _instance;
+  }
+
+  PlatformIdentifier._internal();
 }

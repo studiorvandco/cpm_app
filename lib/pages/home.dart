@@ -28,14 +28,14 @@ class HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PlatformIdentifier().isNotComputer() ? const CustomAppBar() : null,
+      appBar: PlatformIdentifier().isNotComputer ? const CustomAppBar() : null,
       body: SafeArea(
         child: Row(children: <Widget>[
-          if (PlatformIdentifier().isComputer()) CustomNavigationRail(navigate: (int index) => navigate(index)),
+          if (PlatformIdentifier().isComputer) CustomNavigationRail(navigate: (int index) => navigate(index)),
           getPage(),
         ]),
       ),
-      drawer: PlatformIdentifier().isNotComputer()
+      drawer: PlatformIdentifier().isNotComputer
           ? CustomNavigationDrawer(navigate: (int index) => navigate(index), selectedIndex: _selectedIndex)
           : null,
     );

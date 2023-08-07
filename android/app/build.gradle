@@ -54,6 +54,9 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders += [
+                'appAuthRedirectScheme': 'rvandco.cpm://callback'
+        ]
     }
 
     signingConfigs {

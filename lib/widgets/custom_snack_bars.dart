@@ -36,4 +36,12 @@ class CustomSnackBars {
       ),
     );
   }
+
+  SnackBar signUp() {
+    return const SnackBar(
+      showCloseIcon: true,
+      behavior: SnackBarBehavior.floating,
+      content: Text('Sign up is not available'),
+    );
+  }
 }
