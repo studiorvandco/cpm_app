@@ -19,4 +19,4 @@ Frontend of Cinema Project Manager, a tool to efficiently manage the production 
 
 ## Build
 
-See [BUILD.md](BUILD.md).
+See the [wiki](https://github.com/StudioRvAndCo/CPM-frontend/wiki/Build).
