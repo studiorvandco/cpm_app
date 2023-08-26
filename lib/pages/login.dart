@@ -24,26 +24,32 @@ class _LoginState extends ConsumerState<Login> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              Theme.of(context).brightness == Brightness.light ? Logos.cpmLight.value : Logos.cpmDark.value,
-              filterQuality: FilterQuality.medium,
-              fit: BoxFit.fitWidth,
-              width: 150,
+        child: Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: 512,
+              child: Column(
+                children: [
+                  Image.asset(
+                    Theme.of(context).brightness == Brightness.light ? Logos.cpmLight.value : Logos.cpmDark.value,
+                    filterQuality: FilterQuality.medium,
+                    fit: BoxFit.fitWidth,
+                    width: 150,
+                  ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                  SupaEmailAuth(
+                    redirectTo: PlatformIdentifier().isWeb ? null : 'rvandco.cpm://callback',
+                    onSignInComplete: (response) {
+                      ref.read(authenticationProvider.notifier).login();
+                    },
+                    onSignUpComplete: (response) {
+                      return;
+                    },
+                  ),
+                ],
+              ),
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 16.0)),
-            SupaEmailAuth(
-              redirectTo: PlatformIdentifier().isWeb ? null : 'rvandco.cpm://callback',
-              onSignInComplete: (response) {
-                ref.read(authenticationProvider.notifier).login();
-              },
-              onSignUpComplete: (response) {
-                return;
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

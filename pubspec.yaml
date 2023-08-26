@@ -30,8 +30,6 @@ dependencies:
   collection: ^1.17.1
   equatable: ^2.0.5
   supabase_auth_ui: ^0.2.1
-  flutter_appauth: ^6.0.1
-  crypto: ^3.0.3
 
   calendar_view: ^1.0.3 # TODO: remove
 
