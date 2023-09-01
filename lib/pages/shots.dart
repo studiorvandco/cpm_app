@@ -33,7 +33,6 @@ class _ShotsState extends ConsumerState<Shots> {
           floatingActionButton: FloatingActionButton(onPressed: () => add(), child: const Icon(Icons.add)),
           body: ref.watch(shotsProvider).when(
             data: (List<Shot> shots) {
-              print(shots);
               return Column(
                 children: <Widget>[
                   const SequenceInfoHeader(),
