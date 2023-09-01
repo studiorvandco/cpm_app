@@ -1,21 +1,19 @@
+import 'package:cpm/extensions/list_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../models/episode.dart';
-import '../models/project/project.dart';
-import '../models/sequence.dart';
-import '../models/shot.dart';
-import '../providers/episodes.dart';
-import '../providers/navigation.dart';
-import '../providers/projects.dart';
-import '../providers/sequences.dart';
-import '../providers/shots.dart';
+import '../models/shot/shot.dart';
+import '../providers/episodes/episodes.dart';
+import '../providers/navigation/navigation.dart';
+import '../providers/projects/projects.dart';
+import '../providers/sequences/sequences.dart';
+import '../providers/shots/shots.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/shot_card.dart';
 import '../widgets/custom_snack_bars.dart';
-import '../widgets/dialogs/new_shot.dart';
+import '../widgets/dialogs/shot_dialog.dart';
 import '../widgets/info_headers/sequence_info_header.dart';
 
 class Shots extends ConsumerStatefulWidget {
@@ -38,25 +36,27 @@ class _ShotsState extends ConsumerState<Shots> {
               return Column(
                 children: <Widget>[
                   const SequenceInfoHeader(),
-                  LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return MasonryGridView.count(
-                        itemCount: shots.length,
-                        padding:
-                            const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
-                        itemBuilder: (BuildContext context, int index) {
-                          return ShotCard(
-                            shot: shots[index],
-                            onPressed: () {
-                              // TODO
-                            },
-                          );
-                        },
-                        crossAxisCount: getColumnsCount(constraints),
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                      );
-                    },
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return MasonryGridView.count(
+                          itemCount: shots.length,
+                          padding: const EdgeInsets.only(
+                              bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                          itemBuilder: (BuildContext context, int index) {
+                            return ShotCard(
+                              shot: shots[index],
+                              onPressed: () {
+                                // TODO
+                              },
+                            );
+                          },
+                          crossAxisCount: getColumnsCount(constraints),
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                        );
+                      },
+                    ),
                   ),
                 ],
               );
@@ -88,24 +88,22 @@ class _ShotsState extends ConsumerState<Shots> {
       return;
     }
 
-    final shot = await showDialog(
+    final int sequence = currentSequenceReader.value!.id;
+    final newShot = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const NewShotDialog();
+        return ShotDialog(
+          sequence: sequence,
+          index: ref.read(shotsProvider).value!.getNextIndex<Shot>(),
+        );
       },
     );
-    if (shot is Shot) {
-      final Project project = currentProjectReader.value!;
-      final Episode episode = currentEpisodeReader.value!;
-      final Sequence sequence = currentSequenceReader.value!;
-      final Map<String, dynamic> result =
-          await ref.read(shotsProvider.notifier).add(project.id, episode.id, sequence.id, shot);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.shot.added'.tr() : 'snack_bars.shot.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+
+    if (newShot is Shot) {
+      await ref.read(shotsProvider.notifier).add(newShot);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }

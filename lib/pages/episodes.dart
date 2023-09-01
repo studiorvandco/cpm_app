@@ -1,13 +1,13 @@
-import 'package:cpm/providers/navigation.dart';
+import 'package:cpm/extensions/list_helpers.dart';
+import 'package:cpm/providers/navigation/navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../models/episode.dart';
-import '../models/project/project.dart';
-import '../providers/episodes.dart';
-import '../providers/projects.dart';
+import '../models/episode/episode.dart';
+import '../providers/episodes/episodes.dart';
+import '../providers/projects/projects.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/cards/episode_card.dart';
 import '../widgets/custom_snack_bars.dart';
@@ -70,22 +70,21 @@ class EpisodesState extends ConsumerState<Episodes> {
       return;
     }
 
-    final int number = ref.read(episodesProvider).value!.length + 1;
-    final episode = await showDialog(
+    final int project = ref.read(currentProjectProvider).value!.id;
+    final newEpisode = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EpisodeDialog(number: number);
+        return EpisodeDialog(
+          project: project,
+          index: ref.read(episodesProvider).value!.getNextIndex<Episode>(),
+        );
       },
     );
-    if (episode is Episode) {
-      final Project project = ref.read(currentProjectProvider).value!;
-      final Map<String, dynamic> result = await ref.read(episodesProvider.notifier).add(project.id, episode);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.episode.added'.tr() : 'snack_bars.episode.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+    if (newEpisode is Episode) {
+      await ref.read(episodesProvider.notifier).add(newEpisode);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }

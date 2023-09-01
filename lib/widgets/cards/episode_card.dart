@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/episode.dart';
-import '../../providers/episodes.dart';
-import '../../providers/navigation.dart';
+import '../../models/episode/episode.dart';
+import '../../providers/episodes/episodes.dart';
+import '../../providers/navigation/navigation.dart';
 import '../../utils/constants_globals.dart';
 
 class EpisodeCard extends ConsumerStatefulWidget {
@@ -54,7 +54,7 @@ class _EpisodeCardState extends ConsumerState<EpisodeCard> {
                         ),
                         const Padding(padding: EdgeInsets.only(right: 12)),
                         Text(
-                          widget.episode.title,
+                          widget.episode.getTitle,
                           style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -63,7 +63,7 @@ class _EpisodeCardState extends ConsumerState<EpisodeCard> {
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 4)),
                     Text(
-                      widget.episode.description,
+                      widget.episode.getDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -1,8 +1,9 @@
+import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/sequence.dart';
-import '../../providers/navigation.dart';
+import '../../models/sequence/sequence.dart';
+import '../../providers/navigation/navigation.dart';
 import '../../utils/constants_globals.dart';
 
 class SequenceCard extends ConsumerStatefulWidget {
@@ -53,7 +54,7 @@ class _SequenceCardState extends ConsumerState<SequenceCard> {
                         ),
                         const Padding(padding: EdgeInsets.only(right: 12)),
                         Text(
-                          widget.sequence.title,
+                          widget.sequence.getTitle,
                           style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -77,6 +78,7 @@ class _SequenceCardState extends ConsumerState<SequenceCard> {
   }
 
   void openShots() {
+    ref.read(currentSequenceProvider.notifier).set(widget.sequence);
     ref.read(navigationProvider.notifier).set(HomePage.shots);
   }
 }

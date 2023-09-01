@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project/project.dart';
-import '../../providers/projects.dart';
+import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
 
@@ -14,26 +14,20 @@ class ProjectDetailsPane extends ConsumerStatefulWidget {
   ConsumerState<ProjectDetailsPane> createState() => _DetailsPaneProjectState();
 }
 
-class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane>
-    with AutomaticKeepAliveClientMixin<ProjectDetailsPane> {
+class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane> {
   late DateTime start;
   late DateTime end;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
-        start = project.startDate;
-        end = project.endDate;
-        titleController.text = project.title;
-        descriptionController.text = project.description;
+        start = project.getStartDate;
+        end = project.getEndDate;
+        titleController.text = project.getTitle;
+        descriptionController.text = project.getDescription;
         titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
         descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 

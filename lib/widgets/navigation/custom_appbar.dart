@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/authentication.dart';
+import '../../providers/authentication/authentication.dart';
 import 'logout.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {

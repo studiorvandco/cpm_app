@@ -1,8 +1,8 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:cpm/pages/home.dart';
 import 'package:cpm/pages/login.dart';
-import 'package:cpm/providers/authentication.dart';
-import 'package:cpm/providers/theme.dart';
+import 'package:cpm/providers/authentication/authentication.dart';
+import 'package:cpm/providers/theme/theme.dart';
 import 'package:cpm/utils/themes.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

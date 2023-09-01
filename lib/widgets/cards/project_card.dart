@@ -1,10 +1,10 @@
+import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/project/project.dart';
-import '../../providers/episodes.dart';
-import '../../providers/navigation.dart';
-import '../../providers/projects.dart';
+import '../../providers/navigation/navigation.dart';
+import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
 
 class ProjectCard extends ConsumerStatefulWidget {
@@ -38,14 +38,14 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.project.title,
+                      widget.project.getTitle,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 4)),
                     Text(
-                      widget.project.description,
+                      widget.project.getDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -64,10 +64,10 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
     );
   }
 
-  void openProject(Project project) {
+  Future<void> openProject(Project project) async {
     ref.read(currentProjectProvider.notifier).set(project);
-    if (project.isMovie && project.episodes != null && project.episodes!.length > 1) {
-      ref.read(currentEpisodeProvider.notifier).set(project.episodes![0]);
+    if (project.isMovie) {
+      await ref.read(episodesProvider.notifier).set(project.id);
     }
     ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.sequences : HomePage.episodes);
   }

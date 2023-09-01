@@ -1,29 +1,37 @@
+import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../episode.dart';
 import 'link.dart';
 import 'project_type.dart';
 
 part 'project.g.dart';
 
 @JsonSerializable()
-class Project implements Comparable<Project> {
-  @JsonKey(includeToJson: false)
-  final String id;
+class Project extends BaseModel implements Comparable<Project> {
   ProjectType projectType;
-  String title;
-  String description;
-  DateTime startDate;
-  DateTime endDate;
-  int? shotsTotal;
-  int? shotsCompleted;
+  String? title;
+  String? description;
+  DateTime? startDate;
+  DateTime? endDate;
   String? director;
   String? writer;
-  List<Link> links;
-  List<Episode>? episodes;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
+  int? shotsTotal;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? shotsCompleted;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<Link>? links;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool favorite = false;
+
+  String get getTitle => title ?? 'Untitled';
+
+  String get getDescription => description ?? '';
+
+  DateTime get getStartDate => startDate ?? DateTime.now();
+
+  DateTime get getEndDate => endDate ?? DateTime.now();
 
   bool get isMovie {
     return projectType == ProjectType.movie;
@@ -38,31 +46,39 @@ class Project implements Comparable<Project> {
   }
 
   Project({
-    required this.id,
+    required super.id,
     required this.projectType,
-    required this.title,
-    required this.description,
-    required this.startDate,
-    required this.endDate,
+    this.title,
+    this.description,
+    this.startDate,
+    this.endDate,
     this.shotsTotal,
     this.shotsCompleted,
     this.director,
     this.writer,
     this.links = const [],
-    this.episodes,
   });
 
+  Project.insert({
+    required this.projectType,
+    this.title,
+    this.description,
+    this.startDate,
+    this.endDate,
+    this.shotsTotal,
+    this.shotsCompleted,
+    this.director,
+    this.writer,
+    this.links = const [],
+  }) : super(id: -1);
+
   Project.empty()
-      : id = '',
-        projectType = ProjectType.placeholder,
-        title = '',
-        description = '',
-        startDate = DateTime.now(),
-        endDate = DateTime.now(),
-        links = [];
+      : projectType = ProjectType.unknown,
+        super(id: -1);
 
-  factory Project.fromJson(json) => _$ProjectFromJson(json);
+  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
 
   void toggleFavorite() {
@@ -71,8 +87,12 @@ class Project implements Comparable<Project> {
 
   @override
   int compareTo(Project other) {
-    if (favorite == other.favorite) {
-      return other.startDate.compareTo(startDate);
+    if (startDate == null) {
+      return -1;
+    } else if (other.startDate == null) {
+      return 1;
+    } else if (favorite == other.favorite) {
+      return other.startDate!.compareTo(startDate!);
     } else if (favorite) {
       return -1;
     } else {

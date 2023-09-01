@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/episode.dart';
+import '../../models/episode/episode.dart';
 import '../../models/project/project.dart';
-import '../../providers/episodes.dart';
-import '../../providers/projects.dart';
+import '../../providers/episodes/episodes.dart';
+import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
 
 class EpisodeDetailsPane extends ConsumerStatefulWidget {
@@ -15,24 +15,18 @@ class EpisodeDetailsPane extends ConsumerStatefulWidget {
   ConsumerState<EpisodeDetailsPane> createState() => _DetailsPaneEpisodeState();
 }
 
-class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
-    with AutomaticKeepAliveClientMixin<EpisodeDetailsPane> {
+class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return ref.watch(currentProjectProvider).when(
       data: (Project project) {
         return ref.watch(currentEpisodeProvider).when(
           data: (Episode episode) {
-            titleController.text = episode.title;
-            descriptionController.text = episode.description;
+            titleController.text = episode.getTitle;
+            descriptionController.text = episode.getDescription;
             titleController.selection = TextSelection.collapsed(offset: titleController.text.length);
             descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 
@@ -44,7 +38,7 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
                   Focus(
                     onFocusChange: (bool hasFocus) {
                       if (!hasFocus && titleController.text != project.title) {
-                        edit(project.id, episode);
+                        edit(episode);
                       }
                     },
                     child: TextField(
@@ -58,7 +52,7 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
                   Focus(
                     onFocusChange: (bool hasFocus) {
                       if (!hasFocus && descriptionController.text != project.description) {
-                        edit(project.id, episode);
+                        edit(episode);
                       }
                     },
                     child: TextField(
@@ -92,11 +86,11 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane>
     );
   }
 
-  void edit(String projectID, Episode episode) {
+  void edit(Episode episode) {
     episode.title = titleController.text;
     episode.description = descriptionController.text;
 
-    ref.read(episodesProvider.notifier).edit(projectID, episode);
+    ref.read(episodesProvider.notifier).edit(episode);
     ref.read(currentEpisodeProvider.notifier).set(episode);
   }
 }

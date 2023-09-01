@@ -1,49 +1,37 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import '../../models/member.dart';
+import '../../models/member/member.dart';
 
 class MemberDialog extends StatefulWidget {
-  const MemberDialog({super.key, required this.edit, this.id, this.firstName, this.lastName, this.phone, this.image});
+  const MemberDialog({super.key, this.member});
 
-  final String? id;
-  final String? firstName;
-  final String? lastName;
-  final String? phone;
-  final Image? image;
-  final bool edit;
+  final Member? member;
 
   @override
   State<StatefulWidget> createState() => _MemberDialogState();
 }
 
 class _MemberDialogState extends State<MemberDialog> {
+  late final bool edit;
+
+  late final String title;
+
   late final TextEditingController firstNameController;
   late final TextEditingController lastNameController;
   late final TextEditingController phoneController;
-  Image? image;
-
-  late String title;
-  late String subtitle;
 
   @override
   void initState() {
-    firstNameController = TextEditingController(text: widget.firstName);
-    lastNameController = TextEditingController(text: widget.lastName);
-    phoneController = TextEditingController(text: widget.phone);
-    image = widget.image;
-    title = widget.edit
-        ? '${'edit.upper'.tr()} ${widget.firstName!}'
-        : '${'new.masc.eau.upper'.tr()} ${'members.member.lower'.plural(1)}';
-    subtitle = widget.edit
-        ? '${'edit.upper'.tr()} ${'articles.this.masc.lower'.plural(1)} ${'members.member.lower'.plural(1)}.'
-        : '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'members.member.lower'.plural(1)}.';
+    super.initState();
 
-    return super.initState();
+    edit = widget.member != null;
+
+    title = edit ? 'edit.upper'.tr() : 'new.masc.eau.upper'.tr();
+
+    firstNameController = TextEditingController(text: widget.member?.firstName);
+    lastNameController = TextEditingController(text: widget.member?.lastName);
+    phoneController = TextEditingController(text: widget.member?.phone);
   }
 
   @override
@@ -58,29 +46,7 @@ class _MemberDialogState extends State<MemberDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Text>[
                 Text(title),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 12),
-                ),
               ],
-            ),
-            IconButton(
-              style: IconButton.styleFrom(shape: const CircleBorder()),
-              icon: SizedBox(
-                width: 100,
-                height: 100,
-                child: Builder(builder: (BuildContext context) {
-                  return image != null
-                      ? Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(image: image!.image, fit: BoxFit.cover),
-                          ),
-                        )
-                      : const Icon(Icons.add_a_photo, size: 80);
-                }),
-              ),
-              onPressed: () => changePhoto(),
             ),
           ],
         ),
@@ -169,30 +135,20 @@ class _MemberDialogState extends State<MemberDialog> {
     );
   }
 
-  Future<void> changePhoto() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      lockParentWindow: true,
-      withData: kIsWeb,
-    );
-    if (result != null) {
-      PlatformFile file = result.files.single;
-      setState(() {
-        image = kIsWeb ? Image.memory(file.bytes!) : Image.file(File(file.path!));
-      });
-    }
-  }
-
   void submit() {
-    if (firstNameController.text.trim().isEmpty) {
-      return;
-    }
-    final Member newMember = Member(
-      id: widget.id ?? '',
-      firstName: firstNameController.text,
-      lastName: lastNameController.text,
-      phone: phoneController.text,
-    );
-    Navigator.pop(context, newMember);
+    Member member = edit
+        ? Member(
+            id: widget.member!.id,
+            firstName: firstNameController.text,
+            lastName: lastNameController.text,
+            phone: phoneController.text,
+          )
+        : Member.insert(
+            firstName: firstNameController.text,
+            lastName: lastNameController.text,
+            phone: phoneController.text,
+          );
+
+    Navigator.pop(context, member);
   }
 }

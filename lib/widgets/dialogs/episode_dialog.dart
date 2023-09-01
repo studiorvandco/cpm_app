@@ -1,16 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/episode.dart';
-import '../../models/sequence.dart';
+import '../../models/episode/episode.dart';
 
 class EpisodeDialog extends StatefulWidget {
-  const EpisodeDialog({
-    super.key,
-    required this.number,
-  });
+  const EpisodeDialog({super.key, required this.project, required this.index});
 
-  final int number;
+  final int project;
+  final int index;
 
   @override
   State<StatefulWidget> createState() => _EpisodeDialogState();
@@ -143,12 +140,11 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
   }
 
   void submit() {
-    final Episode newEpisode = Episode(
-      id: '',
-      number: widget.number,
+    final Episode newEpisode = Episode.insert(
+      project: widget.project,
+      index: widget.index,
       title: titleController.text,
       description: descriptionController.text,
-      sequences: <Sequence>[],
     );
     Navigator.pop(context, newEpisode);
   }

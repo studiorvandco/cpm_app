@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../exceptions/invalid_direction.dart';
-import '../models/location.dart';
-import '../providers/locations.dart';
+import '../models/location/location.dart';
+import '../providers/locations/locations.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/confirm_dialog.dart';
@@ -23,6 +23,10 @@ class _LocationsState extends ConsumerState<Locations> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => add(),
+          child: const Icon(Icons.add),
+        ),
         body: ref.watch(locationsProvider).when(
           data: (List<Location> locations) {
             return ListView.separated(
@@ -93,10 +97,6 @@ class _LocationsState extends ConsumerState<Locations> {
             return requestPlaceholderLoading;
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => add,
-          child: const Icon(Icons.add),
-        ),
       ),
     );
   }
@@ -105,17 +105,14 @@ class _LocationsState extends ConsumerState<Locations> {
     final location = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ProviderScope(parent: ProviderScope.containerOf(context), child: const LocationDialog(edit: false));
+        return const LocationDialog();
       },
     );
     if (location is Location) {
-      final Map<String, dynamic> result = await ref.read(locationsProvider.notifier).add(location);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.location.added'.tr() : 'snack_bars.location.not_added'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+      await ref.read(locationsProvider.notifier).add(location);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
@@ -124,34 +121,23 @@ class _LocationsState extends ConsumerState<Locations> {
     final editedLocation = await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LocationDialog(
-          edit: true,
-          id: location.id,
-          name: location.name,
-          position: location.position,
-        );
+        return LocationDialog(location: location);
       },
     );
     if (editedLocation is Location) {
-      final Map<String, dynamic> result = await ref.read(locationsProvider.notifier).edit(editedLocation);
-      if (context.mounted) {
-        final bool succeeded = result['succeeded'] as bool;
-        final int code = result['code'] as int;
-        final String message = succeeded ? 'snack_bars.location.edited'.tr() : 'snack_bars.location.not_edited'.tr();
-        ScaffoldMessenger.of(context)
-            .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+      await ref.read(locationsProvider.notifier).edit(editedLocation);
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
 
   Future<void> delete(Location location) async {
-    final Map<String, dynamic> result = await ref.read(locationsProvider.notifier).delete(location.id);
-    if (context.mounted) {
-      final bool succeeded = result['succeeded'] as bool;
-      final int code = result['code'] as int;
-      final String message = succeeded ? 'snack_bars.location.deleted'.tr() : 'snack_bars.location.not_deleted'.tr();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(CustomSnackBars().getModelSnackBar(context, succeeded, code, message: message));
+    await ref.read(locationsProvider.notifier).delete(location.id);
+    if (true) {
+      final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
     }
   }
 }

@@ -180,8 +180,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
   }
 
   void submit() {
-    final Project newProject = Project(
-      id: '',
+    final Project newProject = Project.insert(
       projectType: type,
       title: titleController.text,
       description: descriptionController.text,

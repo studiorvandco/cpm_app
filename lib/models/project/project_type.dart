@@ -1,8 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
 
-@JsonEnum(valueField: 'index')
+@JsonEnum(valueField: 'name')
 enum ProjectType {
-  movie,
-  series,
-  placeholder,
+  unknown('Unknown'),
+  movie('Movie'),
+  series('Series'),
+  ;
+
+  final String name;
+
+  const ProjectType(this.name);
 }

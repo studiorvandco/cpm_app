@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/shot.dart';
+import '../../models/shot/shot.dart';
 
 class ShotCard extends StatefulWidget {
   const ShotCard({super.key, required this.onPressed, required this.shot});
@@ -84,14 +84,6 @@ class CompactShotCard extends StatelessWidget {
                 ),
               ),
               const Padding(padding: EdgeInsets.only(right: 12)),
-              Expanded(
-                child: Text(
-                  widget.shot.title,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
               Checkbox(value: widget.shot.completed, onChanged: onCheck),
             ]),
           ]),
@@ -137,14 +129,6 @@ class CollapsedShotCard extends StatelessWidget {
               ),
             ),
             const Padding(padding: EdgeInsets.only(right: 12)),
-            Expanded(
-              child: Text(
-                widget.shot.title,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
             Checkbox(value: widget.shot.completed, onChanged: onCheck),
           ]),
           Text(

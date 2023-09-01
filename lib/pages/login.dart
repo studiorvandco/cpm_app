@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/authentication.dart';
+import '../providers/authentication/authentication.dart';
 import '../utils/constants_globals.dart';
 import '../widgets/custom_snack_bars.dart';
 
@@ -109,7 +109,7 @@ class _LoginState extends ConsumerState<Login> {
                       return SizedBox(
                         width: 300,
                         child: FilledButton(
-                          onPressed: submit,
+                          onPressed: () => submit(),
                           child: Text('authentication.login.upper'.tr()),
                         ),
                       );
@@ -118,7 +118,7 @@ class _LoginState extends ConsumerState<Login> {
                       return SizedBox(
                         width: 300,
                         child: FilledButton(
-                          onPressed: submit,
+                          onPressed: () => submit(),
                           child: Text('authentication.login.upper'.tr()),
                         ),
                       );
@@ -136,15 +136,15 @@ class _LoginState extends ConsumerState<Login> {
     );
   }
 
-  void submit() {
-    ref
-        .read(authenticationProvider.notifier)
-        .login(usernameController.text, passwordController.text)
-        .then((Map<String, dynamic> result) {
-      if (!(result['succeeded'] as bool) && scaffoldMessengerKey.currentContext != null) {
-        ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!)
-            .showSnackBar(CustomSnackBars().getLoginSnackBar(context, result['statusCode'] as int));
-      }
-    });
+  Future<void> submit() async {
+    bool logged = await ref.read(authenticationProvider.notifier).login(
+          usernameController.text,
+          passwordController.text,
+        );
+    if (!logged && scaffoldMessengerKey.currentContext != null && context.mounted) {
+      ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!).showSnackBar(
+        CustomSnackBars().getLoginSnackBar(context),
+      );
+    }
   }
 }

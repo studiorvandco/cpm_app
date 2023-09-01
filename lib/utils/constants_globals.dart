@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import '../models/event.dart';
 import '../pages/episodes.dart';
 import '../pages/projects.dart';
-import '../services/api.dart';
 import '../widgets/request_placeholder.dart';
 
 String token = '';
-
-final API api = API();
 
 enum Logos {
   cpmLight('assets/logos/cpm_light_1024.png'),

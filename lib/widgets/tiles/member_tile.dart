@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../models/member.dart';
+import '../../models/member/member.dart';
 import '../../utils/constants_globals.dart';
 
 class MemberTile extends StatefulWidget {
@@ -25,14 +25,14 @@ class _MemberTileState extends State<MemberTile> {
       child: ListTile(
         leading: SizedBox(
           height: double.infinity,
-          child: widget.member.imageURL != null
+          child: false
               ? CircleAvatar(
-                  backgroundImage: NetworkImage(widget.member.imageURL!), // No matter how big it is, it won't overflow
+                  backgroundImage: NetworkImage(''), // No matter how big it is, it won't overflow
                 )
               : Icon(Icons.person, color: Theme.of(context).iconTheme.color),
         ),
         title: Text(
-          '${widget.member.firstName} ${widget.member.lastName!.toUpperCase()}',
+          widget.member.fullName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

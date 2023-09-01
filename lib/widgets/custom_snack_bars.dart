@@ -2,19 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomSnackBars {
-  SnackBar getLoginSnackBar(BuildContext context, int statusCode) {
-    String message = '';
-    switch (statusCode) {
-      case 400:
-      case 401:
-        message = 'error.username-password'.tr();
-        break;
-      case 408:
-        message = 'error.timeout'.tr();
-        break;
-      default:
-        message = 'error.error'.tr();
-    }
+  SnackBar getLoginSnackBar(BuildContext context) {
+    String message = 'error.username-password'.tr();
 
     return SnackBar(
       showCloseIcon: true,
@@ -30,9 +19,9 @@ class CustomSnackBars {
     );
   }
 
-  SnackBar getModelSnackBar(BuildContext context, bool succeeded, int code, {String message = 'error.no_message'}) {
+  SnackBar getModelSnackBar(BuildContext context, bool succeeded, {String message = 'error.no_message'}) {
     if (!succeeded) {
-      message = '${'error.error'.tr()} $code - $message';
+      message = '${'error.error'.tr()} - $message';
     }
 
     return SnackBar(
