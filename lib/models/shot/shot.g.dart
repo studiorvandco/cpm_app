@@ -15,8 +15,7 @@ Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
           sequence: $checkedConvert('sequence', (v) => v as int),
           index: $checkedConvert('index', (v) => v as int),
           number: $checkedConvert('number', (v) => v as int),
-          value: $checkedConvert(
-              'value', (v) => $enumDecodeNullable(_$ShotValueEnumMap, v)),
+          value: $checkedConvert('value', (v) => v as String?),
           description: $checkedConvert('description', (v) => v as String?),
           completed: $checkedConvert('completed', (v) => v as bool),
         );
@@ -27,22 +26,7 @@ Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
 Map<String, dynamic> _$ShotToJson(Shot instance) => <String, dynamic>{
       'sequence': instance.sequence,
       'index': instance.index,
-      'value': _$ShotValueEnumMap[instance.value],
+      'value': instance.value,
       'description': instance.description,
       'completed': instance.completed,
     };
-
-const _$ShotValueEnumMap = {
-  ShotValue.full: 'full',
-  ShotValue.mediumFull: 'medium_full',
-  ShotValue.cowboy: 'cowboy',
-  ShotValue.medium: 'medium',
-  ShotValue.mediumCloseup: 'medium_closeup',
-  ShotValue.closeup: 'closeup',
-  ShotValue.extremeCloseup: 'extreme_closeup',
-  ShotValue.insert: 'insert',
-  ShotValue.sequence: 'sequence',
-  ShotValue.landscape: 'landscape',
-  ShotValue.drone: 'drone',
-  ShotValue.other: 'other',
-};
