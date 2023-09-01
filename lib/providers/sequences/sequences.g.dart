@@ -6,16 +6,14 @@ part of 'sequences.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sequencesHash() => r'0bc5d127a89dc352f0f8b7966d0dc4b757d5475d';
+String _$sequencesHash() => r'ec418d38b1851f6e98edcef364d369e11d279d77';
 
 /// See also [Sequences].
 @ProviderFor(Sequences)
-final sequencesProvider =
-    AutoDisposeAsyncNotifierProvider<Sequences, List<Sequence>>.internal(
+final sequencesProvider = AutoDisposeAsyncNotifierProvider<Sequences, List<Sequence>>.internal(
   Sequences.new,
   name: r'sequencesProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sequencesHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$sequencesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -25,13 +23,10 @@ String _$currentSequenceHash() => r'dbd26f4baf421f684db15ed1658aedb9be11e82b';
 
 /// See also [CurrentSequence].
 @ProviderFor(CurrentSequence)
-final currentSequenceProvider =
-    AsyncNotifierProvider<CurrentSequence, Sequence>.internal(
+final currentSequenceProvider = AsyncNotifierProvider<CurrentSequence, Sequence>.internal(
   CurrentSequence.new,
   name: r'currentSequenceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$currentSequenceHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentSequenceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
