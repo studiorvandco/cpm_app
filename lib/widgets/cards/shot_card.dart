@@ -57,7 +57,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                   Badge(
                     label: Text(widget.shot.getValue),
                     backgroundColor: widget.shot.value?.color,
-                    textColor: widget.shot.value!.color.getColorByLuminance(context),
+                    textColor: widget.shot.value?.color.getColorByLuminance(context),
                   ),
                   const Spacer(),
                   Checkbox(value: isCompleted, onChanged: _complete),
