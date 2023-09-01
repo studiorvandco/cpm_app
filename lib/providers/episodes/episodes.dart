@@ -83,7 +83,7 @@ class Episodes extends _$Episodes with BaseProvider {
 class CurrentEpisode extends _$CurrentEpisode {
   @override
   FutureOr<Episode> build() {
-    return Future.value(null);
+    return Future.value(null); // ignore: null_argument_to_non_null_type
   }
 
   void set(Episode episode) {

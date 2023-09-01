@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/location/location.dart';
 import '../../models/sequence/sequence.dart';
+import '../../providers/locations/locations.dart';
 import '../../providers/sequences/sequences.dart';
 import '../../utils/constants_globals.dart';
 import '../icon_label.dart';
@@ -19,6 +21,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
   late DateTime end;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  Location? selectedLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +67,42 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
                   maxLines: null,
                   maxLength: 280,
                 ),
+              ),
+              const Padding(padding: EdgeInsets.only(bottom: 16)),
+              ref.watch(locationsProvider).when(
+                data: (locations) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButtonFormField<Location>(
+                      isExpanded: true,
+                      hint: Text('attributes.position.upper'.tr()),
+                      items: locations.map<DropdownMenuItem<Location>>((location) {
+                        return DropdownMenuItem<Location>(
+                          value: location,
+                          child: Text(location.getName),
+                        );
+                      }).toList(),
+                      value: sequence.location,
+                      onChanged: (location) {
+                        setState(() {
+                          selectedLocation = location;
+                        });
+                        edit(sequence);
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'locations.location.upper'.plural(1),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
+                  );
+                },
+                loading: () {
+                  return requestPlaceholderLoading;
+                },
+                error: (Object error, StackTrace stackTrace) {
+                  return requestPlaceholderError;
+                },
               ),
               const Padding(padding: EdgeInsets.only(bottom: 16)),
               GestureDetector(
@@ -116,8 +155,9 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
     sequence.description = descriptionController.text;
     sequence.startDate = start;
     sequence.endDate = end;
+    sequence.location = selectedLocation;
 
-    ref.read(sequencesProvider.notifier).edit(sequence);
+    ref.read(sequencesProvider.notifier).edit(sequence, selectedLocation?.id);
     ref.read(currentSequenceProvider.notifier).set(sequence);
   }
 }

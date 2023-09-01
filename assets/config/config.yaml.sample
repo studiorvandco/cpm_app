@@ -1,2 +1,3 @@
-api:
-  url: 'https://api.com/api'
+supabase:
+  url: 'https://url.supabase.co'
+  anon_key: '**********'

@@ -60,7 +60,7 @@ class CurrentProject extends _$CurrentProject with BaseProvider {
 
   @override
   FutureOr<Project> build() {
-    return Future.value(null);
+    return Future.value(null); // ignore: null_argument_to_non_null_type
   }
 
   Future<void> set(Project project) async {
