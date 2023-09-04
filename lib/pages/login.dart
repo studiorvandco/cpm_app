@@ -19,6 +19,24 @@ class _LoginState extends ConsumerState<Login> {
 
   bool obscurePassword = true;
 
+  void _obscurePassword() {
+    setState(() {
+      obscurePassword = !obscurePassword;
+    });
+  }
+
+  Future<void> _login() async {
+    final logged = await ref.read(authenticationProvider.notifier).login(
+          usernameController.text,
+          passwordController.text,
+        );
+    if (!logged && scaffoldMessengerKey.currentContext != null && context.mounted) {
+      ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!).showSnackBar(
+        CustomSnackBars().getLoginSnackBar(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,125 +44,97 @@ class _LoginState extends ConsumerState<Login> {
         key: scaffoldMessengerKey,
         body: Center(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 64.0),
-                  child: Builder(
-                    builder: (BuildContext context) {
-                      return Theme.of(context).brightness == Brightness.light
-                          ? Image.asset(
-                              Logos.cpmLight.value,
-                              filterQuality: FilterQuality.medium,
-                              fit: BoxFit.fitWidth,
-                              width: 200,
-                            )
-                          : Image.asset(
-                              Logos.cpmDark.value,
-                              filterQuality: FilterQuality.medium,
-                              fit: BoxFit.fitWidth,
-                              width: 200,
-                            );
+            child: SizedBox(
+              width: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Theme.of(context).brightness == Brightness.light
+                      ? Image.asset(
+                          Logos.cpmLight.value,
+                          filterQuality: FilterQuality.medium,
+                          fit: BoxFit.fitWidth,
+                          width: 192,
+                        )
+                      : Image.asset(
+                          Logos.cpmDark.value,
+                          filterQuality: FilterQuality.medium,
+                          fit: BoxFit.fitWidth,
+                          width: 192,
+                        ),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                  TextField(
+                    controller: usernameController,
+                    autofocus: true,
+                    textInputAction: TextInputAction.next,
+                    onEditingComplete: () {
+                      FocusScope.of(context).nextFocus();
                     },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SizedBox(
-                    width: 300,
-                    child: Focus(
-                      canRequestFocus: false,
-                      child: TextField(
-                        autofocus: true,
-                        textInputAction: TextInputAction.next,
-                        controller: usernameController,
-                        onEditingComplete: () {
-                          FocusScope.of(context).nextFocus();
-                        },
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          labelText: 'username'.tr(),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.mail),
+                      hintText: 'Email',
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.surface,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(64.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(64.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SizedBox(
-                    width: 300,
-                    child: TextField(
-                      controller: passwordController,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      obscureText: obscurePassword,
-                      onEditingComplete: () {
-                        FocusScope.of(context).unfocus();
-                        submit();
-                      },
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                        labelText: 'password'.tr(),
-                        suffixIcon: IconButton(
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                  TextField(
+                    controller: passwordController,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    obscureText: obscurePassword,
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+                      _login();
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock),
+                      hintText: 'password'.tr(),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 4.0),
+                        child: IconButton(
                           icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
-                          onPressed: () {
-                            setState(
-                              () {
-                                obscurePassword = !obscurePassword;
-                              },
-                            );
-                          },
+                          onPressed: _obscurePassword,
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.surface,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(64.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(64.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: ref.watch(authenticationProvider).when(
-                    data: (bool authenticated) {
-                      return SizedBox(
-                        width: 300,
-                        child: FilledButton(
-                          onPressed: () => submit(),
-                          child: Text('authentication.login.upper'.tr()),
-                        ),
-                      );
-                    },
-                    error: (Object error, StackTrace stackTrace) {
-                      return SizedBox(
-                        width: 300,
-                        child: FilledButton(
-                          onPressed: () => submit(),
-                          child: Text('authentication.login.upper'.tr()),
-                        ),
-                      );
-                    },
-                    loading: () {
-                      return const CircularProgressIndicator();
-                    },
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () => _login(),
+                      child: Text('authentication.login.upper'.tr()),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future<void> submit() async {
-    bool logged = await ref.read(authenticationProvider.notifier).login(
-          usernameController.text,
-          passwordController.text,
-        );
-    if (!logged && scaffoldMessengerKey.currentContext != null && context.mounted) {
-      ScaffoldMessenger.of(scaffoldMessengerKey.currentContext!).showSnackBar(
-        CustomSnackBars().getLoginSnackBar(context),
-      );
-    }
   }
 }
