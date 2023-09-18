@@ -23,8 +23,6 @@ class Project extends BaseModel implements Comparable<Project> {
   int? shotsCompleted;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Link>? links;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  bool favorite = false;
 
   String get getId => id.toString();
 
