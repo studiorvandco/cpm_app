@@ -25,6 +25,8 @@ class Project extends BaseModel implements Comparable<Project> {
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool favorite = false;
 
+  String get getId => id.toString();
+
   String get getTitle => title ?? 'Untitled';
 
   String get getDescription => description ?? '';
