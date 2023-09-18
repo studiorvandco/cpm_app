@@ -52,133 +52,136 @@ class _LoginState extends ConsumerState<Login> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
-            child: SingleChildScrollView(
-              child: Center(
-                child: SizedBox(
-                  width: 512,
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-                        Theme.of(context).brightness == Brightness.light
-                            ? Image.asset(
-                                Logos.cpmLight.value,
-                                filterQuality: FilterQuality.medium,
-                                fit: BoxFit.fitWidth,
-                                width: 192,
-                              )
-                            : Image.asset(
-                                Logos.cpmDark.value,
-                                filterQuality: FilterQuality.medium,
-                                fit: BoxFit.fitWidth,
-                                width: 192,
-                              ),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
-                        TextFormField(
-                          controller: usernameController,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () {
-                            FocusScope.of(context).nextFocus();
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Required field';
-                            } else if (!value.isValidEmail()) {
-                              return 'Invalid email';
-                            }
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: SingleChildScrollView(
+                child: Center(
+                  child: SizedBox(
+                    width: 512,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                          Theme.of(context).brightness == Brightness.light
+                              ? Image.asset(
+                                  Logos.cpmLight.value,
+                                  filterQuality: FilterQuality.medium,
+                                  fit: BoxFit.fitWidth,
+                                  width: 192,
+                                )
+                              : Image.asset(
+                                  Logos.cpmDark.value,
+                                  filterQuality: FilterQuality.medium,
+                                  fit: BoxFit.fitWidth,
+                                  width: 192,
+                                ),
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                          TextFormField(
+                            controller: usernameController,
+                            textInputAction: TextInputAction.next,
+                            onEditingComplete: () {
+                              FocusScope.of(context).nextFocus();
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Required field';
+                              } else if (!value.isValidEmail()) {
+                                return 'Invalid email';
+                              }
 
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.mail),
-                            hintText: 'Email',
-                            filled: true,
-                            fillColor: Theme.of(context).colorScheme.surface,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.secondary,
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.mail),
+                              hintText: 'Email',
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.surface,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide.none,
                               ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.error,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-                        TextFormField(
-                          controller: passwordController,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          obscureText: obscurePassword,
-                          onEditingComplete: () {
-                            FocusScope.of(context).unfocus();
-                            _login();
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Required field';
-                            }
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                          TextFormField(
+                            controller: passwordController,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            obscureText: obscurePassword,
+                            onEditingComplete: () {
+                              FocusScope.of(context).unfocus();
+                              _login();
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Required field';
+                              }
 
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.lock),
-                            hintText: 'password'.tr(),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: IconButton(
-                                icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
-                                onPressed: _obscurePassword,
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.lock),
+                              hintText: 'password'.tr(),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(right: 4.0),
+                                child: IconButton(
+                                  icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
+                                  onPressed: _obscurePassword,
+                                ),
                               ),
-                            ),
-                            filled: true,
-                            fillColor: Theme.of(context).colorScheme.surface,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.secondary,
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.surface,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide.none,
                               ),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(64.0),
-                              borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.error,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(64.0),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
-                        SizedBox(
-                          width: double.infinity,
-                          child: FilledButton(
-                            onPressed: () => _login(),
-                            child: Text('authentication.login.upper'.tr()),
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                          SizedBox(
+                            width: double.infinity,
+                            child: FilledButton(
+                              onPressed: () => _login(),
+                              child: Text('authentication.login.upper'.tr()),
+                            ),
                           ),
-                        ),
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-                      ],
+                          const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
