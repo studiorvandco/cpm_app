@@ -95,10 +95,8 @@ class Project extends BaseModel implements Comparable<Project> {
       return 1;
     } else if (startDate != null && other.startDate == null) {
       return -1;
-    } else if (startDate == null && other.startDate == null) {
-      return getTitle.compareTo(other.getTitle);
     } else {
-      return startDate!.compareTo(other.startDate!);
+      return id.compareTo(other.id);
     }
   }
 }
