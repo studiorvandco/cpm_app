@@ -1,10 +1,10 @@
+import 'package:cpm/extensions/string_validators.dart';
+import 'package:cpm/providers/authentication/authentication.dart';
+import 'package:cpm/utils/constants_globals.dart';
+import 'package:cpm/widgets/custom_snack_bars.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../providers/authentication/authentication.dart';
-import '../utils/constants_globals.dart';
-import '../widgets/custom_snack_bars.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -14,6 +14,8 @@ class Login extends ConsumerStatefulWidget {
 }
 
 class _LoginState extends ConsumerState<Login> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -26,6 +28,10 @@ class _LoginState extends ConsumerState<Login> {
   }
 
   Future<void> _login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     final logged = await ref.read(authenticationProvider.notifier).login(
           usernameController.text,
           passwordController.text,
@@ -42,94 +48,140 @@ class _LoginState extends ConsumerState<Login> {
     return SafeArea(
       child: Scaffold(
         key: scaffoldMessengerKey,
-        body: Center(
-          child: SingleChildScrollView(
-            child: SizedBox(
-              width: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Theme.of(context).brightness == Brightness.light
-                      ? Image.asset(
-                          Logos.cpmLight.value,
-                          filterQuality: FilterQuality.medium,
-                          fit: BoxFit.fitWidth,
-                          width: 192,
-                        )
-                      : Image.asset(
-                          Logos.cpmDark.value,
-                          filterQuality: FilterQuality.medium,
-                          fit: BoxFit.fitWidth,
-                          width: 192,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Center(
+                child: SizedBox(
+                  width: 512,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                        Theme.of(context).brightness == Brightness.light
+                            ? Image.asset(
+                                Logos.cpmLight.value,
+                                filterQuality: FilterQuality.medium,
+                                fit: BoxFit.fitWidth,
+                                width: 192,
+                              )
+                            : Image.asset(
+                                Logos.cpmDark.value,
+                                filterQuality: FilterQuality.medium,
+                                fit: BoxFit.fitWidth,
+                                width: 192,
+                              ),
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                        TextFormField(
+                          controller: usernameController,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () {
+                            FocusScope.of(context).nextFocus();
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Required field';
+                            } else if (!value.isValidEmail()) {
+                              return 'Invalid email';
+                            }
+
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.mail),
+                            hintText: 'Email',
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.surface,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ),
                         ),
-                  const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
-                  TextField(
-                    controller: usernameController,
-                    autofocus: true,
-                    textInputAction: TextInputAction.next,
-                    onEditingComplete: () {
-                      FocusScope.of(context).nextFocus();
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.mail),
-                      hintText: 'Email',
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surface,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(64.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(64.0),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                        TextFormField(
+                          controller: passwordController,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          obscureText: obscurePassword,
+                          onEditingComplete: () {
+                            FocusScope.of(context).unfocus();
+                            _login();
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Required field';
+                            }
+
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.lock),
+                            hintText: 'password'.tr(),
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: IconButton(
+                                icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
+                                onPressed: _obscurePassword,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.surface,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(64.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
+                        SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                            onPressed: () => _login(),
+                            child: Text('authentication.login.upper'.tr()),
+                          ),
+                        ),
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
+                      ],
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),
-                  TextField(
-                    controller: passwordController,
-                    enableSuggestions: false,
-                    autocorrect: false,
-                    obscureText: obscurePassword,
-                    onEditingComplete: () {
-                      FocusScope.of(context).unfocus();
-                      _login();
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      hintText: 'password'.tr(),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: IconButton(
-                          icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
-                          onPressed: _obscurePassword,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surface,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(64.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(64.0),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.symmetric(vertical: 32.0)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: () => _login(),
-                      child: Text('authentication.login.upper'.tr()),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
