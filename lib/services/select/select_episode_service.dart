@@ -7,10 +7,9 @@ class SelectEpisodeService extends SelectService {
   SupabaseTable table = SupabaseTable.episode;
 
   Future<List<Episode>> selectEpisodes(int? projectId) async {
-    return await select<Episode>(
+    return await selectAndNumber<Episode>(
       await supabase.from(table.name).select('*').eq('project', projectId),
       Episode.fromJson,
-      addNumberByIndex: true,
     );
   }
 

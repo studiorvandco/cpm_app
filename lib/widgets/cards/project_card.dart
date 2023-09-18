@@ -1,5 +1,4 @@
 import 'package:cpm/providers/episodes/episodes.dart';
-import 'package:cpm/utils/favorites/Favorites.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
