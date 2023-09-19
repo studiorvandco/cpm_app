@@ -1,4 +1,3 @@
-import 'package:cpm/extensions/color_helpers.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/widgets/info_sheets/shot_info_sheet.dart';
@@ -15,68 +14,12 @@ class ShotCard extends ConsumerStatefulWidget {
 }
 
 class _ShotCardState extends ConsumerState<ShotCard> {
-  late bool isCompleted;
+  late bool completed;
 
   @override
   void initState() {
     super.initState();
-    isCompleted = widget.shot.completed;
-  }
-
-  void _complete(bool? checked) {
-    ref.read(shotsProvider.notifier).toggleComplete(widget.shot);
-    if (checked != null) {
-      setState(() {
-        isCompleted = checked;
-      });
-    }
-  }
-
-  Widget _buildCard([Widget? expansion]) {
-    return Card(
-      key: const ValueKey<bool>(true),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: InkWell(
-        onTap: _showDetails,
-        borderRadius: BorderRadius.circular(8),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Badge(
-                    label: Text(widget.shot.getNumber),
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    textColor: Theme.of(context).colorScheme.onSecondary,
-                  ),
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 4.0)),
-                  Badge(
-                    label: Text(widget.shot.getValue),
-                    backgroundColor: widget.shot.value?.color,
-                    textColor: widget.shot.value?.color.getColorByLuminance(context),
-                  ),
-                  const Spacer(),
-                  Checkbox(value: isCompleted, onChanged: _complete),
-                ],
-              ),
-              if (expansion != null) expansion,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildExpansion() {
-    return Text(
-      widget.shot.getDescription,
-      maxLines: 5,
-      overflow: TextOverflow.ellipsis,
-    );
+    completed = widget.shot.completed;
   }
 
   void _showDetails() {
@@ -90,16 +33,64 @@ class _ShotCardState extends ConsumerState<ShotCard> {
     );
   }
 
+  void _toggleCompletion() {
+    ref.read(shotsProvider.notifier).toggleCompletion(widget.shot);
+
+    setState(() {
+      completed = !completed;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      duration: const Duration(milliseconds: 250),
-      firstCurve: Curves.easeInOut,
-      secondCurve: Curves.easeInOut,
-      sizeCurve: Curves.easeInOut,
-      firstChild: _buildCard(),
-      secondChild: _buildCard(_buildExpansion()),
-      crossFadeState: isCompleted ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+    Color? cardColor;
+    if (completed) {
+      cardColor = Theme.of(context).brightness == Brightness.light
+          ? Colors.green.shade200
+          : Colors.green.shade900.withOpacity(0.75);
+    }
+
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      color: cardColor,
+      child: InkWell(
+        onTap: _showDetails,
+        onDoubleTap: _toggleCompletion,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: InkWell(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Badge(
+                      label: Text(widget.shot.getNumber),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      textColor: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                    const Padding(padding: EdgeInsets.symmetric(horizontal: 4)),
+                    Badge(
+                      label: Text(widget.shot.getValue),
+                      backgroundColor: widget.shot.value?.color,
+                      textColor: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ],
+                ),
+                if (widget.shot.getDescription.isNotEmpty) ...[
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                  Text(
+                    widget.shot.getDescription,
+                    maxLines: completed ? 1 : 5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

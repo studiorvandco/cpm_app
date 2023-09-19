@@ -57,7 +57,7 @@ class Shots extends _$Shots with BaseProvider {
     ]);
   }
 
-  Future<void> toggleComplete(Shot toToggleShot) async {
+  Future<void> toggleCompletion(Shot toToggleShot) async {
     toToggleShot.completed = !toToggleShot.completed;
     await updateService.update(table, toToggleShot);
     state = AsyncData<List<Shot>>(<Shot>[
