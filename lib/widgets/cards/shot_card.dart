@@ -59,33 +59,43 @@ class _ShotCardState extends ConsumerState<ShotCard> {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: InkWell(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    Badge(
-                      label: Text(widget.shot.getNumber),
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      textColor: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                    const Padding(padding: EdgeInsets.symmetric(horizontal: 4)),
-                    Badge(
-                      label: Text(widget.shot.getValue),
-                      backgroundColor: widget.shot.value?.color,
-                      textColor: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ],
-                ),
-                if (widget.shot.getDescription.isNotEmpty) ...[
-                  const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-                  Text(
-                    widget.shot.getDescription,
-                    maxLines: completed ? 1 : 5,
-                    overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Badge(
+                            label: Text(widget.shot.getNumber),
+                            backgroundColor: Theme.of(context).colorScheme.secondary,
+                            textColor: Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          const Padding(padding: EdgeInsets.symmetric(horizontal: 4)),
+                          Badge(
+                            label: Text(widget.shot.getValue),
+                            backgroundColor: widget.shot.value?.color,
+                            textColor: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ],
+                      ),
+                      if (widget.shot.getDescription.isNotEmpty) ...[
+                        const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
+                        Text(
+                          widget.shot.getDescription,
+                          maxLines: completed ? 1 : 5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
                   ),
-                ],
+                ),
+                IconButton(
+                  onPressed: _toggleCompletion,
+                  icon: Icon(widget.shot.completed ? Icons.remove_done : Icons.done_all),
+                ),
               ],
             ),
           ),
