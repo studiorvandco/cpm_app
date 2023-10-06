@@ -8,12 +8,12 @@ class SequencesDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    return (appointments![index] as Sequence).getStartDate;
+    return (appointments![index] as Sequence).startDate!;
   }
 
   @override
   DateTime getEndTime(int index) {
-    return (appointments![index] as Sequence).getEndDate;
+    return (appointments![index] as Sequence).endDate!;
   }
 
   @override

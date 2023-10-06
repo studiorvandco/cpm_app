@@ -1,4 +1,4 @@
-import 'package:cpm/extensions/date_helpers.dart';
+import 'package:cpm/extensions/date_time_helpers.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/providers/navigation/navigation.dart';
 import 'package:cpm/providers/sequences/sequences.dart';

@@ -1,3 +1,5 @@
+import 'package:cpm/extensions/time_of_day_extensions.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../base_model.dart';
@@ -24,9 +26,13 @@ class Sequence extends BaseModel {
 
   String get getDescription => description ?? '';
 
-  DateTime get getStartDate => startDate ?? DateTime.now();
+  DateTime get getDate => startDate ?? DateTime.now();
 
-  DateTime get getEndDate => endDate ?? DateTime.now();
+  TimeOfDay get getStartTime =>
+      startDate != null ? TimeOfDay(hour: startDate!.hour, minute: startDate!.minute) : TimeOfDay.now();
+
+  TimeOfDay get getEndTime =>
+      endDate != null ? TimeOfDay(hour: endDate!.hour, minute: endDate!.minute) : TimeOfDay.now().hourLater;
 
   Sequence({
     required super.id,
