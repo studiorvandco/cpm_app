@@ -18,6 +18,8 @@ class Sequence extends BaseModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   Location? location;
 
+  String get getNumber => number.toString();
+
   String get getTitle => title ?? 'Untitled';
 
   String get getDescription => description ?? '';
