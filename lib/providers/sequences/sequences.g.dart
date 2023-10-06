@@ -6,7 +6,7 @@ part of 'sequences.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sequencesHash() => r'04e5ea84f0b9497f0445274081774aa23edcfc94';
+String _$sequencesHash() => r'ec418d38b1851f6e98edcef364d369e11d279d77';
 
 /// See also [Sequences].
 @ProviderFor(Sequences)
@@ -33,4 +33,4 @@ final currentSequenceProvider = AsyncNotifierProvider<CurrentSequence, Sequence>
 
 typedef _$CurrentSequence = AsyncNotifier<Sequence>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

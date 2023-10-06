@@ -1,6 +1,8 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../models/event.dart';
 import '../pages/episodes.dart';
 import '../pages/projects.dart';
 import '../widgets/request_placeholder.dart';
@@ -22,7 +24,7 @@ enum Logos {
 
 enum Preferences { theme, locale, authenticated, token }
 
-enum HomePage { projects, episodes, sequences, shots, schedule }
+enum HomePage { projects, episodes, sequences, shots, planning }
 
 enum MenuAction { edit, delete }
 
@@ -35,6 +37,10 @@ final GlobalKey<ProjectsState> projectsStateKey = GlobalKey();
 final GlobalKey<EpisodesState> episodesStateKey = GlobalKey();
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
+final GlobalKey<MonthViewState<Event>> calendarMonthKey = GlobalKey<MonthViewState<Event>>();
+final GlobalKey<WeekViewState<Event>> calendarWeekKey = GlobalKey<WeekViewState<Event>>();
+final GlobalKey<DayViewState<Event>> calendarDayKey = GlobalKey<DayViewState<Event>>();
 
 int getColumnsCount(BoxConstraints constraints) {
   if (constraints.maxWidth < 750) {

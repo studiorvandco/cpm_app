@@ -6,14 +6,23 @@ import '../service.dart';
 abstract class SelectService extends Service {
   Future<List<Model>> select<Model extends BaseModel>(
     List data,
-    Model Function(Map<String, dynamic>) constructor, {
-    addNumberByIndex = false,
-  }) async {
+    Model Function(Map<String, dynamic>) constructor,
+  ) async {
+    List<Model> result = [];
+    for (var element in data) {
+      result.add(constructor(element));
+    }
+
+    return result;
+  }
+
+  Future<List<Model>> selectAndNumber<Model extends BaseModel>(
+    List data,
+    Model Function(Map<String, dynamic>) constructor,
+  ) async {
     List<Model> result = [];
     data.forEachIndexed((index, element) {
-      if (addNumberByIndex) {
-        element.addAll({'number': ++index});
-      }
+      element.addAll({'number': ++index});
       result.add(constructor(element));
     });
 

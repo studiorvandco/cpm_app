@@ -11,7 +11,7 @@ import '../widgets/cards/project_card.dart';
 import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/project_dialog.dart';
 import 'episodes.dart';
-import 'schedule/schedule.dart';
+import 'planning.dart';
 import 'sequences.dart';
 import 'shots.dart';
 
@@ -42,7 +42,7 @@ class ProjectsState extends ConsumerState<Projects> {
                       padding:
                           const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
                       itemBuilder: (BuildContext context, int index) {
-                        return ProjectCard(project: projects[index]);
+                        return ProjectCard(key: UniqueKey(), project: projects[index]);
                       },
                       crossAxisCount: getColumnsCount(constraints),
                       mainAxisSpacing: 2,
@@ -66,8 +66,8 @@ class ProjectsState extends ConsumerState<Projects> {
         return const Sequences();
       case HomePage.shots:
         return const Shots();
-      case HomePage.schedule:
-        return const Schedule();
+      case HomePage.planning:
+        return const Planning();
     }
   }
 

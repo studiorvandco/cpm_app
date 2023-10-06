@@ -27,8 +27,8 @@ extension ListHelpers<T> on List<T> {
 
     int maxIndex = 1;
     forEach((dynamic element) {
-      if (element._index != null && element._index! >= maxIndex) {
-        maxIndex = element._index!;
+      if (element.index != null && element.index! >= maxIndex) {
+        maxIndex = element.index!;
       }
     });
 

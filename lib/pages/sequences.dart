@@ -102,7 +102,7 @@ class _SequencesState extends ConsumerState<Sequences> {
     }
 
     final int episode = ref.read(currentEpisodeProvider).value!.id;
-    final newSequence = await showDialog(
+    final (Sequence? newSequence, int? locationId) = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return SequenceDialog(
@@ -112,8 +112,8 @@ class _SequencesState extends ConsumerState<Sequences> {
       },
     );
 
-    if (newSequence is Sequence) {
-      await ref.read(sequencesProvider.notifier).add(newSequence);
+    if (newSequence != null) {
+      await ref.read(sequencesProvider.notifier).add(newSequence, locationId);
       if (true) {
         final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
         ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));

@@ -23,11 +23,14 @@ dependencies:
   riverpod_annotation: ^2.1.1
   flutter_native_splash: ^2.3.1
   flutter_staggered_grid_view: ^0.6.2
-  syncfusion_flutter_calendar: ^22.2.5
+  syncfusion_flutter_calendar: ^22.1.37
   json_annotation: ^4.8.1
   flutter_secure_storage: ^8.0.0
   supabase_flutter: ^1.10.7
   collection: ^1.17.1
+  equatable: ^2.0.5
+
+  calendar_view: ^1.0.3 # TODO: remove
 
 dev_dependencies:
   flutter_test:
