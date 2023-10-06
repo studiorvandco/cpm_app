@@ -6,8 +6,6 @@ import 'package:cpm/utils/constants_globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../utils/unique_color.dart';
-
 class AppointmentTile extends ConsumerWidget {
   const AppointmentTile({super.key, required this.sequence});
 
@@ -39,11 +37,7 @@ class AppointmentTile extends ConsumerWidget {
                 Row(
                   children: [
                     Badge(
-                      label: Text(
-                        sequence.getNumber,
-                        style: TextStyle(color: UniqueColor().getTextColor),
-                      ),
-                      backgroundColor: UniqueColor().getColor,
+                      label: Text(sequence.getNumber),
                     ),
                     const Padding(padding: EdgeInsets.symmetric(horizontal: 2)),
                     Expanded(
