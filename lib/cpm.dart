@@ -13,8 +13,6 @@ class CPM extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Themes().setSystemUIOverlayStyle(context);
-
     return ref.watch(themeProvider).when(
       data: (ThemeMode theme) {
         FlutterNativeSplash.remove();
