@@ -55,7 +55,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
       color: cardColor,
       child: InkWell(
         onTap: _showDetails,
-        onDoubleTap: _toggleCompletion,
+        onLongPress: _toggleCompletion,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: InkWell(
