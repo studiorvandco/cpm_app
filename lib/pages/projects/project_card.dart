@@ -1,13 +1,12 @@
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/pages/projects/favorites.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
+import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/project/project.dart';
-import '../../providers/navigation/navigation.dart';
-import '../../providers/projects/projects.dart';
-import '../../utils/constants_globals.dart';
-import '../../utils/favorites/favorites.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProjectCard extends ConsumerStatefulWidget {
   const ProjectCard({super.key, required this.project});
@@ -39,40 +38,45 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
         onPressed: () => openProject(widget.project),
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-            Row(children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      widget.project.getTitle,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          widget.project.getTitle,
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const Padding(padding: EdgeInsets.only(bottom: 4)),
+                        Text(
+                          widget.project.getDescription,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    const Padding(padding: EdgeInsets.only(bottom: 4)),
-                    Text(
-                      widget.project.getDescription,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(right: 16)),
+                  IconButton(
+                    onPressed: () => toggleFavorite(widget.project),
+                    icon: favoriteIcon,
+                  ),
+                  IconButton(
+                    onPressed: () => openSchedule(widget.project),
+                    icon: const Icon(Icons.event),
+                  ),
+                ],
               ),
-              const Padding(padding: EdgeInsets.only(right: 16)),
-              IconButton(
-                onPressed: () => toggleFavorite(widget.project),
-                icon: favoriteIcon,
-              ),
-              IconButton(
-                onPressed: () => openPlanning(widget.project),
-                icon: const Icon(Icons.event),
-              ),
-            ]),
-            const SizedBox(height: 8),
-            LinearProgressIndicator(value: widget.project.progress),
-          ]),
+              const SizedBox(height: 8),
+              LinearProgressIndicator(value: widget.project.progress),
+            ],
+          ),
         ),
       ),
     );
@@ -83,13 +87,17 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
     if (project.isMovie) {
       await ref.read(episodesProvider.notifier).set(project.id);
     }
-    ref.read(navigationProvider.notifier).set(project.isMovie ? HomePage.sequences : HomePage.episodes);
+    if (context.mounted) {
+      context.pushNamed(project.isMovie ? RouterRoute.sequences.name : RouterRoute.episodes.name);
+    }
   }
 
-  Future<void> openPlanning(Project project) async {
+  Future<void> openSchedule(Project project) async {
     await ref.read(currentProjectProvider.notifier).set(project);
     await ref.read(sequencesProvider.notifier).getAll();
-    ref.read(navigationProvider.notifier).set(HomePage.planning);
+    if (context.mounted) {
+      context.pushNamed(RouterRoute.schedule.name);
+    }
   }
 
   void toggleFavorite(Project project) {

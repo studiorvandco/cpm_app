@@ -1,12 +1,11 @@
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/episode/episode.dart';
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/providers/episodes/episodes.dart';
+import 'package:cpm/providers/projects/projects.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/episode/episode.dart';
-import '../../models/project/project.dart';
-import '../../providers/episodes/episodes.dart';
-import '../../providers/projects/projects.dart';
-import '../../utils/constants_globals.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class EpisodeDetailsPane extends ConsumerStatefulWidget {
   const EpisodeDetailsPane({super.key});

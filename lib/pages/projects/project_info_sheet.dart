@@ -1,9 +1,7 @@
-import 'package:cpm/widgets/details_panes/links/links_tab.dart';
+import 'package:cpm/pages/projects/links/links_tab.dart';
+import 'package:cpm/pages/projects/project_details_pane.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import '../../exceptions/invalid_tab_index.dart';
-import '../details_panes/project_details_pane.dart';
 
 class ProjectInfoSheet extends StatefulWidget {
   const ProjectInfoSheet({super.key});
@@ -48,19 +46,21 @@ class _ProjectInfoSheetState extends State<ProjectInfoSheet> with SingleTickerPr
               Tab(text: 'locations.location.upper'.plural(2)),
             ],
           ),
-          Builder(builder: (BuildContext builder) {
-            if (_selectedTab == 0) {
-              return const ProjectDetailsPane();
-            } else if (_selectedTab == 1) {
-              return const LinksTab();
-            } else if (_selectedTab == 2) {
-              return const Center(child: Text('Coming soon!'));
-            } else if (_selectedTab == 3) {
-              return const Center(child: Text('Coming soon!'));
-            } else {
-              throw InvalidTabIndex('Invalid tab index: $_selectedTab');
-            }
-          }),
+          Builder(
+            builder: (BuildContext builder) {
+              if (_selectedTab == 0) {
+                return const ProjectDetailsPane();
+              } else if (_selectedTab == 1) {
+                return const LinksTab();
+              } else if (_selectedTab == 2) {
+                return const Center(child: Text('Coming soon!'));
+              } else if (_selectedTab == 3) {
+                return const Center(child: Text('Coming soon!'));
+              } else {
+                throw Exception();
+              }
+            },
+          ),
         ],
       ),
     );

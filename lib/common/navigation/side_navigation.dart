@@ -1,15 +1,12 @@
-import 'package:cpm/widgets/navigation/logout.dart';
+import 'package:cpm/common/dialogs/logout_dialog.dart';
+import 'package:cpm/providers/authentication/authentication.dart';
+import 'package:cpm/utils/asset.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/authentication/authentication.dart';
-import '../../utils/constants_globals.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SideNavigation extends ConsumerStatefulWidget {
-  const SideNavigation({super.key, required this.navigate});
-
-  final void Function(int) navigate;
+  const SideNavigation({super.key});
 
   @override
   ConsumerState<SideNavigation> createState() => _CustomNavigationRailState();
@@ -25,11 +22,11 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
         constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
         child: IntrinsicHeight(
           child: NavigationRail(
-            leading: Builder(builder: (BuildContext context) {
-              return Theme.of(context).brightness == Brightness.light
-                  ? Image.asset(Logos.cpmLight.value, width: 50, filterQuality: FilterQuality.medium)
-                  : Image.asset(Logos.cpmDark.value, width: 50, filterQuality: FilterQuality.medium);
-            }),
+            leading: Builder(
+              builder: (BuildContext context) {
+                return Image.asset(Asset.cpm.path, width: 50, filterQuality: FilterQuality.medium);
+              },
+            ),
             labelType: NavigationRailLabelType.all,
             destinations: <NavigationRailDestination>[
               NavigationRailDestination(icon: const Icon(Icons.movie), label: Text('projects.project.upper'.plural(2))),
@@ -37,7 +34,6 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
               NavigationRailDestination(icon: const Icon(Icons.map), label: Text('locations.location.upper'.plural(2))),
               NavigationRailDestination(icon: const Icon(Icons.settings), label: Text('settings.settings'.tr())),
               NavigationRailDestination(icon: const Icon(Icons.info), label: Text('about.about'.tr())),
-              // const NavigationRailDestination(icon: Icon(Icons.quiz), label: Text('Test')),
             ],
             trailing: Expanded(
               child: Align(
@@ -52,7 +48,6 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
             onDestinationSelected: (int index) {
               setState(() {
                 _selectedIndex = index;
-                widget.navigate(_selectedIndex);
               });
             },
           ),
@@ -62,7 +57,7 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
   }
 
   Future<void> logout() async {
-    if (await Logout().confirm(context)) {
+    if (await LogoutDialog().confirm()) {
       ref.read(authenticationProvider.notifier).logout();
     }
   }

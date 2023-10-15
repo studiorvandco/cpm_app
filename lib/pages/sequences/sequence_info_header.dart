@@ -1,18 +1,18 @@
+import 'package:cpm/common/dialogs/confirm_dialog.dart';
+import 'package:cpm/common/icon_label.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/pages/sequences/sequence_info_sheet.dart';
+import 'package:cpm/providers/episodes/episodes.dart';
+import 'package:cpm/providers/projects/projects.dart';
+import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/utils/routes/router_route.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/sequence/sequence.dart';
-import '../../providers/episodes/episodes.dart';
-import '../../providers/navigation/navigation.dart';
-import '../../providers/projects/projects.dart';
-import '../../providers/sequences/sequences.dart';
-import '../../utils/constants_globals.dart';
-import '../../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../../utils/snack_bar_manager/snack_bar_manager.dart';
-import '../dialogs/confirm_dialog.dart';
-import '../icon_label.dart';
-import '../info_sheets/sequence_info_sheet.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SequenceInfoHeader extends ConsumerStatefulWidget {
   const SequenceInfoHeader({super.key});
@@ -38,21 +38,23 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
                 padding: const EdgeInsets.all(8),
                 child: Column(
                   children: <Widget>[
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          sequence.getTitle,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            sequence.getTitle,
+                            style: Theme.of(context).textTheme.titleLarge,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () => delete(sequence),
-                        icon: const Icon(Icons.delete),
-                        color: Colors.red,
-                      ),
-                    ]),
+                        IconButton(
+                          onPressed: () => delete(sequence),
+                          icon: const Icon(Icons.delete),
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -104,10 +106,14 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
         final deleted = await ref.read(sequencesProvider.notifier).delete(sequence.id);
-        SnackBarManager().show(deleted
-            ? CustomSnackBar.getInfoSnackBar('snack_bars.sequence.added'.tr())
-            : CustomSnackBar.getErrorSnackBar('snack_bars.sequence.not_added'.tr()));
-        ref.read(navigationProvider.notifier).set(HomePage.episodes);
+        SnackBarManager().show(
+          deleted
+              ? getInfoSnackBar('snack_bars.sequence.added'.tr())
+              : getErrorSnackBar('snack_bars.sequence.not_added'.tr()),
+        );
+        if (context.mounted) {
+          context.pushNamed(RouterRoute.episodes.name);
+        }
       }
     });
   }

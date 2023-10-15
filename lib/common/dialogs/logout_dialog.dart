@@ -1,10 +1,11 @@
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LogoutDialog {
-  Future<bool> confirm(BuildContext context) async {
+  Future<bool> confirm() async {
     return await showDialog<bool>(
-          context: context,
+          context: navigatorKey.currentContext!,
           builder: (context) {
             return AlertDialog(
               title: Text('authentication.logout.upper'.tr()),

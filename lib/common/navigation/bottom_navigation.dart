@@ -24,8 +24,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
       switch (index) {
         case 0:
-          context.goNamed(RouterRoute.home.name);
+          context.goNamed(RouterRoute.projects.name);
         case 1:
+          context.goNamed(RouterRoute.members.name);
+        case 2:
+          context.goNamed(RouterRoute.locations.name);
+        case 3:
           context.goNamed(RouterRoute.settings.name);
       }
     }

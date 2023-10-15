@@ -1,14 +1,13 @@
-import 'package:cpm/extensions/date_time_helpers.dart';
+import 'package:cpm/common/icon_label.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/location/location.dart';
+import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/providers/locations/locations.dart';
+import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/utils/extensions/date_time_extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/location/location.dart';
-import '../../models/sequence/sequence.dart';
-import '../../providers/locations/locations.dart';
-import '../../providers/sequences/sequences.dart';
-import '../../utils/constants_globals.dart';
-import '../icon_label.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SequenceDetailsPane extends ConsumerStatefulWidget {
   const SequenceDetailsPane({super.key});

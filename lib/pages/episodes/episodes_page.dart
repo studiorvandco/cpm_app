@@ -1,22 +1,21 @@
-import 'package:cpm/extensions/list_helpers.dart';
-import 'package:cpm/providers/navigation/navigation.dart';
+import 'package:cpm/common/grid_view.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/episode/episode.dart';
+import 'package:cpm/pages/episodes/episode_card.dart';
+import 'package:cpm/pages/episodes/episode_dialog.dart';
+import 'package:cpm/pages/projects/project_info_header.dart';
+import 'package:cpm/providers/episodes/episodes.dart';
+import 'package:cpm/providers/projects/projects.dart';
+import 'package:cpm/utils/extensions/list_extensions.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-import '../models/episode/episode.dart';
-import '../providers/episodes/episodes.dart';
-import '../providers/projects/projects.dart';
-import '../utils/constants_globals.dart';
-import '../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../utils/snack_bar_manager/snack_bar_manager.dart';
-import '../widgets/cards/episode_card.dart';
-import '../widgets/dialogs/episode_dialog.dart';
-import '../widgets/info_headers/project_info_header.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class EpisodesPage extends ConsumerStatefulWidget {
-  const EpisodesPage({required Key key}) : super(key: key);
+  const EpisodesPage({super.key});
 
   @override
   ConsumerState<EpisodesPage> createState() => EpisodesState();
@@ -25,45 +24,43 @@ class EpisodesPage extends ConsumerStatefulWidget {
 class EpisodesState extends ConsumerState<EpisodesPage> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: handleBackButton,
-      child: Expanded(
-        child: Scaffold(
-          floatingActionButton: FloatingActionButton(onPressed: () => add(), child: const Icon(Icons.add)),
-          body: ref.watch(episodesProvider).when(
-            data: (List<Episode> episodes) {
-              return Column(children: <Widget>[
+    return Expanded(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () => add(), child: const Icon(Icons.add)),
+        body: ref.watch(episodesProvider).when(
+          data: (List<Episode> episodes) {
+            return Column(
+              children: <Widget>[
                 const ProjectInfoHeader(),
-                Expanded(child: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-                  return MasonryGridView.count(
-                    itemCount: episodes.length,
-                    padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
-                    itemBuilder: (BuildContext context, int index) {
-                      return EpisodeCard(episode: episodes[index]);
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      return MasonryGridView.count(
+                        itemCount: episodes.length,
+                        padding:
+                            const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                        itemBuilder: (BuildContext context, int index) {
+                          return EpisodeCard(episode: episodes[index]);
+                        },
+                        crossAxisCount: getColumnsCount(constraints),
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+                      );
                     },
-                    crossAxisCount: getColumnsCount(constraints),
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                  );
-                })),
-              ]);
-            },
-            error: (Object error, StackTrace stackTrace) {
-              return requestPlaceholderError;
-            },
-            loading: () {
-              return requestPlaceholderLoading;
-            },
-          ),
+                  ),
+                ),
+              ],
+            );
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          },
+          loading: () {
+            return requestPlaceholderLoading;
+          },
         ),
       ),
     );
-  }
-
-  Future<bool> handleBackButton() {
-    ref.read(navigationProvider.notifier).set(HomePage.projects);
-
-    return Future<bool>(() => false);
   }
 
   Future<void> add() async {
@@ -83,9 +80,11 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
     );
     if (newEpisode is Episode) {
       final added = await ref.read(episodesProvider.notifier).add(newEpisode);
-      SnackBarManager().show(added
-          ? CustomSnackBar.getInfoSnackBar('snack_bars.episode.added'.tr())
-          : CustomSnackBar.getErrorSnackBar('snack_bars.episode.not_added'.tr()));
+      SnackBarManager().show(
+        added
+            ? getInfoSnackBar('snack_bars.episode.added'.tr())
+            : getErrorSnackBar('snack_bars.episode.not_added'.tr()),
+      );
     }
   }
 }

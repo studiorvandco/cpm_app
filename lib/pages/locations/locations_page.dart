@@ -1,16 +1,15 @@
+import 'package:cpm/common/dialogs/confirm_dialog.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/location/location.dart';
+import 'package:cpm/pages/locations/location_dialog.dart';
+import 'package:cpm/pages/locations/location_tile.dart';
+import 'package:cpm/providers/locations/locations.dart';
+import 'package:cpm/utils/constants/separators.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../exceptions/invalid_direction.dart';
-import '../models/location/location.dart';
-import '../providers/locations/locations.dart';
-import '../utils/constants_globals.dart';
-import '../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../utils/snack_bar_manager/snack_bar_manager.dart';
-import '../widgets/dialogs/confirm_dialog.dart';
-import '../widgets/dialogs/location_dialog.dart';
-import '../widgets/tiles/location_tile.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LocationsPage extends ConsumerStatefulWidget {
   const LocationsPage({super.key});
@@ -59,14 +58,8 @@ class _LocationsState extends ConsumerState<LocationsPage> {
                       switch (direction) {
                         case DismissDirection.startToEnd:
                           delete(locations[index]);
-                          break;
-                        case DismissDirection.endToStart:
-                        case DismissDirection.vertical:
-                        case DismissDirection.horizontal:
-                        case DismissDirection.up:
-                        case DismissDirection.down:
-                        case DismissDirection.none:
-                          throw InvalidDirection('error.direction'.tr());
+                        default:
+                          throw Exception();
                       }
                     },
                     child: LocationTile(
@@ -86,7 +79,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return divider;
+                return Separator.divider1.divider;
               },
               itemCount: locations.length,
             );
@@ -111,9 +104,11 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     );
     if (location is Location) {
       final added = await ref.read(locationsProvider.notifier).add(location);
-      SnackBarManager().show(added
-          ? CustomSnackBar.getInfoSnackBar('snack_bars.location.added'.tr())
-          : CustomSnackBar.getErrorSnackBar('snack_bars.location.not_added'.tr()));
+      SnackBarManager().show(
+        added
+            ? getInfoSnackBar('snack_bars.location.added'.tr())
+            : getErrorSnackBar('snack_bars.location.not_added'.tr()),
+      );
     }
   }
 
@@ -126,16 +121,20 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     );
     if (editedLocation is Location) {
       final edited = await ref.read(locationsProvider.notifier).edit(editedLocation);
-      SnackBarManager().show(edited
-          ? CustomSnackBar.getInfoSnackBar('snack_bars.location.edited'.tr())
-          : CustomSnackBar.getErrorSnackBar('snack_bars.location.not_edited'.tr()));
+      SnackBarManager().show(
+        edited
+            ? getInfoSnackBar('snack_bars.location.edited'.tr())
+            : getErrorSnackBar('snack_bars.location.not_edited'.tr()),
+      );
     }
   }
 
   Future<void> delete(Location location) async {
     final deleted = await ref.read(locationsProvider.notifier).delete(location.id);
-    SnackBarManager().show(deleted
-        ? CustomSnackBar.getInfoSnackBar('snack_bars.location.deleted'.tr())
-        : CustomSnackBar.getErrorSnackBar('snack_bars.location.not_deleted'.tr()));
+    SnackBarManager().show(
+      deleted
+          ? getInfoSnackBar('snack_bars.location.deleted'.tr())
+          : getErrorSnackBar('snack_bars.location.not_deleted'.tr()),
+    );
   }
 }

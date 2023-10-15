@@ -2,7 +2,8 @@
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logos/cpm_dark_1024_square.png"
+  remove_alpha_ios: true
+  image_path: "assets/logos/cpm_light_1024_square.png"
   min_sdk_android: 21
   web:
     generate: true

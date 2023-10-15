@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:cpm/providers/base_provider.dart';
+import 'package:cpm/services/authentication_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../services/authentication_service.dart';
 
 part 'authentication.g.dart';
 

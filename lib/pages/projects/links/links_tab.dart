@@ -1,12 +1,11 @@
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/project/link.dart';
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/pages/projects/links/link_editor.dart';
+import 'package:cpm/providers/projects/projects.dart';
+import 'package:cpm/utils/extensions/list_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../extensions/list_helpers.dart';
-import '../../../models/project/link.dart';
-import '../../../models/project/project.dart';
-import '../../../providers/projects/projects.dart';
-import '../../../utils/constants_globals.dart';
-import 'link_editor.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LinksTab extends ConsumerStatefulWidget {
   const LinksTab({super.key});
@@ -59,7 +58,12 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
         );
 
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 8,
+            top: 8,
+            left: 8,
+            right: 8,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -88,7 +92,7 @@ class _LinksEditorState extends ConsumerState<LinksTab> {
               IconButton.filledTonal(
                 onPressed: () {
                   project.links ??= [];
-                  Link newLink = Link.empty(
+                  final Link newLink = Link.empty(
                     project: project.id,
                     index: project.links!.getNextIndex<Link>(),
                   );

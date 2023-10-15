@@ -1,16 +1,15 @@
+import 'package:cpm/common/dialogs/confirm_dialog.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/member/member.dart';
+import 'package:cpm/pages/members/member_dialog.dart';
+import 'package:cpm/pages/members/member_tile.dart';
+import 'package:cpm/providers/members/members.dart';
+import 'package:cpm/utils/constants/separators.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../exceptions/invalid_direction.dart';
-import '../models/member/member.dart';
-import '../providers/members/members.dart';
-import '../utils/constants_globals.dart';
-import '../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../utils/snack_bar_manager/snack_bar_manager.dart';
-import '../widgets/dialogs/confirm_dialog.dart';
-import '../widgets/dialogs/member_dialog.dart';
-import '../widgets/tiles/member_tile.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MembersPage extends ConsumerStatefulWidget {
   const MembersPage({super.key});
@@ -40,14 +39,8 @@ class _MembersState extends ConsumerState<MembersPage> {
                       switch (direction) {
                         case DismissDirection.startToEnd:
                           delete(members[index]);
-                          break;
-                        case DismissDirection.endToStart:
-                        case DismissDirection.vertical:
-                        case DismissDirection.horizontal:
-                        case DismissDirection.up:
-                        case DismissDirection.down:
-                        case DismissDirection.none:
-                          throw InvalidDirection('error.direction'.tr());
+                        default:
+                          throw Exception();
                       }
                     },
                     confirmDismiss: (DismissDirection dismissDirection) async {
@@ -86,7 +79,7 @@ class _MembersState extends ConsumerState<MembersPage> {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return divider;
+                return Separator.divider1.divider;
               },
               itemCount: members.length,
             );
@@ -111,9 +104,9 @@ class _MembersState extends ConsumerState<MembersPage> {
     );
     if (member is Member) {
       final added = await ref.read(membersProvider.notifier).add(member);
-      SnackBarManager().show(added
-          ? CustomSnackBar.getInfoSnackBar('snack_bars.member.added'.tr())
-          : CustomSnackBar.getErrorSnackBar('snack_bars.member.not_added'.tr()));
+      SnackBarManager().show(
+        added ? getInfoSnackBar('snack_bars.member.added'.tr()) : getErrorSnackBar('snack_bars.member.not_added'.tr()),
+      );
     }
   }
 
@@ -126,16 +119,20 @@ class _MembersState extends ConsumerState<MembersPage> {
     );
     if (editedMember is Member) {
       final edited = await ref.read(membersProvider.notifier).edit(editedMember);
-      SnackBarManager().show(edited
-          ? CustomSnackBar.getInfoSnackBar('snack_bars.member.edited'.tr())
-          : CustomSnackBar.getErrorSnackBar('snack_bars.member.not_edited'.tr()));
+      SnackBarManager().show(
+        edited
+            ? getInfoSnackBar('snack_bars.member.edited'.tr())
+            : getErrorSnackBar('snack_bars.member.not_edited'.tr()),
+      );
     }
   }
 
   Future<void> delete(Member member) async {
     final deleted = await ref.read(membersProvider.notifier).delete(member.id);
-    SnackBarManager().show(deleted
-        ? CustomSnackBar.getInfoSnackBar('snack_bars.member.deleted'.tr())
-        : CustomSnackBar.getErrorSnackBar('snack_bars.member.not_deleted'.tr()));
+    SnackBarManager().show(
+      deleted
+          ? getInfoSnackBar('snack_bars.member.deleted'.tr())
+          : getErrorSnackBar('snack_bars.member.not_deleted'.tr()),
+    );
   }
 }

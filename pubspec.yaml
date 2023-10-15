@@ -10,6 +10,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  collection: ^1.17.2
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.6.7
   easy_localization: ^3.0.2

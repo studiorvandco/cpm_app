@@ -1,11 +1,10 @@
+import 'package:cpm/common/request_placeholder.dart';
 import 'package:cpm/models/shot/shot.dart';
+import 'package:cpm/models/shot/shot_value.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/shot/shot_value.dart';
-import '../../utils/constants_globals.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ShotDetailsPane extends ConsumerStatefulWidget {
   const ShotDetailsPane({super.key});

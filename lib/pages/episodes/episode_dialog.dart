@@ -1,7 +1,6 @@
+import 'package:cpm/models/episode/episode.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import '../../models/episode/episode.dart';
 
 class EpisodeDialog extends StatefulWidget {
   const EpisodeDialog({super.key, required this.project, required this.index});
@@ -59,67 +58,70 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: SizedBox(
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 330,
-                  child: TextField(
-                    maxLength: 64,
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      labelText: 'attributes.title.upper'.tr(),
-                      border: const OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                    autofocus: true,
-                    onEditingComplete: submit,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 330,
-                  child: TextField(
-                    maxLength: 280,
-                    maxLines: 4,
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      labelText: 'attributes.description.upper'.tr(),
-                      border: const OutlineInputBorder(),
-                      isDense: true,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 330,
+                    child: TextField(
+                      maxLength: 64,
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        labelText: 'attributes.title.upper'.tr(),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                      autofocus: true,
+                      onEditingComplete: submit,
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 330,
-                  child: OutlinedButton.icon(
-                    onPressed: () => changeDate(),
-                    icon: const Icon(Icons.calendar_month),
-                    label: Text(dateText),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 330,
+                    child: TextField(
+                      maxLength: 280,
+                      maxLines: 4,
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'attributes.description.upper'.tr(),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('cancel.upper'.tr()),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 330,
+                    child: OutlinedButton.icon(
+                      onPressed: () => changeDate(),
+                      icon: const Icon(Icons.calendar_month),
+                      label: Text(dateText),
+                    ),
                   ),
-                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
-                ],
-              ),
-            ]),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('cancel.upper'.tr()),
+                    ),
+                    TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],

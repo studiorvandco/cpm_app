@@ -101,7 +101,7 @@ class _ShotDialogState extends State<ShotDialog> {
                 TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
               ],
             ),
-          ]),
+          ],),
         ),
       ],
     );

@@ -1,11 +1,10 @@
+import 'package:cpm/common/icon_label.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/providers/projects/projects.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/project/project.dart';
-import '../../providers/projects/projects.dart';
-import '../../utils/constants_globals.dart';
-import '../icon_label.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProjectDetailsPane extends ConsumerStatefulWidget {
   const ProjectDetailsPane({super.key});

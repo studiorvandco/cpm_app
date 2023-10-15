@@ -1,13 +1,12 @@
-import 'package:cpm/extensions/date_time_helpers.dart';
-import 'package:cpm/extensions/time_of_day_extensions.dart';
-import 'package:cpm/utils/constants_globals.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/location/location.dart';
+import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/providers/locations/locations.dart';
+import 'package:cpm/utils/extensions/date_time_extensions.dart';
+import 'package:cpm/utils/extensions/time_of_day_extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../models/location/location.dart';
-import '../../models/sequence/sequence.dart';
-import '../../providers/locations/locations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SequenceDialog extends ConsumerStatefulWidget {
   const SequenceDialog({super.key, required this.episode, required this.index});
@@ -55,110 +54,113 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: SizedBox(
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 330,
-                  child: TextField(
-                    maxLength: 64,
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      labelText: 'attributes.title.upper'.tr(),
-                      border: const OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                    autofocus: true,
-                    onEditingComplete: submit,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 330,
-                  child: TextFormField(
-                    maxLength: 280,
-                    maxLines: 4,
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      labelText: 'attributes.description.upper'.tr(),
-                      border: const OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 330,
-                  child: OutlinedButton.icon(
-                    onPressed: pickDate,
-                    icon: const Icon(Icons.calendar_month),
-                    label: Text(
-                      '${DateFormat.yMd(context.locale.toString()).format(date)} | ${startTime.format(context)} - ${endTime.format(context)}',
-                    ),
-                  ),
-                ),
-              ),
-              ref.watch(locationsProvider).when(
-                data: (locations) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DropdownButtonFormField<Location>(
-                      isExpanded: true,
-                      hint: Text('attributes.position.upper'.tr()),
-                      items: locations.map<DropdownMenuItem<Location>>((location) {
-                        return DropdownMenuItem<Location>(
-                          value: location,
-                          child: Text(location.getName),
-                        );
-                      }).toList(),
-                      value: selectedLocation,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedLocation = value;
-                        });
-                      },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 330,
+                    child: TextField(
+                      maxLength: 64,
+                      controller: titleController,
                       decoration: InputDecoration(
-                        labelText: 'locations.location.upper'.plural(1),
+                        labelText: 'attributes.title.upper'.tr(),
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                      autofocus: true,
+                      onEditingComplete: submit,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 330,
+                    child: TextFormField(
+                      maxLength: 280,
+                      maxLines: 4,
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'attributes.description.upper'.tr(),
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
                     ),
-                  );
-                },
-                loading: () {
-                  return requestPlaceholderLoading;
-                },
-                error: (Object error, StackTrace stackTrace) {
-                  return requestPlaceholderError;
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('cancel.upper'.tr()),
                   ),
-                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
-                ],
-              ),
-            ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 330,
+                    child: OutlinedButton.icon(
+                      onPressed: pickDate,
+                      icon: const Icon(Icons.calendar_month),
+                      label: Text(
+                        '${DateFormat.yMd(context.locale.toString()).format(date)} | ${startTime.format(context)} - ${endTime.format(context)}',
+                      ),
+                    ),
+                  ),
+                ),
+                ref.watch(locationsProvider).when(
+                  data: (locations) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButtonFormField<Location>(
+                        isExpanded: true,
+                        hint: Text('attributes.position.upper'.tr()),
+                        items: locations.map<DropdownMenuItem<Location>>((location) {
+                          return DropdownMenuItem<Location>(
+                            value: location,
+                            child: Text(location.getName),
+                          );
+                        }).toList(),
+                        value: selectedLocation,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedLocation = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'locations.location.upper'.plural(1),
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                      ),
+                    );
+                  },
+                  loading: () {
+                    return requestPlaceholderLoading;
+                  },
+                  error: (Object error, StackTrace stackTrace) {
+                    return requestPlaceholderError;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('cancel.upper'.tr()),
+                    ),
+                    TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  void pickDate() async {
+  Future<void> pickDate() async {
     await showDatePicker(
       context: context,
       initialDate: DateTime.now(),

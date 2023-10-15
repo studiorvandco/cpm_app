@@ -1,9 +1,8 @@
+import 'package:cpm/common/menus/menu_action.dart';
+import 'package:cpm/models/member/member.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../models/member/member.dart';
-import '../../utils/constants_globals.dart';
 
 class MemberTile extends StatefulWidget {
   const MemberTile({super.key, required this.member, required this.onEdit, required this.onDelete});
@@ -94,10 +93,8 @@ class _MemberTileState extends State<MemberTile> {
                   switch (action) {
                     case MenuAction.edit:
                       widget.onEdit(widget.member);
-                      break;
                     case MenuAction.delete:
                       widget.onDelete(widget.member);
-                      break;
                   }
                 });
               },
@@ -109,7 +106,7 @@ class _MemberTileState extends State<MemberTile> {
   }
 
   bool hasPhone() {
-    String? phone = widget.member.phone;
+    final String? phone = widget.member.phone;
 
     return phone != null && phone.isNotEmpty;
   }

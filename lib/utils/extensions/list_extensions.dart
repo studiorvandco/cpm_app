@@ -1,3 +1,9 @@
+import 'package:cpm/models/base_model.dart';
+import 'package:cpm/models/episode/episode.dart';
+import 'package:cpm/models/project/link.dart';
+import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/models/shot/shot.dart';
+
 extension ListExtensions<T> on List<T> {
   void move(int from, int to) {
     RangeError.checkValidIndex(from, this, "from", length);
@@ -21,8 +27,10 @@ extension ListExtensions<T> on List<T> {
 
     int maxIndex = 1;
     forEach((dynamic element) {
-      if (element.index != null && element.index! >= maxIndex) {
-        maxIndex = element.index!;
+      // ignore: avoid_dynamic_calls
+      if (element.index != null && element.index! as int >= maxIndex) {
+        // ignore: avoid_dynamic_calls
+        maxIndex = element.index! as int;
       }
     });
 

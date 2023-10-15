@@ -1,20 +1,20 @@
 import 'dart:ui';
 
-import 'package:cpm/utils/platform_identifier.dart';
+import 'package:cpm/common/dialogs/confirm_dialog.dart';
+import 'package:cpm/common/icon_label.dart';
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/pages/projects/project_info_sheet.dart';
+import 'package:cpm/providers/projects/projects.dart';
+import 'package:cpm/utils/platform_manager.dart';
+import 'package:cpm/utils/routes/router_route.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import '../../models/project/project.dart';
-import '../../providers/navigation/navigation.dart';
-import '../../providers/projects/projects.dart';
-import '../../utils/constants_globals.dart';
-import '../../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../../utils/snack_bar_manager/snack_bar_manager.dart';
-import '../dialogs/confirm_dialog.dart';
-import '../icon_label.dart';
-import '../info_sheets/project_info_sheet.dart';
 
 class ProjectInfoHeader extends ConsumerStatefulWidget {
   const ProjectInfoHeader({super.key});
@@ -63,7 +63,7 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                     blendMode: BlendMode.dstIn,
                     child: ImageFiltered(
                       imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                      child: const FittedBox(fit: BoxFit.cover, child: null),
+                      child: const FittedBox(fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -72,21 +72,23 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                 padding: const EdgeInsets.all(8),
                 child: Column(
                   children: <Widget>[
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          project.getTitle,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            project.getTitle,
+                            style: Theme.of(context).textTheme.titleLarge,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () => delete(project),
-                        icon: const Icon(Icons.delete),
-                        color: Colors.red,
-                      ),
-                    ]),
+                        IconButton(
+                          onPressed: () => delete(project),
+                          icon: const Icon(Icons.delete),
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
                     Align(
                       alignment: Alignment.centerLeft,
@@ -104,18 +106,20 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                       iconColor: Theme.of(context).iconTheme.color,
                       textStyle: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Row(children: <Widget>[
-                      if (project.director != null) ...<Widget>[
-                        const Padding(padding: EdgeInsets.only(bottom: 8)),
-                        const Flexible(child: Icon(Icons.movie)),
-                        Text(project.director!),
+                    Row(
+                      children: <Widget>[
+                        if (project.director != null) ...<Widget>[
+                          const Padding(padding: EdgeInsets.only(bottom: 8)),
+                          const Flexible(child: Icon(Icons.movie)),
+                          Text(project.director!),
+                        ],
+                        if (project.writer != null) ...<Widget>[
+                          const Padding(padding: EdgeInsets.only(bottom: 8)),
+                          const Flexible(child: Icon(Icons.description)),
+                          Text(project.writer!),
+                        ],
                       ],
-                      if (project.writer != null) ...<Widget>[
-                        const Padding(padding: EdgeInsets.only(bottom: 8)),
-                        const Flexible(child: Icon(Icons.description)),
-                        Text(project.writer!),
-                      ],
-                    ]),
+                    ),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
                     Row(
                       children: [
@@ -126,13 +130,13 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
                             height: 42,
                             child: Scrollbar(
                               controller: scrollController,
-                              thickness: PlatformIdentifier().isComputer() ? 4 : 0,
+                              thickness: !PlatformManager().isMobile ? 4 : 0,
                               child: ListView.builder(
                                 controller: scrollController,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: project.links?.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  var link = project.links![index];
+                                  final link = project.links![index];
 
                                   return TextButton(
                                     onPressed: link.getUrl.isNotEmpty && Uri.tryParse(link.getUrl)!.isAbsolute
@@ -185,10 +189,14 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
         final deleted = await ref.read(projectsProvider.notifier).delete(project.id);
-        SnackBarManager().show(deleted
-            ? CustomSnackBar.getInfoSnackBar('snack_bars.project.added'.tr())
-            : CustomSnackBar.getErrorSnackBar('snack_bars.project.not_added'.tr()));
-        ref.read(navigationProvider.notifier).set(HomePage.projects);
+        SnackBarManager().show(
+          deleted
+              ? getInfoSnackBar('snack_bars.project.deleted'.tr())
+              : getErrorSnackBar('snack_bars.project.not_deleted'.tr()),
+        );
+        if (context.mounted) {
+          context.pushNamed(RouterRoute.projects.name);
+        }
       }
     });
   }

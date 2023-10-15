@@ -1,12 +1,11 @@
+import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/pages/schedule/appointment_tile.dart';
 import 'package:cpm/pages/schedule/sequences_data_source.dart';
+import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import '../../models/sequence/sequence.dart';
-import '../../providers/sequences/sequences.dart';
-import '../../utils/constants_globals.dart';
 
 class SchedulePage extends ConsumerStatefulWidget {
   const SchedulePage({super.key});
@@ -19,7 +18,7 @@ class _ScheduleState extends ConsumerState<SchedulePage> {
   final CalendarController _calendarController = CalendarController();
 
   Widget _getAppointmentBuilder(BuildContext _, CalendarAppointmentDetails details) {
-    return AppointmentTile(sequence: (details.appointments.first));
+    return AppointmentTile(sequence: details.appointments.first as Sequence);
   }
 
   @override
@@ -34,7 +33,6 @@ class _ScheduleState extends ConsumerState<SchedulePage> {
               firstDayOfWeek: 1,
               showNavigationArrow: true,
               showTodayButton: true,
-              view: CalendarView.day,
               allowedViews: const [
                 CalendarView.schedule,
                 CalendarView.day,

@@ -1,12 +1,11 @@
 import 'dart:io';
 
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/models/project/project_type.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-
-import '../../models/project/project.dart';
-import '../../models/project/project_type.dart';
 
 class ProjectDialog extends StatefulWidget {
   const ProjectDialog({super.key});
@@ -55,11 +54,13 @@ class _ProjectDialogState extends State<ProjectDialog> {
             ),
             IconButton(
               style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-              icon: Builder(builder: (BuildContext context) {
-                return image != null
-                    ? SizedBox(height: 80, width: 80, child: image)
-                    : const Icon(Icons.add_a_photo, size: 80);
-              }),
+              icon: Builder(
+                builder: (BuildContext context) {
+                  return image != null
+                      ? SizedBox(height: 80, width: 80, child: image)
+                      : const Icon(Icons.add_a_photo, size: 80);
+                },
+              ),
               onPressed: () => changePhoto(),
             ),
           ],
@@ -68,85 +69,88 @@ class _ProjectDialogState extends State<ProjectDialog> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: TextField(
-                  maxLength: 64,
-                  controller: titleController,
-                  decoration: InputDecoration(
-                    labelText: 'attributes.title.upper'.tr(),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                  autofocus: true,
-                  onEditingComplete: submit,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: TextField(
-                  maxLength: 280,
-                  maxLines: 4,
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    labelText: 'attributes.description.upper'.tr(),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 330,
+                  child: TextField(
+                    maxLength: 64,
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      labelText: 'attributes.title.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                    autofocus: true,
+                    onEditingComplete: submit,
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: OutlinedButton.icon(
-                  onPressed: () => changeDate(),
-                  icon: const Icon(Icons.calendar_month),
-                  label: Text(dateText),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 330,
+                  child: TextField(
+                    maxLength: 280,
+                    maxLines: 4,
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      labelText: 'attributes.description.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: SegmentedButton<ProjectType>(
-                  segments: <ButtonSegment<ProjectType>>[
-                    ButtonSegment<ProjectType>(label: Text('projects.movie.upper'.tr()), value: ProjectType.movie),
-                    ButtonSegment<ProjectType>(label: Text('projects.series.upper'.tr()), value: ProjectType.series),
-                  ],
-                  selected: <ProjectType>{type},
-                  onSelectionChanged: (Set<ProjectType> newSelection) {
-                    setState(() {
-                      type = newSelection.first;
-                    });
-                  },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 330,
+                  child: OutlinedButton.icon(
+                    onPressed: () => changeDate(),
+                    icon: const Icon(Icons.calendar_month),
+                    label: Text(dateText),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('cancel.upper'.tr()),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 330,
+                  child: SegmentedButton<ProjectType>(
+                    segments: <ButtonSegment<ProjectType>>[
+                      ButtonSegment<ProjectType>(label: Text('projects.movie.upper'.tr()), value: ProjectType.movie),
+                      ButtonSegment<ProjectType>(label: Text('projects.series.upper'.tr()), value: ProjectType.series),
+                    ],
+                    selected: <ProjectType>{type},
+                    onSelectionChanged: (Set<ProjectType> newSelection) {
+                      setState(() {
+                        type = newSelection.first;
+                      });
+                    },
+                  ),
                 ),
-                TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
-              ],
-            ),
-          ]),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('cancel.upper'.tr()),
+                  ),
+                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -159,7 +163,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
       withData: kIsWeb,
     );
     if (result != null) {
-      PlatformFile file = result.files.single;
+      final PlatformFile file = result.files.single;
       setState(() {
         image = kIsWeb ? Image.memory(file.bytes!) : Image.file(File(file.path!));
       });

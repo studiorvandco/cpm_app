@@ -1,12 +1,11 @@
 import 'package:cpm/models/shot/shot.dart';
+import 'package:cpm/pages/shots/shot_info_sheet.dart';
 import 'package:cpm/providers/shots/shots.dart';
-import 'package:cpm/widgets/info_sheets/shot_info_sheet.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../../utils/snack_bar_manager/snack_bar_manager.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ShotCard extends ConsumerStatefulWidget {
   const ShotCard({super.key, required this.shot});
@@ -40,7 +39,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
   Future<void> _toggleCompletion() async {
     final toggled = await ref.read(shotsProvider.notifier).toggleCompletion(widget.shot);
     if (!toggled) {
-      SnackBarManager().show(CustomSnackBar.getErrorSnackBar('snack_bars.shot.not_edited'.tr()));
+      SnackBarManager().show(getErrorSnackBar('snack_bars.shot.not_edited'.tr()));
     }
 
     setState(() {

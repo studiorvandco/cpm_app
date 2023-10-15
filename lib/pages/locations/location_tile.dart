@@ -1,9 +1,8 @@
+import 'package:cpm/common/menus/menu_action.dart';
+import 'package:cpm/models/location/location.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-
-import '../../models/location/location.dart';
-import '../../utils/constants_globals.dart';
 
 class LocationTile extends StatefulWidget {
   const LocationTile({super.key, required this.location, required this.onEdit, required this.onDelete});
@@ -31,26 +30,36 @@ class _LocationTileState extends State<LocationTile> {
         children: <Widget>[
           IconButton(
             tooltip: 'locations.view'.tr(),
-            color: Theme.of(context).colorScheme.onBackground,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .onBackground,
             onPressed: checkPosition()
                 ? () {
-                    MapsLauncher.launchQuery(widget.location.position!);
-                  }
+              MapsLauncher.launchQuery(widget.location.position!);
+            }
                 : null,
             icon: const Icon(Icons.map),
           ),
           PopupMenuButton<MenuAction>(
             icon: Icon(
               Icons.more_horiz,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .onBackground,
             ),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuAction>>[
+            itemBuilder: (BuildContext context) =>
+            <PopupMenuEntry<MenuAction>>[
               PopupMenuItem<MenuAction>(
                 value: MenuAction.edit,
                 child: ListTile(
                   leading: Icon(
                     Icons.edit,
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onBackground,
                   ),
                   title: Text('edit.upper'.tr()),
                 ),
@@ -60,7 +69,10 @@ class _LocationTileState extends State<LocationTile> {
                 child: ListTile(
                   leading: Icon(
                     Icons.delete,
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onBackground,
                   ),
                   title: Text('delete.upper'.tr()),
                 ),
@@ -71,10 +83,8 @@ class _LocationTileState extends State<LocationTile> {
                 switch (action) {
                   case MenuAction.edit:
                     widget.onEdit(widget.location);
-                    break;
                   case MenuAction.delete:
                     widget.onDelete(widget.location);
-                    break;
                 }
               });
             },
@@ -85,7 +95,7 @@ class _LocationTileState extends State<LocationTile> {
   }
 
   bool checkPosition() {
-    String? position = widget.location.position;
+    final String? position = widget.location.position;
 
     return position != null && position.isNotEmpty;
   }
