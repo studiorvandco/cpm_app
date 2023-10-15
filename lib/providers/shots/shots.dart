@@ -103,7 +103,7 @@ class Shots extends _$Shots with BaseProvider {
 class CurrentShot extends _$CurrentShot {
   @override
   FutureOr<Shot> build() {
-    return Future.value(null);
+    return Future.value(null); // ignore: null_argument_to_non_null_type
   }
 
   void set(Shot shot) {
