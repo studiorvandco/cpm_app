@@ -34,7 +34,7 @@ class _ScheduleState extends ConsumerState<Schedule> {
               firstDayOfWeek: 1,
               showNavigationArrow: true,
               showTodayButton: true,
-              view: CalendarView.schedule,
+              view: CalendarView.day,
               allowedViews: const [
                 CalendarView.schedule,
                 CalendarView.day,
