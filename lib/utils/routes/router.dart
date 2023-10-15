@@ -2,6 +2,7 @@ import 'package:cpm/common/navigation/bottom_navigation.dart';
 import 'package:cpm/common/navigation/top_navigation.dart';
 import 'package:cpm/pages/episodes/episodes_page.dart';
 import 'package:cpm/pages/locations/locations_page.dart';
+import 'package:cpm/pages/login/login_page.dart';
 import 'package:cpm/pages/members/members_page.dart';
 import 'package:cpm/pages/projects/projects_page.dart';
 import 'package:cpm/pages/schedule/schedule_page.dart';
@@ -15,8 +16,13 @@ import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
   navigatorKey: navigatorKey,
-  initialLocation: RouterRoute.projects.path,
+  initialLocation: RouterRoute.login.path,
   routes: [
+    GoRoute(
+      name: RouterRoute.login.name,
+      path: RouterRoute.login.path,
+      builder: (context, state) => const LoginPage(),
+    ),
     ShellRoute(
       builder: (context, state, child) {
         return Scaffold(

@@ -5,14 +5,15 @@ enum RouterRoute {
   sequences('Sequences', 'sequences'),
   shots('Shots', 'shots'),
   schedule('Schedule', 'schedule'),
-  
+
   // Members
-  members('members', 'members'),
+  members('members', '/members'),
 
   // Locations
-  locations('locations', 'locations'),
+  locations('locations', '/locations'),
 
   // Other
+  login('Login', '/login'),
   settings('Settings', '/settings'),
   ;
 
