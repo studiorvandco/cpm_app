@@ -52,7 +52,6 @@ class _LoginState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
@@ -90,6 +89,7 @@ class _LoginState extends ConsumerState<LoginPage> {
 
                               return null;
                             },
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.mail),
                               hintText: 'Email',

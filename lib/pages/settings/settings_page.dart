@@ -11,6 +11,9 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../utils/preferences/preference_key.dart';
+import '../../utils/preferences/preferences_manager.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage();
 
@@ -55,6 +58,15 @@ class _SettingsPageState extends State<SettingsPage> {
       ThemeManager().setThemeMode(themeMode);
       setState(() {});
     });
+  }
+
+  void _toggleDynamicTheming(bool? value) {
+    if (value != null) {
+      PreferencesManager().set<bool>(PreferenceKey.dynamicTheming.name, value);
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      themeModeNotifier.notifyListeners();
+      setState(() {});
+    }
   }
 
   void _selectLanguage(BuildContext context) {
@@ -105,6 +117,12 @@ class _SettingsPageState extends State<SettingsPage> {
               title: Text(localizations.settings_theme),
               value: Text(ThemeManager().themeModeName),
               onPressed: _selectTheme,
+            ),
+            SettingsTile.switchTile(
+              leading: const Icon(Icons.palette),
+              title: Text('Use dynamic theming (Material You)'),
+              initialValue: ThemeManager().dynamicTheming,
+              onToggle: _toggleDynamicTheming,
             ),
             SettingsTile.navigation(
               leading: const Icon(Icons.language),

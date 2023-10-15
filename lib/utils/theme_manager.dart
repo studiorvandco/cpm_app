@@ -4,18 +4,24 @@ import 'package:cpm/utils/preferences/preferences_manager.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
+const _customPrimaryColor = Color(0xFF5865f2);
+
 class ThemeManager {
-  final _defaultLight = ColorScheme.fromSeed(
-    seedColor: Colors.teal,
+  final _customLightColorScheme = ColorScheme.fromSeed(
+    seedColor: _customPrimaryColor,
   );
 
-  final _defaultDark = ColorScheme.fromSeed(
+  final _customDarkColorScheme = ColorScheme.fromSeed(
     brightness: Brightness.dark,
-    seedColor: Colors.teal,
+    seedColor: _customPrimaryColor,
   );
 
   bool get isLight {
     return Theme.of(navigatorKey.currentContext!).brightness == Brightness.light;
+  }
+
+  bool get dynamicTheming {
+    return PreferencesManager().get<bool>(PreferenceKey.dynamicTheming) ?? PreferenceKey.dynamicTheming.defaultValue!;
   }
 
   ThemeMode get themeMode {
@@ -69,17 +75,31 @@ class ThemeManager {
     themeModeNotifier.value = themeMode;
   }
 
-  ThemeData getLightTheme([ColorScheme? lightDynamicColorScheme]) {
+  ThemeData getLightDynamicTheme([ColorScheme? lightDynamicColorScheme]) {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: lightDynamicColorScheme != null ? lightDynamicColorScheme.harmonized() : _defaultLight,
+      colorScheme: lightDynamicColorScheme != null ? lightDynamicColorScheme.harmonized() : _customLightColorScheme,
     );
   }
 
-  ThemeData getDarkTheme([ColorScheme? darkDynamicColorScheme]) {
+  ThemeData getDarkDynamicTheme([ColorScheme? darkDynamicColorScheme]) {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: darkDynamicColorScheme != null ? darkDynamicColorScheme.harmonized() : _defaultDark,
+      colorScheme: darkDynamicColorScheme != null ? darkDynamicColorScheme.harmonized() : _customDarkColorScheme,
+    );
+  }
+
+  ThemeData get getLightCustomTheme {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: _customLightColorScheme,
+    );
+  }
+
+  ThemeData get getDarkCustomTheme {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: _customDarkColorScheme,
     );
   }
 }

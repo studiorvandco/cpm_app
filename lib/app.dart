@@ -17,10 +17,16 @@ class App extends StatelessWidget {
             return ValueListenableBuilder(
               valueListenable: themeModeNotifier,
               builder: (context, themeMode, child) {
+                final useDynamicTheming = ThemeManager().dynamicTheming;
+
                 return MaterialApp.router(
                   title: PackageInfoManager().name,
-                  theme: ThemeManager().getLightTheme(lightDynamic),
-                  darkTheme: ThemeManager().getDarkTheme(darkDynamic),
+                  theme: useDynamicTheming
+                      ? ThemeManager().getLightDynamicTheme(lightDynamic)
+                      : ThemeManager().getLightCustomTheme,
+                  darkTheme: useDynamicTheming
+                      ? ThemeManager().getDarkDynamicTheme(darkDynamic)
+                      : ThemeManager().getDarkCustomTheme,
                   themeMode: themeMode,
                   localizationsDelegates: AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
