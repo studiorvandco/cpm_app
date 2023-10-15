@@ -7,10 +7,10 @@ enum RouterRoute {
   schedule('Schedule', 'schedule'),
 
   // Members
-  members('members', '/members'),
+  members('Members', '/members'),
 
   // Locations
-  locations('locations', '/locations'),
+  locations('Locations', '/locations'),
 
   // Other
   login('Login', '/login'),

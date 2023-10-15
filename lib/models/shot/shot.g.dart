@@ -6,14 +6,21 @@ part of 'shot.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Shot _$ShotFromJson(Map<String, dynamic> json) => Shot(
-      id: json['id'] as int,
-      sequence: json['sequence'] as int,
-      index: json['index'] as int,
-      number: json['number'] as int,
-      value: $enumDecodeNullable(_$ShotValueEnumMap, json['value']),
-      description: json['description'] as String?,
-      completed: json['completed'] as bool,
+Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Shot',
+      json,
+      ($checkedConvert) {
+        final val = Shot(
+          id: $checkedConvert('id', (v) => v as int),
+          sequence: $checkedConvert('sequence', (v) => v as int),
+          index: $checkedConvert('index', (v) => v as int),
+          number: $checkedConvert('number', (v) => v as int),
+          value: $checkedConvert('value', (v) => $enumDecodeNullable(_$ShotValueEnumMap, v)),
+          description: $checkedConvert('description', (v) => v as String?),
+          completed: $checkedConvert('completed', (v) => v as bool),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$ShotToJson(Shot instance) => <String, dynamic>{

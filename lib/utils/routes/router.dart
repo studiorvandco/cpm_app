@@ -9,6 +9,7 @@ import 'package:cpm/pages/schedule/schedule_page.dart';
 import 'package:cpm/pages/sequences/sequences_page.dart';
 import 'package:cpm/pages/settings/settings_page.dart';
 import 'package:cpm/pages/shots/shots_page.dart';
+import 'package:cpm/services/authentication_service.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,14 @@ import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
   navigatorKey: navigatorKey,
-  initialLocation: RouterRoute.login.path,
+  initialLocation: RouterRoute.projects.path,
+  redirect: (context, state) {
+    if (!AuthenticationService().isAuthenticated()) {
+      return RouterRoute.login.path;
+    }
+
+    return null;
+  },
   routes: [
     GoRoute(
       name: RouterRoute.login.name,

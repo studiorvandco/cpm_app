@@ -1,8 +1,10 @@
 import 'package:cpm/providers/authentication/authentication.dart';
 import 'package:cpm/utils/asset.dart';
 import 'package:cpm/utils/extensions/string_validators.dart';
+import 'package:cpm/utils/routes/router_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../utils/snack_bar/custom_snack_bar.dart';
@@ -38,7 +40,10 @@ class _LoginState extends ConsumerState<LoginPage> {
           usernameController.text,
           passwordController.text,
         );
-    if (!logged) {
+
+    if (logged && context.mounted) {
+      context.replaceNamed(RouterRoute.projects.name);
+    } else {
       SnackBarManager().show(getErrorSnackBar('Login failed.'));
     }
   }

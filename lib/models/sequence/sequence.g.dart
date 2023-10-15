@@ -6,15 +6,23 @@ part of 'sequence.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Sequence _$SequenceFromJson(Map<String, dynamic> json) => Sequence(
-      id: json['id'] as int,
-      episode: json['episode'] as int,
-      index: json['index'] as int,
-      number: json['number'] as int? ?? -1,
-      title: json['title'] as String?,
-      description: json['description'] as String?,
-      startDate: json['startDate'] == null ? null : DateTime.parse(json['startDate'] as String),
-      endDate: json['endDate'] == null ? null : DateTime.parse(json['endDate'] as String),
+Sequence _$SequenceFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Sequence',
+      json,
+      ($checkedConvert) {
+        final val = Sequence(
+          id: $checkedConvert('id', (v) => v as int),
+          episode: $checkedConvert('episode', (v) => v as int),
+          index: $checkedConvert('index', (v) => v as int),
+          number: $checkedConvert('number', (v) => v as int? ?? -1),
+          title: $checkedConvert('title', (v) => v as String?),
+          description: $checkedConvert('description', (v) => v as String?),
+          startDate: $checkedConvert('start_date', (v) => v == null ? null : DateTime.parse(v as String)),
+          endDate: $checkedConvert('end_date', (v) => v == null ? null : DateTime.parse(v as String)),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'startDate': 'start_date', 'endDate': 'end_date'},
     );
 
 Map<String, dynamic> _$SequenceToJson(Sequence instance) => <String, dynamic>{
@@ -22,6 +30,6 @@ Map<String, dynamic> _$SequenceToJson(Sequence instance) => <String, dynamic>{
       'index': instance.index,
       'title': instance.title,
       'description': instance.description,
-      'startDate': instance.startDate?.toIso8601String(),
-      'endDate': instance.endDate?.toIso8601String(),
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
     };

@@ -27,58 +27,56 @@ class SequencesPage extends ConsumerStatefulWidget {
 class _SequencesState extends ConsumerState<SequencesPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => add(),
-          child: const Icon(Icons.add),
-        ),
-        body: ref.watch(currentProjectProvider).when(
-          data: (Project project) {
-            return ref.watch(sequencesProvider).when(
-              data: (List<Sequence> sequences) {
-                return Column(
-                  children: <Widget>[
-                    if (project.isMovie) const ProjectInfoHeader() else const EpisodeInfoHeader(),
-                    Expanded(
-                      child: LayoutBuilder(
-                        builder: (BuildContext context, BoxConstraints constraints) {
-                          return MasonryGridView.count(
-                            itemCount: sequences.length,
-                            padding: const EdgeInsets.only(
-                              bottom: kFloatingActionButtonMargin + 64,
-                              top: 4,
-                              left: 4,
-                              right: 4,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              return SequenceCard(sequence: sequences[index]);
-                            },
-                            crossAxisCount: getColumnsCount(constraints),
-                            mainAxisSpacing: 2,
-                            crossAxisSpacing: 2,
-                          );
-                        },
-                      ),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(currentProjectProvider).when(
+        data: (Project project) {
+          return ref.watch(sequencesProvider).when(
+            data: (List<Sequence> sequences) {
+              return Column(
+                children: <Widget>[
+                  if (project.isMovie) const ProjectInfoHeader() else const EpisodeInfoHeader(),
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return MasonryGridView.count(
+                          itemCount: sequences.length,
+                          padding: const EdgeInsets.only(
+                            bottom: kFloatingActionButtonMargin + 64,
+                            top: 4,
+                            left: 4,
+                            right: 4,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return SequenceCard(sequence: sequences[index]);
+                          },
+                          crossAxisCount: getColumnsCount(constraints),
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                        );
+                      },
                     ),
-                  ],
-                );
-              },
-              error: (Object error, StackTrace stackTrace) {
-                return requestPlaceholderError;
-              },
-              loading: () {
-                return requestPlaceholderLoading;
-              },
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
+                  ),
+                ],
+              );
+            },
+            error: (Object error, StackTrace stackTrace) {
+              return requestPlaceholderError;
+            },
+            loading: () {
+              return requestPlaceholderLoading;
+            },
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        },
+        loading: () {
+          return requestPlaceholderLoading;
+        },
       ),
     );
   }

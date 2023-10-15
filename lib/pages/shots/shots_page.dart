@@ -25,47 +25,48 @@ class ShotsPage extends ConsumerStatefulWidget {
 class _ShotsState extends ConsumerState<ShotsPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () => add(), child: const Icon(Icons.add)),
-        body: ref.watch(shotsProvider).when(
-          data: (List<Shot> shots) {
-            return Column(
-              children: <Widget>[
-                const SequenceInfoHeader(),
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return MasonryGridView.count(
-                        itemCount: shots.length,
-                        padding: const EdgeInsets.only(
-                          bottom: kFloatingActionButtonMargin + 64,
-                          top: 4,
-                          left: 4,
-                          right: 4,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return ShotCard(
-                            shot: shots[index],
-                          );
-                        },
-                        crossAxisCount: 1,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                      );
-                    },
-                  ),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(shotsProvider).when(
+        data: (List<Shot> shots) {
+          return Column(
+            children: <Widget>[
+              const SequenceInfoHeader(),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return MasonryGridView.count(
+                      itemCount: shots.length,
+                      padding: const EdgeInsets.only(
+                        bottom: kFloatingActionButtonMargin + 64,
+                        top: 4,
+                        left: 4,
+                        right: 4,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ShotCard(
+                          shot: shots[index],
+                        );
+                      },
+                      crossAxisCount: 1,
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                    );
+                  },
                 ),
-              ],
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
+              ),
+            ],
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        },
+        loading: () {
+          return requestPlaceholderLoading;
+        },
       ),
     );
   }

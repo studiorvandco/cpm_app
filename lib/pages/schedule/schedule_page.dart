@@ -23,32 +23,28 @@ class _ScheduleState extends ConsumerState<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        body: ref.watch(sequencesProvider).when(
-          data: (List<Sequence> sequences) {
-            return SfCalendar(
-              controller: _calendarController,
-              dataSource: SequencesDataSource(sequences),
-              firstDayOfWeek: 1,
-              showNavigationArrow: true,
-              showTodayButton: true,
-              allowedViews: const [
-                CalendarView.schedule,
-                CalendarView.day,
-                CalendarView.week,
-              ],
-              appointmentBuilder: _getAppointmentBuilder,
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+    return ref.watch(sequencesProvider).when(
+      data: (List<Sequence> sequences) {
+        return SfCalendar(
+          controller: _calendarController,
+          dataSource: SequencesDataSource(sequences),
+          firstDayOfWeek: 1,
+          showNavigationArrow: true,
+          showTodayButton: true,
+          allowedViews: const [
+            CalendarView.schedule,
+            CalendarView.day,
+            CalendarView.week,
+          ],
+          appointmentBuilder: _getAppointmentBuilder,
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }

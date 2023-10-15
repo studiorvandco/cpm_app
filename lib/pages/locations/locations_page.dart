@@ -21,76 +21,74 @@ class LocationsPage extends ConsumerStatefulWidget {
 class _LocationsState extends ConsumerState<LocationsPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => add(),
-          child: const Icon(Icons.add),
-        ),
-        body: ref.watch(locationsProvider).when(
-          data: (List<Location> locations) {
-            return ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return ClipRRect(
-                  clipBehavior: Clip.hardEdge,
-                  child: Dismissible(
-                    key: UniqueKey(),
-                    background: deleteBackground(),
-                    secondaryBackground: editBackground(),
-                    confirmDismiss: (DismissDirection dismissDirection) async {
-                      switch (dismissDirection) {
-                        case DismissDirection.endToStart:
-                          edit(locations[index]);
-                          return false;
-                        case DismissDirection.startToEnd:
-                          return await showConfirmationDialog(context, 'delete.lower'.tr()) ?? false;
-                        case DismissDirection.horizontal:
-                        case DismissDirection.vertical:
-                        case DismissDirection.up:
-                        case DismissDirection.down:
-                        case DismissDirection.none:
-                          assert(false);
-                      }
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(locationsProvider).when(
+        data: (List<Location> locations) {
+          return ListView.separated(
+            itemBuilder: (BuildContext context, int index) {
+              return ClipRRect(
+                clipBehavior: Clip.hardEdge,
+                child: Dismissible(
+                  key: UniqueKey(),
+                  background: deleteBackground(),
+                  secondaryBackground: editBackground(),
+                  confirmDismiss: (DismissDirection dismissDirection) async {
+                    switch (dismissDirection) {
+                      case DismissDirection.endToStart:
+                        edit(locations[index]);
+                        return false;
+                      case DismissDirection.startToEnd:
+                        return await showConfirmationDialog(context, 'delete.lower'.tr()) ?? false;
+                      case DismissDirection.horizontal:
+                      case DismissDirection.vertical:
+                      case DismissDirection.up:
+                      case DismissDirection.down:
+                      case DismissDirection.none:
+                        assert(false);
+                    }
 
-                      return false;
+                    return false;
+                  },
+                  onDismissed: (DismissDirection direction) {
+                    switch (direction) {
+                      case DismissDirection.startToEnd:
+                        delete(locations[index]);
+                      default:
+                        throw Exception();
+                    }
+                  },
+                  child: LocationTile(
+                    location: locations[index],
+                    onEdit: (Location location) {
+                      edit(location);
                     },
-                    onDismissed: (DismissDirection direction) {
-                      switch (direction) {
-                        case DismissDirection.startToEnd:
-                          delete(locations[index]);
-                        default:
-                          throw Exception();
-                      }
+                    onDelete: (Location location) {
+                      showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) {
+                        if (result ?? false) {
+                          delete(location);
+                        }
+                      });
                     },
-                    child: LocationTile(
-                      location: locations[index],
-                      onEdit: (Location location) {
-                        edit(location);
-                      },
-                      onDelete: (Location location) {
-                        showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) {
-                          if (result ?? false) {
-                            delete(location);
-                          }
-                        });
-                      },
-                    ),
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Separator.divider1.divider;
-              },
-              itemCount: locations.length,
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Separator.divider1.divider;
+            },
+            itemCount: locations.length,
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        },
+        loading: () {
+          return requestPlaceholderLoading;
+        },
       ),
     );
   }

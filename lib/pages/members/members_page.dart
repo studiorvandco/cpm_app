@@ -21,76 +21,74 @@ class MembersPage extends ConsumerStatefulWidget {
 class _MembersState extends ConsumerState<MembersPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => add(),
-          child: const Icon(Icons.add),
-        ),
-        body: ref.watch(membersProvider).when(
-          data: (List<Member> members) {
-            return ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return ClipRRect(
-                  clipBehavior: Clip.hardEdge,
-                  child: Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (DismissDirection direction) {
-                      switch (direction) {
-                        case DismissDirection.startToEnd:
-                          delete(members[index]);
-                        default:
-                          throw Exception();
-                      }
-                    },
-                    confirmDismiss: (DismissDirection dismissDirection) async {
-                      switch (dismissDirection) {
-                        case DismissDirection.endToStart:
-                          edit(members[index]);
-                          return false;
-                        case DismissDirection.startToEnd:
-                          return await showConfirmationDialog(context, 'delete.lower'.tr()) ?? false;
-                        case DismissDirection.horizontal:
-                        case DismissDirection.vertical:
-                        case DismissDirection.up:
-                        case DismissDirection.down:
-                        case DismissDirection.none:
-                          assert(false);
-                      }
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(membersProvider).when(
+        data: (List<Member> members) {
+          return ListView.separated(
+            itemBuilder: (BuildContext context, int index) {
+              return ClipRRect(
+                clipBehavior: Clip.hardEdge,
+                child: Dismissible(
+                  key: UniqueKey(),
+                  onDismissed: (DismissDirection direction) {
+                    switch (direction) {
+                      case DismissDirection.startToEnd:
+                        delete(members[index]);
+                      default:
+                        throw Exception();
+                    }
+                  },
+                  confirmDismiss: (DismissDirection dismissDirection) async {
+                    switch (dismissDirection) {
+                      case DismissDirection.endToStart:
+                        edit(members[index]);
+                        return false;
+                      case DismissDirection.startToEnd:
+                        return await showConfirmationDialog(context, 'delete.lower'.tr()) ?? false;
+                      case DismissDirection.horizontal:
+                      case DismissDirection.vertical:
+                      case DismissDirection.up:
+                      case DismissDirection.down:
+                      case DismissDirection.none:
+                        assert(false);
+                    }
 
-                      return false;
+                    return false;
+                  },
+                  background: deleteBackground(),
+                  secondaryBackground: editBackground(),
+                  child: MemberTile(
+                    member: members[index],
+                    onEdit: (Member member) {
+                      edit(member);
                     },
-                    background: deleteBackground(),
-                    secondaryBackground: editBackground(),
-                    child: MemberTile(
-                      member: members[index],
-                      onEdit: (Member member) {
-                        edit(member);
-                      },
-                      onDelete: (Member member) {
-                        showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) {
-                          if (result ?? false) {
-                            delete(member);
-                          }
-                        });
-                      },
-                    ),
+                    onDelete: (Member member) {
+                      showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) {
+                        if (result ?? false) {
+                          delete(member);
+                        }
+                      });
+                    },
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Separator.divider1.divider;
-              },
-              itemCount: members.length,
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Separator.divider1.divider;
+            },
+            itemCount: members.length,
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        },
+        loading: () {
+          return requestPlaceholderLoading;
+        },
       ),
     );
   }

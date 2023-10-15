@@ -42,9 +42,19 @@ class _BottomNavigationState extends State<BottomNavigation> {
             surfaceTintColor: Theme.of(context).colorScheme.primary,
             destinations: [
               NavigationDestination(
-                icon: const Icon(Icons.home_outlined),
-                selectedIcon: const Icon(Icons.home),
-                label: localizations.navigation_home,
+                icon: const Icon(Icons.movie_outlined),
+                selectedIcon: const Icon(Icons.movie),
+                label: 'Projects',
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.group_outlined),
+                selectedIcon: const Icon(Icons.group),
+                label: 'Members',
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.map_outlined),
+                selectedIcon: const Icon(Icons.map),
+                label: 'Locations',
               ),
               NavigationDestination(
                 icon: const Icon(Icons.settings_outlined),
@@ -58,9 +68,19 @@ class _BottomNavigationState extends State<BottomNavigation> {
         : CupertinoTabBar(
             items: [
               BottomNavigationBarItem(
-                icon: const Icon(CupertinoIcons.house),
-                activeIcon: const Icon(CupertinoIcons.house_fill),
-                label: localizations.navigation_home,
+                icon: const Icon(CupertinoIcons.film),
+                activeIcon: const Icon(CupertinoIcons.film_fill),
+                label: 'Projects',
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.group),
+                activeIcon: const Icon(CupertinoIcons.group_solid),
+                label: 'Members',
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.map),
+                activeIcon: const Icon(CupertinoIcons.map_fill),
+                label: 'Locations',
               ),
               BottomNavigationBarItem(
                 icon: const Icon(CupertinoIcons.settings),
