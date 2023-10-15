@@ -43,7 +43,11 @@ class _ShotsState extends ConsumerState<Shots> {
                         return MasonryGridView.count(
                           itemCount: shots.length,
                           padding: const EdgeInsets.only(
-                              bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                            bottom: kFloatingActionButtonMargin + 64,
+                            top: 4,
+                            left: 4,
+                            right: 4,
+                          ),
                           itemBuilder: (BuildContext context, int index) {
                             return ShotCard(
                               shot: shots[index],
