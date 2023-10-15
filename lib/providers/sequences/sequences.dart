@@ -45,6 +45,28 @@ class Sequences extends _$Sequences with BaseProvider {
     );
   }
 
+  Future<void> getAll() async {
+    state = const AsyncLoading<List<Sequence>>();
+
+    final List<Sequence> sequences = [];
+
+    ref.watch(episodesProvider).when(
+      data: (episodes) async {
+        for (final episode in episodes) {
+          sequences.addAll(await selectSequenceService.selectSequences(episode.id));
+        }
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return Future.value();
+      },
+      loading: () {
+        return Future.value();
+      },
+    );
+
+    state = AsyncData<List<Sequence>>(sequences);
+  }
+
   Future<void> add(Sequence newSequence, [int? locationId]) async {
     Sequence createdSequence = await insertService.insertAndReturn(table, newSequence, Sequence.fromJson);
     if (locationId != null) {
