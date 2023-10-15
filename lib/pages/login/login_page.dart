@@ -2,13 +2,12 @@ import 'package:cpm/providers/authentication/authentication.dart';
 import 'package:cpm/utils/asset.dart';
 import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:cpm/utils/routes/router_route.dart';
+import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
+import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../../utils/snack_bar/custom_snack_bar.dart';
-import '../../utils/snack_bar/snack_bar_manager.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -42,7 +41,7 @@ class _LoginState extends ConsumerState<LoginPage> {
         );
 
     if (logged && context.mounted) {
-      context.replaceNamed(RouterRoute.projects.name);
+      context.goNamed(RouterRoute.projects.name);
     } else {
       SnackBarManager().show(getErrorSnackBar('Login failed.'));
     }
@@ -77,6 +76,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                           TextFormField(
                             controller: usernameController,
                             textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
                             onEditingComplete: () {
                               FocusScope.of(context).nextFocus();
                             },
@@ -89,12 +89,11 @@ class _LoginState extends ConsumerState<LoginPage> {
 
                               return null;
                             },
-                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.mail),
                               hintText: 'Email',
                               filled: true,
-                              fillColor: Theme.of(context).colorScheme.surface,
+                              fillColor: Theme.of(context).colorScheme.surfaceVariant,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(64.0),
                                 borderSide: BorderSide.none,
@@ -123,6 +122,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                             enableSuggestions: false,
                             autocorrect: false,
                             obscureText: obscurePassword,
+                            keyboardType: obscurePassword ? null : TextInputType.visiblePassword,
                             onEditingComplete: () {
                               FocusScope.of(context).unfocus();
                               _login();
@@ -145,7 +145,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                                 ),
                               ),
                               filled: true,
-                              fillColor: Theme.of(context).colorScheme.surface,
+                              fillColor: Theme.of(context).colorScheme.surfaceVariant,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(64.0),
                                 borderSide: BorderSide.none,

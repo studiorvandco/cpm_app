@@ -1,5 +1,3 @@
-import 'package:cpm/common/dialogs/logout_dialog.dart';
-import 'package:cpm/providers/authentication/authentication.dart';
 import 'package:cpm/utils/asset.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -35,15 +33,6 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
               NavigationRailDestination(icon: const Icon(Icons.settings), label: Text('settings.settings'.tr())),
               NavigationRailDestination(icon: const Icon(Icons.info), label: Text('about.about'.tr())),
             ],
-            trailing: Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: IconButton(icon: const Icon(Icons.logout), onPressed: () => logout()),
-                ),
-              ),
-            ),
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               setState(() {
@@ -54,11 +43,5 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
         ),
       ),
     );
-  }
-
-  Future<void> logout() async {
-    if (await LogoutDialog().confirm()) {
-      ref.read(authenticationProvider.notifier).logout();
-    }
   }
 }
