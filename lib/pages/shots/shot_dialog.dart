@@ -42,66 +42,69 @@ class _ShotDialogState extends State<ShotDialog> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: TextField(
-                  maxLength: 280,
-                  maxLines: 4,
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    labelText: 'attributes.description.upper'.tr(),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 330,
+                  child: TextField(
+                    maxLength: 280,
+                    maxLines: 4,
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      labelText: 'attributes.description.upper'.tr(),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 330,
-                child: DropdownButtonFormField<String>(
-                  isExpanded: true,
-                  hint: Text('shots.value.upper'.plural(1)),
-                  items: values.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  value: selectedValue,
-                  onChanged: (String? value) {
-                    setState(() {
-                      selectedValue = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'shots.value.upper'.plural(1),
-                    border: const OutlineInputBorder(),
-                    isDense: true,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 330,
+                  child: DropdownButtonFormField<String>(
+                    isExpanded: true,
+                    hint: Text('shots.value.upper'.plural(1)),
+                    items: values.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    value: selectedValue,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'shots.value.upper'.plural(1),
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('cancel.upper'.tr()),
-                ),
-                TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
-              ],
-            ),
-          ],),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('cancel.upper'.tr()),
+                  ),
+                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );

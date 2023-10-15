@@ -6,19 +6,12 @@ part of 'link.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Link _$LinkFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'Link',
-      json,
-      ($checkedConvert) {
-        final val = Link(
-          id: $checkedConvert('id', (v) => v as int),
-          project: $checkedConvert('project', (v) => v as int),
-          index: $checkedConvert('index', (v) => v as int?),
-          label: $checkedConvert('label', (v) => v as String?),
-          url: $checkedConvert('url', (v) => v as String?),
-        );
-        return val;
-      },
+Link _$LinkFromJson(Map<String, dynamic> json) => Link(
+      id: json['id'] as int,
+      project: json['project'] as int,
+      index: json['index'] as int?,
+      label: json['label'] as String?,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$LinkToJson(Link instance) => <String, dynamic>{

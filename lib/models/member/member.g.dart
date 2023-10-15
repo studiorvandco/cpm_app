@@ -6,25 +6,17 @@ part of 'member.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Member _$MemberFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'Member',
-      json,
-      ($checkedConvert) {
-        final val = Member(
-          id: $checkedConvert('id', (v) => v as int),
-          firstName: $checkedConvert('first_name', (v) => v as String?),
-          lastName: $checkedConvert('last_name', (v) => v as String?),
-          phone: $checkedConvert('phone', (v) => v as String?),
-          email: $checkedConvert('email', (v) => v as String?),
-        );
-        return val;
-      },
-      fieldKeyMap: const {'firstName': 'first_name', 'lastName': 'last_name'},
+Member _$MemberFromJson(Map<String, dynamic> json) => Member(
+      id: json['id'] as int,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$MemberToJson(Member instance) => <String, dynamic>{
-      'first_name': instance.firstName,
-      'last_name': instance.lastName,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
       'phone': instance.phone,
       'email': instance.email,
     };

@@ -6,17 +6,10 @@ part of 'location.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Location _$LocationFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'Location',
-      json,
-      ($checkedConvert) {
-        final val = Location(
-          id: $checkedConvert('id', (v) => v as int),
-          name: $checkedConvert('name', (v) => v as String?),
-          position: $checkedConvert('position', (v) => v as String?),
-        );
-        return val;
-      },
+Location _$LocationFromJson(Map<String, dynamic> json) => Location(
+      id: json['id'] as int,
+      name: json['name'] as String?,
+      position: json['position'] as String?,
     );
 
 Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
