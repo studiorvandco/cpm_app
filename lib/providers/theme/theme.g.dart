@@ -10,10 +10,12 @@ String _$themeHash() => r'8764c22b4e76bcc69f540460bd7c148e4313d5bb';
 
 /// See also [Theme].
 @ProviderFor(Theme)
-final themeProvider = AutoDisposeAsyncNotifierProvider<Theme, ThemeMode>.internal(
+final themeProvider =
+    AutoDisposeAsyncNotifierProvider<Theme, ThemeMode>.internal(
   Theme.new,
   name: r'themeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$themeHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$themeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

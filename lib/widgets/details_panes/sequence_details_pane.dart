@@ -164,8 +164,6 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
     sequence.endDate = DateTime(date.year, date.month, date.day, endTime.hour, endTime.minute);
     sequence.location = selectedLocation;
 
-    print(sequence.startDate);
-
     ref.read(sequencesProvider.notifier).edit(sequence, selectedLocation?.id);
     ref.read(currentSequenceProvider.notifier).set(sequence);
   }

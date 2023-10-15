@@ -88,7 +88,6 @@ class _ProjectCardState extends ConsumerState<ProjectCard> {
 
   Future<void> openPlanning(Project project) async {
     await ref.read(currentProjectProvider.notifier).set(project);
-    await ref.read(episodesProvider.notifier).get();
     await ref.read(sequencesProvider.notifier).getAll();
     ref.read(navigationProvider.notifier).set(HomePage.planning);
   }

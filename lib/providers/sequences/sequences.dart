@@ -6,10 +6,11 @@ import '../../models/sequence/sequence.dart';
 import '../../services/config/supabase_table.dart';
 import '../base_provider.dart';
 import '../episodes/episodes.dart';
+import '../projects/projects.dart';
 
 part 'sequences.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Sequences extends _$Sequences with BaseProvider {
   SupabaseTable table = SupabaseTable.sequence;
 
@@ -45,16 +46,19 @@ class Sequences extends _$Sequences with BaseProvider {
     );
   }
 
-  Future<void> getAll() async {
+  Future<void> getAll() {
     state = const AsyncLoading<List<Sequence>>();
 
-    final List<Sequence> sequences = [];
+    return ref.watch(currentProjectProvider).when(
+      data: (project) async {
+        final episodes = await selectEpisodeService.selectEpisodes(project.id);
+        final List<Sequence> sequences = [];
 
-    ref.watch(episodesProvider).when(
-      data: (episodes) async {
         for (final episode in episodes) {
           sequences.addAll(await selectSequenceService.selectSequences(episode.id));
         }
+
+        state = AsyncData<List<Sequence>>(sequences);
       },
       error: (Object error, StackTrace stackTrace) {
         return Future.value();
@@ -63,8 +67,6 @@ class Sequences extends _$Sequences with BaseProvider {
         return Future.value();
       },
     );
-
-    state = AsyncData<List<Sequence>>(sequences);
   }
 
   Future<void> add(Sequence newSequence, [int? locationId]) async {
