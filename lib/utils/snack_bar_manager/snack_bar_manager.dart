@@ -1,3 +1,4 @@
+import 'package:cpm/utils/constants_globals.dart';
 import 'package:flutter/material.dart';
 
 class SnackBarManager {
@@ -9,7 +10,7 @@ class SnackBarManager {
 
   SnackBarManager._internal();
 
-  void show(BuildContext context, SnackBar snackBar) {
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  void show(SnackBar snackBar) {
+    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(snackBar);
   }
 }
