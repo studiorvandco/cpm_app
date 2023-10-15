@@ -10,12 +10,10 @@ String _$shotsHash() => r'fc2514086d357a1b84a9d6bb2bca0e099499715f';
 
 /// See also [Shots].
 @ProviderFor(Shots)
-final shotsProvider =
-    AutoDisposeAsyncNotifierProvider<Shots, List<Shot>>.internal(
+final shotsProvider = AutoDisposeAsyncNotifierProvider<Shots, List<Shot>>.internal(
   Shots.new,
   name: r'shotsProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$shotsHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$shotsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -28,8 +26,7 @@ String _$currentShotHash() => r'55785090a27b839a314b591ccef4e4ecb6c4b5c0';
 final currentShotProvider = AsyncNotifierProvider<CurrentShot, Shot>.internal(
   CurrentShot.new,
   name: r'currentShotProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$currentShotHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentShotHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

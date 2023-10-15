@@ -10,12 +10,10 @@ String _$navigationHash() => r'ce196caa6a4237307e72c77abfd74fbf4da6270c';
 
 /// See also [Navigation].
 @ProviderFor(Navigation)
-final navigationProvider =
-    AutoDisposeNotifierProvider<Navigation, HomePage>.internal(
+final navigationProvider = AutoDisposeNotifierProvider<Navigation, HomePage>.internal(
   Navigation.new,
   name: r'navigationProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$navigationHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$navigationHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
