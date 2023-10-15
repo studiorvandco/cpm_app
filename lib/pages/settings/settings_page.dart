@@ -119,7 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: _selectTheme,
             ),
             SettingsTile.switchTile(
-              leading: const Icon(Icons.palette),
+              leading: const Icon(Icons.bolt),
               title: Text('Use dynamic theming (Material You)'),
               initialValue: ThemeManager().dynamicTheming,
               onToggle: _toggleDynamicTheming,
