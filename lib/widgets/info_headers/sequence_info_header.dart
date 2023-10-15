@@ -8,8 +8,7 @@ import '../../providers/navigation/navigation.dart';
 import '../../providers/projects/projects.dart';
 import '../../providers/sequences/sequences.dart';
 import '../../utils/constants_globals.dart';
-import '../../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../../utils/snack_bar_manager/snack_bar_manager.dart';
+import '../custom_snack_bars.dart';
 import '../dialogs/confirm_dialog.dart';
 import '../icon_label.dart';
 import '../info_sheets/sequence_info_sheet.dart';
@@ -22,13 +21,6 @@ class SequenceInfoHeader extends ConsumerStatefulWidget {
 }
 
 class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
-  String _getDateText(BuildContext context, Sequence sequence) {
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(sequence.getStartDate);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(sequence.getEndDate);
-
-    return '$firstText - $lastText';
-  }
-
   @override
   Widget build(BuildContext context) {
     return ref.watch(currentSequenceProvider).when(
@@ -71,7 +63,11 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
                       ),
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 8)),
-                    IconLabel(text: _getDateText(context, sequence), icon: Icons.event),
+                    IconLabel(
+                      text:
+                          '${DateFormat.yMd(context.locale.toString()).format(sequence.getDate)} | ${sequence.getStartTime.format(context)} - ${sequence.getEndTime.format(context)}',
+                      icon: Icons.event,
+                    ),
                     if (sequence.location != null) IconLabel(text: sequence.location!.getName, icon: Icons.map),
                   ],
                 ),
@@ -107,11 +103,9 @@ class _InfoHeaderSequenceState extends ConsumerState<SequenceInfoHeader> {
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
         await ref.read(sequencesProvider.notifier).delete(sequence.id);
-        if (context.mounted) {
-          SnackBarManager().show(
-            context,
-            CustomSnackBar.getInfoSnackBar('snack_bars.sequence.deleted'.tr()),
-          );
+        if (true) {
+          final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
         }
         ref.read(navigationProvider.notifier).set(HomePage.episodes);
       }

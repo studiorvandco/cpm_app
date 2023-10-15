@@ -25,7 +25,11 @@ class _MemberTileState extends State<MemberTile> {
       child: ListTile(
         leading: SizedBox(
           height: double.infinity,
-          child: Icon(Icons.person, color: Theme.of(context).iconTheme.color),
+          child: false
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(''), // No matter how big it is, it won't overflow
+                )
+              : Icon(Icons.person, color: Theme.of(context).iconTheme.color),
         ),
         title: Text(
           widget.member.fullName,

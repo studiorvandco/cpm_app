@@ -6,7 +6,7 @@ part of 'episodes.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$episodesHash() => r'83837bba9bf44977da8ca1007d3158afe47812ab';
+String _$episodesHash() => r'a5d9428dfd09150a5d8355119a78ab8615e8c3d0';
 
 /// See also [Episodes].
 @ProviderFor(Episodes)
@@ -33,4 +33,4 @@ final currentEpisodeProvider = AsyncNotifierProvider<CurrentEpisode, Episode>.in
 
 typedef _$CurrentEpisode = AsyncNotifier<Episode>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

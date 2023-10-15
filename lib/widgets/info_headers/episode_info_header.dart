@@ -7,8 +7,7 @@ import '../../providers/episodes/episodes.dart';
 import '../../providers/navigation/navigation.dart';
 import '../../providers/projects/projects.dart';
 import '../../utils/constants_globals.dart';
-import '../../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../../utils/snack_bar_manager/snack_bar_manager.dart';
+import '../custom_snack_bars.dart';
 import '../dialogs/confirm_dialog.dart';
 import '../info_sheets/episode_info_sheet.dart';
 
@@ -104,11 +103,9 @@ class _InfoHeaderEpisodeState extends ConsumerState<EpisodeInfoHeader> {
     showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
       if (result ?? false) {
         await ref.read(episodesProvider.notifier).delete(episode.id);
-        if (context.mounted) {
-          SnackBarManager().show(
-            context,
-            CustomSnackBar.getInfoSnackBar('snack_bars.episode.deleted'.tr()),
-          );
+        if (true) {
+          final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
         }
         ref.read(navigationProvider.notifier).set(HomePage.episodes);
       }

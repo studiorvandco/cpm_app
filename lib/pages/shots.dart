@@ -11,9 +11,8 @@ import '../providers/projects/projects.dart';
 import '../providers/sequences/sequences.dart';
 import '../providers/shots/shots.dart';
 import '../utils/constants_globals.dart';
-import '../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../utils/snack_bar_manager/snack_bar_manager.dart';
 import '../widgets/cards/shot_card.dart';
+import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/shot_dialog.dart';
 import '../widgets/info_headers/sequence_info_header.dart';
 
@@ -43,20 +42,13 @@ class _ShotsState extends ConsumerState<Shots> {
                         return MasonryGridView.count(
                           itemCount: shots.length,
                           padding: const EdgeInsets.only(
-                            bottom: kFloatingActionButtonMargin + 64,
-                            top: 4,
-                            left: 4,
-                            right: 4,
-                          ),
+                              bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
                           itemBuilder: (BuildContext context, int index) {
                             return ShotCard(
                               shot: shots[index],
-                              onPressed: () {
-                                // TODO
-                              },
                             );
                           },
-                          crossAxisCount: getColumnsCount(constraints),
+                          crossAxisCount: 1,
                           mainAxisSpacing: 2,
                           crossAxisSpacing: 2,
                         );
@@ -93,8 +85,8 @@ class _ShotsState extends ConsumerState<Shots> {
       return;
     }
 
-    int sequence = currentSequenceReader.value!.id;
-    Shot? newShot = await showDialog(
+    final int sequence = currentSequenceReader.value!.id;
+    final newShot = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return ShotDialog(
@@ -104,13 +96,11 @@ class _ShotsState extends ConsumerState<Shots> {
       },
     );
 
-    if (newShot != null) {
+    if (newShot is Shot) {
       await ref.read(shotsProvider.notifier).add(newShot);
-      if (context.mounted) {
-        SnackBarManager().show(
-          context,
-          CustomSnackBar.getInfoSnackBar('snack_bars.shot.added'.tr()),
-        );
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }

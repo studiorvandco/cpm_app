@@ -6,8 +6,7 @@ import '../exceptions/invalid_direction.dart';
 import '../models/member/member.dart';
 import '../providers/members/members.dart';
 import '../utils/constants_globals.dart';
-import '../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../utils/snack_bar_manager/snack_bar_manager.dart';
+import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/confirm_dialog.dart';
 import '../widgets/dialogs/member_dialog.dart';
 import '../widgets/tiles/member_tile.dart';
@@ -103,50 +102,42 @@ class _MembersState extends ConsumerState<Members> {
   }
 
   Future<void> add() async {
-    Member? member = await showDialog(
+    final member = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return const MemberDialog();
       },
     );
-
-    if (member != null) {
+    if (member is Member) {
       await ref.read(membersProvider.notifier).add(member);
-      if (context.mounted) {
-        SnackBarManager().show(
-          context,
-          CustomSnackBar.getInfoSnackBar('snack_bars.member.added'.tr()),
-        );
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
 
   Future<void> edit(Member member) async {
-    Member? editedMember = await showDialog(
+    final editedMember = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return MemberDialog(member: member);
       },
     );
-
-    if (editedMember != null) {
+    if (editedMember is Member) {
       await ref.read(membersProvider.notifier).edit(editedMember);
-      if (context.mounted) {
-        SnackBarManager().show(
-          context,
-          CustomSnackBar.getInfoSnackBar('snack_bars.member.edited'.tr()),
-        );
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
 
   Future<void> delete(Member member) async {
     await ref.read(membersProvider.notifier).delete(member.id);
-    if (context.mounted) {
-      SnackBarManager().show(
-        context,
-        CustomSnackBar.getInfoSnackBar('snack_bars.member.deleted'.tr()),
-      );
+    if (true) {
+      final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
     }
   }
 }

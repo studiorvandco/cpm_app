@@ -1,3 +1,4 @@
+import 'package:cpm/pages/schedule/schedule.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,12 +8,10 @@ import '../models/project/project.dart';
 import '../providers/navigation/navigation.dart';
 import '../providers/projects/projects.dart';
 import '../utils/constants_globals.dart';
-import '../utils/snack_bar_manager/custom_snack_bar.dart';
-import '../utils/snack_bar_manager/snack_bar_manager.dart';
 import '../widgets/cards/project_card.dart';
+import '../widgets/custom_snack_bars.dart';
 import '../widgets/dialogs/project_dialog.dart';
 import 'episodes.dart';
-import 'planning.dart';
 import 'sequences.dart';
 import 'shots.dart';
 
@@ -43,7 +42,7 @@ class ProjectsState extends ConsumerState<Projects> {
                       padding:
                           const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
                       itemBuilder: (BuildContext context, int index) {
-                        return ProjectCard(project: projects[index]);
+                        return ProjectCard(key: UniqueKey(), project: projects[index]);
                       },
                       crossAxisCount: getColumnsCount(constraints),
                       mainAxisSpacing: 2,
@@ -68,25 +67,22 @@ class ProjectsState extends ConsumerState<Projects> {
       case HomePage.shots:
         return const Shots();
       case HomePage.planning:
-        return const Planning();
+        return const Schedule();
     }
   }
 
   Future<void> add() async {
-    Project? project = await showDialog(
+    final project = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return const ProjectDialog();
       },
     );
-
-    if (project != null) {
+    if (project is Project) {
       ref.read(projectsProvider.notifier).add(project);
-      if (context.mounted) {
-        SnackBarManager().show(
-          context,
-          CustomSnackBar.getInfoSnackBar('snack_bars.project.added'.tr()),
-        );
+      if (true) {
+        final String message = true ? 'snack_bars.episode.deleted'.tr() : 'snack_bars.episode.not_deleted'.tr();
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackBars().getModelSnackBar(context, true));
       }
     }
   }
