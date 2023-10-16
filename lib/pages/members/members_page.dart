@@ -7,7 +7,6 @@ import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/separators.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -48,7 +47,7 @@ class _MembersState extends ConsumerState<MembersPage> {
                         edit(members[index]);
                         return false;
                       case DismissDirection.startToEnd:
-                        return await showConfirmationDialog(context, 'delete.lower'.tr()) ?? false;
+                        return await showConfirmationDialog(context, 'delete.lower') ?? false;
                       case DismissDirection.horizontal:
                       case DismissDirection.vertical:
                       case DismissDirection.up:
@@ -67,7 +66,7 @@ class _MembersState extends ConsumerState<MembersPage> {
                       edit(member);
                     },
                     onDelete: (Member member) {
-                      showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) {
+                      showConfirmationDialog(context, 'delete.lower').then((bool? result) {
                         if (result ?? false) {
                           delete(member);
                         }
@@ -103,7 +102,7 @@ class _MembersState extends ConsumerState<MembersPage> {
     if (member is Member) {
       final added = await ref.read(membersProvider.notifier).add(member);
       SnackBarManager().show(
-        added ? getInfoSnackBar('snack_bars.member.added'.tr()) : getErrorSnackBar('snack_bars.member.not_added'.tr()),
+        added ? getInfoSnackBar('snack_bars.member.added') : getErrorSnackBar('snack_bars.member.not_added'),
       );
     }
   }
@@ -118,9 +117,7 @@ class _MembersState extends ConsumerState<MembersPage> {
     if (editedMember is Member) {
       final edited = await ref.read(membersProvider.notifier).edit(editedMember);
       SnackBarManager().show(
-        edited
-            ? getInfoSnackBar('snack_bars.member.edited'.tr())
-            : getErrorSnackBar('snack_bars.member.not_edited'.tr()),
+        edited ? getInfoSnackBar('snack_bars.member.edited') : getErrorSnackBar('snack_bars.member.not_edited'),
       );
     }
   }
@@ -128,9 +125,7 @@ class _MembersState extends ConsumerState<MembersPage> {
   Future<void> delete(Member member) async {
     final deleted = await ref.read(membersProvider.notifier).delete(member.id);
     SnackBarManager().show(
-      deleted
-          ? getInfoSnackBar('snack_bars.member.deleted'.tr())
-          : getErrorSnackBar('snack_bars.member.not_deleted'.tr()),
+      deleted ? getInfoSnackBar('snack_bars.member.deleted') : getErrorSnackBar('snack_bars.member.not_deleted'),
     );
   }
 }

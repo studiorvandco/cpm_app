@@ -1,5 +1,4 @@
 import 'package:cpm/pages/sequences/sequence_details_pane.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SequenceInfoSheet extends StatelessWidget {
@@ -13,8 +12,8 @@ class SequenceInfoSheet extends StatelessWidget {
         children: <Widget>[
           TabBar(
             tabs: <Tab>[
-              Tab(text: 'details.upper'.plural(2)),
-              Tab(text: 'members.member.upper'.plural(2)),
+              Tab(text: 'details.upper'),
+              Tab(text: 'members.member.upper'),
             ],
           ),
           const Expanded(

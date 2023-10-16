@@ -4,7 +4,6 @@ import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -136,7 +135,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                             },
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.lock),
-                              hintText: 'password'.tr(),
+                              hintText: 'password',
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(right: 4.0),
                                 child: IconButton(
@@ -173,7 +172,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () => _login(),
-                              child: Text('authentication.login.upper'.tr()),
+                              child: Text('authentication.login.upper'),
                             ),
                           ),
                           const Padding(padding: EdgeInsets.symmetric(vertical: 8.0)),

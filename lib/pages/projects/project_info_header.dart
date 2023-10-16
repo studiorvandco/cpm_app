@@ -6,14 +6,15 @@ import 'package:cpm/common/request_placeholder.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/pages/projects/project_info_sheet.dart';
 import 'package:cpm/providers/projects/projects.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ProjectInfoHeader extends ConsumerStatefulWidget {
@@ -25,8 +26,8 @@ class ProjectInfoHeader extends ConsumerStatefulWidget {
 
 class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   String _getDateText(BuildContext context, Project project) {
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(project.getStartDate);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(project.getEndDate);
+    final String firstText = DateFormat.yMd(localizations.localeName).format(project.getStartDate);
+    final String lastText = DateFormat.yMd(localizations.localeName).format(project.getEndDate);
 
     return '$firstText - $lastText';
   }
@@ -186,13 +187,11 @@ class _InfoHeaderProjectState extends ConsumerState<ProjectInfoHeader> {
   }
 
   Future<void> delete(Project project) async {
-    showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
+    showConfirmationDialog(context, 'delete.lower').then((bool? result) async {
       if (result ?? false) {
         final deleted = await ref.read(projectsProvider.notifier).delete(project.id);
         SnackBarManager().show(
-          deleted
-              ? getInfoSnackBar('snack_bars.project.deleted'.tr())
-              : getErrorSnackBar('snack_bars.project.not_deleted'.tr()),
+          deleted ? getInfoSnackBar('snack_bars.project.deleted') : getErrorSnackBar('snack_bars.project.not_deleted'),
         );
         if (context.mounted) {
           context.pushNamed(RouterRoute.projects.name);

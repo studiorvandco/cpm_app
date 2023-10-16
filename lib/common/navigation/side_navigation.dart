@@ -1,6 +1,7 @@
 import 'package:cpm/utils/asset.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SideNavigation extends ConsumerStatefulWidget {
@@ -13,6 +14,25 @@ class SideNavigation extends ConsumerStatefulWidget {
 class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
   int _selectedIndex = 0;
 
+  void _onDestinationSelected(int? index) {
+    if (index != null) {
+      setState(() {
+        _selectedIndex = index;
+      });
+
+      switch (index) {
+        case 0:
+          context.goNamed(RouterRoute.projects.name);
+        case 1:
+          context.goNamed(RouterRoute.members.name);
+        case 2:
+          context.goNamed(RouterRoute.locations.name);
+        case 3:
+          context.goNamed(RouterRoute.settings.name);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,25 +40,32 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
         constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
         child: IntrinsicHeight(
           child: NavigationRail(
-            leading: Builder(
-              builder: (BuildContext context) {
-                return Image.asset(Asset.cpm.path, width: 50, filterQuality: FilterQuality.medium);
-              },
-            ),
             labelType: NavigationRailLabelType.all,
-            destinations: <NavigationRailDestination>[
-              NavigationRailDestination(icon: const Icon(Icons.movie), label: Text('projects.project.upper'.plural(2))),
-              NavigationRailDestination(icon: const Icon(Icons.people), label: Text('members.member.upper'.plural(2))),
-              NavigationRailDestination(icon: const Icon(Icons.map), label: Text('locations.location.upper'.plural(2))),
-              NavigationRailDestination(icon: const Icon(Icons.settings), label: Text('settings.settings'.tr())),
-              NavigationRailDestination(icon: const Icon(Icons.info), label: Text('about.about'.tr())),
+            leading: Image.asset(
+              Asset.cpm.path,
+              width: 64,
+              filterQuality: FilterQuality.medium,
+            ),
+            destinations: [
+              NavigationRailDestination(
+                icon: const Icon(Icons.movie),
+                label: Text('Projects'),
+              ),
+              NavigationRailDestination(
+                icon: const Icon(Icons.people),
+                label: Text('Members'),
+              ),
+              NavigationRailDestination(
+                icon: const Icon(Icons.map),
+                label: Text('Locations'),
+              ),
+              NavigationRailDestination(
+                icon: const Icon(Icons.settings),
+                label: Text('Settings'),
+              ),
             ],
             selectedIndex: _selectedIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
+            onDestinationSelected: _onDestinationSelected,
           ),
         ),
       ),

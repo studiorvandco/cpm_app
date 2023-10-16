@@ -1,4 +1,5 @@
 import 'package:cpm/common/navigation/bottom_navigation.dart';
+import 'package:cpm/common/navigation/side_navigation.dart';
 import 'package:cpm/common/navigation/top_navigation.dart';
 import 'package:cpm/pages/episodes/episodes_page.dart';
 import 'package:cpm/pages/locations/locations_page.dart';
@@ -11,6 +12,7 @@ import 'package:cpm/pages/settings/settings_page.dart';
 import 'package:cpm/pages/shots/shots_page.dart';
 import 'package:cpm/services/authentication_service.dart';
 import 'package:cpm/utils/constants/constants.dart';
+import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -34,9 +36,16 @@ final router = GoRouter(
     ShellRoute(
       builder: (context, state, child) {
         return Scaffold(
-          appBar: const TopNavigation(),
-          body: child,
-          bottomNavigationBar: const BottomNavigation(),
+          appBar: PlatformManager().isMobile ? const TopNavigation() : null,
+          body: Row(
+            children: [
+              if (!PlatformManager().isMobile) const SideNavigation(),
+              Expanded(
+                child: child,
+              ),
+            ],
+          ),
+          bottomNavigationBar: PlatformManager().isMobile ? const BottomNavigation() : null,
         );
       },
       routes: [

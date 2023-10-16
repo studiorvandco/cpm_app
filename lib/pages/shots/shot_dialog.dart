@@ -1,6 +1,5 @@
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/models/shot/shot_value.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ShotDialog extends StatefulWidget {
@@ -29,9 +28,9 @@ class _ShotDialogState extends State<ShotDialog> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Text>[
-                Text('${'new.masc.eau.upper'.tr()} ${'shots.shot.lower'.plural(1)}'),
+                Text('${'new.masc.eau.upper'} ${'shots.shot.lower'}'),
                 Text(
-                  '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'shots.shot.lower'.plural(1)}.',
+                  '${'add.upper'} ${'articles.a.masc.lower'} ${'new.masc.eau.lower'} ${'shots.shot.lower'}.',
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -54,7 +53,7 @@ class _ShotDialogState extends State<ShotDialog> {
                     maxLines: 4,
                     controller: descriptionController,
                     decoration: InputDecoration(
-                      labelText: 'attributes.description.upper'.tr(),
+                      labelText: 'attributes.description.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -67,7 +66,7 @@ class _ShotDialogState extends State<ShotDialog> {
                   width: 330,
                   child: DropdownButtonFormField<String>(
                     isExpanded: true,
-                    hint: Text('shots.value.upper'.plural(1)),
+                    hint: Text('shots.value.upper'),
                     items: values.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -81,7 +80,7 @@ class _ShotDialogState extends State<ShotDialog> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'shots.value.upper'.plural(1),
+                      labelText: 'shots.value.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -98,9 +97,9 @@ class _ShotDialogState extends State<ShotDialog> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('cancel.upper'.tr()),
+                    child: Text('cancel.upper'),
                   ),
-                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                  TextButton(onPressed: submit, child: Text('confirm.upper')),
                 ],
               ),
             ],

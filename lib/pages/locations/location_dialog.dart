@@ -1,5 +1,4 @@
 import 'package:cpm/models/location/location.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LocationDialog extends StatefulWidget {
@@ -25,7 +24,7 @@ class _LocationDialogState extends State<LocationDialog> {
 
     edit = widget.location != null;
 
-    title = edit ? 'edit.upper'.tr() : 'new.masc.eau.upper'.tr();
+    title = edit ? 'edit.upper' : 'new.masc.eau.upper';
 
     nameController = TextEditingController(text: widget.location?.name);
     positionController = TextEditingController(text: widget.location?.position);
@@ -65,8 +64,8 @@ class _LocationDialogState extends State<LocationDialog> {
                         controller: nameController,
                         maxLength: 64,
                         decoration: InputDecoration(
-                          labelText: 'attributes.name.upper'.tr(),
-                          errorText: nameController.text.trim().isEmpty ? 'error.empty'.tr() : null,
+                          labelText: 'attributes.name.upper',
+                          errorText: nameController.text.trim().isEmpty ? 'error.empty' : null,
                           border: const OutlineInputBorder(),
                           isDense: true,
                         ),
@@ -84,7 +83,7 @@ class _LocationDialogState extends State<LocationDialog> {
                   child: TextField(
                     controller: positionController,
                     decoration: InputDecoration(
-                      labelText: 'attributes.position.upper'.tr(),
+                      labelText: 'attributes.position.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -102,9 +101,9 @@ class _LocationDialogState extends State<LocationDialog> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('cancel'.tr()),
+                    child: Text('cancel'),
                   ),
-                  TextButton(onPressed: submit, child: Text('confirm'.tr())),
+                  TextButton(onPressed: submit, child: Text('confirm')),
                 ],
               ),
             ],

@@ -6,7 +6,6 @@ import 'package:cpm/pages/projects/project_dialog.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -63,9 +62,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
     if (project is Project) {
       final added = await ref.read(projectsProvider.notifier).add(project);
       SnackBarManager().show(
-        added
-            ? getInfoSnackBar('snack_bars.project.added'.tr())
-            : getErrorSnackBar('snack_bars.project.not_added'.tr()),
+        added ? getInfoSnackBar('snack_bars.project.added') : getErrorSnackBar('snack_bars.project.not_added'),
       );
     }
   }

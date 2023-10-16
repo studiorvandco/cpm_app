@@ -1,6 +1,7 @@
 import 'package:cpm/models/episode/episode.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EpisodeDialog extends StatefulWidget {
   const EpisodeDialog({super.key, required this.project, required this.index});
@@ -20,8 +21,8 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
 
   void updateDateText() {
     String res;
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(dates.start);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(dates.end);
+    final String firstText = DateFormat.yMd(localizations.localeName).format(dates.start);
+    final String lastText = DateFormat.yMd(localizations.localeName).format(dates.end);
     res = '$firstText - $lastText';
     setState(() {
       dateText = res;
@@ -43,9 +44,9 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Text>[
-                  Text('${'new.masc.el.upper'.tr()} ${'episodes.episode.lower'.plural(1)}'),
+                  Text('${'new.masc.el.upper'} ${'episodes.episode.lower'}'),
                   Text(
-                    '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.el.lower'.tr()} ${'episodes.episode.lower'.plural(1)}.',
+                    '${'add.upper'} ${'articles.a.masc.lower'} ${'new.masc.el.lower'} ${'episodes.episode.lower'}.',
                     style: const TextStyle(fontSize: 12),
                   ),
                 ],
@@ -69,7 +70,7 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
                       maxLength: 64,
                       controller: titleController,
                       decoration: InputDecoration(
-                        labelText: 'attributes.title.upper'.tr(),
+                        labelText: 'attributes.title.upper',
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
@@ -87,7 +88,7 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
                       maxLines: 4,
                       controller: descriptionController,
                       decoration: InputDecoration(
-                        labelText: 'attributes.description.upper'.tr(),
+                        labelText: 'attributes.description.upper',
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
@@ -115,9 +116,9 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('cancel.upper'.tr()),
+                      child: Text('cancel.upper'),
                     ),
-                    TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                    TextButton(onPressed: submit, child: Text('confirm.upper')),
                   ],
                 ),
               ],

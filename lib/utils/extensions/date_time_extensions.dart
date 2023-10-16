@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
-
 // ignore_for_file: non_constant_identifier_names
+
+import 'package:intl/intl.dart';
 
 extension DateTimeExtensions on DateTime {
   String get Hm {

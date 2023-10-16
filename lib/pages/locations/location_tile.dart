@@ -1,6 +1,5 @@
 import 'package:cpm/common/menus/menu_action.dart';
 import 'package:cpm/models/location/location.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
@@ -29,29 +28,39 @@ class _LocationTileState extends State<LocationTile> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           IconButton(
-            tooltip: 'locations.view'.tr(),
-            color: Theme.of(context).colorScheme.onBackground,
+            tooltip: 'locations.view',
+            color: Theme
+                .of(context)
+                .colorScheme
+                .onBackground,
             onPressed: checkPosition()
                 ? () {
-                    MapsLauncher.launchQuery(widget.location.position!);
-                  }
+              MapsLauncher.launchQuery(widget.location.position!);
+            }
                 : null,
             icon: const Icon(Icons.map),
           ),
           PopupMenuButton<MenuAction>(
             icon: Icon(
               Icons.more_horiz,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .onBackground,
             ),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuAction>>[
+            itemBuilder: (BuildContext context) =>
+            <PopupMenuEntry<MenuAction>>[
               PopupMenuItem<MenuAction>(
                 value: MenuAction.edit,
                 child: ListTile(
                   leading: Icon(
                     Icons.edit,
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onBackground,
                   ),
-                  title: Text('edit.upper'.tr()),
+                  title: Text('edit.upper'),
                 ),
               ),
               PopupMenuItem<MenuAction>(
@@ -59,9 +68,12 @@ class _LocationTileState extends State<LocationTile> {
                 child: ListTile(
                   leading: Icon(
                     Icons.delete,
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onBackground,
                   ),
-                  title: Text('delete.upper'.tr()),
+                  title: Text('delete.upper'),
                 ),
               ),
             ],

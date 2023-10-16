@@ -1,6 +1,5 @@
 import 'package:cpm/pages/projects/links/links_tab.dart';
 import 'package:cpm/pages/projects/project_details_pane.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ProjectInfoSheet extends StatefulWidget {
@@ -40,10 +39,10 @@ class _ProjectInfoSheetState extends State<ProjectInfoSheet> with SingleTickerPr
               });
             },
             tabs: [
-              Tab(text: 'details.upper'.plural(2)),
-              Tab(text: 'links.upper'.plural(2)),
-              Tab(text: 'members.member.upper'.plural(2)),
-              Tab(text: 'locations.location.upper'.plural(2)),
+              Tab(text: 'details.upper'),
+              Tab(text: 'links.upper'),
+              Tab(text: 'members.member.upper'),
+              Tab(text: 'locations.location.upper'),
             ],
           ),
           Builder(

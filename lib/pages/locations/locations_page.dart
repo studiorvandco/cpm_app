@@ -7,7 +7,6 @@ import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/utils/constants/separators.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -42,7 +41,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
                         edit(locations[index]);
                         return false;
                       case DismissDirection.startToEnd:
-                        return await showConfirmationDialog(context, 'delete.lower'.tr()) ?? false;
+                        return await showConfirmationDialog(context, 'delete.lower') ?? false;
                       case DismissDirection.horizontal:
                       case DismissDirection.vertical:
                       case DismissDirection.up:
@@ -67,7 +66,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
                       edit(location);
                     },
                     onDelete: (Location location) {
-                      showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) {
+                      showConfirmationDialog(context, 'delete.lower').then((bool? result) {
                         if (result ?? false) {
                           delete(location);
                         }
@@ -103,9 +102,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     if (location is Location) {
       final added = await ref.read(locationsProvider.notifier).add(location);
       SnackBarManager().show(
-        added
-            ? getInfoSnackBar('snack_bars.location.added'.tr())
-            : getErrorSnackBar('snack_bars.location.not_added'.tr()),
+        added ? getInfoSnackBar('snack_bars.location.added') : getErrorSnackBar('snack_bars.location.not_added'),
       );
     }
   }
@@ -120,9 +117,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     if (editedLocation is Location) {
       final edited = await ref.read(locationsProvider.notifier).edit(editedLocation);
       SnackBarManager().show(
-        edited
-            ? getInfoSnackBar('snack_bars.location.edited'.tr())
-            : getErrorSnackBar('snack_bars.location.not_edited'.tr()),
+        edited ? getInfoSnackBar('snack_bars.location.edited') : getErrorSnackBar('snack_bars.location.not_edited'),
       );
     }
   }
@@ -130,9 +125,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
   Future<void> delete(Location location) async {
     final deleted = await ref.read(locationsProvider.notifier).delete(location.id);
     SnackBarManager().show(
-      deleted
-          ? getInfoSnackBar('snack_bars.location.deleted'.tr())
-          : getErrorSnackBar('snack_bars.location.not_deleted'.tr()),
+      deleted ? getInfoSnackBar('snack_bars.location.deleted') : getErrorSnackBar('snack_bars.location.not_deleted'),
     );
   }
 }

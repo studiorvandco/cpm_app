@@ -9,7 +9,6 @@ import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/extensions/list_extensions.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -82,9 +81,7 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
     if (newEpisode is Episode) {
       final added = await ref.read(episodesProvider.notifier).add(newEpisode);
       SnackBarManager().show(
-        added
-            ? getInfoSnackBar('snack_bars.episode.added'.tr())
-            : getErrorSnackBar('snack_bars.episode.not_added'.tr()),
+        added ? getInfoSnackBar('snack_bars.episode.added') : getErrorSnackBar('snack_bars.episode.not_added'),
       );
     }
   }

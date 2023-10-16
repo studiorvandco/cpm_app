@@ -8,7 +8,6 @@ import 'package:cpm/utils/preferences/preference_key.dart';
 import 'package:cpm/utils/preferences/preferences_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:cpm/utils/theme_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,11 +30,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('authentication.logout.upper'.tr()),
+          title: Text('authentication.logout.upper'),
           content: SingleChildScrollView(
             child: Column(
               children: [
-                Text('authentication.logout_confirmation'.tr()),
+                Text('authentication.logout_confirmation'),
               ],
             ),
           ),
@@ -45,7 +44,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 Navigator.pop(context, false);
               },
               child: Text(
-                'cancel'.tr(),
+                'cancel',
               ),
             ),
             ElevatedButton(
@@ -53,7 +52,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 Navigator.pop(context, true);
               },
               child: Text(
-                'authentication.logout.upper'.tr(),
+                'authentication.logout.upper',
               ),
             ),
           ],

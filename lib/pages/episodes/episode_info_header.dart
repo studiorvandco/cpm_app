@@ -7,7 +7,6 @@ import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -105,13 +104,11 @@ class _InfoHeaderEpisodeState extends ConsumerState<EpisodeInfoHeader> {
       return;
     }
 
-    showConfirmationDialog(context, 'delete.lower'.tr()).then((bool? result) async {
+    showConfirmationDialog(context, 'delete.lower').then((bool? result) async {
       if (result ?? false) {
         final deleted = await ref.read(episodesProvider.notifier).delete(episode.id);
         SnackBarManager().show(
-          deleted
-              ? getInfoSnackBar('snack_bars.episode.added'.tr())
-              : getErrorSnackBar('snack_bars.episode.not_added'.tr()),
+          deleted ? getInfoSnackBar('snack_bars.episode.added') : getErrorSnackBar('snack_bars.episode.not_added'),
         );
         if (context.mounted) {
           context.pushNamed(RouterRoute.episodes.name);

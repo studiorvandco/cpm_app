@@ -2,9 +2,10 @@ import 'package:cpm/common/icon_label.dart';
 import 'package:cpm/common/request_placeholder.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/providers/projects/projects.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class ProjectDetailsPane extends ConsumerStatefulWidget {
   const ProjectDetailsPane({super.key});
@@ -43,7 +44,7 @@ class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane> {
                 },
                 child: TextField(
                   style: Theme.of(context).textTheme.titleMedium,
-                  decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'.tr()),
+                  decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'),
                   controller: titleController,
                   maxLength: 64,
                 ),
@@ -57,7 +58,7 @@ class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane> {
                 },
                 child: TextField(
                   style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
+                  decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'),
                   controller: descriptionController,
                   keyboardType: TextInputType.multiline,
                   minLines: 3,
@@ -89,8 +90,8 @@ class _DetailsPaneProjectState extends ConsumerState<ProjectDetailsPane> {
   }
 
   String getDateText() {
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(start);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(end);
+    final String firstText = DateFormat.yMd(localizations.localeName).format(start);
+    final String lastText = DateFormat.yMd(localizations.localeName).format(end);
 
     return '$firstText - $lastText';
   }

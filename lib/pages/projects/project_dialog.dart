@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/project/project_type.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProjectDialog extends StatefulWidget {
   const ProjectDialog({super.key});
@@ -24,8 +21,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
 
   void updateDateText() {
     String res;
-    final String firstText = DateFormat.yMd(context.locale.toString()).format(dates.start);
-    final String lastText = DateFormat.yMd(context.locale.toString()).format(dates.end);
+    final String firstText = DateFormat.yMd(localizations.localeName).format(dates.start);
+    final String lastText = DateFormat.yMd(localizations.localeName).format(dates.end);
     res = '$firstText - $lastText';
     setState(() {
       dateText = res;
@@ -45,23 +42,12 @@ class _ProjectDialogState extends State<ProjectDialog> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Text>[
-                Text('${'new.masc.eau.upper'.tr()} ${'projects.project.lower'.plural(1)}'),
+                Text('${'new.masc.eau.upper'} ${'projects.project.lower'}'),
                 Text(
-                  '${'add.upper'.tr()} ${'articles.a.masc.lower'.tr()} ${'new.masc.eau.lower'.tr()} ${'projects.project.lower'.plural(1)}.',
+                  '${'add.upper'} ${'articles.a.masc.lower'} ${'new.masc.eau.lower'} ${'projects.project.lower'}.',
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
-            ),
-            IconButton(
-              style: IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-              icon: Builder(
-                builder: (BuildContext context) {
-                  return image != null
-                      ? SizedBox(height: 80, width: 80, child: image)
-                      : const Icon(Icons.add_a_photo, size: 80);
-                },
-              ),
-              onPressed: () => changePhoto(),
             ),
           ],
         ),
@@ -80,7 +66,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
                     maxLength: 64,
                     controller: titleController,
                     decoration: InputDecoration(
-                      labelText: 'attributes.title.upper'.tr(),
+                      labelText: 'attributes.title.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -98,7 +84,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
                     maxLines: 4,
                     controller: descriptionController,
                     decoration: InputDecoration(
-                      labelText: 'attributes.description.upper'.tr(),
+                      labelText: 'attributes.description.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -122,8 +108,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
                   width: 330,
                   child: SegmentedButton<ProjectType>(
                     segments: <ButtonSegment<ProjectType>>[
-                      ButtonSegment<ProjectType>(label: Text('projects.movie.upper'.tr()), value: ProjectType.movie),
-                      ButtonSegment<ProjectType>(label: Text('projects.series.upper'.tr()), value: ProjectType.series),
+                      ButtonSegment<ProjectType>(label: Text('projects.movie.upper'), value: ProjectType.movie),
+                      ButtonSegment<ProjectType>(label: Text('projects.series.upper'), value: ProjectType.series),
                     ],
                     selected: <ProjectType>{type},
                     onSelectionChanged: (Set<ProjectType> newSelection) {
@@ -144,9 +130,9 @@ class _ProjectDialogState extends State<ProjectDialog> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('cancel.upper'.tr()),
+                    child: Text('cancel.upper'),
                   ),
-                  TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                  TextButton(onPressed: submit, child: Text('confirm.upper')),
                 ],
               ),
             ],
@@ -154,20 +140,6 @@ class _ProjectDialogState extends State<ProjectDialog> {
         ),
       ],
     );
-  }
-
-  Future<void> changePhoto() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      lockParentWindow: true,
-      withData: kIsWeb,
-    );
-    if (result != null) {
-      final PlatformFile file = result.files.single;
-      setState(() {
-        image = kIsWeb ? Image.memory(file.bytes!) : Image.file(File(file.path!));
-      });
-    }
   }
 
   Future<void> changeDate() async {

@@ -2,11 +2,12 @@ import 'package:cpm/common/request_placeholder.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/providers/locations/locations.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/extensions/date_time_extensions.dart';
 import 'package:cpm/utils/extensions/time_of_day_extensions.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class SequenceDialog extends ConsumerStatefulWidget {
   const SequenceDialog({super.key, required this.episode, required this.index});
@@ -39,9 +40,9 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Text>[
-                  Text('${'new.fem.upper'.tr()} ${'sequences.sequence.lower'.plural(1)}'),
+                  Text('${'new.fem.upper'} ${'sequences.sequence.lower'}'),
                   Text(
-                    '${'add.upper'.tr()} ${'articles.a.fem.lower'.tr()} ${'new.fem.lower'.tr()} ${'sequences.sequence.lower'.plural(1)}.',
+                    '${'add.upper'} ${'articles.a.fem.lower'} ${'new.fem.lower'} ${'sequences.sequence.lower'}.',
                     style: const TextStyle(fontSize: 12),
                   ),
                 ],
@@ -65,7 +66,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                       maxLength: 64,
                       controller: titleController,
                       decoration: InputDecoration(
-                        labelText: 'attributes.title.upper'.tr(),
+                        labelText: 'attributes.title.upper',
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
@@ -83,7 +84,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                       maxLines: 4,
                       controller: descriptionController,
                       decoration: InputDecoration(
-                        labelText: 'attributes.description.upper'.tr(),
+                        labelText: 'attributes.description.upper',
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
@@ -98,7 +99,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                       onPressed: pickDate,
                       icon: const Icon(Icons.calendar_month),
                       label: Text(
-                        '${DateFormat.yMd(context.locale.toString()).format(date)} | ${startTime.format(context)} - ${endTime.format(context)}',
+                        '${DateFormat.yMd(localizations.localeName).format(date)} | ${startTime.format(context)} - ${endTime.format(context)}',
                       ),
                     ),
                   ),
@@ -109,7 +110,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownButtonFormField<Location>(
                         isExpanded: true,
-                        hint: Text('attributes.position.upper'.tr()),
+                        hint: Text('attributes.position.upper'),
                         items: locations.map<DropdownMenuItem<Location>>((location) {
                           return DropdownMenuItem<Location>(
                             value: location,
@@ -123,7 +124,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: 'locations.location.upper'.plural(1),
+                          labelText: 'locations.location.upper',
                           border: const OutlineInputBorder(),
                           isDense: true,
                         ),
@@ -147,9 +148,9 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('cancel.upper'.tr()),
+                      child: Text('cancel.upper'),
                     ),
-                    TextButton(onPressed: submit, child: Text('confirm.upper'.tr())),
+                    TextButton(onPressed: submit, child: Text('confirm.upper')),
                   ],
                 ),
               ],

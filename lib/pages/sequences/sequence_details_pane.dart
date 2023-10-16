@@ -4,10 +4,11 @@ import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/extensions/date_time_extensions.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class SequenceDetailsPane extends ConsumerStatefulWidget {
   const SequenceDetailsPane({super.key});
@@ -37,7 +38,12 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
         descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);
 
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 8, top: 8, left: 8, right: 8),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 8,
+            top: 8,
+            left: 8,
+            right: 8,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -49,7 +55,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
                 },
                 child: TextField(
                   style: Theme.of(context).textTheme.titleMedium,
-                  decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'.tr()),
+                  decoration: InputDecoration.collapsed(hintText: 'attributes.title.upper'),
                   controller: titleController,
                 ),
               ),
@@ -62,7 +68,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
                 },
                 child: TextField(
                   style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
+                  decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'),
                   controller: descriptionController,
                   keyboardType: TextInputType.multiline,
                   minLines: 3,
@@ -77,7 +83,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
                     padding: const EdgeInsets.all(8.0),
                     child: DropdownButtonFormField<Location>(
                       isExpanded: true,
-                      hint: Text('attributes.position.upper'.tr()),
+                      hint: Text('attributes.position.upper'),
                       items: locations.map<DropdownMenuItem<Location>>((location) {
                         return DropdownMenuItem<Location>(
                           value: location,
@@ -92,7 +98,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
                         edit(sequence);
                       },
                       decoration: InputDecoration(
-                        labelText: 'locations.location.upper'.plural(1),
+                        labelText: 'locations.location.upper',
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
@@ -112,7 +118,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
                 behavior: HitTestBehavior.translucent,
                 child: IconLabel(
                   text:
-                      '${DateFormat.yMd(context.locale.toString()).format(date)} | ${startTime.format(context)} - ${endTime.format(context)}',
+                      '${DateFormat.yMd(localizations.localeName).format(date)} | ${startTime.format(context)} - ${endTime.format(context)}',
                   icon: Icons.event,
                   textStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),

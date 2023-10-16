@@ -1,5 +1,4 @@
 import 'package:cpm/models/project/link.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -63,7 +62,7 @@ class _LinkEditorState extends State<LinkEditor> {
             Expanded(
               child: TextFormField(
                 controller: labelController,
-                decoration: InputDecoration.collapsed(hintText: 'attributes.label.upper'.tr()),
+                decoration: InputDecoration.collapsed(hintText: 'attributes.label.upper'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   urlFocusNode.requestFocus();
@@ -75,7 +74,7 @@ class _LinkEditorState extends State<LinkEditor> {
               flex: 2,
               child: TextFormField(
                 controller: urlController,
-                decoration: InputDecoration.collapsed(hintText: 'attributes.url'.tr()),
+                decoration: InputDecoration.collapsed(hintText: 'attributes.url'),
                 focusNode: urlFocusNode,
                 validator: (value) {
                   if (value != null && value.isNotEmpty && !Uri.tryParse(value)!.isAbsolute) {
@@ -96,7 +95,7 @@ class _LinkEditorState extends State<LinkEditor> {
                     PopupMenuItem(
                       child: ListTile(
                         leading: const Icon(Icons.launch),
-                        title: Text('open.upper'.tr()),
+                        title: Text('open.upper'),
                         onTap: () {
                           launchUrlString(urlController.text, mode: LaunchMode.externalApplication);
                           Navigator.of(context).pop();
@@ -107,7 +106,7 @@ class _LinkEditorState extends State<LinkEditor> {
                     PopupMenuItem(
                       child: ListTile(
                         leading: const Icon(Icons.arrow_upward),
-                        title: Text('moveUp.upper'.tr()),
+                        title: Text('moveUp.upper'),
                         onTap: () {
                           Navigator.of(context).pop();
                           widget.moveUp!();
@@ -118,7 +117,7 @@ class _LinkEditorState extends State<LinkEditor> {
                     PopupMenuItem(
                       child: ListTile(
                         leading: const Icon(Icons.arrow_downward),
-                        title: Text('moveDown.upper'.tr()),
+                        title: Text('moveDown.upper'),
                         onTap: () {
                           Navigator.of(context).pop();
                           widget.moveDown!();
@@ -128,7 +127,7 @@ class _LinkEditorState extends State<LinkEditor> {
                   PopupMenuItem(
                     child: ListTile(
                       leading: const Icon(Icons.remove_circle),
-                      title: Text('remove.upper'.tr()),
+                      title: Text('remove.upper'),
                       onTap: () {
                         Navigator.of(context).pop();
                         widget.delete(widget.link.id);

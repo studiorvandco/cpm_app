@@ -2,7 +2,6 @@ import 'package:cpm/common/request_placeholder.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/models/shot/shot_value.dart';
 import 'package:cpm/providers/shots/shots.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -48,7 +47,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      hint: Text('shots.value.upper'.plural(1)),
+                      hint: Text('shots.value.upper'),
                       items: values.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -79,7 +78,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
                 },
                 child: TextField(
                   style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'.tr()),
+                  decoration: InputDecoration.collapsed(hintText: 'attributes.description.upper'),
                   controller: descriptionController,
                   keyboardType: TextInputType.multiline,
                   minLines: 3,

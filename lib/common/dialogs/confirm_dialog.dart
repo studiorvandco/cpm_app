@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmDialog extends StatelessWidget {
@@ -12,16 +11,16 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('confirm_dialog'.tr(args: <String>[action])),
+      title: Text('confirm_dialog'),
       actions: <Widget>[
         TextButton(
-          child: Text('cancel'.tr()),
+          child: Text('cancel'),
           onPressed: () {
             Navigator.pop(context, false);
           },
         ),
         ElevatedButton(
-          child: Text('confirm'.tr()),
+          child: Text('confirm'),
           onPressed: () {
             Navigator.pop(context, true);
           },
@@ -50,17 +49,17 @@ Future<bool?> showConfirmationDialog(BuildContext context, String action) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('confirm_dialog'.tr(args: <String>[action])),
+        title: Text('confirm_dialog'),
         actions: <Widget>[
           TextButton(
-            child: Text('cancel'.tr()),
+            child: Text('cancel'),
             onPressed: () {
               Navigator.pop(context, false);
             },
           ),
           ElevatedButton(
             autofocus: true,
-            child: Text('confirm'.tr()),
+            child: Text('confirm'),
             onPressed: () {
               Navigator.pop(context, true);
             },

@@ -1,5 +1,4 @@
 import 'package:cpm/models/member/member.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MemberDialog extends StatefulWidget {
@@ -26,7 +25,7 @@ class _MemberDialogState extends State<MemberDialog> {
 
     edit = widget.member != null;
 
-    title = edit ? 'edit.upper'.tr() : 'new.masc.eau.upper'.tr();
+    title = edit ? 'edit.upper' : 'new.masc.eau.upper';
 
     firstNameController = TextEditingController(text: widget.member?.firstName);
     lastNameController = TextEditingController(text: widget.member?.lastName);
@@ -68,8 +67,8 @@ class _MemberDialogState extends State<MemberDialog> {
                         controller: firstNameController,
                         maxLength: 64,
                         decoration: InputDecoration(
-                          labelText: 'attributes.firstname.upper'.tr(),
-                          errorText: firstNameController.text.trim().isEmpty ? 'error.empty'.tr() : null,
+                          labelText: 'attributes.firstname.upper',
+                          errorText: firstNameController.text.trim().isEmpty ? 'error.empty' : null,
                           border: const OutlineInputBorder(),
                           isDense: true,
                         ),
@@ -87,7 +86,7 @@ class _MemberDialogState extends State<MemberDialog> {
                     controller: lastNameController,
                     maxLength: 64,
                     decoration: InputDecoration(
-                      labelText: 'attributes.lastname.upper'.tr(),
+                      labelText: 'attributes.lastname.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -105,7 +104,7 @@ class _MemberDialogState extends State<MemberDialog> {
                     controller: phoneController,
                     maxLength: 12,
                     decoration: InputDecoration(
-                      labelText: 'attributes.phone.upper'.tr(),
+                      labelText: 'attributes.phone.upper',
                       border: const OutlineInputBorder(),
                       isDense: true,
                     ),
@@ -125,9 +124,9 @@ class _MemberDialogState extends State<MemberDialog> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('cancel'.tr()),
+                    child: Text('cancel'),
                   ),
-                  TextButton(onPressed: submit, child: Text('confirm'.tr())),
+                  TextButton(onPressed: submit, child: Text('confirm')),
                 ],
               ),
             ],
