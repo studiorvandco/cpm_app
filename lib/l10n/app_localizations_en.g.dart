@@ -309,6 +309,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialog_field_description => 'Description';
 
   @override
+  String get dialog_field_value => 'Value';
+
+  @override
   String get dialog_field_label => 'Label';
 
   @override
@@ -364,6 +367,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_invalid_email => 'Invalid email';
+
+  @override
+  String get error_invalid_url => 'Invalid URL';
 
   @override
   String get error_required => 'Required';

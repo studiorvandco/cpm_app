@@ -35,8 +35,6 @@ class PreferencesManager {
   T? get<T>(PreferenceKey key) {
     if (T == dynamic) throw ArgumentError('The type T is required.');
 
-    print('${key.name}: ${_preferences.get(key.name)}');
-
     return _preferences.get(key.name) as T?;
   }
 }

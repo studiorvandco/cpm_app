@@ -88,10 +88,7 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('fr')
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('fr')];
 
   /// No description provided for @navigation_projects.
   ///
@@ -555,6 +552,12 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get dialog_field_description;
 
+  /// No description provided for @dialog_field_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get dialog_field_value;
+
   /// No description provided for @dialog_field_label.
   ///
   /// In en, this message translates to:
@@ -645,6 +648,12 @@ abstract class AppLocalizations {
   /// **'Invalid email'**
   String get error_invalid_email;
 
+  /// No description provided for @error_invalid_url.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid URL'**
+  String get error_invalid_url;
+
   /// No description provided for @error_required.
   ///
   /// In en, this message translates to:
@@ -674,18 +683,16 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'fr': return AppLocalizationsFr();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'fr':
+      return AppLocalizationsFr();
   }
 
-  throw FlutterError(
-    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+  throw FlutterError('AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

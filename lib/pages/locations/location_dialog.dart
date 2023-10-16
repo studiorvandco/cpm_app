@@ -1,4 +1,4 @@
-import 'package:cpm/l10n/Gender.dart';
+import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:flutter/material.dart';

@@ -76,6 +76,7 @@
   "dialog_delete_name_confirmation": "Do you really want to delete this {name}",
   "dialog_field_title": "Title",
   "dialog_field_description": "Description",
+  "dialog_field_value": "Value",
   "dialog_field_label": "Label",
   "dialog_field_url": "URL",
   "dialog_field_first_name": "First name",
@@ -91,6 +92,7 @@
   "error_error": "Error",
   "error_login": "Wrong username or password.",
   "error_invalid_email": "Invalid email",
+  "error_invalid_url": "Invalid URL",
   "error_required": "Required",
   "coming_soon": "Coming soon!"
 }
