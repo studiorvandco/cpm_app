@@ -41,7 +41,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Text>[
-                  Text(localizations.dialog_add_item(localizations.item_sequence, Gender.male.name)),
+                  Text(localizations.dialog_add_item(localizations.item_sequence, Gender.female.name)),
                 ],
               ),
             ],
@@ -121,7 +121,6 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: localizations.locations_location(1),
                           border: const OutlineInputBorder(),
                           isDense: true,
                         ),

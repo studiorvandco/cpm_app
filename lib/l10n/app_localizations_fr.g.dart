@@ -332,7 +332,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dialog_field_last_name => 'Nom';
 
   @override
-  String get dialog_field_number => 'Nombre';
+  String get dialog_field_number => 'Numéro';
 
   @override
   String get dialog_field_position => 'Position';

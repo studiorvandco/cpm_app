@@ -81,7 +81,7 @@
   "dialog_field_url": "URL",
   "dialog_field_first_name": "Prénom",
   "dialog_field_last_name": "Nom",
-  "dialog_field_number": "Nombre",
+  "dialog_field_number": "Numéro",
   "dialog_field_position": "Position",
   "snack_bar_add_success_item": "{sex, select, male{Le} female{La} other{}} {item} a été {sex, select, male{ajouté} female{ajoutée} other{}} avec succès.",
   "snack_bar_add_fail_item": "{sex, select, male{Le} female{La} other{}} {item} n'a pas pu être {sex, select, male{ajouté} female{ajoutée} other{}}.",
