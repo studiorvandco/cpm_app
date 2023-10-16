@@ -29,36 +29,26 @@ class _LocationTileState extends State<LocationTile> {
         children: <Widget>[
           IconButton(
             tooltip: 'locations.view',
-            color: Theme
-                .of(context)
-                .colorScheme
-                .onBackground,
+            color: Theme.of(context).colorScheme.onBackground,
             onPressed: checkPosition()
                 ? () {
-              MapsLauncher.launchQuery(widget.location.position!);
-            }
+                    MapsLauncher.launchQuery(widget.location.position!);
+                  }
                 : null,
             icon: const Icon(Icons.map),
           ),
           PopupMenuButton<MenuAction>(
             icon: Icon(
               Icons.more_horiz,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .onBackground,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
-            itemBuilder: (BuildContext context) =>
-            <PopupMenuEntry<MenuAction>>[
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuAction>>[
               PopupMenuItem<MenuAction>(
                 value: MenuAction.edit,
                 child: ListTile(
                   leading: Icon(
                     Icons.edit,
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .onBackground,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                   title: Text('edit.upper'),
                 ),
@@ -68,10 +58,7 @@ class _LocationTileState extends State<LocationTile> {
                 child: ListTile(
                   leading: Icon(
                     Icons.delete,
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .onBackground,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                   title: Text('delete.upper'),
                 ),
