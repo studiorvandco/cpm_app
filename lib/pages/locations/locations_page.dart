@@ -4,6 +4,7 @@ import 'package:cpm/models/location/location.dart';
 import 'package:cpm/pages/locations/location_dialog.dart';
 import 'package:cpm/pages/locations/location_tile.dart';
 import 'package:cpm/providers/locations/locations.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/separators.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
@@ -41,7 +42,11 @@ class _LocationsState extends ConsumerState<LocationsPage> {
                         edit(locations[index]);
                         return false;
                       case DismissDirection.startToEnd:
-                        return await showConfirmationDialog(context, 'delete.lower') ?? false;
+                        return await showConfirmationDialog(
+                              context,
+                              localizations.dialog_delete_name_confirmation(locations[index].getName),
+                            ) ??
+                            false;
                       case DismissDirection.horizontal:
                       case DismissDirection.vertical:
                       case DismissDirection.up:
