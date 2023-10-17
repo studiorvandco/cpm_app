@@ -1,4 +1,4 @@
-import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/pages/schedule/appointment_tile.dart';
 import 'package:cpm/pages/schedule/sequences_data_source.dart';

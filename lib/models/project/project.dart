@@ -45,6 +45,14 @@ class Project extends BaseModel implements Comparable<Project> {
     return shotsCompleted! / shotsTotal!;
   }
 
+  String? get progressText {
+    if (shotsCompleted == null || shotsTotal == null || shotsTotal == 0) {
+      return null;
+    }
+
+    return '$shotsCompleted/$shotsTotal';
+  }
+
   Project({
     required super.id,
     required this.projectType,

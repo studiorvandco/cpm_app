@@ -1,4 +1,4 @@
-import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/models/shot/shot_value.dart';
 import 'package:cpm/providers/shots/shots.dart';

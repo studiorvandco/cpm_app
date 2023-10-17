@@ -1,5 +1,5 @@
 import 'package:cpm/common/dialogs/confirm_dialog.dart';
-import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/pages/episodes/episode_info_sheet.dart';

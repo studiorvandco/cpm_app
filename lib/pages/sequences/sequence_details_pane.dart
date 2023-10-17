@@ -1,5 +1,5 @@
-import 'package:cpm/common/icon_label.dart';
-import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/icon_label.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/providers/locations/locations.dart';

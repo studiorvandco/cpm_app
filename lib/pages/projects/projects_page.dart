@@ -1,15 +1,21 @@
 import 'package:cpm/common/grid_view.dart';
-import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/project/project.dart';
-import 'package:cpm/pages/projects/project_card.dart';
+import 'package:cpm/pages/projects/favorites.dart';
 import 'package:cpm/pages/projects/project_dialog.dart';
+import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
+import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/utils/constants/constants.dart';
+import 'package:cpm/utils/constants/paddings.dart';
+import 'package:cpm/utils/routes/router_route.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProjectsPage extends ConsumerStatefulWidget {
@@ -20,11 +26,58 @@ class ProjectsPage extends ConsumerStatefulWidget {
 }
 
 class ProjectsState extends ConsumerState<ProjectsPage> {
+  Future<void> _openProject(Project project) async {
+    ref.read(currentProjectProvider.notifier).set(project);
+    if (project.isMovie) {
+      await ref.read(episodesProvider.notifier).set(project.id);
+    }
+    if (context.mounted) {
+      context.pushNamed(project.isMovie ? RouterRoute.sequences.name : RouterRoute.episodes.name);
+    }
+  }
+
+  Future<void> _openSchedule(Project project) async {
+    await ref.read(currentProjectProvider.notifier).set(project);
+    await ref.read(sequencesProvider.notifier).getAll();
+    if (context.mounted) {
+      context.pushNamed(RouterRoute.schedule.name);
+    }
+  }
+
+  void _toggleFavorite(Project project) {
+    Favorites().isFavorite(project.getId) ? Favorites().remove(project.getId) : Favorites().add(project.getId);
+    ref.read(projectsProvider.notifier).get(true);
+  }
+
+  Future<void> _addProject() async {
+    await showAdaptiveDialog<Project>(
+      context: context,
+      builder: (BuildContext context) {
+        return const ProjectDialog();
+      },
+    ).then((project) async {
+      if (project == null) {
+        return;
+      }
+
+      final added = await ref.read(projectsProvider.notifier).add(project);
+      SnackBarManager().show(
+        added
+            ? getInfoSnackBar(
+                localizations.snack_bar_add_success_item(localizations.item_project, Gender.male.name),
+              )
+            : getErrorSnackBar(
+                localizations.snack_bar_add_fail_item(localizations.item_project, Gender.male.name),
+              ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add(),
+        onPressed: () => _addProject(),
         child: const Icon(Icons.add),
       ),
       body: LayoutBuilder(
@@ -35,7 +88,25 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
                 itemCount: projects.length,
                 padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
                 itemBuilder: (BuildContext context, int index) {
-                  return ProjectCard(key: UniqueKey(), project: projects[index]);
+                  return ProjectCard.project(
+                    key: UniqueKey(),
+                    open: () => _openProject(projects[index]),
+                    title: projects[index].title,
+                    description: projects[index].description,
+                    progress: projects[index].progress,
+                    progressText: projects[index].progressText,
+                    trailing: [
+                      IconButton(
+                        onPressed: () => _toggleFavorite(projects[index]),
+                        icon: Icon(Favorites().isFavorite(projects[index].getId) ? Icons.star : Icons.star_border),
+                      ),
+                      Padding(padding: Paddings.padding2.horizontal),
+                      IconButton(
+                        onPressed: () => _openSchedule(projects[index]),
+                        icon: const Icon(Icons.event),
+                      ),
+                    ],
+                  );
                 },
                 crossAxisCount: getColumnsCount(constraints),
                 mainAxisSpacing: 2,
@@ -52,26 +123,5 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
         },
       ),
     );
-  }
-
-  Future<void> add() async {
-    final project = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const ProjectDialog();
-      },
-    );
-    if (project is Project) {
-      final added = await ref.read(projectsProvider.notifier).add(project);
-      SnackBarManager().show(
-        added
-            ? getInfoSnackBar(
-                localizations.snack_bar_add_success_item(localizations.item_project, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_add_fail_item(localizations.item_project, Gender.male.name),
-              ),
-      );
-    }
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:cpm/common/dialogs/confirm_dialog.dart';
-import 'package:cpm/common/icon_label.dart';
-import 'package:cpm/common/request_placeholder.dart';
+import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/icon_label.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/pages/projects/project_info_sheet.dart';
