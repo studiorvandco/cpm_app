@@ -1,16 +1,16 @@
-import 'package:cpm/common/dialogs/confirm_dialog.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/info_tile.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/pages/locations/location_dialog.dart';
-import 'package:cpm/pages/locations/location_tile.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/utils/constants/constants.dart';
-import 'package:cpm/utils/constants/separators.dart';
+import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class LocationsPage extends ConsumerStatefulWidget {
   const LocationsPage({super.key});
@@ -20,88 +20,7 @@ class LocationsPage extends ConsumerStatefulWidget {
 }
 
 class _LocationsState extends ConsumerState<LocationsPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => add(),
-        child: const Icon(Icons.add),
-      ),
-      body: ref.watch(locationsProvider).when(
-        data: (List<Location> locations) {
-          return ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                clipBehavior: Clip.hardEdge,
-                child: Dismissible(
-                  key: UniqueKey(),
-                  background: deleteBackground(),
-                  secondaryBackground: editBackground(),
-                  confirmDismiss: (DismissDirection dismissDirection) async {
-                    switch (dismissDirection) {
-                      case DismissDirection.endToStart:
-                        edit(locations[index]);
-                        return false;
-                      case DismissDirection.startToEnd:
-                        return await showConfirmationDialog(
-                              context,
-                              localizations.dialog_delete_name_confirmation(locations[index].getName),
-                            ) ??
-                            false;
-                      case DismissDirection.horizontal:
-                      case DismissDirection.vertical:
-                      case DismissDirection.up:
-                      case DismissDirection.down:
-                      case DismissDirection.none:
-                        assert(false);
-                    }
-
-                    return false;
-                  },
-                  onDismissed: (DismissDirection direction) {
-                    switch (direction) {
-                      case DismissDirection.startToEnd:
-                        delete(locations[index]);
-                      default:
-                        throw Exception();
-                    }
-                  },
-                  child: LocationTile(
-                    location: locations[index],
-                    onEdit: (Location location) {
-                      edit(location);
-                    },
-                    onDelete: (Location location) {
-                      showConfirmationDialog(
-                        context,
-                        localizations.dialog_delete_name_confirmation(location.getName),
-                      ).then((bool? result) {
-                        if (result ?? false) {
-                          delete(location);
-                        }
-                      });
-                    },
-                  ),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return Separator.divider1.divider;
-            },
-            itemCount: locations.length,
-          );
-        },
-        error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        },
-        loading: () {
-          return requestPlaceholderLoading;
-        },
-      ),
-    );
-  }
-
-  Future<void> add() async {
+  Future<void> _add() async {
     final location = await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -122,7 +41,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     }
   }
 
-  Future<void> edit(Location location) async {
+  Future<void> _edit(Location location) async {
     final editedLocation = await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -143,7 +62,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     }
   }
 
-  Future<void> delete(Location location) async {
+  Future<void> _delete(Location location) async {
     final deleted = await ref.read(locationsProvider.notifier).delete(location.id);
     SnackBarManager().show(
       deleted
@@ -153,6 +72,55 @@ class _LocationsState extends ConsumerState<LocationsPage> {
           : getErrorSnackBar(
               localizations.snack_bar_delete_fail_item(localizations.item_location, Gender.male.name),
             ),
+    );
+  }
+
+  void _openMap(Location location) {
+    MapsLauncher.launchQuery(location.position!);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(locationsProvider).when(
+        data: (List<Location> locations) {
+          return ListView.separated(
+            itemBuilder: (BuildContext context, int index) {
+              final location = locations[index];
+
+              return InfoTile(
+                edit: () => _edit(location),
+                delete: () => _delete(location),
+                leadingIcon: Icons.image,
+                title: location.getName,
+                subtitle: location.position,
+                trailing: [
+                  IconButton(
+                    icon: const Icon(Icons.map),
+                    onPressed:
+                        location.position != null && location.position!.isNotEmpty ? () => _openMap(location) : null,
+                  ),
+                ],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Padding(padding: Paddings.padding4.vertical);
+            },
+            itemCount: locations.length,
+            padding: Paddings.custom.fab,
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        },
+        loading: () {
+          return requestPlaceholderLoading;
+        },
+      ),
     );
   }
 }

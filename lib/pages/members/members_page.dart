@@ -1,16 +1,17 @@
-import 'package:cpm/common/dialogs/confirm_dialog.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/info_tile.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/member/member.dart';
 import 'package:cpm/pages/members/member_dialog.dart';
-import 'package:cpm/pages/members/member_tile.dart';
 import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/constants.dart';
-import 'package:cpm/utils/constants/separators.dart';
+import 'package:cpm/utils/constants/paddings.dart';
+import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class MembersPage extends ConsumerStatefulWidget {
   const MembersPage({super.key});
@@ -20,88 +21,7 @@ class MembersPage extends ConsumerStatefulWidget {
 }
 
 class _MembersState extends ConsumerState<MembersPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => add(),
-        child: const Icon(Icons.add),
-      ),
-      body: ref.watch(membersProvider).when(
-        data: (List<Member> members) {
-          return ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                clipBehavior: Clip.hardEdge,
-                child: Dismissible(
-                  key: UniqueKey(),
-                  onDismissed: (DismissDirection direction) {
-                    switch (direction) {
-                      case DismissDirection.startToEnd:
-                        delete(members[index]);
-                      default:
-                        throw Exception();
-                    }
-                  },
-                  confirmDismiss: (DismissDirection dismissDirection) async {
-                    switch (dismissDirection) {
-                      case DismissDirection.endToStart:
-                        edit(members[index]);
-                        return false;
-                      case DismissDirection.startToEnd:
-                        return await showConfirmationDialog(
-                              context,
-                              localizations.dialog_delete_name_confirmation(members[index].fullName),
-                            ) ??
-                            false;
-                      case DismissDirection.horizontal:
-                      case DismissDirection.vertical:
-                      case DismissDirection.up:
-                      case DismissDirection.down:
-                      case DismissDirection.none:
-                        assert(false);
-                    }
-
-                    return false;
-                  },
-                  background: deleteBackground(),
-                  secondaryBackground: editBackground(),
-                  child: MemberTile(
-                    member: members[index],
-                    onEdit: (Member member) {
-                      edit(member);
-                    },
-                    onDelete: (Member member) {
-                      showConfirmationDialog(
-                        context,
-                        localizations.dialog_delete_name_confirmation(member.fullName),
-                      ).then((bool? result) {
-                        if (result ?? false) {
-                          delete(member);
-                        }
-                      });
-                    },
-                  ),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return Separator.divider1.divider;
-            },
-            itemCount: members.length,
-          );
-        },
-        error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        },
-        loading: () {
-          return requestPlaceholderLoading;
-        },
-      ),
-    );
-  }
-
-  Future<void> add() async {
+  Future<void> _add() async {
     final member = await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -122,7 +42,7 @@ class _MembersState extends ConsumerState<MembersPage> {
     }
   }
 
-  Future<void> edit(Member member) async {
+  Future<void> _edit(Member member) async {
     final editedMember = await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -143,7 +63,7 @@ class _MembersState extends ConsumerState<MembersPage> {
     }
   }
 
-  Future<void> delete(Member member) async {
+  Future<void> _delete(Member member) async {
     final deleted = await ref.read(membersProvider.notifier).delete(member.id);
     SnackBarManager().show(
       deleted
@@ -153,6 +73,62 @@ class _MembersState extends ConsumerState<MembersPage> {
           : getErrorSnackBar(
               localizations.snack_bar_delete_fail_item(localizations.item_member, Gender.male.name),
             ),
+    );
+  }
+
+  void _call(Member member) {
+    launchUrlString('tel:${member.phone}');
+  }
+
+  void _message(Member member) {
+    launchUrlString('sms:${member.phone}');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _add(),
+        child: const Icon(Icons.add),
+      ),
+      body: ref.watch(membersProvider).when(
+        data: (List<Member> members) {
+          return ListView.separated(
+            itemBuilder: (BuildContext context, int index) {
+              final member = members[index];
+
+              return InfoTile(
+                edit: () => _edit(member),
+                delete: () => _delete(member),
+                leadingIcon: Icons.person,
+                title: member.fullName,
+                subtitle: member.phone,
+                trailing: [
+                  IconButton(
+                    icon: const Icon(Icons.call),
+                    onPressed: member.phone != null && member.phone!.isValidPhone ? () => _call(member) : null,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.message),
+                    onPressed: member.phone != null && member.phone!.isValidPhone ? () => _message(member) : null,
+                  ),
+                ],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Padding(padding: Paddings.padding4.vertical);
+            },
+            itemCount: members.length,
+            padding: Paddings.custom.fab,
+          );
+        },
+        error: (Object error, StackTrace stackTrace) {
+          return requestPlaceholderError;
+        },
+        loading: () {
+          return requestPlaceholderLoading;
+        },
+      ),
     );
   }
 }

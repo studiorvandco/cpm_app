@@ -83,7 +83,7 @@ class _LoginState extends ConsumerState<LoginPage> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return localizations.error_required;
-                              } else if (!value.isValidEmail()) {
+                              } else if (!value.isValidEmail) {
                                 return localizations.error_invalid_email;
                               }
 

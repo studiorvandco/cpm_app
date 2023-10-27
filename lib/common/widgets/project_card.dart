@@ -74,7 +74,7 @@ class ProjectCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  if (trailing != null) ...trailing!,
+                  ...?trailing,
                 ],
               ),
               Padding(padding: Paddings.padding4.vertical),
@@ -98,7 +98,7 @@ class ProjectCard extends StatelessWidget {
                       progressText!,
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
-                  ]
+                  ],
                 ],
               ),
             ],

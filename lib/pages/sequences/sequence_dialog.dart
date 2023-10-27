@@ -120,8 +120,8 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
                             selectedLocation = value;
                           });
                         },
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
                           isDense: true,
                         ),
                       ),
