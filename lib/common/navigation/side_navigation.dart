@@ -44,8 +44,8 @@ class _CustomNavigationRailState extends ConsumerState<SideNavigation> {
             labelType: NavigationRailLabelType.all,
             leading: Image.asset(
               Asset.cpm.path,
-              width: 64,
               filterQuality: FilterQuality.medium,
+              width: 64,
             ),
             destinations: [
               NavigationRailDestination(
