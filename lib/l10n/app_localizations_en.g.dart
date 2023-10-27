@@ -204,7 +204,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_theme_dark => 'Dark';
 
   @override
-  String get settings_dynamic_theming => 'Use dynamic theming';
+  String get settings_dynamic_theming => 'Dynamic theming';
 
   @override
   String get settings_dynamic_theming_description => 'Generate colors from your background';
@@ -213,7 +213,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_language => 'Language';
 
   @override
-  String get settings_language_description => 'Requires a restart to take effect';
+  String get settings_language_restart => 'Please restart the app for the changes to take effect.';
 
   @override
   String get settings_about => 'About';

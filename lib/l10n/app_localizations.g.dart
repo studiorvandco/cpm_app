@@ -360,7 +360,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_dynamic_theming.
   ///
   /// In en, this message translates to:
-  /// **'Use dynamic theming'**
+  /// **'Dynamic theming'**
   String get settings_dynamic_theming;
 
   /// No description provided for @settings_dynamic_theming_description.
@@ -375,11 +375,11 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get settings_language;
 
-  /// No description provided for @settings_language_description.
+  /// No description provided for @settings_language_restart.
   ///
   /// In en, this message translates to:
-  /// **'Requires a restart to take effect'**
-  String get settings_language_description;
+  /// **'Please restart the app for the changes to take effect.'**
+  String get settings_language_restart;
 
   /// No description provided for @settings_about.
   ///
