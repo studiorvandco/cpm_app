@@ -4,8 +4,8 @@ import 'package:cpm/utils/constants/sizes.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:flutter/material.dart';
 
-class ModelDialog<T> extends StatelessWidget {
-  ModelDialog({
+class ModelDialog extends StatelessWidget {
+  const ModelDialog({
     super.key,
     required this.cancel,
     required this.submit,

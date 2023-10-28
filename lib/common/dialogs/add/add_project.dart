@@ -63,7 +63,7 @@ class _AddProjectState extends State<AddProject> {
 
   @override
   Widget build(BuildContext context) {
-    return ModelDialog<Project>(
+    return ModelDialog(
       cancel: () => _cancel(context),
       submit: () => _add(context),
       title: localizations.dialog_add_item(localizations.item_project, Gender.male.name),
@@ -90,6 +90,7 @@ class _AddProjectState extends State<AddProject> {
         Padding(padding: Paddings.padding8.vertical),
         TextField(
           controller: title,
+          textInputAction: TextInputAction.next,
           autofocus: true,
           decoration: InputDecoration(
             labelText: localizations.dialog_field_title,
