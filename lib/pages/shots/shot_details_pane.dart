@@ -1,3 +1,4 @@
+import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/models/shot/shot_value.dart';
@@ -24,11 +25,6 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
 
     ref.read(shotsProvider.notifier).edit(shot);
     ref.read(currentShotProvider.notifier).set(shot);
-  }
-
-  void _delete(Shot shot) {
-    ref.read(shotsProvider.notifier).delete(shot.id);
-    Navigator.of(context).pop();
   }
 
   @override
@@ -65,7 +61,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => _delete(shot),
+                    onPressed: () => delete<Shot>(context, ref, id: shot.id),
                     icon: const Icon(Icons.delete),
                   ),
                 ],

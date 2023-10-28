@@ -567,17 +567,17 @@ abstract class AppLocalizations {
   /// **'New {item}'**
   String dialog_add_item(Object item, String sex);
 
-  /// No description provided for @dialog_edit_name.
+  /// No description provided for @dialog_edit_item.
   ///
   /// In en, this message translates to:
-  /// **'Edit {name}'**
-  String dialog_edit_name(Object name);
+  /// **'Edit {item}'**
+  String dialog_edit_item(Object item);
 
-  /// No description provided for @dialog_delete_name_confirmation.
+  /// No description provided for @dialog_delete_item_confirmation.
   ///
   /// In en, this message translates to:
-  /// **'Do you really want to delete this {name}'**
-  String dialog_delete_name_confirmation(Object name);
+  /// **'Do you really want to delete this {item}? This action cannot be undone.'**
+  String dialog_delete_item_confirmation(Object item, String sex);
 
   /// No description provided for @dialog_field_title.
   ///

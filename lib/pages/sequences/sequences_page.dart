@@ -1,23 +1,19 @@
-import 'package:cpm/common/dialogs/confirm_dialog.dart';
+import 'package:cpm/common/actions/add_action.dart';
+import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/grid_view.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/common/widgets/projects/project_actions.dart';
 import 'package:cpm/common/widgets/projects/project_card.dart';
 import 'package:cpm/common/widgets/projects/project_header.dart';
-import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
-import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/extensions/list_extensions.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
-import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
-import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
@@ -35,50 +31,6 @@ class _SequencesState extends ConsumerState<SequencesPage> {
     ref.read(currentSequenceProvider.notifier).set(sequence);
     if (context.mounted) {
       context.pushNamed(RouterRoute.shots.name);
-    }
-  }
-
-  Future<void> _deleteProject(Project? project) async {
-    if (project != null) {
-      showConfirmationDialog(context, project.getTitle).then((bool? result) async {
-        if (result ?? false) {
-          final deleted = await ref.read(projectsProvider.notifier).delete(project.id);
-          SnackBarManager().show(
-            deleted
-                ? getInfoSnackBar(
-                    localizations.snack_bar_delete_success_item(localizations.item_project, Gender.male.name),
-                  )
-                : getErrorSnackBar(
-                    localizations.snack_bar_delete_fail_item(localizations.item_project, Gender.male.name),
-                  ),
-          );
-          if (context.mounted) {
-            context.pushNamed(RouterRoute.projects.name);
-          }
-        }
-      });
-    }
-  }
-
-  Future<void> _deleteEpisode(Episode? episode) async {
-    if (episode != null) {
-      showConfirmationDialog(context, episode.getTitle).then((bool? result) async {
-        if (result ?? false) {
-          final deleted = await ref.read(projectsProvider.notifier).delete(episode.id);
-          SnackBarManager().show(
-            deleted
-                ? getInfoSnackBar(
-                    localizations.snack_bar_delete_success_item(localizations.item_project, Gender.male.name),
-                  )
-                : getErrorSnackBar(
-                    localizations.snack_bar_delete_fail_item(localizations.item_project, Gender.male.name),
-                  ),
-          );
-          if (context.mounted) {
-            context.pushNamed(RouterRoute.projects.name);
-          }
-        }
-      });
     }
   }
 
@@ -100,17 +52,17 @@ class _SequencesState extends ConsumerState<SequencesPage> {
           final episode = ref.watch(currentEpisodeProvider).unwrapPrevious().valueOrNull;
 
           Widget header;
-          if (project != null && project.isMovie) {
+          if (project?.isMovie ?? true) {
             header = ProjectHeader.project(
-              delete: () => _deleteProject(project),
-              title: project.title,
-              description: project.description,
-              startDate: project.startDate,
-              endDate: project.endDate,
+              delete: () => delete<Project>(context, ref, id: project?.id),
+              title: project?.title,
+              description: project?.description,
+              startDate: project?.startDate,
+              endDate: project?.endDate,
             );
           } else {
             header = ProjectHeader.episode(
-              delete: () => _deleteEpisode(episode),
+              delete: () => delete<Episode>(context, ref, id: episode?.id),
               title: episode?.title,
               description: episode?.description,
             );

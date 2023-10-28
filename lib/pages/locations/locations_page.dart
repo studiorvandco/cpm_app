@@ -1,3 +1,5 @@
+import 'package:cpm/common/actions/add_action.dart';
+import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/common/widgets/info_tile.dart';
 import 'package:cpm/l10n/gender.dart';
@@ -20,27 +22,6 @@ class LocationsPage extends ConsumerStatefulWidget {
 }
 
 class _LocationsState extends ConsumerState<LocationsPage> {
-  Future<void> _add() async {
-    final location = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const LocationDialog();
-      },
-    );
-    if (location is Location) {
-      final added = await ref.read(locationsProvider.notifier).add(location);
-      SnackBarManager().show(
-        added
-            ? getInfoSnackBar(
-                localizations.snack_bar_add_success_item(localizations.item_location, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_add_fail_item(localizations.item_location, Gender.male.name),
-              ),
-      );
-    }
-  }
-
   Future<void> _edit(Location location) async {
     final editedLocation = await showDialog(
       context: context,
@@ -62,19 +43,6 @@ class _LocationsState extends ConsumerState<LocationsPage> {
     }
   }
 
-  Future<void> _delete(Location location) async {
-    final deleted = await ref.read(locationsProvider.notifier).delete(location.id);
-    SnackBarManager().show(
-      deleted
-          ? getInfoSnackBar(
-              localizations.snack_bar_delete_success_item(localizations.item_location, Gender.male.name),
-            )
-          : getErrorSnackBar(
-              localizations.snack_bar_delete_fail_item(localizations.item_location, Gender.male.name),
-            ),
-    );
-  }
-
   void _openMap(Location location) {
     MapsLauncher.launchQuery(location.position!);
   }
@@ -83,7 +51,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _add(),
+        onPressed: () => add<Location>(context, ref),
         child: const Icon(Icons.add),
       ),
       body: ref.watch(locationsProvider).when(
@@ -94,7 +62,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
 
               return InfoTile(
                 edit: () => _edit(location),
-                delete: () => _delete(location),
+                delete: () => delete<Location>(context, ref, id: location.id),
                 leadingIcon: Icons.image,
                 title: location.getName,
                 subtitle: location.position,

@@ -27,7 +27,7 @@ class _LocationDialogState extends State<LocationDialog> {
     edit = widget.location != null;
 
     title = edit
-        ? localizations.dialog_edit_name(widget.location!.getName)
+        ? localizations.dialog_edit_item(localizations.item_location)
         : localizations.dialog_add_item(
             localizations.item_location,
             Gender.female.name,

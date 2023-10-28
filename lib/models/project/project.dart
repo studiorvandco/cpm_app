@@ -2,6 +2,7 @@ import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project_type.dart';
 import 'package:cpm/pages/projects/favorites.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'project.g.dart';
@@ -25,9 +26,9 @@ class Project extends BaseModel implements Comparable<Project> {
 
   String get getId => id.toString();
 
-  String get getTitle => title ?? 'Untitled';
+  String get getTitle => title ?? localizations.projects_no_title;
 
-  String get getDescription => description ?? '';
+  String get getDescription => description ?? localizations.projects_no_description;
 
   DateTime get getStartDate => startDate ?? DateTime.now();
 

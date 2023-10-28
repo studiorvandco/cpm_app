@@ -28,7 +28,7 @@ class _MemberDialogState extends State<MemberDialog> {
     edit = widget.member != null;
 
     title = edit
-        ? localizations.dialog_edit_name(widget.member!.fullName)
+        ? localizations.dialog_edit_item(localizations.item_member)
         : localizations.dialog_add_item(
             localizations.item_member,
             Gender.female.name,

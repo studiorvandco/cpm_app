@@ -1,13 +1,19 @@
-import 'package:cpm/l10n/gender.dart';
+import 'package:cpm/common/actions/action_getters.dart';
 import 'package:cpm/models/episode/episode.dart';
+import 'package:cpm/models/location/location.dart';
+import 'package:cpm/models/member/member.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/pages/episodes/episode_dialog.dart';
+import 'package:cpm/pages/locations/location_dialog.dart';
+import 'package:cpm/pages/members/member_dialog.dart';
 import 'package:cpm/pages/projects/project_dialog.dart';
 import 'package:cpm/pages/sequences/sequence_dialog.dart';
 import 'package:cpm/pages/shots/shot_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
+import 'package:cpm/providers/locations/locations.dart';
+import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/providers/shots/shots.dart';
@@ -23,7 +29,7 @@ Future<void> add<T>(
   int? parentId,
   int? index,
 }) async {
-  if (T == dynamic) throw ArgumentError('Type is required');
+  if (T == dynamic) throw TypeError();
 
   await showAdaptiveDialog<T>(
     context: context,
@@ -46,6 +52,10 @@ Future<void> add<T>(
           if (index == null) throw ArgumentError('Index is required');
 
           return ShotDialog(sequenceId: parentId, index: index);
+        case const (Member):
+          return const MemberDialog();
+        case const (Location):
+          return const LocationDialog();
         default:
           throw ArgumentError('Invalid type: $T');
       }
@@ -63,29 +73,16 @@ Future<void> add<T>(
         added = await ref.read(sequencesProvider.notifier).add(element as Sequence);
       case const (Shot):
         added = await ref.read(shotsProvider.notifier).add(element as Shot);
-    }
-
-    late String item;
-    late Gender gender;
-    switch (T) {
-      case const (Project):
-        item = localizations.item_project;
-        gender = Gender.male;
-      case const (Episode):
-        item = localizations.item_episode;
-        gender = Gender.male;
-      case const (Sequence):
-        item = localizations.item_sequence;
-        gender = Gender.female;
-      case const (Shot):
-        item = localizations.item_shot;
-        gender = Gender.male;
+      case const (Member):
+        added = await ref.read(membersProvider.notifier).add(element as Member);
+      case const (Location):
+        added = await ref.read(locationsProvider.notifier).add(element as Location);
     }
 
     SnackBarManager().show(
       added
-          ? getInfoSnackBar(localizations.snack_bar_add_success_item(item, gender.name))
-          : getErrorSnackBar(localizations.snack_bar_add_fail_item(item, gender.name)),
+          ? getInfoSnackBar(localizations.snack_bar_add_success_item(item<T>(), gender<T>().name))
+          : getErrorSnackBar(localizations.snack_bar_add_fail_item(item<T>(), gender<T>().name)),
     );
   });
 }

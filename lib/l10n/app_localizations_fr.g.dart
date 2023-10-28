@@ -319,13 +319,21 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String dialog_edit_name(Object name) {
-    return 'Éditer $name';
+  String dialog_edit_item(Object item) {
+    return 'Éditer $item';
   }
 
   @override
-  String dialog_delete_name_confirmation(Object name) {
-    return 'Voulez-vous vraiment supprimer $name';
+  String dialog_delete_item_confirmation(Object item, String sex) {
+    String _temp0 = intl.Intl.selectLogic(
+      sex,
+      {
+        'male': 'ce',
+        'female': 'cette',
+        'other': '',
+      },
+    );
+    return 'Voulez-vous vraiment supprimer $_temp0 $item ? Cette action est irréversible.';
   }
 
   @override

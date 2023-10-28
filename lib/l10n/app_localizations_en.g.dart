@@ -311,13 +311,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String dialog_edit_name(Object name) {
-    return 'Edit $name';
+  String dialog_edit_item(Object item) {
+    return 'Edit $item';
   }
 
   @override
-  String dialog_delete_name_confirmation(Object name) {
-    return 'Do you really want to delete this $name';
+  String dialog_delete_item_confirmation(Object item, String sex) {
+    return 'Do you really want to delete this $item? This action cannot be undone.';
   }
 
   @override
