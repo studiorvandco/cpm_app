@@ -49,13 +49,15 @@ class _AddProjectState extends State<AddProject> {
   }
 
   void _add(BuildContext context) {
-    context.pop(Project.insert(
-      projectType: projectType,
-      title: title.text,
-      description: description.text,
-      startDate: dateRange.start,
-      endDate: dateRange.end,
-    ));
+    context.pop(
+      Project.insert(
+        projectType: projectType,
+        title: title.text,
+        description: description.text,
+        startDate: dateRange.start,
+        endDate: dateRange.end,
+      ),
+    );
   }
 
   @override
