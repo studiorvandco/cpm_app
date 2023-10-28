@@ -3,7 +3,9 @@ import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/pages/episodes/episode_info_sheet.dart';
 import 'package:cpm/pages/projects/project_info_sheet.dart';
+import 'package:cpm/pages/sequences/sequence_info_sheet.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
@@ -30,9 +32,9 @@ class ProjectHeader extends StatelessWidget {
     required this.delete,
     this.title,
     this.description,
-    this.startDate,
-    this.endDate,
   })  : type = Episode,
+        startDate = null,
+        endDate = null,
         director = null,
         writer = null,
         links = null;
@@ -76,7 +78,16 @@ class ProjectHeader extends StatelessWidget {
       useSafeArea: true,
       showDragHandle: true,
       builder: (BuildContext context) {
-        return const ProjectInfoSheet();
+        switch (type) {
+          case const (Project):
+            return const ProjectInfoSheet();
+          case const (Episode):
+            return const EpisodeInfoSheet();
+          case const (Sequence):
+            return const SequenceInfoSheet();
+          default:
+            throw Exception();
+        }
       },
     );
   }
