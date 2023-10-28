@@ -61,7 +61,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => delete<Shot>(context, ref, id: shot.id),
+                    onPressed: () => DeleteAction<Shot>().delete(context, ref, id: shot.id),
                     icon: const Icon(Icons.delete),
                   ),
                 ],

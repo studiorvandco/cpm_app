@@ -49,7 +49,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add<Project>(context, ref),
+        onPressed: () => AddAction<Project>().add(context, ref),
         child: const Icon(Icons.add),
       ),
       body: LayoutBuilder(

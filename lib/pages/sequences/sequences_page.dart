@@ -38,7 +38,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add<Sequence>(
+        onPressed: () => AddAction<Sequence>().add(
           context,
           ref,
           parentId: ref.read(currentEpisodeProvider).value!.id,
@@ -54,7 +54,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
           Widget header;
           if (project?.isMovie ?? true) {
             header = ProjectHeader.project(
-              delete: () => delete<Project>(context, ref, id: project?.id),
+              delete: () => DeleteAction<Project>().delete(context, ref, id: project?.id),
               title: project?.title,
               description: project?.description,
               startDate: project?.startDate,
@@ -62,7 +62,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
             );
           } else {
             header = ProjectHeader.episode(
-              delete: () => delete<Episode>(context, ref, id: episode?.id),
+              delete: () => DeleteAction<Episode>().delete(context, ref, id: episode?.id),
               title: episode?.title,
               description: episode?.description,
             );

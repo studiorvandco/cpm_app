@@ -56,7 +56,7 @@ class _MembersState extends ConsumerState<MembersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add<Member>(context, ref),
+        onPressed: () => AddAction<Member>().add(context, ref),
         child: const Icon(Icons.add),
       ),
       body: ref.watch(membersProvider).when(
@@ -67,11 +67,7 @@ class _MembersState extends ConsumerState<MembersPage> {
 
               return InfoTile(
                 edit: () => _edit(member),
-                delete: () => delete(
-                  context,
-                  ref,
-                  id: member.id,
-                ),
+                delete: () => DeleteAction<Member>().delete(context, ref, id: member.id),
                 leadingIcon: Icons.person,
                 title: member.fullName,
                 subtitle: member.phone,

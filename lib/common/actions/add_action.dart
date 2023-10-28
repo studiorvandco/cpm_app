@@ -1,4 +1,4 @@
-import 'package:cpm/common/actions/action_getters.dart';
+import 'package:cpm/common/actions/model_action.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
@@ -23,66 +23,72 @@ import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future<void> add<T>(
-  BuildContext context,
-  WidgetRef ref, {
-  int? parentId,
-  int? index,
-}) async {
-  if (T == dynamic) throw TypeError();
+class AddAction<T> extends ModelAction<T> {
+  AddAction() {
+    if (T == dynamic) throw TypeError();
+  }
 
-  await showAdaptiveDialog<T>(
-    context: context,
-    builder: (BuildContext context) {
+  Future<void> add(
+    BuildContext context,
+    WidgetRef ref, {
+    int? parentId,
+    int? index,
+  }) async {
+    await showAdaptiveDialog(
+      context: context,
+      builder: (BuildContext context) {
+        switch (T) {
+          case const (Project):
+            return const ProjectDialog();
+          case const (Episode):
+            if (parentId == null) throw ArgumentError('Project parent ID is required');
+            if (index == null) throw ArgumentError('Index is required');
+
+            return EpisodeDialog(projectId: parentId, index: index);
+          case const (Sequence):
+            if (parentId == null) throw ArgumentError('Episode parent ID is required');
+            if (index == null) throw ArgumentError('Index is required');
+
+            return SequenceDialog(episodeId: parentId, index: index);
+          case const (Shot):
+            if (parentId == null) throw ArgumentError('Sequence parent ID is required');
+            if (index == null) throw ArgumentError('Index is required');
+
+            return ShotDialog(sequenceId: parentId, index: index);
+          case const (Member):
+            return const MemberDialog();
+          case const (Location):
+            return const LocationDialog();
+          default:
+            throw ArgumentError('Invalid type: $T');
+        }
+      },
+    ).then((element) async {
+      if (element == null) return;
+
+      bool added = false;
       switch (T) {
         case const (Project):
-          return const ProjectDialog();
+          added = await ref.read(projectsProvider.notifier).add(element as Project);
         case const (Episode):
-          if (parentId == null) throw ArgumentError('Project parent ID is required');
-          if (index == null) throw ArgumentError('Index is required');
-
-          return EpisodeDialog(projectId: parentId, index: index);
+          added = await ref.read(episodesProvider.notifier).add(element as Episode);
         case const (Sequence):
-          if (parentId == null) throw ArgumentError('Episode parent ID is required');
-          if (index == null) throw ArgumentError('Index is required');
-
-          return SequenceDialog(episodeId: parentId, index: index);
+          final sequence = (element as (Sequence, int?)).$1;
+          final locationId = element.$2;
+          added = await ref.read(sequencesProvider.notifier).add(sequence, locationId);
         case const (Shot):
-          if (parentId == null) throw ArgumentError('Sequence parent ID is required');
-          if (index == null) throw ArgumentError('Index is required');
-
-          return ShotDialog(sequenceId: parentId, index: index);
+          added = await ref.read(shotsProvider.notifier).add(element as Shot);
         case const (Member):
-          return const MemberDialog();
+          added = await ref.read(membersProvider.notifier).add(element as Member);
         case const (Location):
-          return const LocationDialog();
-        default:
-          throw ArgumentError('Invalid type: $T');
+          added = await ref.read(locationsProvider.notifier).add(element as Location);
       }
-    },
-  ).then((element) async {
-    if (element == null) return;
 
-    bool added = false;
-    switch (T) {
-      case const (Project):
-        added = await ref.read(projectsProvider.notifier).add(element as Project);
-      case const (Episode):
-        added = await ref.read(episodesProvider.notifier).add(element as Episode);
-      case const (Sequence):
-        added = await ref.read(sequencesProvider.notifier).add(element as Sequence);
-      case const (Shot):
-        added = await ref.read(shotsProvider.notifier).add(element as Shot);
-      case const (Member):
-        added = await ref.read(membersProvider.notifier).add(element as Member);
-      case const (Location):
-        added = await ref.read(locationsProvider.notifier).add(element as Location);
-    }
-
-    SnackBarManager().show(
-      added
-          ? getInfoSnackBar(localizations.snack_bar_add_success_item(item<T>(), gender<T>().name))
-          : getErrorSnackBar(localizations.snack_bar_add_fail_item(item<T>(), gender<T>().name)),
-    );
-  });
+      SnackBarManager().show(
+        added
+            ? getInfoSnackBar(localizations.snack_bar_add_success_item(item, gender.name))
+            : getErrorSnackBar(localizations.snack_bar_add_fail_item(item, gender.name)),
+      );
+    });
+  }
 }

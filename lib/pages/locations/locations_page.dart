@@ -51,7 +51,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add<Location>(context, ref),
+        onPressed: () => AddAction<Location>().add(context, ref),
         child: const Icon(Icons.add),
       ),
       body: ref.watch(locationsProvider).when(
@@ -62,7 +62,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
 
               return InfoTile(
                 edit: () => _edit(location),
-                delete: () => delete<Location>(context, ref, id: location.id),
+                delete: () => DeleteAction<Location>().delete(context, ref, id: location.id),
                 leadingIcon: Icons.image,
                 title: location.getName,
                 subtitle: location.position,

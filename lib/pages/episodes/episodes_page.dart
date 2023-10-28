@@ -36,7 +36,7 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add<Episode>(
+        onPressed: () => AddAction<Episode>().add(
           context,
           ref,
           parentId: ref.read(currentProjectProvider).value!.id,
@@ -49,7 +49,7 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
           final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
 
           final header = ProjectHeader.project(
-            delete: () => delete<Project>(context, ref, id: project?.id),
+            delete: () => DeleteAction<Project>().delete(context, ref, id: project?.id),
             title: project?.title,
             description: project?.description,
             startDate: project?.startDate,

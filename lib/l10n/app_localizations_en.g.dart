@@ -317,8 +317,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String dialog_delete_item_confirmation(Object item, String sex) {
-    return 'Do you really want to delete this $item? This action cannot be undone.';
+    return 'Do you really want to delete this $item?';
   }
+
+  @override
+  String get dialog_delete_cannot_be_undone => 'This action cannot be undone.';
 
   @override
   String get dialog_field_title => 'Title';

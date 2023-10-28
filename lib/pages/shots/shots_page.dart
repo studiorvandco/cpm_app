@@ -27,7 +27,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add<Shot>(
+        onPressed: () => AddAction<Shot>().add(
           context,
           ref,
           parentId: ref.read(currentSequenceProvider).value!.id,
@@ -40,7 +40,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
           final sequence = ref.watch(currentSequenceProvider).unwrapPrevious().valueOrNull;
 
           final header = ProjectHeader.sequence(
-            delete: () => delete<Sequence>(context, ref, id: sequence?.id),
+            delete: () => DeleteAction<Sequence>().delete(context, ref, id: sequence?.id),
             title: sequence?.title,
             description: sequence?.description,
             startDate: sequence?.startDate,

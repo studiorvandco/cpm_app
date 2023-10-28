@@ -576,8 +576,14 @@ abstract class AppLocalizations {
   /// No description provided for @dialog_delete_item_confirmation.
   ///
   /// In en, this message translates to:
-  /// **'Do you really want to delete this {item}? This action cannot be undone.'**
+  /// **'Do you really want to delete this {item}?'**
   String dialog_delete_item_confirmation(Object item, String sex);
+
+  /// No description provided for @dialog_delete_cannot_be_undone.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get dialog_delete_cannot_be_undone;
 
   /// No description provided for @dialog_field_title.
   ///

@@ -333,8 +333,11 @@ class AppLocalizationsFr extends AppLocalizations {
         'other': '',
       },
     );
-    return 'Voulez-vous vraiment supprimer $_temp0 $item ? Cette action est irréversible.';
+    return 'Voulez-vous vraiment supprimer $_temp0 $item ?';
   }
+
+  @override
+  String get dialog_delete_cannot_be_undone => 'Cette action est irréversible.';
 
   @override
   String get dialog_field_title => 'Titre';
