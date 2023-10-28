@@ -16,6 +16,10 @@ extension DateTimeExtensions on DateTime {
     return subtract(const Duration(days: 36500));
   }
 
+  DateTime get weekLater {
+    return add(const Duration(days: 7));
+  }
+
   DateTime get hundredYearsLater {
     return add(const Duration(days: 36500));
   }

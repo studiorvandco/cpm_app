@@ -1,0 +1,119 @@
+import 'package:cpm/common/dialogs/add/add_dialog.dart';
+import 'package:cpm/models/project/project.dart';
+import 'package:cpm/models/project/project_type.dart';
+import 'package:cpm/utils/constants/constants.dart';
+import 'package:cpm/utils/constants/paddings.dart';
+import 'package:cpm/utils/extensions/date_time_extensions.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class AddProject extends StatefulWidget {
+  const AddProject({super.key});
+
+  @override
+  State<AddProject> createState() => _AddProjectState();
+}
+
+class _AddProjectState extends State<AddProject> {
+  ProjectType projectType = ProjectType.movie;
+  final TextEditingController title = TextEditingController();
+  final TextEditingController description = TextEditingController();
+  DateTimeRange dateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().weekLater,
+  );
+
+  void _onProjectTypeChanged(Set<ProjectType> type) {
+    setState(() {
+      projectType = type.first;
+    });
+  }
+
+  Future<void> _pickDateRange() async {
+    await showDateRangePicker(
+      context: context,
+      firstDate: DateTime.now().hundredYearsBefore,
+      lastDate: DateTime.now().hundredYearsLater,
+      initialDateRange: dateRange,
+    ).then((pickedDateRange) {
+      if (pickedDateRange == null) return;
+
+      setState(() {
+        dateRange = pickedDateRange;
+      });
+    });
+  }
+
+  void _cancel(BuildContext context) {
+    context.pop();
+  }
+
+  void _add(BuildContext context) {
+    context.pop(Project.insert(
+      projectType: projectType,
+      title: title.text,
+      description: description.text,
+      startDate: dateRange.start,
+      endDate: dateRange.end,
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AddDialog<Project>(
+      fields: [
+        Row(
+          children: [
+            Expanded(
+              child: SegmentedButton<ProjectType>(
+                segments: ProjectType.values.where((type) {
+                  return type != ProjectType.unknown;
+                }).map((type) {
+                  return ButtonSegment(
+                    value: type,
+                    label: Text(type.label),
+                  );
+                }).toList(),
+                selected: {projectType},
+                onSelectionChanged: _onProjectTypeChanged,
+              ),
+            ),
+          ],
+        ),
+        Padding(padding: Paddings.padding8.vertical),
+        TextField(
+          controller: title,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: localizations.dialog_field_title,
+            border: const OutlineInputBorder(),
+            isDense: true,
+          ),
+        ),
+        Padding(padding: Paddings.padding8.vertical),
+        TextField(
+          controller: description,
+          decoration: InputDecoration(
+            labelText: localizations.dialog_field_description,
+            border: const OutlineInputBorder(),
+            isDense: true,
+          ),
+        ),
+        Padding(padding: Paddings.padding8.vertical),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                icon: const Icon(Icons.calendar_month),
+                label: Text('${dateRange.start.yMd} - ${dateRange.end.yMd}'),
+                onPressed: _pickDateRange,
+              ),
+            ),
+          ],
+        ),
+      ],
+      cancel: () => _cancel(context),
+      add: () => _add(context),
+    );
+  }
+}

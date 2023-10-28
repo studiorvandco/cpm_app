@@ -1,5 +1,5 @@
-import 'package:cpm/common/icon_image_provider.dart';
 import 'package:cpm/common/menus/menu_action.dart';
+import 'package:cpm/common/widgets/icon_image_provider.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
 import 'package:flutter/material.dart';

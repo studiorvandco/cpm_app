@@ -1,4 +1,4 @@
-import 'package:cpm/common/actions/model_action.dart';
+import 'package:cpm/common/model_generic.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DeleteAction<T> extends ModelAction<T> {
+class DeleteAction<T> extends ModelGeneric<T> {
   DeleteAction() {
     if (T == dynamic) throw TypeError();
   }

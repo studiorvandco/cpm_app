@@ -7,7 +7,7 @@ import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/utils/constants/constants.dart';
 
-abstract class ModelAction<T> {
+abstract mixin class ModelGeneric<T> {
   String get item {
     switch (T) {
       case const (Project):

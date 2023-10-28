@@ -1,4 +1,5 @@
-import 'package:cpm/common/actions/model_action.dart';
+import 'package:cpm/common/dialogs/add/add_project.dart';
+import 'package:cpm/common/model_generic.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
@@ -8,7 +9,6 @@ import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/pages/episodes/episode_dialog.dart';
 import 'package:cpm/pages/locations/location_dialog.dart';
 import 'package:cpm/pages/members/member_dialog.dart';
-import 'package:cpm/pages/projects/project_dialog.dart';
 import 'package:cpm/pages/sequences/sequence_dialog.dart';
 import 'package:cpm/pages/shots/shot_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
@@ -23,7 +23,7 @@ import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddAction<T> extends ModelAction<T> {
+class AddAction<T> extends ModelGeneric<T> {
   AddAction() {
     if (T == dynamic) throw TypeError();
   }
@@ -39,7 +39,7 @@ class AddAction<T> extends ModelAction<T> {
       builder: (BuildContext context) {
         switch (T) {
           case const (Project):
-            return const ProjectDialog();
+            return const AddProject();
           case const (Episode):
             if (parentId == null) throw ArgumentError('Project parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
