@@ -26,7 +26,7 @@ class ProjectsPage extends ConsumerStatefulWidget {
 }
 
 class ProjectsState extends ConsumerState<ProjectsPage> {
-  Future<void> _openProject(Project project) async {
+  Future<void> _open(Project project) async {
     ref.read(currentProjectProvider.notifier).set(project);
     if (project.isMovie) {
       await ref.read(episodesProvider.notifier).set(project.id);
@@ -90,7 +90,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return ProjectCard.project(
                     key: UniqueKey(),
-                    open: () => _openProject(projects[index]),
+                    open: () => _open(projects[index]),
                     title: projects[index].title,
                     description: projects[index].description,
                     progress: projects[index].progress,

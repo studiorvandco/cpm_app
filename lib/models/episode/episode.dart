@@ -18,6 +18,8 @@ class Episode extends BaseModel {
 
   String get getDescription => description ?? '';
 
+  String get getNumber => number.toString();
+
   Episode({
     required super.id,
     required this.project,

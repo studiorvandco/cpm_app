@@ -11,12 +11,12 @@ class ProjectCard extends StatelessWidget {
     required this.progress,
     this.progressText,
     required this.trailing,
-  }) : leading = null;
+  }) : number = null;
 
   const ProjectCard.episode({
     super.key,
     required this.open,
-    required this.leading,
+    required this.number,
     required this.title,
     required this.description,
     required this.progress,
@@ -26,7 +26,7 @@ class ProjectCard extends StatelessWidget {
   const ProjectCard.sequence({
     super.key,
     required this.open,
-    required this.leading,
+    required this.number,
     required this.title,
     required this.description,
     required this.progress,
@@ -35,7 +35,7 @@ class ProjectCard extends StatelessWidget {
 
   final Function() open;
 
-  final String? leading;
+  final String? number;
   final String? title;
   final String? description;
   final double progress;
@@ -44,6 +44,7 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final noNumber = number == null || number!.isEmpty;
     final noTitle = title == null || title!.isEmpty;
     final noDescription = description == null || description!.isEmpty;
 
@@ -58,6 +59,12 @@ class ProjectCard extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  if (!noNumber) ...[
+                    Badge(
+                      label: Text(number!),
+                    ),
+                    Padding(padding: Paddings.padding4.horizontal),
+                  ],
                   Expanded(
                     child: Text(
                       noTitle ? localizations.projects_no_title : title!,
