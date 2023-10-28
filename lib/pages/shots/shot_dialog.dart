@@ -5,9 +5,9 @@ import 'package:cpm/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class ShotDialog extends StatefulWidget {
-  const ShotDialog({super.key, required this.sequence, required this.index});
+  const ShotDialog({super.key, required this.sequenceId, required this.index});
 
-  final int sequence;
+  final int sequenceId;
   final int index;
 
   @override
@@ -109,7 +109,7 @@ class _ShotDialogState extends State<ShotDialog> {
 
   void submit() {
     final Shot newShot = Shot.insert(
-      sequence: widget.sequence,
+      sequence: widget.sequenceId,
       index: widget.index,
       value: ShotValue.fromString(selectedValue),
       description: descriptionController.text,

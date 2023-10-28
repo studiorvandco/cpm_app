@@ -1,13 +1,13 @@
 import 'package:cpm/common/dialogs/confirm_dialog.dart';
 import 'package:cpm/common/grid_view.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/projects/project_actions.dart';
 import 'package:cpm/common/widgets/projects/project_card.dart';
 import 'package:cpm/common/widgets/projects/project_header.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
-import 'package:cpm/pages/sequences/sequence_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
@@ -86,7 +86,12 @@ class _SequencesState extends ConsumerState<SequencesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add(),
+        onPressed: () => add<Sequence>(
+          context,
+          ref,
+          parentId: ref.read(currentEpisodeProvider).value!.id,
+          index: ref.read(sequencesProvider).value!.getNextIndex<Sequence>(),
+        ),
         child: const Icon(Icons.add),
       ),
       body: ref.watch(sequencesProvider).when(
@@ -161,39 +166,5 @@ class _SequencesState extends ConsumerState<SequencesPage> {
         },
       ),
     );
-  }
-
-  Future<void> add() async {
-    if (!ref.read(currentProjectProvider).hasValue ||
-        !ref.read(currentEpisodeProvider).hasValue ||
-        !ref.read(sequencesProvider).hasValue) {
-      return;
-    }
-
-    final int episode = ref.read(currentEpisodeProvider).value!.id;
-    final result = await showDialog<(Sequence, int?)>(
-      context: context,
-      builder: (BuildContext context) {
-        return SequenceDialog(
-          episode: episode,
-          index: ref.read(sequencesProvider).value!.getNextIndex<Sequence>(),
-        );
-      },
-    );
-    final newSequence = result?.$1;
-    final locationId = result?.$2;
-
-    if (newSequence != null) {
-      final added = await ref.read(sequencesProvider.notifier).add(newSequence, locationId);
-      SnackBarManager().show(
-        added
-            ? getInfoSnackBar(
-                localizations.snack_bar_add_success_item(localizations.item_sequence, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_add_fail_item(localizations.item_sequence, Gender.male.name),
-              ),
-      );
-    }
   }
 }

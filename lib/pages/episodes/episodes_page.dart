@@ -1,12 +1,12 @@
 import 'package:cpm/common/dialogs/confirm_dialog.dart';
 import 'package:cpm/common/grid_view.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/projects/project_actions.dart';
 import 'package:cpm/common/widgets/projects/project_card.dart';
 import 'package:cpm/common/widgets/projects/project_header.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/project/project.dart';
-import 'package:cpm/pages/episodes/episode_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/constants/constants.dart';
@@ -36,35 +36,6 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
     }
   }
 
-  Future<void> _add() async {
-    if (!ref.read(currentProjectProvider).hasValue || !ref.read(episodesProvider).hasValue) {
-      return;
-    }
-
-    final int project = ref.read(currentProjectProvider).value!.id;
-    final newEpisode = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return EpisodeDialog(
-          project: project,
-          index: ref.read(episodesProvider).value!.getNextIndex<Episode>(),
-        );
-      },
-    );
-    if (newEpisode is Episode) {
-      final added = await ref.read(episodesProvider.notifier).add(newEpisode);
-      SnackBarManager().show(
-        added
-            ? getInfoSnackBar(
-                localizations.snack_bar_add_success_item(localizations.item_episode, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_add_fail_item(localizations.item_episode, Gender.male.name),
-              ),
-      );
-    }
-  }
-
   Future<void> _delete(Project? project) async {
     if (project != null) {
       showConfirmationDialog(context, project.getTitle).then((bool? result) async {
@@ -91,7 +62,12 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _add(),
+        onPressed: () => add<Episode>(
+          context,
+          ref,
+          parentId: ref.read(currentProjectProvider).value!.id,
+          index: ref.read(episodesProvider).value!.getNextIndex<Episode>(),
+        ),
         child: const Icon(Icons.add),
       ),
       body: ref.watch(episodesProvider).when(

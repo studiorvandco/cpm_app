@@ -1,18 +1,14 @@
 import 'package:cpm/common/grid_view.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/projects/project_actions.dart';
 import 'package:cpm/common/widgets/projects/project_card.dart';
-import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/pages/projects/favorites.dart';
-import 'package:cpm/pages/projects/project_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
-import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/routes/router_route.dart';
-import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
-import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
@@ -49,35 +45,11 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
     ref.read(projectsProvider.notifier).get(true);
   }
 
-  Future<void> _addProject() async {
-    await showAdaptiveDialog<Project>(
-      context: context,
-      builder: (BuildContext context) {
-        return const ProjectDialog();
-      },
-    ).then((project) async {
-      if (project == null) {
-        return;
-      }
-
-      final added = await ref.read(projectsProvider.notifier).add(project);
-      SnackBarManager().show(
-        added
-            ? getInfoSnackBar(
-                localizations.snack_bar_add_success_item(localizations.item_project, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_add_fail_item(localizations.item_project, Gender.male.name),
-              ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addProject(),
+        onPressed: () => add<Project>(context, ref),
         child: const Icon(Icons.add),
       ),
       body: LayoutBuilder(

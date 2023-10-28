@@ -11,9 +11,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class SequenceDialog extends ConsumerStatefulWidget {
-  const SequenceDialog({super.key, required this.episode, required this.index});
+  const SequenceDialog({super.key, required this.episodeId, required this.index});
 
-  final int episode;
+  final int episodeId;
   final int index;
 
   @override
@@ -184,7 +184,7 @@ class _SequenceDialogState extends ConsumerState<SequenceDialog> {
 
   void submit() {
     final Sequence newSequence = Sequence.insert(
-      episode: widget.episode,
+      episode: widget.episodeId,
       index: widget.index,
       title: titleController.text,
       description: descriptionController.text,

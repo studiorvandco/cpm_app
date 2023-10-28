@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EpisodeDialog extends StatefulWidget {
-  const EpisodeDialog({super.key, required this.project, required this.index});
+  const EpisodeDialog({super.key, required this.projectId, required this.index});
 
-  final int project;
+  final int projectId;
   final int index;
 
   @override
@@ -141,7 +141,7 @@ class _EpisodeDialogState extends State<EpisodeDialog> {
 
   void submit() {
     final Episode newEpisode = Episode.insert(
-      project: widget.project,
+      project: widget.projectId,
       index: widget.index,
       title: titleController.text,
       description: descriptionController.text,

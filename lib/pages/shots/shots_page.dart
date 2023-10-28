@@ -1,13 +1,12 @@
 import 'package:cpm/common/dialogs/confirm_dialog.dart';
 import 'package:cpm/common/grid_view.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
+import 'package:cpm/common/widgets/projects/project_actions.dart';
 import 'package:cpm/common/widgets/projects/project_header.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/pages/shots/shot_card.dart';
-import 'package:cpm/pages/shots/shot_dialog.dart';
-import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/providers/shots/shots.dart';
@@ -57,7 +56,12 @@ class _ShotsState extends ConsumerState<ShotsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => add(),
+        onPressed: () => add<Shot>(
+          context,
+          ref,
+          parentId: ref.read(currentSequenceProvider).value!.id,
+          index: ref.read(shotsProvider).value!.getNextIndex<Sequence>(),
+        ),
         child: const Icon(Icons.add),
       ),
       body: ref.watch(shotsProvider).when(
@@ -78,9 +82,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
                 crossAxisCount: getColumnsCount(constraints),
                 itemCount: shots.length,
                 itemBuilder: (context, index) {
-                  return ShotCard(
-                    shot: shots[index],
-                  );
+                  return ShotCard(shots[index]);
                 },
                 padding: Paddings.withFab(Paddings.padding8.all),
               );
@@ -114,39 +116,5 @@ class _ShotsState extends ConsumerState<ShotsPage> {
         },
       ),
     );
-  }
-
-  Future<void> add() async {
-    final currentProjectReader = ref.read(currentProjectProvider);
-    final currentEpisodeReader = ref.read(currentEpisodeProvider);
-    final currentSequenceReader = ref.read(currentSequenceProvider);
-
-    if (!currentProjectReader.hasValue || !currentEpisodeReader.hasValue || !currentSequenceReader.hasValue) {
-      return;
-    }
-
-    final int sequence = currentSequenceReader.value!.id;
-    final newShot = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ShotDialog(
-          sequence: sequence,
-          index: ref.read(shotsProvider).value!.getNextIndex<Shot>(),
-        );
-      },
-    );
-
-    if (newShot is Shot) {
-      final added = await ref.read(shotsProvider.notifier).add(newShot);
-      SnackBarManager().show(
-        added
-            ? getInfoSnackBar(
-                localizations.snack_bar_add_success_item(localizations.item_shot, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_add_fail_item(localizations.item_shot, Gender.male.name),
-              ),
-      );
-    }
   }
 }
