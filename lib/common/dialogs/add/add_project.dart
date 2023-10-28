@@ -1,4 +1,5 @@
-import 'package:cpm/common/dialogs/add/add_dialog.dart';
+import 'package:cpm/common/dialogs/model_dialog.dart';
+import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/project/project_type.dart';
 import 'package:cpm/utils/constants/constants.dart';
@@ -62,7 +63,11 @@ class _AddProjectState extends State<AddProject> {
 
   @override
   Widget build(BuildContext context) {
-    return AddDialog<Project>(
+    return ModelDialog<Project>(
+      cancel: () => _cancel(context),
+      submit: () => _add(context),
+      title: localizations.dialog_add_item(localizations.item_project, Gender.male.name),
+      action: localizations.button_add,
       fields: [
         Row(
           children: [
@@ -114,8 +119,6 @@ class _AddProjectState extends State<AddProject> {
           ],
         ),
       ],
-      cancel: () => _cancel(context),
-      add: () => _add(context),
     );
   }
 }

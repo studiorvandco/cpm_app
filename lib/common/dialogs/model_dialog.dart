@@ -1,21 +1,24 @@
-import 'package:cpm/common/model_generic.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/sizes.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:flutter/material.dart';
 
-class AddDialog<T> extends StatelessWidget with ModelGeneric<T> {
-  AddDialog({
+class ModelDialog<T> extends StatelessWidget {
+  ModelDialog({
     super.key,
-    required this.fields,
     required this.cancel,
-    required this.add,
+    required this.submit,
+    required this.title,
+    required this.action,
+    required this.fields,
   });
 
   final Function() cancel;
-  final Function() add;
+  final Function() submit;
 
+  final String title;
+  final String action;
   final List<Widget> fields;
 
   @override
@@ -30,11 +33,11 @@ class AddDialog<T> extends StatelessWidget with ModelGeneric<T> {
                     icon: const Icon(Icons.close),
                     onPressed: cancel,
                   ),
-                  title: Text(localizations.dialog_add_item(item, gender.name)),
+                  title: Text(title),
                   actions: [
                     TextButton(
-                      onPressed: add,
-                      child: Text(localizations.button_add),
+                      onPressed: submit,
+                      child: Text(action),
                     ),
                     Padding(padding: Paddings.padding4.horizontal),
                   ],
@@ -65,7 +68,7 @@ class AddDialog<T> extends StatelessWidget with ModelGeneric<T> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      localizations.dialog_add_item(item, gender.name),
+                      title,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     Padding(padding: Paddings.padding16.vertical),
@@ -85,8 +88,8 @@ class AddDialog<T> extends StatelessWidget with ModelGeneric<T> {
                           child: Text(localizations.button_cancel),
                         ),
                         TextButton(
-                          onPressed: add,
-                          child: Text(localizations.button_add),
+                          onPressed: submit,
+                          child: Text(action),
                         ),
                       ],
                     ),
