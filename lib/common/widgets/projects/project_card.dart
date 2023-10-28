@@ -1,6 +1,4 @@
-import 'package:cpm/models/episode/episode.dart';
-import 'package:cpm/models/project/project.dart';
-import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +11,7 @@ class ProjectCard extends StatelessWidget {
     required this.progress,
     this.progressText,
     required this.trailing,
-  })  : type = Project,
-        leading = null;
+  }) : leading = null;
 
   const ProjectCard.episode({
     super.key,
@@ -24,8 +21,7 @@ class ProjectCard extends StatelessWidget {
     required this.description,
     required this.progress,
     this.progressText,
-  })  : type = Episode,
-        trailing = null;
+  }) : trailing = null;
 
   const ProjectCard.sequence({
     super.key,
@@ -35,12 +31,10 @@ class ProjectCard extends StatelessWidget {
     required this.description,
     required this.progress,
     this.progressText,
-  })  : type = Sequence,
-        trailing = null;
+  }) : trailing = null;
 
   final Function() open;
 
-  final Type type;
   final String? leading;
   final String? title;
   final String? description;
@@ -66,7 +60,7 @@ class ProjectCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      noTitle ? 'Untitled' : title!,
+                      noTitle ? localizations.projects_no_title : title!,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontStyle: noTitle ? FontStyle.italic : null,
                           ),
@@ -79,7 +73,7 @@ class ProjectCard extends StatelessWidget {
               ),
               Padding(padding: Paddings.padding4.vertical),
               Text(
-                noDescription ? 'No description' : description!,
+                noDescription ? localizations.projects_no_description : description!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: noDescription ? const TextStyle(fontStyle: FontStyle.italic) : null,

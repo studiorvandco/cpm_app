@@ -32,6 +32,8 @@ enum Paddings {
 
   EdgeInsets get drawer => EdgeInsets.all(Paddings.padding8._padding);
 
+  static EdgeInsets withFab(EdgeInsets padding) => padding.copyWith(bottom: kFloatingActionButtonMargin + 64);
+
   final double _padding;
 
   const Paddings(this._padding);

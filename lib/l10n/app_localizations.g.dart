@@ -267,6 +267,42 @@ abstract class AppLocalizations {
   /// **'Details'**
   String get projects_details;
 
+  /// No description provided for @projects_no_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get projects_no_title;
+
+  /// No description provided for @projects_no_description.
+  ///
+  /// In en, this message translates to:
+  /// **'No description'**
+  String get projects_no_description;
+
+  /// No description provided for @projects_no_dates.
+  ///
+  /// In en, this message translates to:
+  /// **'No dates'**
+  String get projects_no_dates;
+
+  /// No description provided for @projects_no_director.
+  ///
+  /// In en, this message translates to:
+  /// **'No director'**
+  String get projects_no_director;
+
+  /// No description provided for @projects_no_writer.
+  ///
+  /// In en, this message translates to:
+  /// **'No writer'**
+  String get projects_no_writer;
+
+  /// No description provided for @projects_no_links.
+  ///
+  /// In en, this message translates to:
+  /// **'No links'**
+  String get projects_no_links;
+
   /// No description provided for @schedule_schedule.
   ///
   /// In en, this message translates to:

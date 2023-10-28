@@ -1,6 +1,6 @@
 import 'package:cpm/common/grid_view.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/common/widgets/project_card.dart';
+import 'package:cpm/common/widgets/projects/project_card.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/pages/projects/favorites.dart';

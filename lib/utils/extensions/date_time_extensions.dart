@@ -1,14 +1,15 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExtensions on DateTime {
   String get Hm {
-    return DateFormat.Hm().format(this);
+    return DateFormat.Hm(localizations.localeName).format(this);
   }
 
   String get yMd {
-    return DateFormat.yMd().add_jm().format(this);
+    return DateFormat.yMd(localizations.localeName).format(this);
   }
 
   DateTime get hundredYearsBefore {
