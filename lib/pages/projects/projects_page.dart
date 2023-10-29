@@ -1,7 +1,7 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/common/widgets/grid_view.dart';
-import 'package:cpm/common/widgets/projects/project_card.dart';
+import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/pages/projects/favorites.dart';
 import 'package:cpm/providers/episodes/episodes.dart';

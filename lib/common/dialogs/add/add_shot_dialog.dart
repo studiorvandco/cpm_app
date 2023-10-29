@@ -8,8 +8,8 @@ import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AddShot extends StatefulWidget {
-  const AddShot({
+class AddShotDialog extends StatefulWidget {
+  const AddShotDialog({
     super.key,
     required this.sequenceId,
     required this.index,
@@ -19,10 +19,10 @@ class AddShot extends StatefulWidget {
   final int index;
 
   @override
-  State<AddShot> createState() => _AddShotState();
+  State<AddShotDialog> createState() => _AddShotDialogState();
 }
 
-class _AddShotState extends State<AddShot> {
+class _AddShotDialogState extends State<AddShotDialog> {
   final TextEditingController description = TextEditingController();
   ShotValue value = ShotValue.other;
 

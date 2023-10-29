@@ -6,14 +6,14 @@ import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AddMember extends StatefulWidget {
-  const AddMember({super.key});
+class AddMemberDialog extends StatefulWidget {
+  const AddMemberDialog({super.key});
 
   @override
-  State<AddMember> createState() => _AddMemberState();
+  State<AddMemberDialog> createState() => _AddMemberDialogState();
 }
 
-class _AddMemberState extends State<AddMember> {
+class _AddMemberDialogState extends State<AddMemberDialog> {
   final TextEditingController firstName = TextEditingController();
   final TextEditingController lastName = TextEditingController();
   final TextEditingController phone = TextEditingController();

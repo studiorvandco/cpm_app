@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddSequence extends ConsumerStatefulWidget {
-  const AddSequence({
+class AddSequenceDialog extends ConsumerStatefulWidget {
+  const AddSequenceDialog({
     super.key,
     required this.episodeId,
     required this.index,
@@ -23,10 +23,10 @@ class AddSequence extends ConsumerStatefulWidget {
   final int index;
 
   @override
-  ConsumerState<AddSequence> createState() => _AddSequenceState();
+  ConsumerState<AddSequenceDialog> createState() => _AddSequenceState();
 }
 
-class _AddSequenceState extends ConsumerState<AddSequence> {
+class _AddSequenceState extends ConsumerState<AddSequenceDialog> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
   DateTime date = DateTime.now();

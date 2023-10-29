@@ -83,6 +83,8 @@
   "dialog_delete_cannot_be_undone": "This action cannot be undone.",
   "dialog_field_title": "Title",
   "dialog_field_description": "Description",
+  "dialog_field_director": "Director",
+  "dialog_field_writer": "Writer",
   "dialog_field_value": "Value",
   "dialog_field_label": "Label",
   "dialog_field_url": "URL",

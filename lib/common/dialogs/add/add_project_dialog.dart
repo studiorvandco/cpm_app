@@ -8,14 +8,14 @@ import 'package:cpm/utils/extensions/date_time_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AddProject extends StatefulWidget {
-  const AddProject({super.key});
+class AddProjectDialog extends StatefulWidget {
+  const AddProjectDialog({super.key});
 
   @override
-  State<AddProject> createState() => _AddProjectState();
+  State<AddProjectDialog> createState() => _AddProjectDialogState();
 }
 
-class _AddProjectState extends State<AddProject> {
+class _AddProjectDialogState extends State<AddProjectDialog> {
   ProjectType projectType = ProjectType.movie;
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();

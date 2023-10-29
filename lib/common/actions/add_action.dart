@@ -1,9 +1,9 @@
-import 'package:cpm/common/dialogs/add/add_episode.dart';
-import 'package:cpm/common/dialogs/add/add_location.dart';
-import 'package:cpm/common/dialogs/add/add_member.dart';
-import 'package:cpm/common/dialogs/add/add_project.dart';
-import 'package:cpm/common/dialogs/add/add_sequence.dart';
-import 'package:cpm/common/dialogs/add/add_shot.dart';
+import 'package:cpm/common/dialogs/add/add_episode_dialog.dart';
+import 'package:cpm/common/dialogs/add/add_location_dialog.dart';
+import 'package:cpm/common/dialogs/add/add_member_dialog.dart';
+import 'package:cpm/common/dialogs/add/add_project_dialog.dart';
+import 'package:cpm/common/dialogs/add/add_sequence_dialog.dart';
+import 'package:cpm/common/dialogs/add/add_shot_dialog.dart';
 import 'package:cpm/common/model_generic.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
@@ -39,26 +39,26 @@ class AddAction<T> extends ModelGeneric<T> {
       builder: (BuildContext context) {
         switch (T) {
           case const (Project):
-            return const AddProject();
+            return const AddProjectDialog();
           case const (Episode):
             if (parentId == null) throw ArgumentError('Project parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
 
-            return AddEpisode(projectId: parentId, index: index);
+            return AddEpisodeDialog(projectId: parentId, index: index);
           case const (Sequence):
             if (parentId == null) throw ArgumentError('Episode parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
 
-            return AddSequence(episodeId: parentId, index: index);
+            return AddSequenceDialog(episodeId: parentId, index: index);
           case const (Shot):
             if (parentId == null) throw ArgumentError('Sequence parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
 
-            return AddShot(sequenceId: parentId, index: index);
+            return AddShotDialog(sequenceId: parentId, index: index);
           case const (Member):
-            return const AddMember();
+            return const AddMemberDialog();
           case const (Location):
-            return const AddLocation();
+            return const AddLocationDialog();
           default:
             throw ArgumentError('Invalid type: $T');
         }

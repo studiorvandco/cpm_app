@@ -83,6 +83,8 @@
   "dialog_delete_cannot_be_undone": "Cette action est irréversible.",
   "dialog_field_title": "Titre",
   "dialog_field_description": "Description",
+  "dialog_field_director": "Réalisateur",
+  "dialog_field_writer": "Scénariste",
   "dialog_field_value": "Valeur",
   "dialog_field_label": "Label",
   "dialog_field_url": "URL",

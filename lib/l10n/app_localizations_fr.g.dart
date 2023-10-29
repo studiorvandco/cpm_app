@@ -346,6 +346,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dialog_field_description => 'Description';
 
   @override
+  String get dialog_field_director => 'Réalisateur';
+
+  @override
+  String get dialog_field_writer => 'Scénariste';
+
+  @override
   String get dialog_field_value => 'Valeur';
 
   @override

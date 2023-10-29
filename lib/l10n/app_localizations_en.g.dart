@@ -330,6 +330,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialog_field_description => 'Description';
 
   @override
+  String get dialog_field_director => 'Director';
+
+  @override
+  String get dialog_field_writer => 'Writer';
+
+  @override
   String get dialog_field_value => 'Value';
 
   @override

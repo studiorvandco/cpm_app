@@ -6,14 +6,14 @@ import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AddLocation extends StatefulWidget {
-  const AddLocation({super.key});
+class AddLocationDialog extends StatefulWidget {
+  const AddLocationDialog({super.key});
 
   @override
-  State<AddLocation> createState() => _AddLocationState();
+  State<AddLocationDialog> createState() => _AddLocationDialogState();
 }
 
-class _AddLocationState extends State<AddLocation> {
+class _AddLocationDialogState extends State<AddLocationDialog> {
   final TextEditingController name = TextEditingController();
   final TextEditingController position = TextEditingController();
 

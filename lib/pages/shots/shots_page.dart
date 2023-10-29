@@ -2,7 +2,7 @@ import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/common/widgets/grid_view.dart';
-import 'package:cpm/common/widgets/projects/project_header.dart';
+import 'package:cpm/common/widgets/project_header.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/pages/shots/shot_card.dart';

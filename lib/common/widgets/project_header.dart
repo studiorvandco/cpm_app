@@ -1,10 +1,11 @@
 import 'package:cpm/common/menus/menu_action.dart';
+import 'package:cpm/common/sheets/project/project_sheet.dart';
+import 'package:cpm/common/sheets/sheets.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/pages/episodes/episode_info_sheet.dart';
-import 'package:cpm/pages/projects/project_info_sheet.dart';
 import 'package:cpm/pages/sequences/sequence_info_sheet.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
@@ -72,24 +73,20 @@ class ProjectHeader extends StatelessWidget {
   }
 
   void _showSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      showDragHandle: true,
-      builder: (BuildContext context) {
-        switch (type) {
-          case const (Project):
-            return const ProjectInfoSheet();
-          case const (Episode):
-            return const EpisodeInfoSheet();
-          case const (Sequence):
-            return const SequenceInfoSheet();
-          default:
-            throw Exception();
-        }
-      },
-    );
+    Widget sheet;
+
+    switch (type) {
+      case const (Project):
+        sheet = const ProjectSheet();
+      case const (Episode):
+        sheet = const EpisodeInfoSheet();
+      case const (Sequence):
+        sheet = const SequenceInfoSheet();
+      default:
+        throw Exception();
+    }
+
+    Sheets().showSheet(context, sheet);
   }
 
   @override

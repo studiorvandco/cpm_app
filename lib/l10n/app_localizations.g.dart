@@ -597,6 +597,18 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get dialog_field_description;
 
+  /// No description provided for @dialog_field_director.
+  ///
+  /// In en, this message translates to:
+  /// **'Director'**
+  String get dialog_field_director;
+
+  /// No description provided for @dialog_field_writer.
+  ///
+  /// In en, this message translates to:
+  /// **'Writer'**
+  String get dialog_field_writer;
+
   /// No description provided for @dialog_field_value.
   ///
   /// In en, this message translates to:

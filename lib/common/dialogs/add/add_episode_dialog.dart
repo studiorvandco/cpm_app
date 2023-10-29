@@ -6,8 +6,8 @@ import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class AddEpisode extends StatefulWidget {
-  const AddEpisode({
+class AddEpisodeDialog extends StatefulWidget {
+  const AddEpisodeDialog({
     super.key,
     required this.projectId,
     required this.index,
@@ -17,10 +17,10 @@ class AddEpisode extends StatefulWidget {
   final int index;
 
   @override
-  State<AddEpisode> createState() => _AddEpisodeState();
+  State<AddEpisodeDialog> createState() => _AddEpisodeDialogState();
 }
 
-class _AddEpisodeState extends State<AddEpisode> {
+class _AddEpisodeDialogState extends State<AddEpisodeDialog> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
 
