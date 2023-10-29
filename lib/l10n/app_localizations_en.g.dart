@@ -345,7 +345,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dialog_field_last_name => 'Last name';
 
   @override
-  String get dialog_field_number => 'Number';
+  String get dialog_field_phone => 'Phone';
+
+  @override
+  String get dialog_field_email => 'Email';
 
   @override
   String get dialog_field_position => 'Position';

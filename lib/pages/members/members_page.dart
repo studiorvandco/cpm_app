@@ -2,15 +2,10 @@ import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/common/widgets/info_tile.dart';
-import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/member/member.dart';
-import 'package:cpm/pages/members/member_dialog.dart';
 import 'package:cpm/providers/members/members.dart';
-import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/extensions/string_validators.dart';
-import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
-import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -23,26 +18,7 @@ class MembersPage extends ConsumerStatefulWidget {
 }
 
 class _MembersState extends ConsumerState<MembersPage> {
-  Future<void> _edit(Member member) async {
-    final editedMember = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return MemberDialog(member: member);
-      },
-    );
-    if (editedMember is Member) {
-      final edited = await ref.read(membersProvider.notifier).edit(editedMember);
-      SnackBarManager().show(
-        edited
-            ? getInfoSnackBar(
-                localizations.snack_bar_edit_success_item(localizations.item_member, Gender.male.name),
-              )
-            : getErrorSnackBar(
-                localizations.snack_bar_edit_fail_item(localizations.item_member, Gender.male.name),
-              ),
-      );
-    }
-  }
+  Future<void> _edit(Member member) async {}
 
   void _call(Member member) {
     launchUrlString('tel:${member.phone}');

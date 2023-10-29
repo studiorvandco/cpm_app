@@ -14,7 +14,7 @@ class SequenceLocation extends BaseModel {
     required this.location,
   });
 
-  SequenceLocation.insert({
+  const SequenceLocation.insert({
     required this.sequence,
     required this.location,
   }) : super(id: -1);

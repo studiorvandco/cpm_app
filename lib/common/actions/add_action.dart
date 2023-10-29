@@ -1,4 +1,5 @@
 import 'package:cpm/common/dialogs/add/add_episode.dart';
+import 'package:cpm/common/dialogs/add/add_member.dart';
 import 'package:cpm/common/dialogs/add/add_project.dart';
 import 'package:cpm/common/dialogs/add/add_sequence.dart';
 import 'package:cpm/common/dialogs/add/add_shot.dart';
@@ -10,7 +11,6 @@ import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/pages/locations/location_dialog.dart';
-import 'package:cpm/pages/members/member_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/members/members.dart';
@@ -56,7 +56,7 @@ class AddAction<T> extends ModelGeneric<T> {
 
             return AddShot(sequenceId: parentId, index: index);
           case const (Member):
-            return const MemberDialog();
+            return const AddMember();
           case const (Location):
             return const LocationDialog();
           default:

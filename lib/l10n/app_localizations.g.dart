@@ -627,11 +627,17 @@ abstract class AppLocalizations {
   /// **'Last name'**
   String get dialog_field_last_name;
 
-  /// No description provided for @dialog_field_number.
+  /// No description provided for @dialog_field_phone.
   ///
   /// In en, this message translates to:
-  /// **'Number'**
-  String get dialog_field_number;
+  /// **'Phone'**
+  String get dialog_field_phone;
+
+  /// No description provided for @dialog_field_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get dialog_field_email;
 
   /// No description provided for @dialog_field_position.
   ///

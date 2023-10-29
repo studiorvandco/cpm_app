@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cpm/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 

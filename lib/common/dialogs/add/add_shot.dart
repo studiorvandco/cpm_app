@@ -89,7 +89,7 @@ class _AddShotState extends State<AddShot> {
             );
           }).toList(),
           onChanged: _onValueSelected,
-        )
+        ),
       ],
     );
   }
