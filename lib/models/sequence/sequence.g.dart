@@ -17,8 +17,10 @@ Sequence _$SequenceFromJson(Map<String, dynamic> json) => $checkedCreate(
           number: $checkedConvert('number', (v) => v as int? ?? -1),
           title: $checkedConvert('title', (v) => v as String?),
           description: $checkedConvert('description', (v) => v as String?),
-          startDate: $checkedConvert('start_date', (v) => v == null ? null : DateTime.parse(v as String)),
-          endDate: $checkedConvert('end_date', (v) => v == null ? null : DateTime.parse(v as String)),
+          startDate: $checkedConvert('start_date',
+              (v) => v == null ? null : DateTime.parse(v as String)),
+          endDate: $checkedConvert('end_date',
+              (v) => v == null ? null : DateTime.parse(v as String)),
         );
         return val;
       },

@@ -1,4 +1,7 @@
+import 'package:cpm/common/dialogs/add/add_episode.dart';
 import 'package:cpm/common/dialogs/add/add_project.dart';
+import 'package:cpm/common/dialogs/add/add_sequence.dart';
+import 'package:cpm/common/dialogs/add/add_shot.dart';
 import 'package:cpm/common/model_generic.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
@@ -6,11 +9,8 @@ import 'package:cpm/models/member/member.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
-import 'package:cpm/pages/episodes/episode_dialog.dart';
 import 'package:cpm/pages/locations/location_dialog.dart';
 import 'package:cpm/pages/members/member_dialog.dart';
-import 'package:cpm/pages/sequences/sequence_dialog.dart';
-import 'package:cpm/pages/shots/shot_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/members/members.dart';
@@ -44,17 +44,17 @@ class AddAction<T> extends ModelGeneric<T> {
             if (parentId == null) throw ArgumentError('Project parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
 
-            return EpisodeDialog(projectId: parentId, index: index);
+            return AddEpisode(projectId: parentId, index: index);
           case const (Sequence):
             if (parentId == null) throw ArgumentError('Episode parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
 
-            return SequenceDialog(episodeId: parentId, index: index);
+            return AddSequence(episodeId: parentId, index: index);
           case const (Shot):
             if (parentId == null) throw ArgumentError('Sequence parent ID is required');
             if (index == null) throw ArgumentError('Index is required');
 
-            return ShotDialog(sequenceId: parentId, index: index);
+            return AddShot(sequenceId: parentId, index: index);
           case const (Member):
             return const MemberDialog();
           case const (Location):

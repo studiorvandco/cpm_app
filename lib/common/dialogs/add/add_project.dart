@@ -33,9 +33,9 @@ class _AddProjectState extends State<AddProject> {
   Future<void> _pickDateRange() async {
     await showDateRangePicker(
       context: context,
+      initialDateRange: dateRange,
       firstDate: DateTime.now().hundredYearsBefore,
       lastDate: DateTime.now().hundredYearsLater,
-      initialDateRange: dateRange,
     ).then((pickedDateRange) {
       if (pickedDateRange == null) return;
 

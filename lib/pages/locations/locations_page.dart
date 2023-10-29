@@ -55,7 +55,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
         child: const Icon(Icons.add),
       ),
       body: ref.watch(locationsProvider).when(
-        data: (List<Location> locations) {
+        data: (locations) {
           return ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               final location = locations[index];

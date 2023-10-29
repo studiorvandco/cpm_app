@@ -3,12 +3,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonEnum(valueField: 'name')
 enum ProjectType {
-  unknown(),
-  movie(),
-  series(),
+  unknown('Unknown'),
+  movie('Movie'),
+  series("Series"),
   ;
 
-  const ProjectType();
+  final String name;
+
+  const ProjectType(this.name);
 
   String get label {
     switch (this) {
