@@ -61,6 +61,7 @@ class ModelDialog extends StatelessWidget {
         : Dialog(
             clipBehavior: Clip.hardEdge,
             child: SizedBox(
+              height: Sizes.custom.dialog,
               width: Sizes.custom.dialog,
               child: Padding(
                 padding: Paddings.padding16.all,

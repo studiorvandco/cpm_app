@@ -39,7 +39,7 @@ class _AddMemberState extends State<AddMember> {
     return ModelDialog(
       cancel: () => _cancel(context),
       submit: () => _add(context),
-      title: localizations.dialog_add_item(localizations.item_episode, Gender.male.name),
+      title: localizations.dialog_add_item(localizations.item_member, Gender.male.name),
       action: localizations.button_add,
       fields: [
         TextField(

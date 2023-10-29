@@ -90,6 +90,7 @@
   "dialog_field_last_name": "Nom",
   "dialog_field_phone": "Téléphone",
   "dialog_field_email": "Email",
+  "dialog_field_name": "Nom",
   "dialog_field_position": "Position",
   "snack_bar_add_success_item": "{sex, select, male{Le} female{La} other{}} {item} a été {sex, select, male{ajouté} female{ajoutée} other{}} avec succès.",
   "snack_bar_add_fail_item": "{sex, select, male{Le} female{La} other{}} {item} n'a pas pu être {sex, select, male{ajouté} female{ajoutée} other{}}.",

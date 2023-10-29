@@ -28,6 +28,10 @@ class _MembersState extends ConsumerState<MembersPage> {
     launchUrlString('sms:${member.phone}');
   }
 
+  void _email(Member member) {
+    launchUrlString('mailto:${member.email}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +59,10 @@ class _MembersState extends ConsumerState<MembersPage> {
                   IconButton(
                     icon: const Icon(Icons.message),
                     onPressed: member.phone != null && member.phone!.isValidPhone ? () => _message(member) : null,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.mail),
+                    onPressed: member.email != null && member.email!.isValidEmail ? () => _email(member) : null,
                   ),
                 ],
               );

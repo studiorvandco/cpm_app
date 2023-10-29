@@ -639,6 +639,12 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get dialog_field_email;
 
+  /// No description provided for @dialog_field_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get dialog_field_name;
+
   /// No description provided for @dialog_field_position.
   ///
   /// In en, this message translates to:

@@ -1,4 +1,5 @@
 import 'package:cpm/common/dialogs/add/add_episode.dart';
+import 'package:cpm/common/dialogs/add/add_location.dart';
 import 'package:cpm/common/dialogs/add/add_member.dart';
 import 'package:cpm/common/dialogs/add/add_project.dart';
 import 'package:cpm/common/dialogs/add/add_sequence.dart';
@@ -10,7 +11,6 @@ import 'package:cpm/models/member/member.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
-import 'package:cpm/pages/locations/location_dialog.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/members/members.dart';
@@ -58,7 +58,7 @@ class AddAction<T> extends ModelGeneric<T> {
           case const (Member):
             return const AddMember();
           case const (Location):
-            return const LocationDialog();
+            return const AddLocation();
           default:
             throw ArgumentError('Invalid type: $T');
         }
