@@ -45,12 +45,13 @@ class _MembersState extends ConsumerState<MembersPage> {
             itemBuilder: (BuildContext context, int index) {
               final member = members[index];
 
-              return InfoTile(
+              return InfoTile<Member>(
                 edit: () => _edit(member),
                 delete: () => DeleteAction<Member>().delete(context, ref, id: member.id),
+                model: member,
                 leadingIcon: Icons.person,
                 title: member.fullName,
-                subtitle: member.phone,
+                subtitle: member.phoneAndEmail,
                 trailing: [
                   IconButton(
                     icon: const Icon(Icons.call),
@@ -71,7 +72,7 @@ class _MembersState extends ConsumerState<MembersPage> {
               return Padding(padding: Paddings.padding4.vertical);
             },
             itemCount: members.length,
-            padding: Paddings.custom.fab,
+            padding: Paddings.withFab(Paddings.custom.page),
           );
         },
         error: (Object error, StackTrace stackTrace) {

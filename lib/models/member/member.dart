@@ -14,6 +14,18 @@ class Member extends BaseModel {
 
   String get fullName => '$firstName${firstName != null ? ' ' : ''}${lastName?.toUpperCase()}';
 
+  String get phoneAndEmail {
+    if (phone != null && phone!.isNotEmpty && email != null && email!.isNotEmpty) {
+      return '$phone • $email';
+    } else if (email == null || email!.isEmpty) {
+      return phone!;
+    } else if (phone == null || phone!.isEmpty) {
+      return email!;
+    } else {
+      return '';
+    }
+  }
+
   Member({
     required super.id,
     this.firstName,

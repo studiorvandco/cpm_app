@@ -88,7 +88,6 @@ class Sequences extends _$Sequences with BaseProvider {
       return false;
     }
     if (locationId != null) {
-      print('juj');
       final SequenceLocation newSequenceLocation = SequenceLocation.insert(
         sequence: editedSequence.id,
         location: locationId,

@@ -104,6 +104,7 @@
   "snack_bar_edit_fail_item": "The {item} could not be edited.",
   "error_error": "Error",
   "error_login": "Wrong username or password.",
+  "error_invalid_phone": "Invalid phone",
   "error_invalid_email": "Invalid email",
   "error_invalid_url": "Invalid URL",
   "error_required": "Required",

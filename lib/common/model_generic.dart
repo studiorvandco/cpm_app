@@ -1,4 +1,5 @@
 import 'package:cpm/l10n/gender.dart';
+import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
@@ -7,7 +8,7 @@ import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/utils/constants/constants.dart';
 
-abstract class ModelGeneric<T> {
+abstract class ModelGeneric<T extends BaseModel> {
   String get item {
     switch (T) {
       case const (Project):

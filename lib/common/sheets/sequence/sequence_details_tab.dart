@@ -38,17 +38,6 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
     location = sequence?.location;
   }
 
-  void _onSubmitted(Sequence sequence) {
-    if (title.text == sequence.title &&
-        description.text == sequence.description &&
-        location == sequence.location &&
-        date == sequence.getDate &&
-        startTime == sequence.getStartTime &&
-        endTime == sequence.getEndTime) return;
-
-    _edit(sequence);
-  }
-
   Future<void> _pickDateTime(Sequence sequence) async {
     await showDatePicker(
       context: context,
@@ -83,6 +72,17 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
     if (newLocation == null) return;
 
     location = newLocation;
+    _edit(sequence);
+  }
+
+  void _onSubmitted(Sequence sequence) {
+    if (title.text == sequence.title &&
+        description.text == sequence.description &&
+        location == sequence.location &&
+        date == sequence.getDate &&
+        startTime == sequence.getStartTime &&
+        endTime == sequence.getEndTime) return;
+
     _edit(sequence);
   }
 

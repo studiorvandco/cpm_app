@@ -58,7 +58,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
             data: (projects) {
               return MasonryGridView.count(
                 itemCount: projects.length,
-                padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),
+                padding: Paddings.withFab(Paddings.custom.page),
                 itemBuilder: (BuildContext context, int index) {
                   return ProjectCard.project(
                     key: UniqueKey(),

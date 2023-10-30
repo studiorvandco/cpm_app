@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   dynamic_color
-  flutter_secure_storage_linux
   maps_launcher
   url_launcher_linux
 )

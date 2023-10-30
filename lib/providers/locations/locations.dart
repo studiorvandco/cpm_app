@@ -63,3 +63,15 @@ class Locations extends _$Locations with BaseProvider {
     return true;
   }
 }
+
+@Riverpod(keepAlive: true)
+class CurrentLocation extends _$CurrentLocation with BaseProvider {
+  @override
+  FutureOr<Location> build() {
+    return Future.value(); // ignore: null_argument_to_non_null_type
+  }
+
+  void set(Location location) {
+    state = AsyncData<Location>(location);
+  }
+}

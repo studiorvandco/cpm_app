@@ -5,6 +5,7 @@ import 'package:cpm/common/dialogs/add/add_project_dialog.dart';
 import 'package:cpm/common/dialogs/add/add_sequence_dialog.dart';
 import 'package:cpm/common/dialogs/add/add_shot_dialog.dart';
 import 'package:cpm/common/model_generic.dart';
+import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
@@ -23,11 +24,7 @@ import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddAction<T> extends ModelGeneric<T> {
-  AddAction() {
-    if (T == dynamic) throw TypeError();
-  }
-
+class AddAction<T extends BaseModel> extends ModelGeneric<T> {
   Future<void> add(
     BuildContext context,
     WidgetRef ref, {

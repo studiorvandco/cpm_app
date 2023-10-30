@@ -13,6 +13,7 @@ import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
 import 'package:cpm/utils/constants/sizes.dart';
 import 'package:cpm/utils/extensions/date_time_extensions.dart';
+import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -251,7 +252,8 @@ class ProjectHeader extends StatelessWidget {
                                     final link = links![index];
 
                                     return TextButton(
-                                      onPressed: link.isValid ? () => _openLink(link) : null,
+                                      onPressed:
+                                          link.url != null && link.url!.isOpenableUrl ? () => _openLink(link) : null,
                                       child: Text(link.getLabel),
                                     );
                                   },

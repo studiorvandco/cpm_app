@@ -36,9 +36,10 @@ class _LocationsState extends ConsumerState<LocationsPage> {
             itemBuilder: (BuildContext context, int index) {
               final location = locations[index];
 
-              return InfoTile(
+              return InfoTile<Location>(
                 edit: () => _edit(location),
                 delete: () => DeleteAction<Location>().delete(context, ref, id: location.id),
+                model: location,
                 leadingIcon: Icons.image,
                 title: location.getName,
                 subtitle: location.position,
@@ -55,7 +56,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
               return Padding(padding: Paddings.padding4.vertical);
             },
             itemCount: locations.length,
-            padding: Paddings.custom.fab,
+            padding: Paddings.withFab(Paddings.custom.page),
           );
         },
         error: (Object error, StackTrace stackTrace) {

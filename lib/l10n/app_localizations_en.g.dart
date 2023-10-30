@@ -405,6 +405,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_login => 'Wrong username or password.';
 
   @override
+  String get error_invalid_phone => 'Invalid phone';
+
+  @override
   String get error_invalid_email => 'Invalid email';
 
   @override

@@ -97,19 +97,19 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get projects_shots_value_full => 'Moyen';
+  String get projects_shots_value_full => 'Large';
 
   @override
   String get projects_shots_value_medium_full => 'Italien';
 
   @override
-  String get projects_shots_value_cowboy => 'Cowboy';
+  String get projects_shots_value_cowboy => 'Américain';
 
   @override
-  String get projects_shots_value_medium => 'Américain';
+  String get projects_shots_value_medium => 'Taille';
 
   @override
-  String get projects_shots_value_medium_closeup => 'Taille';
+  String get projects_shots_value_medium_closeup => 'Poitrine';
 
   @override
   String get projects_shots_value_closeup => 'Gros plan';
@@ -515,6 +515,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get error_login => 'Mauvais identifiant ou mot passe.';
+
+  @override
+  String get error_invalid_phone => 'Téléphone invalide';
 
   @override
   String get error_invalid_email => 'Email invalide';

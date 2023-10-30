@@ -1,6 +1,7 @@
 import 'package:cpm/common/sheets/project/link/project_link_action.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/utils/constants/constants.dart';
+import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -25,7 +26,7 @@ class ProjectLinkEditor extends StatefulWidget {
 }
 
 class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   late TextEditingController labelController;
   late TextEditingController urlController;
 
@@ -51,7 +52,7 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
   }
 
   void _validateForm(_) {
-    _formKey.currentState!.validate();
+    formKey.currentState!.validate();
   }
 
   String? _validateUrl(String? url) {
@@ -63,7 +64,7 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
   void _onSubmitted() {
     if (labelController.text == widget.link.label ||
         urlController.text == widget.link.url ||
-        !_formKey.currentState!.validate()) return;
+        !formKey.currentState!.validate()) return;
 
     widget.edit(
       Link(
@@ -79,7 +80,7 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Focus(
         onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted() : null,
         child: Row(
@@ -104,7 +105,7 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
             PopupMenuButton(
               itemBuilder: (context) {
                 return [
-                  if (urlController.text.isNotEmpty && _formKey.currentState!.validate())
+                  if (urlController.text.isOpenableUrl)
                     PopupMenuItem(
                       value: ProjectLinkAction.open,
                       child: ListTile(

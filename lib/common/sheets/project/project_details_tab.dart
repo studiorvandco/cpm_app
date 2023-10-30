@@ -35,12 +35,6 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
     );
   }
 
-  void _onSubmitted(Project project) {
-    if (title.text == project.title && description.text == project.description) return;
-
-    _edit(project);
-  }
-
   Future<void> _pickDateRange(Project project) async {
     await showDateRangePicker(
       context: context,
@@ -53,6 +47,12 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
       dateRange = pickedDateRange;
       _edit(project);
     });
+  }
+
+  void _onSubmitted(Project project) {
+    if (title.text == project.title && description.text == project.description) return;
+
+    _edit(project);
   }
 
   void _edit(Project project) {

@@ -10,4 +10,8 @@ extension StringValidators on String {
       r'^(?:[+0][1-9])?[0-9]{10,12}$',
     ).hasMatch(this);
   }
+
+  bool get isOpenableUrl {
+    return isNotEmpty && Uri.tryParse(this)!.isAbsolute;
+  }
 }

@@ -723,6 +723,12 @@ abstract class AppLocalizations {
   /// **'Wrong username or password.'**
   String get error_login;
 
+  /// No description provided for @error_invalid_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone'**
+  String get error_invalid_phone;
+
   /// No description provided for @error_invalid_email.
   ///
   /// In en, this message translates to:

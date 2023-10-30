@@ -63,3 +63,15 @@ class Members extends _$Members with BaseProvider {
     return true;
   }
 }
+
+@Riverpod(keepAlive: true)
+class CurrentMember extends _$CurrentMember with BaseProvider {
+  @override
+  FutureOr<Member> build() {
+    return Future.value(); // ignore: null_argument_to_non_null_type
+  }
+
+  void set(Member member) {
+    state = AsyncData<Member>(member);
+  }
+}

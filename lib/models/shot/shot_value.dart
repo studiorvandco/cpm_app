@@ -4,17 +4,17 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonEnum(fieldRename: FieldRename.snake)
 enum ShotValue {
-  full(0),
-  mediumFull(1),
-  cowboy(2),
+  extremeCloseup(0),
+  closeup(1),
+  mediumCloseup(2),
   medium(3),
-  mediumCloseup(4),
-  closeup(5),
-  extremeCloseup(6),
-  insert(7),
-  sequence(8),
-  landscape(9),
-  drone(10),
+  cowboy(4),
+  mediumFull(5),
+  full(6),
+  landscape(7),
+  drone(8),
+  sequence(9),
+  insert(10),
   other(17),
   ;
 
