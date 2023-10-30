@@ -59,6 +59,9 @@ class _SequencesState extends ConsumerState<SequencesPage> {
               description: project?.description,
               startDate: project?.startDate,
               endDate: project?.endDate,
+              director: project?.director,
+              writer: project?.writer,
+              links: project?.links,
             );
           } else {
             header = ProjectHeader.episode(

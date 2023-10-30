@@ -10,6 +10,7 @@ import 'package:cpm/pages/sequences/sequence_info_sheet.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
+import 'package:cpm/utils/constants/sizes.dart';
 import 'package:cpm/utils/extensions/date_time_extensions.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,12 @@ class ProjectHeader extends StatelessWidget {
     }
   }
 
+  void _openLink(Link? link) {
+    if (link == null) return;
+
+    launchUrlString(link.getUrl, mode: LaunchMode.externalApplication);
+  }
+
   void _showSheet(BuildContext context) {
     Widget sheet;
 
@@ -129,7 +136,7 @@ class ProjectHeader extends StatelessWidget {
                     ),
                     itemBuilder: (BuildContext context) {
                       return MenuAction.values.map((action) {
-                        return PopupMenuItem<MenuAction>(
+                        return PopupMenuItem(
                           value: action,
                           child: ListTile(
                             leading: Icon(action.icon),
@@ -230,7 +237,7 @@ class ProjectHeader extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             )
                           : SizedBox(
-                              height: 42,
+                              height: Sizes.size32.size,
                               child: Scrollbar(
                                 controller: scrollController,
                                 thickness: !PlatformManager().isMobile ? 4 : 0,
@@ -242,11 +249,7 @@ class ProjectHeader extends StatelessWidget {
                                     final link = links![index];
 
                                     return TextButton(
-                                      onPressed: link.getUrl.isNotEmpty && Uri.tryParse(link.getUrl)!.isAbsolute
-                                          ? () {
-                                              launchUrlString(link.getUrl, mode: LaunchMode.externalApplication);
-                                            }
-                                          : null,
+                                      onPressed: link.isValid ? () => _openLink(link) : null,
                                       child: Text(link.getLabel),
                                     );
                                   },

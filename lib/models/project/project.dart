@@ -56,6 +56,22 @@ class Project extends BaseModel implements Comparable<Project> {
     return '$shotsCompleted/$shotsTotal';
   }
 
+  void sortLinks() {
+    links?.sort(
+      (Link a, Link b) {
+        if (a.index == null && b.index == null) {
+          return 0;
+        } else if (a.index == null) {
+          return -1;
+        } else if (b.index == null) {
+          return 1;
+        }
+
+        return a.index!.compareTo(b.index!);
+      },
+    );
+  }
+
   Project({
     required super.id,
     required this.projectType,

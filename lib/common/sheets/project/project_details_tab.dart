@@ -19,10 +19,23 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
   final TextEditingController description = TextEditingController();
   DateTimeRange dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
+  @override
+  void initState() {
+    super.initState();
+
+    final project = ref.read(currentProjectProvider).value;
+    title.text = project?.title ?? '';
+    description.text = project?.description ?? '';
+    dateRange = DateTimeRange(
+      start: project?.startDate ?? DateTime.now(),
+      end: project?.endDate ?? DateTime.now().weekLater,
+    );
+  }
+
   void _onSubmitted(Project project) {
-    if (title.text != project.title || description.text != project.description) {
-      _edit(project);
-    }
+    if (title.text == project.title || description.text == project.description) return;
+
+    _edit(project);
   }
 
   Future<void> _pickDateRange(Project project) async {
@@ -56,13 +69,6 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
         padding: Paddings.custom.drawer,
         child: ref.watch(currentProjectProvider).when(
           data: (Project project) {
-            title.text = project.title ?? '';
-            description.text = project.description ?? '';
-            dateRange = DateTimeRange(
-              start: project.startDate ?? DateTime.now(),
-              end: project.endDate ?? DateTime.now().weekLater,
-            );
-
             return Column(
               children: [
                 OutlinedButton.icon(

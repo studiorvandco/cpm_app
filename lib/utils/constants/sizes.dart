@@ -20,7 +20,5 @@ enum Sizes {
 
   double get dialog => Sizes.size512.size;
 
-  double get sheetTabBarView => Sizes.size512.size;
-
   const Sizes(this.size);
 }

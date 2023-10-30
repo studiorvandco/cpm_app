@@ -1,4 +1,3 @@
-import 'package:cpm/common/sheets/project/link/project_links_tab.dart';
 import 'package:cpm/common/sheets/project/project_details_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +24,10 @@ class _ProjectSheetState extends State<ProjectSheet> with SingleTickerProviderSt
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 2 / 3,
-            child: const TabBarView(
+            child: TabBarView(
               children: [
-                ProjectDetailsTab(),
-                ProjectLinksTab(),
+                const ProjectDetailsTab(),
+                SingleChildScrollView(child: Container()),
               ],
             ),
           ),
