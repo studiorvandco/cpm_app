@@ -327,29 +327,11 @@ abstract class AppLocalizations {
   /// **'{count, plural, zero{No members} one{Member} other{Members}}'**
   String members_members(num count);
 
-  /// No description provided for @members_call.
-  ///
-  /// In en, this message translates to:
-  /// **'Call'**
-  String get members_call;
-
-  /// No description provided for @members_message.
-  ///
-  /// In en, this message translates to:
-  /// **'Send a message'**
-  String get members_message;
-
   /// No description provided for @locations_location.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, zero{No locations} one{Location} other{Locations}}'**
   String locations_location(num count);
-
-  /// No description provided for @location_map.
-  ///
-  /// In en, this message translates to:
-  /// **'View on map'**
-  String get location_map;
 
   /// No description provided for @settings_account.
   ///
@@ -518,6 +500,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Move down'**
   String get menu_move_down;
+
+  /// No description provided for @menu_call.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get menu_call;
+
+  /// No description provided for @menu_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a message'**
+  String get menu_message;
+
+  /// No description provided for @menu_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Send an email'**
+  String get menu_email;
+
+  /// No description provided for @menu_map.
+  ///
+  /// In en, this message translates to:
+  /// **'See on map'**
+  String get menu_map;
 
   /// No description provided for @menu_edit.
   ///

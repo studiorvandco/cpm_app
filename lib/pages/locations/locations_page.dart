@@ -1,13 +1,13 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
+import 'package:cpm/common/menus/menu_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/common/widgets/info_tile.dart';
+import 'package:cpm/common/widgets/model_tile.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 
 class LocationsPage extends ConsumerStatefulWidget {
   const LocationsPage({super.key});
@@ -17,12 +17,6 @@ class LocationsPage extends ConsumerStatefulWidget {
 }
 
 class _LocationsState extends ConsumerState<LocationsPage> {
-  Future<void> _edit(Location location) async {}
-
-  void _openMap(Location location) {
-    MapsLauncher.launchQuery(location.position!);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +30,7 @@ class _LocationsState extends ConsumerState<LocationsPage> {
             itemBuilder: (BuildContext context, int index) {
               final location = locations[index];
 
-              return InfoTile<Location>(
-                edit: () => _edit(location),
+              return ModelTile<Location>(
                 delete: () => DeleteAction<Location>().delete(context, ref, id: location.id),
                 model: location,
                 leadingIcon: Icons.image,
@@ -45,9 +38,10 @@ class _LocationsState extends ConsumerState<LocationsPage> {
                 subtitle: location.position,
                 trailing: [
                   IconButton(
-                    icon: const Icon(Icons.map),
-                    onPressed:
-                        location.position != null && location.position!.isNotEmpty ? () => _openMap(location) : null,
+                    icon: Icon(MenuAction.map.icon),
+                    onPressed: location.position != null && location.position!.isNotEmpty
+                        ? () => MenuAction.map.function!(location.position!)
+                        : null,
                   ),
                 ],
               );

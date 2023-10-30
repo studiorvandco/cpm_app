@@ -12,20 +12,19 @@ import 'package:cpm/utils/constants/radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class InfoTile<T extends BaseModel> extends ConsumerStatefulWidget {
-  const InfoTile({
+class ModelTile<T extends BaseModel> extends ConsumerStatefulWidget {
+  const ModelTile({
     super.key,
     required this.model,
-    required this.edit,
     required this.delete,
     required this.leadingIcon,
     this.leadingImage,
     required this.title,
     this.subtitle,
     this.trailing,
+    this.menuActions,
   });
 
-  final Function() edit;
   final Function() delete;
 
   final T model;
@@ -34,12 +33,13 @@ class InfoTile<T extends BaseModel> extends ConsumerStatefulWidget {
   final String title;
   final String? subtitle;
   final List<Widget>? trailing;
+  final List<MenuAction>? menuActions;
 
   @override
-  ConsumerState<InfoTile> createState() => _InfoTileState<T>();
+  ConsumerState<ModelTile> createState() => _InfoTileState<T>();
 }
 
-class _InfoTileState<T extends BaseModel> extends ConsumerState<InfoTile> {
+class _InfoTileState<T extends BaseModel> extends ConsumerState<ModelTile> {
   void _showSheet(BuildContext context) {
     Widget sheet;
 
@@ -60,9 +60,17 @@ class _InfoTileState<T extends BaseModel> extends ConsumerState<InfoTile> {
   void _onMenuSelected(MenuAction action) {
     switch (action) {
       case MenuAction.edit:
-        widget.edit();
+        _showSheet(context);
       case MenuAction.delete:
         widget.delete();
+      case MenuAction.call:
+        action.function!((widget.model as Member).phone!);
+      case MenuAction.message:
+        action.function!((widget.model as Member).phone!);
+      case MenuAction.email:
+        action.function!((widget.model as Member).email!);
+      case MenuAction.map:
+        action.function!((widget.model as Location).position!);
     }
   }
 
@@ -91,22 +99,19 @@ class _InfoTileState<T extends BaseModel> extends ConsumerState<InfoTile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ...?widget.trailing,
+            Padding(padding: Paddings.padding4.horizontal),
             PopupMenuButton(
               icon: Icon(
                 Icons.more_horiz,
                 color: Theme.of(context).colorScheme.onBackground,
               ),
               itemBuilder: (BuildContext context) {
-                return MenuAction.values.map((action) {
-                  return PopupMenuItem<MenuAction>(
-                    value: action,
-                    child: ListTile(
-                      leading: Icon(action.icon),
-                      title: Text(action.title),
-                      contentPadding: Paddings.custom.zero,
-                    ),
-                  );
-                }).toList();
+                return <PopupMenuEntry<MenuAction>>[
+                  ...?widget.menuActions?.map((action) => action.popupMenuItem),
+                  if (widget.menuActions != null && widget.menuActions!.isNotEmpty) const PopupMenuDivider(),
+                  MenuAction.edit.popupMenuItem,
+                  MenuAction.delete.popupMenuItem,
+                ];
               },
               onSelected: _onMenuSelected,
             ),

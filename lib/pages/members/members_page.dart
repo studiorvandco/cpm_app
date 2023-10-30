@@ -1,14 +1,14 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
+import 'package:cpm/common/menus/menu_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/common/widgets/info_tile.dart';
+import 'package:cpm/common/widgets/model_tile.dart';
 import 'package:cpm/models/member/member.dart';
 import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class MembersPage extends ConsumerStatefulWidget {
   const MembersPage({super.key});
@@ -18,20 +18,6 @@ class MembersPage extends ConsumerStatefulWidget {
 }
 
 class _MembersState extends ConsumerState<MembersPage> {
-  Future<void> _edit(Member member) async {}
-
-  void _call(Member member) {
-    launchUrlString('tel:${member.phone}');
-  }
-
-  void _message(Member member) {
-    launchUrlString('sms:${member.phone}');
-  }
-
-  void _email(Member member) {
-    launchUrlString('mailto:${member.email}');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +31,7 @@ class _MembersState extends ConsumerState<MembersPage> {
             itemBuilder: (BuildContext context, int index) {
               final member = members[index];
 
-              return InfoTile<Member>(
-                edit: () => _edit(member),
+              return ModelTile<Member>(
                 delete: () => DeleteAction<Member>().delete(context, ref, id: member.id),
                 model: member,
                 leadingIcon: Icons.person,
@@ -54,17 +39,16 @@ class _MembersState extends ConsumerState<MembersPage> {
                 subtitle: member.phoneAndEmail,
                 trailing: [
                   IconButton(
-                    icon: const Icon(Icons.call),
-                    onPressed: member.phone != null && member.phone!.isValidPhone ? () => _call(member) : null,
+                    icon: Icon(MenuAction.call.icon),
+                    onPressed: member.phone != null && member.phone!.isValidPhone
+                        ? () => MenuAction.call.function!(member.phone!)
+                        : null,
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.message),
-                    onPressed: member.phone != null && member.phone!.isValidPhone ? () => _message(member) : null,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.mail),
-                    onPressed: member.email != null && member.email!.isValidEmail ? () => _email(member) : null,
-                  ),
+                ],
+                menuActions: [
+                  if (member.phone != null && member.phone!.isNotEmpty && member.phone!.isValidPhone)
+                    MenuAction.message,
+                  if (member.email != null && member.email!.isNotEmpty && member.email!.isValidEmail) MenuAction.email,
                 ],
               );
             },

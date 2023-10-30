@@ -178,12 +178,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get members_call => 'Call';
-
-  @override
-  String get members_message => 'Send a message';
-
-  @override
   String locations_location(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -194,9 +188,6 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get location_map => 'View on map';
 
   @override
   String get settings_account => 'Account';
@@ -283,6 +274,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get menu_move_down => 'Move down';
+
+  @override
+  String get menu_call => 'Call';
+
+  @override
+  String get menu_message => 'Send a message';
+
+  @override
+  String get menu_email => 'Send an email';
+
+  @override
+  String get menu_map => 'See on map';
 
   @override
   String get menu_edit => 'Edit';

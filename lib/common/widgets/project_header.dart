@@ -76,6 +76,7 @@ class ProjectHeader extends StatelessWidget {
         _showSheet(context);
       case MenuAction.delete:
         delete();
+      default:
     }
   }
 
@@ -142,7 +143,7 @@ class ProjectHeader extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
                     itemBuilder: (BuildContext context) {
-                      return MenuAction.values.map((action) {
+                      return MenuAction.defaults.map((action) {
                         return PopupMenuItem(
                           value: action,
                           child: ListTile(
