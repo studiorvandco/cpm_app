@@ -22,8 +22,6 @@ class Link extends BaseModel {
 
   String get getUrl => url ?? '';
 
-  bool get isValid => getUrl.isNotEmpty && Uri.tryParse(getUrl)!.isAbsolute;
-
   Link({
     required super.id,
     required this.project,
