@@ -55,7 +55,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return ref.watch(projectsProvider).when(
-            data: (List<Project> projects) {
+            data: (projects) {
               return MasonryGridView.count(
                 itemCount: projects.length,
                 padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin + 64, top: 4, left: 4, right: 4),

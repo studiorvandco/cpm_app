@@ -30,7 +30,7 @@ class _ShotDetailsPaneState extends ConsumerState<ShotDetailsPane> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(currentShotProvider).when(
-      data: (Shot shot) {
+      data: (shot) {
         selectedValue = shot.value?.label;
         descriptionController.text = shot.description ?? '';
         descriptionController.selection = TextSelection.collapsed(offset: descriptionController.text.length);

@@ -45,7 +45,7 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
         child: const Icon(Icons.add),
       ),
       body: ref.watch(episodesProvider).when(
-        data: (List<Episode> episodes) {
+        data: (episodes) {
           final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
 
           final header = ProjectHeader.project(

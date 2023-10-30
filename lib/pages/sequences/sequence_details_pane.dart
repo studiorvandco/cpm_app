@@ -28,7 +28,7 @@ class _DetailsPaneSequenceState extends ConsumerState<SequenceDetailsPane> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(currentSequenceProvider).when(
-      data: (Sequence sequence) {
+      data: (sequence) {
         date = sequence.getDate;
         startTime = sequence.getStartTime;
         endTime = sequence.getEndTime;

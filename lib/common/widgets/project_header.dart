@@ -1,12 +1,13 @@
 import 'package:cpm/common/menus/menu_action.dart';
 import 'package:cpm/common/sheets/project/project_sheet.dart';
+import 'package:cpm/common/sheets/sequence/sequence_sheet.dart';
 import 'package:cpm/common/sheets/sheets.dart';
 import 'package:cpm/models/episode/episode.dart';
+import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/pages/episodes/episode_info_sheet.dart';
-import 'package:cpm/pages/sequences/sequence_info_sheet.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
@@ -27,7 +28,8 @@ class ProjectHeader extends StatelessWidget {
     this.director,
     this.writer,
     this.links,
-  }) : type = Project;
+  })  : type = Project,
+        location = null;
 
   const ProjectHeader.episode({
     super.key,
@@ -39,7 +41,8 @@ class ProjectHeader extends StatelessWidget {
         endDate = null,
         director = null,
         writer = null,
-        links = null;
+        links = null,
+        location = null;
 
   const ProjectHeader.sequence({
     super.key,
@@ -48,6 +51,7 @@ class ProjectHeader extends StatelessWidget {
     this.description,
     this.startDate,
     this.endDate,
+    this.location,
   })  : type = Sequence,
         director = null,
         writer = null,
@@ -63,6 +67,7 @@ class ProjectHeader extends StatelessWidget {
   final String? director;
   final String? writer;
   final List<Link>? links;
+  final Location? location;
 
   void _onMenuSelected(BuildContext context, MenuAction action) {
     switch (action) {
@@ -88,7 +93,7 @@ class ProjectHeader extends StatelessWidget {
       case const (Episode):
         sheet = const EpisodeInfoSheet();
       case const (Sequence):
-        sheet = const SequenceInfoSheet();
+        sheet = const SequenceSheet();
       default:
         throw Exception();
     }
@@ -106,6 +111,7 @@ class ProjectHeader extends StatelessWidget {
     final noDirector = director == null || director!.isEmpty;
     final noWriter = writer == null || writer!.isEmpty;
     final noLinks = links == null || links!.isEmpty;
+    final noLocation = location == null || location!.name == null;
 
     return Card(
       margin: Paddings.custom.zero,
@@ -201,8 +207,6 @@ class ProjectHeader extends StatelessWidget {
                   ],
                 ),
                 Padding(padding: Paddings.padding4.vertical),
-              ],
-              if (type == Project) ...[
                 Row(
                   children: [
                     const Icon(Icons.description_outlined),
@@ -220,8 +224,6 @@ class ProjectHeader extends StatelessWidget {
                   ],
                 ),
                 Padding(padding: Paddings.padding4.vertical),
-              ],
-              if (type == Project)
                 Row(
                   children: [
                     const Icon(Icons.link_outlined),
@@ -259,6 +261,25 @@ class ProjectHeader extends StatelessWidget {
                     ),
                   ],
                 ),
+              ],
+              if (type == Sequence) ...[
+                Row(
+                  children: [
+                    const Icon(Icons.map),
+                    Padding(padding: Paddings.padding4.horizontal),
+                    Expanded(
+                      child: Text(
+                        noLocation ? localizations.projects_no_location : location!.getName,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontStyle: noLocation ? FontStyle.italic : null,
+                            ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
         ),

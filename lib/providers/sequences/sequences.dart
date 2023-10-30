@@ -1,4 +1,3 @@
-import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/sequence_location/sequence_location.dart';
 import 'package:cpm/providers/base_provider.dart';
@@ -16,7 +15,7 @@ class Sequences extends _$Sequences with BaseProvider {
   @override
   FutureOr<List<Sequence>> build() {
     return ref.watch(currentEpisodeProvider).when(
-      data: (Episode episode) async {
+      data: (episode) async {
         return selectSequenceService.selectSequences(episode.id);
       },
       error: (Object error, StackTrace stackTrace) {
@@ -32,7 +31,7 @@ class Sequences extends _$Sequences with BaseProvider {
     state = const AsyncLoading<List<Sequence>>();
 
     return ref.watch(currentEpisodeProvider).when(
-      data: (Episode episode) async {
+      data: (episode) async {
         final List<Sequence> sequences = await selectSequenceService.selectSequences(episode.id);
         state = AsyncData<List<Sequence>>(sequences);
       },
@@ -89,6 +88,7 @@ class Sequences extends _$Sequences with BaseProvider {
       return false;
     }
     if (locationId != null) {
+      print('juj');
       final SequenceLocation newSequenceLocation = SequenceLocation.insert(
         sequence: editedSequence.id,
         location: locationId,
@@ -128,7 +128,7 @@ class Sequences extends _$Sequences with BaseProvider {
   }
 
   Future<void> _updateLocation(SequenceLocation sequenceLocation) async {
-    await updateService.updateWhere(
+    await updateService.updateOrInsert(
       SupabaseTable.sequenceLocation,
       sequenceLocation,
       'sequence',

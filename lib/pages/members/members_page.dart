@@ -40,7 +40,7 @@ class _MembersState extends ConsumerState<MembersPage> {
         child: const Icon(Icons.add),
       ),
       body: ref.watch(membersProvider).when(
-        data: (List<Member> members) {
+        data: (members) {
           return ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               final member = members[index];

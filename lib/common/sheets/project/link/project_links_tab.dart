@@ -1,7 +1,6 @@
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/common/sheets/project/link/project_link_editor.dart';
 import 'package:cpm/models/project/link.dart';
-import 'package:cpm/models/project/project.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/extensions/list_extensions.dart';
@@ -46,7 +45,7 @@ class _LinksEditorState extends ConsumerState<ProjectLinksTab> {
       child: Padding(
         padding: Paddings.custom.drawer,
         child: ref.watch(currentProjectProvider).when(
-          data: (Project project) {
+          data: (project) {
             project.sortLinks();
             final links = project.links;
 

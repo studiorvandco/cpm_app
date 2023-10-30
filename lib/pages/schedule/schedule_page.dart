@@ -24,7 +24,7 @@ class _ScheduleState extends ConsumerState<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(sequencesProvider).when(
-      data: (List<Sequence> sequences) {
+      data: (sequences) {
         return SfCalendar(
           controller: _calendarController,
           dataSource: SequencesDataSource(sequences),

@@ -157,6 +157,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get projects_no_links => 'No links';
 
   @override
+  String get projects_no_location => 'No location';
+
+  @override
+  String get projects_no_name => 'Unnamed';
+
+  @override
   String get schedule_schedule => 'Schedule';
 
   @override

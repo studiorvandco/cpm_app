@@ -36,7 +36,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
         child: const Icon(Icons.add),
       ),
       body: ref.watch(shotsProvider).when(
-        data: (List<Shot> shots) {
+        data: (shots) {
           final sequence = ref.watch(currentSequenceProvider).unwrapPrevious().valueOrNull;
 
           final header = ProjectHeader.sequence(
@@ -45,6 +45,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
             description: sequence?.description,
             startDate: sequence?.startDate,
             endDate: sequence?.endDate,
+            location: sequence?.location,
           );
 
           final body = LayoutBuilder(

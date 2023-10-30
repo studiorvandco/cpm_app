@@ -157,6 +157,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get projects_no_links => 'Aucun lien';
 
   @override
+  String get projects_no_location => 'Pas de lieu';
+
+  @override
+  String get projects_no_name => 'Sans nom';
+
+  @override
   String get schedule_schedule => 'Planning';
 
   @override

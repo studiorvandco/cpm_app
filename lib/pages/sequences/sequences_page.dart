@@ -47,7 +47,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
         child: const Icon(Icons.add),
       ),
       body: ref.watch(sequencesProvider).when(
-        data: (List<Sequence> sequences) {
+        data: (sequences) {
           final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
           final episode = ref.watch(currentEpisodeProvider).unwrapPrevious().valueOrNull;
 

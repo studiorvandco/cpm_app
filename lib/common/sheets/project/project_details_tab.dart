@@ -17,7 +17,10 @@ class ProjectDetailsTab extends ConsumerStatefulWidget {
 class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
-  DateTimeRange dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
+  DateTimeRange dateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().weekLater,
+  );
 
   @override
   void initState() {
@@ -33,7 +36,7 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
   }
 
   void _onSubmitted(Project project) {
-    if (title.text == project.title || description.text == project.description) return;
+    if (title.text == project.title && description.text == project.description) return;
 
     _edit(project);
   }
@@ -68,7 +71,7 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
       child: Padding(
         padding: Paddings.custom.drawer,
         child: ref.watch(currentProjectProvider).when(
-          data: (Project project) {
+          data: (project) {
             return Column(
               children: [
                 OutlinedButton.icon(

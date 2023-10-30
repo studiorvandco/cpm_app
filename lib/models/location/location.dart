@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cpm/models/base_model.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'location.g.dart';
@@ -10,7 +11,7 @@ class Location extends BaseModel {
   String? name;
   String? position;
 
-  String get getName => name ?? 'Unnamed';
+  String get getName => name ?? localizations.projects_no_name;
 
   Location({
     required super.id,

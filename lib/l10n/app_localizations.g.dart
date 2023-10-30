@@ -303,6 +303,18 @@ abstract class AppLocalizations {
   /// **'No links'**
   String get projects_no_links;
 
+  /// No description provided for @projects_no_location.
+  ///
+  /// In en, this message translates to:
+  /// **'No location'**
+  String get projects_no_location;
+
+  /// No description provided for @projects_no_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed'**
+  String get projects_no_name;
+
   /// No description provided for @schedule_schedule.
   ///
   /// In en, this message translates to:

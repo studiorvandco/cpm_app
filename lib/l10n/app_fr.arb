@@ -34,6 +34,8 @@
   "projects_no_director": "Aucun directeur",
   "projects_no_writer": "Aucun scénariste",
   "projects_no_links": "Aucun lien",
+  "projects_no_location": "Pas de lieu",
+  "projects_no_name": "Sans nom",
   "schedule_schedule": "Planning",
   "members_members": "{count, plural, zero{Aucun membre} one{Membre} other{Membres}}",
   "members_call": "Appeler",

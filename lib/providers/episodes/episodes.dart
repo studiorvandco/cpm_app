@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cpm/models/episode/episode.dart';
-import 'package:cpm/models/project/project.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/services/config/supabase_table.dart';
@@ -16,7 +15,7 @@ class Episodes extends _$Episodes with BaseProvider {
   @override
   FutureOr<List<Episode>> build() {
     return ref.watch(currentProjectProvider).when(
-      data: (Project project) async {
+      data: (project) async {
         final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
 
         return episodes;

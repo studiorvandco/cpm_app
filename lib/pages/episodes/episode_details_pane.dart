@@ -1,6 +1,5 @@
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/models/episode/episode.dart';
-import 'package:cpm/models/project/project.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/constants/constants.dart';
@@ -21,9 +20,9 @@ class _DetailsPaneEpisodeState extends ConsumerState<EpisodeDetailsPane> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(currentProjectProvider).when(
-      data: (Project project) {
+      data: (project) {
         return ref.watch(currentEpisodeProvider).when(
-          data: (Episode episode) {
+          data: (episode) {
             titleController.text = episode.getTitle;
             descriptionController.text = episode.getDescription;
             titleController.selection = TextSelection.collapsed(offset: titleController.text.length);

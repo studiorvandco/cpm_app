@@ -1,4 +1,3 @@
-import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
@@ -14,7 +13,7 @@ class Shots extends _$Shots with BaseProvider {
   @override
   FutureOr<List<Shot>> build() {
     return ref.watch(currentSequenceProvider).when(
-      data: (Sequence sequence) async {
+      data: (sequence) async {
         return selectShotService.selectShots(sequence.id);
       },
       error: (Object error, StackTrace stackTrace) {
@@ -30,7 +29,7 @@ class Shots extends _$Shots with BaseProvider {
     state = const AsyncLoading<List<Shot>>();
 
     return ref.watch(currentSequenceProvider).when(
-      data: (Sequence sequence) async {
+      data: (sequence) async {
         final List<Shot> shots = await selectShotService.selectShots(sequence.id);
         state = AsyncData<List<Shot>>(shots);
       },
