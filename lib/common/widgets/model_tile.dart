@@ -1,11 +1,11 @@
 import 'package:cpm/common/menus/menu_action.dart';
-import 'package:cpm/common/sheets/member/member_sheet.dart';
+import 'package:cpm/common/sheets/location_sheet.dart';
+import 'package:cpm/common/sheets/member_sheet.dart';
 import 'package:cpm/common/sheets/sheets.dart';
 import 'package:cpm/common/widgets/icon_image_provider.dart';
 import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
-import 'package:cpm/pages/locations/member_sheet.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/paddings.dart';

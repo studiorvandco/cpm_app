@@ -1,11 +1,8 @@
 import 'package:cpm/common/placeholders/request_placeholder.dart';
 import 'package:cpm/models/location/location.dart';
-import 'package:cpm/models/member/member.dart';
 import 'package:cpm/providers/locations/locations.dart';
-import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/extensions/string_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -28,18 +25,6 @@ class _MemberSheetState extends ConsumerState<LocationSheet> with SingleTickerPr
     final location = ref.read(currentLocationProvider).value;
     name.text = location?.name ?? '';
     position.text = location?.position ?? '';
-  }
-
-  String? _validatePhone(String? phone) {
-    if (phone == null || phone.isEmpty && phone.isValidPhone) return null;
-
-    return localizations.error_invalid_phone;
-  }
-
-  String? _validateEmail(String? email) {
-    if (email == null || email.isEmpty || email.isValidEmail) return null;
-
-    return localizations.error_invalid_email;
   }
 
   void _onSubmitted(Location location) {
