@@ -1,4 +1,5 @@
 import 'package:cpm/common/menus/menu_action.dart';
+import 'package:cpm/common/sheets/episode/episode_sheet.dart';
 import 'package:cpm/common/sheets/project/project_sheet.dart';
 import 'package:cpm/common/sheets/sequence/sequence_sheet.dart';
 import 'package:cpm/common/sheets/sheets.dart';
@@ -7,7 +8,6 @@ import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/models/sequence/sequence.dart';
-import 'package:cpm/pages/episodes/episode_info_sheet.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
@@ -93,7 +93,7 @@ class ProjectHeader extends StatelessWidget {
       case const (Project):
         sheet = const ProjectSheet();
       case const (Episode):
-        sheet = const EpisodeInfoSheet();
+        sheet = const EpisodeSheet();
       case const (Sequence):
         sheet = const SequenceSheet();
       default:
@@ -173,25 +173,27 @@ class ProjectHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(padding: Paddings.padding8.vertical),
-              Row(
-                children: [
-                  const Icon(Icons.calendar_month_outlined),
-                  Padding(padding: Paddings.padding4.horizontal),
-                  Expanded(
-                    child: Text(
-                      noDates ? localizations.projects_no_dates : '${startDate?.yMd} - ${endDate?.yMd}',
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontStyle: noDates ? FontStyle.italic : null,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+              if (type == Project || type == Sequence) ...[
+                Padding(padding: Paddings.padding4.vertical),
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_month_outlined),
+                    Padding(padding: Paddings.padding4.horizontal),
+                    Expanded(
+                      child: Text(
+                        noDates ? localizations.projects_no_dates : '${startDate?.yMd} - ${endDate?.yMd}',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              fontStyle: noDates ? FontStyle.italic : null,
+                            ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              Padding(padding: Paddings.padding4.vertical),
+                  ],
+                ),
+              ],
               if (type == Project) ...[
+                Padding(padding: Paddings.padding4.vertical),
                 Row(
                   children: [
                     const Icon(Icons.movie_outlined),
@@ -266,6 +268,7 @@ class ProjectHeader extends StatelessWidget {
                 ),
               ],
               if (type == Sequence) ...[
+                Padding(padding: Paddings.padding4.vertical),
                 Row(
                   children: [
                     const Icon(Icons.map),

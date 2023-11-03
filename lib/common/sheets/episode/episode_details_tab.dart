@@ -1,110 +1,43 @@
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/models/location/location.dart';
-import 'package:cpm/models/sequence/sequence.dart';
-import 'package:cpm/providers/locations/locations.dart';
-import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/models/episode/episode.dart';
+import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/extensions/date_time_extensions.dart';
-import 'package:cpm/utils/extensions/time_of_day_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SequenceDetailsTab extends ConsumerStatefulWidget {
-  const SequenceDetailsTab({super.key});
+class EpisodeDetailsTab extends ConsumerStatefulWidget {
+  const EpisodeDetailsTab({super.key});
 
   @override
-  ConsumerState<SequenceDetailsTab> createState() => _ProjectDetailsTabState();
+  ConsumerState<EpisodeDetailsTab> createState() => _ProjectDetailsTabState();
 }
 
-class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
+class _ProjectDetailsTabState extends ConsumerState<EpisodeDetailsTab> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
-  DateTime? date = DateTime.now();
-  TimeOfDay? startTime = TimeOfDay.now();
-  TimeOfDay? endTime = TimeOfDay.now().hourLater;
-  Location? location;
 
   @override
   void initState() {
     super.initState();
 
-    final sequence = ref.read(currentSequenceProvider).value;
-    title.text = sequence?.title ?? '';
-    description.text = sequence?.description ?? '';
-    date = sequence?.getDate;
-    startTime = sequence?.getStartTime;
-    endTime = sequence?.getEndTime;
-    location = sequence?.location;
+    final episode = ref.read(currentEpisodeProvider).value;
+    title.text = episode?.title ?? '';
+    description.text = episode?.description ?? '';
   }
 
-  Future<void> _pickDateTime(Sequence sequence) async {
-    await showDatePicker(
-      context: context,
-      initialDate: date ?? DateTime.now(),
-      firstDate: DateTime.now().hundredYearsBefore,
-      lastDate: DateTime.now().hundredYearsLater,
-    ).then((pickedDate) async {
-      if (pickedDate == null) return;
+  void _onSubmitted(Episode episode) {
+    if (title.text == episode.title && description.text == episode.description) return;
 
-      await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      ).then((pickedStartTime) async {
-        if (pickedStartTime == null) return;
-
-        await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.now(),
-        ).then((pickedEndTime) {
-          if (pickedEndTime == null) return;
-
-          date = pickedDate;
-          startTime = pickedStartTime;
-          endTime = pickedEndTime;
-          _edit(sequence);
-        });
-      });
-    });
+    _edit(episode);
   }
 
-  void _onLocationSelected(Sequence sequence, Location? newLocation) {
-    if (newLocation == null) return;
+  void _edit(Episode episode) {
+    episode.title = title.text;
+    episode.description = description.text;
 
-    location = newLocation;
-    _edit(sequence);
-  }
-
-  void _onSubmitted(Sequence sequence) {
-    if (title.text == sequence.title &&
-        description.text == sequence.description &&
-        location == sequence.location &&
-        date == sequence.getDate &&
-        startTime == sequence.getStartTime &&
-        endTime == sequence.getEndTime) return;
-
-    _edit(sequence);
-  }
-
-  void _edit(Sequence sequence) {
-    sequence.title = title.text;
-    sequence.description = description.text;
-    if (date != null && startTime != null) {
-      sequence.startDate = DateTime(date!.year, date!.month, date!.day, startTime!.hour, startTime!.minute);
-    }
-    if (date != null && endTime != null) {
-      sequence.endDate = DateTime(date!.year, date!.month, date!.day, endTime!.hour, endTime!.minute);
-    }
-    if (location != null) {
-      sequence.location = Location(
-        id: location!.id,
-        name: location!.name,
-        position: location!.position,
-      );
-    }
-
-    ref.read(sequencesProvider.notifier).edit(sequence, location?.id);
-    ref.read(currentSequenceProvider.notifier).set(sequence);
+    ref.read(episodesProvider.notifier).edit(episode);
+    ref.read(currentEpisodeProvider.notifier).set(episode);
   }
 
   @override
@@ -112,51 +45,12 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
     return SingleChildScrollView(
       child: Padding(
         padding: Paddings.custom.drawer,
-        child: ref.watch(currentSequenceProvider).when(
-          data: (sequence) {
+        child: ref.watch(currentEpisodeProvider).when(
+          data: (episode) {
             return Column(
               children: [
-                Row(
-                  children: [
-                    OutlinedButton.icon(
-                      icon: const Icon(Icons.calendar_month),
-                      label: Text('${date?.yMd} | ${startTime?.format(context)} - ${endTime?.format(context)}'),
-                      onPressed: () => _pickDateTime(sequence),
-                    ),
-                    Padding(padding: Paddings.padding8.horizontal),
-                    Expanded(
-                      child: ref.watch(locationsProvider).when(
-                        data: (locations) {
-                          return DropdownButtonFormField<Location>(
-                            isExpanded: true,
-                            hint: Text(localizations.dialog_field_position),
-                            value: location,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              isDense: true,
-                            ),
-                            items: locations.map<DropdownMenuItem<Location>>((location) {
-                              return DropdownMenuItem<Location>(
-                                value: location,
-                                child: Text(location.getName),
-                              );
-                            }).toList(),
-                            onChanged: (location) => _onLocationSelected(sequence, location),
-                          );
-                        },
-                        loading: () {
-                          return requestPlaceholderLoading;
-                        },
-                        error: (Object error, StackTrace stackTrace) {
-                          return requestPlaceholderError;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(padding: Paddings.padding8.vertical),
                 Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(sequence) : null,
+                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(episode) : null,
                   child: TextField(
                     controller: title,
                     textInputAction: TextInputAction.next,
@@ -164,12 +58,12 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
                     decoration: InputDecoration.collapsed(
                       hintText: localizations.dialog_field_title,
                     ),
-                    onSubmitted: (_) => _onSubmitted(sequence),
+                    onSubmitted: (_) => _onSubmitted(episode),
                   ),
                 ),
                 Padding(padding: Paddings.padding8.vertical),
                 Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(sequence) : null,
+                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(episode) : null,
                   child: TextField(
                     controller: description,
                     decoration: InputDecoration.collapsed(
@@ -178,7 +72,7 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
                     keyboardType: TextInputType.multiline,
                     minLines: 3,
                     maxLines: null,
-                    onSubmitted: (_) => _onSubmitted(sequence),
+                    onSubmitted: (_) => _onSubmitted(episode),
                   ),
                 ),
               ],

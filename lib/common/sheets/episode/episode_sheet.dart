@@ -1,14 +1,14 @@
-import 'package:cpm/common/sheets/sequence/sequence_details_tab.dart';
+import 'package:cpm/common/sheets/episode/episode_details_tab.dart';
 import 'package:flutter/material.dart';
 
-class SequenceSheet extends StatefulWidget {
-  const SequenceSheet({super.key});
+class EpisodeSheet extends StatefulWidget {
+  const EpisodeSheet({super.key});
 
   @override
-  State<SequenceSheet> createState() => _SequenceSheetState();
+  State<EpisodeSheet> createState() => _EpisodeSheetState();
 }
 
-class _SequenceSheetState extends State<SequenceSheet> with SingleTickerProviderStateMixin {
+class _EpisodeSheetState extends State<EpisodeSheet> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -25,7 +25,7 @@ class _SequenceSheetState extends State<SequenceSheet> with SingleTickerProvider
             height: MediaQuery.of(context).size.height * 2 / 3,
             child: const TabBarView(
               children: [
-                SequenceDetailsTab(),
+                EpisodeDetailsTab(),
               ],
             ),
           ),
