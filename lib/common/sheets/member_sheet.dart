@@ -66,85 +66,80 @@ class _MemberSheetState extends ConsumerState<MemberSheet> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: Paddings.custom.drawer,
-        child: ref.watch(currentMemberProvider).when(
-          data: (member) {
-            return Form(
-              key: formKey,
-              child: Column(
+    return ref.watch(currentMemberProvider).when(
+      data: (member) {
+        return Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Focus(
-                          onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
-                          child: TextField(
-                            controller: firstName,
-                            textInputAction: TextInputAction.next,
-                            style: Theme.of(context).textTheme.titleMedium,
-                            decoration: InputDecoration.collapsed(
-                              hintText: localizations.dialog_field_first_name,
-                            ),
-                            onSubmitted: (_) => _onSubmitted(member),
-                          ),
+                  Flexible(
+                    child: Focus(
+                      onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
+                      child: TextField(
+                        controller: firstName,
+                        textInputAction: TextInputAction.next,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        decoration: InputDecoration.collapsed(
+                          hintText: localizations.dialog_field_first_name,
                         ),
+                        onSubmitted: (_) => _onSubmitted(member),
                       ),
-                      Padding(padding: Paddings.padding4.horizontal),
-                      Flexible(
-                        child: Focus(
-                          onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
-                          child: TextField(
-                            controller: lastName,
-                            textInputAction: TextInputAction.next,
-                            style: Theme.of(context).textTheme.titleMedium,
-                            decoration: InputDecoration.collapsed(
-                              hintText: localizations.dialog_field_last_name,
-                            ),
-                            onSubmitted: (_) => _onSubmitted(member),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(padding: Paddings.padding8.vertical),
-                  Focus(
-                    onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
-                    child: TextFormField(
-                      controller: phone,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration.collapsed(
-                        hintText: localizations.dialog_field_phone,
-                      ),
-                      onChanged: _validatePhone,
-                      onFieldSubmitted: (_) => _onSubmitted(member),
                     ),
                   ),
-                  Padding(padding: Paddings.padding8.vertical),
-                  Focus(
-                    onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
-                    child: TextFormField(
-                      controller: email,
-                      decoration: InputDecoration.collapsed(
-                        hintText: localizations.dialog_field_email,
+                  Padding(padding: Paddings.padding4.horizontal),
+                  Flexible(
+                    child: Focus(
+                      onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
+                      child: TextField(
+                        controller: lastName,
+                        textInputAction: TextInputAction.next,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        decoration: InputDecoration.collapsed(
+                          hintText: localizations.dialog_field_last_name,
+                        ),
+                        onSubmitted: (_) => _onSubmitted(member),
                       ),
-                      onChanged: _validateEmail,
-                      onFieldSubmitted: (_) => _onSubmitted(member),
                     ),
                   ),
                 ],
               ),
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+              Padding(padding: Paddings.padding8.vertical),
+              Focus(
+                onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
+                child: TextFormField(
+                  controller: phone,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration.collapsed(
+                    hintText: localizations.dialog_field_phone,
+                  ),
+                  onChanged: _validatePhone,
+                  onFieldSubmitted: (_) => _onSubmitted(member),
+                ),
+              ),
+              Padding(padding: Paddings.padding8.vertical),
+              Focus(
+                onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(member) : null,
+                child: TextFormField(
+                  controller: email,
+                  decoration: InputDecoration.collapsed(
+                    hintText: localizations.dialog_field_email,
+                  ),
+                  onChanged: _validateEmail,
+                  onFieldSubmitted: (_) => _onSubmitted(member),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }

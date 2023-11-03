@@ -67,56 +67,51 @@ class _ProjectDetailsTabState extends ConsumerState<ProjectDetailsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: Paddings.custom.drawer,
-        child: ref.watch(currentProjectProvider).when(
-          data: (project) {
-            return Column(
-              children: [
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.calendar_month),
-                  label: Text('${dateRange.start.yMd} - ${dateRange.end.yMd}'),
-                  onPressed: () => _pickDateRange(project),
+    return ref.watch(currentProjectProvider).when(
+      data: (project) {
+        return Column(
+          children: [
+            OutlinedButton.icon(
+              icon: const Icon(Icons.calendar_month),
+              label: Text('${dateRange.start.yMd} - ${dateRange.end.yMd}'),
+              onPressed: () => _pickDateRange(project),
+            ),
+            Padding(padding: Paddings.padding8.vertical),
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(project) : null,
+              child: TextField(
+                controller: title,
+                textInputAction: TextInputAction.next,
+                style: Theme.of(context).textTheme.titleMedium,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_title,
                 ),
-                Padding(padding: Paddings.padding8.vertical),
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(project) : null,
-                  child: TextField(
-                    controller: title,
-                    textInputAction: TextInputAction.next,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_title,
-                    ),
-                    onSubmitted: (_) => _onSubmitted(project),
-                  ),
+                onSubmitted: (_) => _onSubmitted(project),
+              ),
+            ),
+            Padding(padding: Paddings.padding8.vertical),
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(project) : null,
+              child: TextField(
+                controller: description,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_description,
                 ),
-                Padding(padding: Paddings.padding8.vertical),
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(project) : null,
-                  child: TextField(
-                    controller: description,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_description,
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    minLines: 3,
-                    maxLines: null,
-                    onSubmitted: (_) => _onSubmitted(project),
-                  ),
-                ),
-              ],
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: null,
+                onSubmitted: (_) => _onSubmitted(project),
+              ),
+            ),
+          ],
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }

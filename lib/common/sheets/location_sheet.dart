@@ -43,49 +43,44 @@ class _MemberSheetState extends ConsumerState<LocationSheet> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: Paddings.custom.drawer,
-        child: ref.watch(currentLocationProvider).when(
-          data: (location) {
-            return Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  Focus(
-                    onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
-                    child: TextFormField(
-                      controller: name,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration.collapsed(
-                        hintText: localizations.dialog_field_name,
-                      ),
-                      onFieldSubmitted: (_) => _onSubmitted(location),
-                    ),
+    return ref.watch(currentLocationProvider).when(
+      data: (location) {
+        return Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Focus(
+                onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
+                child: TextFormField(
+                  controller: name,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration.collapsed(
+                    hintText: localizations.dialog_field_name,
                   ),
-                  Padding(padding: Paddings.padding8.vertical),
-                  Focus(
-                    onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
-                    child: TextFormField(
-                      controller: position,
-                      decoration: InputDecoration.collapsed(
-                        hintText: localizations.dialog_field_position,
-                      ),
-                      onFieldSubmitted: (_) => _onSubmitted(location),
-                    ),
-                  ),
-                ],
+                  onFieldSubmitted: (_) => _onSubmitted(location),
+                ),
               ),
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+              Padding(padding: Paddings.padding8.vertical),
+              Focus(
+                onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
+                child: TextFormField(
+                  controller: position,
+                  decoration: InputDecoration.collapsed(
+                    hintText: localizations.dialog_field_position,
+                  ),
+                  onFieldSubmitted: (_) => _onSubmitted(location),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }

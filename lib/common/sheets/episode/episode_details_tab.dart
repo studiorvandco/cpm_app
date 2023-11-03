@@ -42,50 +42,45 @@ class _ProjectDetailsTabState extends ConsumerState<EpisodeDetailsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: Paddings.custom.drawer,
-        child: ref.watch(currentEpisodeProvider).when(
-          data: (episode) {
-            return Column(
-              children: [
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(episode) : null,
-                  child: TextField(
-                    controller: title,
-                    textInputAction: TextInputAction.next,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_title,
-                    ),
-                    onSubmitted: (_) => _onSubmitted(episode),
-                  ),
+    return ref.watch(currentEpisodeProvider).when(
+      data: (episode) {
+        return Column(
+          children: [
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(episode) : null,
+              child: TextField(
+                controller: title,
+                textInputAction: TextInputAction.next,
+                style: Theme.of(context).textTheme.titleMedium,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_title,
                 ),
-                Padding(padding: Paddings.padding8.vertical),
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(episode) : null,
-                  child: TextField(
-                    controller: description,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_description,
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    minLines: 3,
-                    maxLines: null,
-                    onSubmitted: (_) => _onSubmitted(episode),
-                  ),
+                onSubmitted: (_) => _onSubmitted(episode),
+              ),
+            ),
+            Padding(padding: Paddings.padding8.vertical),
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(episode) : null,
+              child: TextField(
+                controller: description,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_description,
                 ),
-              ],
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: null,
+                onSubmitted: (_) => _onSubmitted(episode),
+              ),
+            ),
+          ],
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cpm/utils/constants/paddings.dart';
 import 'package:flutter/material.dart';
 
 class Sheet extends StatefulWidget {
@@ -16,16 +17,43 @@ class Sheet extends StatefulWidget {
   State<Sheet> createState() => _SheetState();
 }
 
-class _SheetState extends State<Sheet> with SingleTickerProviderStateMixin {
+class _SheetState extends State<Sheet> with TickerProviderStateMixin {
+  int index = 0;
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.icons != null) {
+      tabController = TabController(length: widget.icons!.length, vsync: this);
+    }
+  }
+
+  void _changeTab(int? newIndex) {
+    if (newIndex == null) return;
+
+    setState(() {
+      index = newIndex;
+      tabController.index = newIndex;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.icons == null) {
-      return widget.tabs.first;
+      return SingleChildScrollView(
+        child: Padding(
+          padding: Paddings.custom.drawer,
+          child: Wrap(
+            children: [
+              widget.tabs.first,
+            ],
+          ),
+        ),
+      );
     } else {
-      final tabController = TabController(length: widget.icons!.length, vsync: this);
-
-      return DefaultTabController(
-        length: widget.icons!.length,
+      return SingleChildScrollView(
         child: Wrap(
           children: [
             TabBar(
@@ -33,8 +61,12 @@ class _SheetState extends State<Sheet> with SingleTickerProviderStateMixin {
               tabs: widget.icons!.map((icon) {
                 return Tab(icon: Icon(icon));
               }).toList(),
+              onTap: _changeTab,
             ),
-            widget.tabs[tabController.index],
+            Padding(
+              padding: Paddings.custom.drawer,
+              child: widget.tabs[index],
+            ),
           ],
         ),
       );

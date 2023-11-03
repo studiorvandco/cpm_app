@@ -109,89 +109,84 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: Paddings.custom.drawer,
-        child: ref.watch(currentSequenceProvider).when(
-          data: (sequence) {
-            return Column(
+    return ref.watch(currentSequenceProvider).when(
+      data: (sequence) {
+        return Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    OutlinedButton.icon(
-                      icon: const Icon(Icons.calendar_month),
-                      label: Text('${date?.yMd} | ${startTime?.format(context)} - ${endTime?.format(context)}'),
-                      onPressed: () => _pickDateTime(sequence),
-                    ),
-                    Padding(padding: Paddings.padding8.horizontal),
-                    Expanded(
-                      child: ref.watch(locationsProvider).when(
-                        data: (locations) {
-                          return DropdownButtonFormField<Location>(
-                            isExpanded: true,
-                            hint: Text(localizations.dialog_field_position),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.calendar_month),
+                  label: Text('${date?.yMd} | ${startTime?.format(context)} - ${endTime?.format(context)}'),
+                  onPressed: () => _pickDateTime(sequence),
+                ),
+                Padding(padding: Paddings.padding8.horizontal),
+                Expanded(
+                  child: ref.watch(locationsProvider).when(
+                    data: (locations) {
+                      return DropdownButtonFormField<Location>(
+                        isExpanded: true,
+                        hint: Text(localizations.dialog_field_position),
+                        value: location,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                        items: locations.map<DropdownMenuItem<Location>>((location) {
+                          return DropdownMenuItem<Location>(
                             value: location,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              isDense: true,
-                            ),
-                            items: locations.map<DropdownMenuItem<Location>>((location) {
-                              return DropdownMenuItem<Location>(
-                                value: location,
-                                child: Text(location.getName),
-                              );
-                            }).toList(),
-                            onChanged: (location) => _onLocationSelected(sequence, location),
+                            child: Text(location.getName),
                           );
-                        },
-                        loading: () {
-                          return requestPlaceholderLoading;
-                        },
-                        error: (Object error, StackTrace stackTrace) {
-                          return requestPlaceholderError;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(padding: Paddings.padding8.vertical),
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(sequence) : null,
-                  child: TextField(
-                    controller: title,
-                    textInputAction: TextInputAction.next,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_title,
-                    ),
-                    onSubmitted: (_) => _onSubmitted(sequence),
-                  ),
-                ),
-                Padding(padding: Paddings.padding8.vertical),
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(sequence) : null,
-                  child: TextField(
-                    controller: description,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_description,
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    minLines: 3,
-                    maxLines: null,
-                    onSubmitted: (_) => _onSubmitted(sequence),
+                        }).toList(),
+                        onChanged: (location) => _onLocationSelected(sequence, location),
+                      );
+                    },
+                    loading: () {
+                      return requestPlaceholderLoading;
+                    },
+                    error: (Object error, StackTrace stackTrace) {
+                      return requestPlaceholderError;
+                    },
                   ),
                 ),
               ],
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+            ),
+            Padding(padding: Paddings.padding8.vertical),
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(sequence) : null,
+              child: TextField(
+                controller: title,
+                textInputAction: TextInputAction.next,
+                style: Theme.of(context).textTheme.titleMedium,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_title,
+                ),
+                onSubmitted: (_) => _onSubmitted(sequence),
+              ),
+            ),
+            Padding(padding: Paddings.padding8.vertical),
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(sequence) : null,
+              child: TextField(
+                controller: description,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_description,
+                ),
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: null,
+                onSubmitted: (_) => _onSubmitted(sequence),
+              ),
+            ),
+          ],
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }

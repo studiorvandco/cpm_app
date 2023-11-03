@@ -51,61 +51,56 @@ class _ProjectDetailsTabState extends ConsumerState<ShotDetailsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: Paddings.custom.drawer,
-        child: ref.watch(currentShotProvider).when(
-          data: (shot) {
-            return Column(
-              children: [
-                DropdownButtonFormField<ShotValue>(
-                  isExpanded: true,
-                  hint: Text(localizations.dialog_field_value),
+    return ref.watch(currentShotProvider).when(
+      data: (shot) {
+        return Column(
+          children: [
+            DropdownButtonFormField<ShotValue>(
+              isExpanded: true,
+              hint: Text(localizations.dialog_field_value),
+              value: value,
+              decoration: InputDecoration(
+                labelText: localizations.dialog_field_value,
+                border: const OutlineInputBorder(),
+                isDense: true,
+              ),
+              items: ShotValue.values.map<DropdownMenuItem<ShotValue>>((value) {
+                return DropdownMenuItem<ShotValue>(
                   value: value,
-                  decoration: InputDecoration(
-                    labelText: localizations.dialog_field_value,
-                    border: const OutlineInputBorder(),
-                    isDense: true,
+                  child: Row(
+                    children: [
+                      ColoredCircle(color: value.color),
+                      Padding(padding: Paddings.padding4.horizontal),
+                      Text(value.label),
+                    ],
                   ),
-                  items: ShotValue.values.map<DropdownMenuItem<ShotValue>>((value) {
-                    return DropdownMenuItem<ShotValue>(
-                      value: value,
-                      child: Row(
-                        children: [
-                          ColoredCircle(color: value.color),
-                          Padding(padding: Paddings.padding4.horizontal),
-                          Text(value.label),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) => _onValueSelected(shot, value),
+                );
+              }).toList(),
+              onChanged: (value) => _onValueSelected(shot, value),
+            ),
+            Padding(padding: Paddings.padding8.vertical),
+            Focus(
+              onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(shot) : null,
+              child: TextField(
+                controller: description,
+                decoration: InputDecoration.collapsed(
+                  hintText: localizations.dialog_field_value,
                 ),
-                Padding(padding: Paddings.padding8.vertical),
-                Focus(
-                  onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(shot) : null,
-                  child: TextField(
-                    controller: description,
-                    decoration: InputDecoration.collapsed(
-                      hintText: localizations.dialog_field_value,
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    minLines: 3,
-                    maxLines: null,
-                    onSubmitted: (_) => _onSubmitted(shot),
-                  ),
-                ),
-              ],
-            );
-          },
-          error: (Object error, StackTrace stackTrace) {
-            return requestPlaceholderError;
-          },
-          loading: () {
-            return requestPlaceholderLoading;
-          },
-        ),
-      ),
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: null,
+                onSubmitted: (_) => _onSubmitted(shot),
+              ),
+            ),
+          ],
+        );
+      },
+      error: (Object error, StackTrace stackTrace) {
+        return requestPlaceholderError;
+      },
+      loading: () {
+        return requestPlaceholderLoading;
+      },
     );
   }
 }
