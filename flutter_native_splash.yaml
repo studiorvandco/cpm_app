@@ -12,7 +12,3 @@ flutter_native_splash:
 
     image_dark: "assets/icons/cpm.png"
     color_dark: "#042a49"
-
-  # android: false
-  # ios: false
-  web: false

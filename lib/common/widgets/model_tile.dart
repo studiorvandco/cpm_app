@@ -5,6 +5,7 @@ import 'package:cpm/common/widgets/icon_image_provider.dart';
 import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
+import 'package:cpm/pages/locations/member_sheet.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/paddings.dart';
@@ -49,7 +50,7 @@ class _InfoTileState<T extends BaseModel> extends ConsumerState<ModelTile> {
         sheet = const MemberSheet();
       case const (Location):
         ref.read(currentLocationProvider.notifier).set(widget.model as Location);
-        sheet = const MemberSheet();
+        sheet = const LocationSheet();
       default:
         throw Exception();
     }
