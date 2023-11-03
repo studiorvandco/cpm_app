@@ -1,8 +1,10 @@
 import 'package:cpm/common/menus/menu_action.dart';
-import 'package:cpm/common/sheets/episode/episode_sheet.dart';
-import 'package:cpm/common/sheets/project/project_sheet.dart';
-import 'package:cpm/common/sheets/sequence/sequence_sheet.dart';
-import 'package:cpm/common/sheets/sheets.dart';
+import 'package:cpm/common/sheets/episode/episode_details_tab.dart';
+import 'package:cpm/common/sheets/project/link/project_links_tab.dart';
+import 'package:cpm/common/sheets/project/project_details_tab.dart';
+import 'package:cpm/common/sheets/sequence/sequence_details_tab.dart';
+import 'package:cpm/common/sheets/sheet.dart';
+import 'package:cpm/common/sheets/sheet_manager.dart';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/project/link.dart';
@@ -91,16 +93,25 @@ class ProjectHeader extends StatelessWidget {
 
     switch (type) {
       case const (Project):
-        sheet = const ProjectSheet();
+        sheet = Sheet(
+          tabs: const [ProjectDetailsTab(), ProjectLinksTab()],
+          icons: const [Icons.info, Icons.link],
+        );
       case const (Episode):
-        sheet = const EpisodeSheet();
+        sheet = Sheet(
+          tabs: const [SequenceDetailsTab()],
+          icons: const [Icons.info],
+        );
       case const (Sequence):
-        sheet = const SequenceSheet();
+        sheet = Sheet(
+          tabs: const [EpisodeDetailsTab()],
+          icons: const [Icons.info],
+        );
       default:
         throw Exception();
     }
 
-    Sheets().showSheet(context, sheet);
+    SheetManager().showSheet(context, sheet);
   }
 
   @override

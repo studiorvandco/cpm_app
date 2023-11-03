@@ -28,9 +28,7 @@ class _MemberSheetState extends ConsumerState<LocationSheet> with SingleTickerPr
   }
 
   void _onSubmitted(Location location) {
-    if (name.text == location.name &&
-        position.text == location.position &&
-        !formKey.currentState!.validate()) return;
+    if (name.text == location.name && position.text == location.position && !formKey.currentState!.validate()) return;
 
     _edit(location);
   }
@@ -45,50 +43,47 @@ class _MemberSheetState extends ConsumerState<LocationSheet> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 2 / 3,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: Paddings.custom.drawer,
-          child: ref.watch(currentLocationProvider).when(
-            data: (location) {
-              return Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    Focus(
-                      onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
-                      child: TextFormField(
-                        controller: name,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration.collapsed(
-                          hintText: localizations.dialog_field_name,
-                        ),
-                        onFieldSubmitted: (_) => _onSubmitted(location),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: Paddings.custom.drawer,
+        child: ref.watch(currentLocationProvider).when(
+          data: (location) {
+            return Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Focus(
+                    onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
+                    child: TextFormField(
+                      controller: name,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration.collapsed(
+                        hintText: localizations.dialog_field_name,
                       ),
+                      onFieldSubmitted: (_) => _onSubmitted(location),
                     ),
-                    Padding(padding: Paddings.padding8.vertical),
-                    Focus(
-                      onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
-                      child: TextFormField(
-                        controller: position,
-                        decoration: InputDecoration.collapsed(
-                          hintText: localizations.dialog_field_position,
-                        ),
-                        onFieldSubmitted: (_) => _onSubmitted(location),
+                  ),
+                  Padding(padding: Paddings.padding8.vertical),
+                  Focus(
+                    onFocusChange: (hasFocus) => !hasFocus ? _onSubmitted(location) : null,
+                    child: TextFormField(
+                      controller: position,
+                      decoration: InputDecoration.collapsed(
+                        hintText: localizations.dialog_field_position,
                       ),
+                      onFieldSubmitted: (_) => _onSubmitted(location),
                     ),
-                  ],
-                ),
-              );
-            },
-            error: (Object error, StackTrace stackTrace) {
-              return requestPlaceholderError;
-            },
-            loading: () {
-              return requestPlaceholderLoading;
-            },
-          ),
+                  ),
+                ],
+              ),
+            );
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          },
+          loading: () {
+            return requestPlaceholderLoading;
+          },
         ),
       ),
     );

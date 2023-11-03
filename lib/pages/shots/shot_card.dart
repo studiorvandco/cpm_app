@@ -1,5 +1,6 @@
-import 'package:cpm/common/sheets/sheets.dart';
-import 'package:cpm/common/sheets/shot/shot_sheet.dart';
+import 'package:cpm/common/sheets/sheet.dart';
+import 'package:cpm/common/sheets/sheet_manager.dart';
+import 'package:cpm/common/sheets/shot/shot_details_tab.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/shots/shots.dart';
@@ -29,7 +30,10 @@ class _ShotCardState extends ConsumerState<ShotCard> {
 
   void _showDetails() {
     ref.read(currentShotProvider.notifier).set(widget.shot);
-    Sheets().showSheet(context, const ShotSheet());
+    SheetManager().showSheet(
+      context,
+      Sheet(tabs: const [ShotDetailsTab()]),
+    );
   }
 
   Future<void> _toggleCompletion() async {

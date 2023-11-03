@@ -1,7 +1,8 @@
 import 'package:cpm/common/menus/menu_action.dart';
 import 'package:cpm/common/sheets/location_sheet.dart';
 import 'package:cpm/common/sheets/member_sheet.dart';
-import 'package:cpm/common/sheets/sheets.dart';
+import 'package:cpm/common/sheets/sheet.dart';
+import 'package:cpm/common/sheets/sheet_manager.dart';
 import 'package:cpm/common/widgets/icon_image_provider.dart';
 import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/location/location.dart';
@@ -47,15 +48,15 @@ class _InfoTileState<T extends BaseModel> extends ConsumerState<ModelTile> {
     switch (T) {
       case const (Member):
         ref.read(currentMemberProvider.notifier).set(widget.model as Member);
-        sheet = const MemberSheet();
+        sheet = Sheet(tabs: const [MemberSheet()]);
       case const (Location):
         ref.read(currentLocationProvider.notifier).set(widget.model as Location);
-        sheet = const LocationSheet();
+        sheet = Sheet(tabs: const [LocationSheet()]);
       default:
         throw Exception();
     }
 
-    Sheets().showSheet(context, sheet);
+    SheetManager().showSheet(context, sheet);
   }
 
   void _onMenuSelected(MenuAction action) {
