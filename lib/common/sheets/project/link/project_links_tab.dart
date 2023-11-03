@@ -51,6 +51,7 @@ class _LinksEditorState extends ConsumerState<ProjectLinksTab> {
             if (links != null)
               ListView.separated(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: links.length,
                 itemBuilder: (BuildContext context, int index) {
                   final link = links[index];
