@@ -36,6 +36,7 @@
   "projects_no_links": "Aucun lien",
   "projects_no_location": "Pas de lieu",
   "projects_no_name": "Sans nom",
+  "projects_no_value": "Pas de valeur",
   "schedule_schedule": "Planning",
   "members_members": "{count, plural, zero{Aucun membre} one{Membre} other{Membres}}",
   "locations_location": "{count, plural, zero{Aucun lieu} one{Lieu} other{Lieux}}",

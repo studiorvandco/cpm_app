@@ -2,6 +2,7 @@
 
 import 'package:cpm/models/base_model.dart';
 import 'package:cpm/models/shot/shot_value.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shot.g.dart';
@@ -20,7 +21,7 @@ class Shot extends BaseModel {
 
   String get getDescription => description ?? '';
 
-  String get getValue => value?.label ?? ShotValue.other.label;
+  String get getValueName => value?.label ?? localizations.projects_no_value;
 
   Shot({
     required super.id,

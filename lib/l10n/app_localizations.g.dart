@@ -315,6 +315,12 @@ abstract class AppLocalizations {
   /// **'Unnamed'**
   String get projects_no_name;
 
+  /// No description provided for @projects_no_value.
+  ///
+  /// In en, this message translates to:
+  /// **'No value'**
+  String get projects_no_value;
+
   /// No description provided for @schedule_schedule.
   ///
   /// In en, this message translates to:

@@ -1,6 +1,7 @@
+import 'package:cpm/common/sheets/sheets.dart';
+import 'package:cpm/common/sheets/shot/shot_sheet.dart';
 import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/shot/shot.dart';
-import 'package:cpm/pages/shots/shot_info_sheet.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
@@ -28,13 +29,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
 
   void _showDetails() {
     ref.read(currentShotProvider.notifier).set(widget.shot);
-    showModalBottomSheet(
-      context: context,
-      clipBehavior: Clip.hardEdge,
-      builder: (context) {
-        return const ShotInfoSheet();
-      },
-    );
+    Sheets().showSheet(context, const ShotSheet());
   }
 
   Future<void> _toggleCompletion() async {
@@ -84,7 +79,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                           ),
                           const Padding(padding: EdgeInsets.symmetric(horizontal: 4)),
                           Badge(
-                            label: Text(widget.shot.getValue),
+                            label: Text(widget.shot.getValueName),
                             backgroundColor: widget.shot.value?.color,
                             textColor: Colors.white,
                           ),
@@ -94,7 +89,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                         const Padding(padding: EdgeInsets.symmetric(vertical: 4)),
                         Text(
                           widget.shot.getDescription,
-                          maxLines: completed ? 1 : 5,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
