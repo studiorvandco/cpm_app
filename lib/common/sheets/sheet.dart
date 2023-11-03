@@ -41,35 +41,31 @@ class _SheetState extends State<Sheet> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.icons == null) {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: Paddings.custom.drawer,
-          child: Wrap(
-            children: [
-              widget.tabs.first,
-            ],
-          ),
-        ),
-      );
-    } else {
-      return SingleChildScrollView(
-        child: Wrap(
-          children: [
-            TabBar(
-              controller: tabController,
-              tabs: widget.icons!.map((icon) {
-                return Tab(icon: Icon(icon));
-              }).toList(),
-              onTap: _changeTab,
-            ),
-            Padding(
+    return SingleChildScrollView(
+      child: widget.icons == null
+          ? Padding(
               padding: Paddings.custom.drawer,
-              child: widget.tabs[index],
+              child: Wrap(
+                children: [
+                  widget.tabs.first,
+                ],
+              ),
+            )
+          : Wrap(
+              children: [
+                TabBar(
+                  controller: tabController,
+                  tabs: widget.icons!.map((icon) {
+                    return Tab(icon: Icon(icon));
+                  }).toList(),
+                  onTap: _changeTab,
+                ),
+                Padding(
+                  padding: Paddings.custom.drawer,
+                  child: widget.tabs[index],
+                ),
+              ],
             ),
-          ],
-        ),
-      );
-    }
+    );
   }
 }
