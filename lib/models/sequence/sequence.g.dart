@@ -28,6 +28,7 @@ Sequence _$SequenceFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$SequenceToJson(Sequence instance) => <String, dynamic>{
+      'id': instance.id,
       'episode': instance.episode,
       'index': instance.index,
       'title': instance.title,

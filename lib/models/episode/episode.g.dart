@@ -25,6 +25,7 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$EpisodeToJson(Episode instance) => <String, dynamic>{
+      'id': instance.id,
       'project': instance.project,
       'index': instance.index,
       'title': instance.title,

@@ -23,6 +23,7 @@ Member _$MemberFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$MemberToJson(Member instance) => <String, dynamic>{
+      'id': instance.id,
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'phone': instance.phone,

@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 abstract class BaseModel extends Equatable {
-  @JsonKey(includeToJson: false)
   final int id;
 
   const BaseModel({

@@ -1,5 +1,6 @@
 import 'package:cpm/app.dart';
 import 'package:cpm/pages/projects/favorites.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
 import 'package:cpm/utils/config/config.dart';
 import 'package:cpm/utils/config/config_key.dart';
 import 'package:cpm/utils/package_info_manager.dart';
@@ -16,6 +17,7 @@ Future<void> main() async {
 
   await PreferencesManager().init();
   await PackageInfoManager().init();
+  await CacheManager().init();
 
   await Config().init();
   await Favorites().init();

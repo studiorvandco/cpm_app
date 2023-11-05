@@ -25,6 +25,7 @@ Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$ShotToJson(Shot instance) => <String, dynamic>{
+      'id': instance.id,
       'sequence': instance.sequence,
       'index': instance.index,
       'value': _$ShotValueEnumMap[instance.value],
@@ -33,16 +34,16 @@ Map<String, dynamic> _$ShotToJson(Shot instance) => <String, dynamic>{
     };
 
 const _$ShotValueEnumMap = {
-  ShotValue.full: 'full',
-  ShotValue.mediumFull: 'medium_full',
-  ShotValue.cowboy: 'cowboy',
-  ShotValue.medium: 'medium',
-  ShotValue.mediumCloseup: 'medium_closeup',
-  ShotValue.closeup: 'closeup',
   ShotValue.extremeCloseup: 'extreme_closeup',
-  ShotValue.insert: 'insert',
-  ShotValue.sequence: 'sequence',
+  ShotValue.closeup: 'closeup',
+  ShotValue.mediumCloseup: 'medium_closeup',
+  ShotValue.medium: 'medium',
+  ShotValue.cowboy: 'cowboy',
+  ShotValue.mediumFull: 'medium_full',
+  ShotValue.full: 'full',
   ShotValue.landscape: 'landscape',
   ShotValue.drone: 'drone',
+  ShotValue.sequence: 'sequence',
+  ShotValue.insert: 'insert',
   ShotValue.other: 'other',
 };

@@ -19,9 +19,7 @@ class Project extends BaseModel implements Comparable<Project> {
   String? director;
   String? writer;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   int? shotsTotal;
-  @JsonKey(includeFromJson: false, includeToJson: false)
   int? shotsCompleted;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Link>? links;

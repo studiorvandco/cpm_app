@@ -4,6 +4,8 @@ import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'episodes.g.dart';
@@ -29,12 +31,19 @@ class Episodes extends _$Episodes with BaseProvider {
     );
   }
 
-  Future<void> get() {
+  Future<void> get() async {
     state = const AsyncLoading<List<Episode>>();
+
+    if (await CacheManager().contains(CacheKey.episodes)) {
+      state = AsyncData<List<Episode>>(
+        await CacheManager().get<Episode>(CacheKey.episodes, Episode.fromJson),
+      );
+    }
 
     return ref.watch(currentProjectProvider).when(
       data: (project) async {
         final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
+        CacheManager().set(CacheKey.episodes, episodes);
         state = AsyncData<List<Episode>>(episodes);
 
         if (project.isMovie) {

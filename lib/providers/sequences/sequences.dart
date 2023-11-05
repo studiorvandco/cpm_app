@@ -4,6 +4,8 @@ import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sequences.g.dart';
@@ -27,12 +29,19 @@ class Sequences extends _$Sequences with BaseProvider {
     );
   }
 
-  Future<void> get() {
+  Future<void> get() async {
     state = const AsyncLoading<List<Sequence>>();
+
+    if (await CacheManager().contains(CacheKey.sequences)) {
+      state = AsyncData<List<Sequence>>(
+        await CacheManager().get<Sequence>(CacheKey.sequences, Sequence.fromJson),
+      );
+    }
 
     return ref.watch(currentEpisodeProvider).when(
       data: (episode) async {
         final List<Sequence> sequences = await selectSequenceService.selectSequences(episode.id);
+        CacheManager().set(CacheKey.sequences, sequences);
         state = AsyncData<List<Sequence>>(sequences);
       },
       error: (Object error, StackTrace stackTrace) {

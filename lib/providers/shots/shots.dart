@@ -2,6 +2,8 @@ import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'shots.g.dart';
@@ -25,12 +27,19 @@ class Shots extends _$Shots with BaseProvider {
     );
   }
 
-  Future<void> get() {
+  Future<void> get() async {
     state = const AsyncLoading<List<Shot>>();
+
+    if (await CacheManager().contains(CacheKey.shots)) {
+      state = AsyncData<List<Shot>>(
+        await CacheManager().get<Shot>(CacheKey.shots, Shot.fromJson),
+      );
+    }
 
     return ref.watch(currentSequenceProvider).when(
       data: (sequence) async {
         final List<Shot> shots = await selectShotService.selectShots(sequence.id);
+        CacheManager().set(CacheKey.shots, shots);
         state = AsyncData<List<Shot>>(shots);
       },
       error: (Object error, StackTrace stackTrace) {

@@ -20,6 +20,8 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => v == null ? null : DateTime.parse(v as String)),
           endDate: $checkedConvert('end_date',
               (v) => v == null ? null : DateTime.parse(v as String)),
+          shotsTotal: $checkedConvert('shots_total', (v) => v as int?),
+          shotsCompleted: $checkedConvert('shots_completed', (v) => v as int?),
           director: $checkedConvert('director', (v) => v as String?),
           writer: $checkedConvert('writer', (v) => v as String?),
         );
@@ -28,11 +30,14 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => $checkedCreate(
       fieldKeyMap: const {
         'projectType': 'project_type',
         'startDate': 'start_date',
-        'endDate': 'end_date'
+        'endDate': 'end_date',
+        'shotsTotal': 'shots_total',
+        'shotsCompleted': 'shots_completed'
       },
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
+      'id': instance.id,
       'project_type': _$ProjectTypeEnumMap[instance.projectType]!,
       'title': instance.title,
       'description': instance.description,
@@ -40,6 +45,8 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'end_date': instance.endDate?.toIso8601String(),
       'director': instance.director,
       'writer': instance.writer,
+      'shots_total': instance.shotsTotal,
+      'shots_completed': instance.shotsCompleted,
     };
 
 const _$ProjectTypeEnumMap = {

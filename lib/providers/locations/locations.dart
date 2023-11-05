@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cpm/models/location/location.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'locations.g.dart';
@@ -20,7 +22,15 @@ class Locations extends _$Locations with BaseProvider {
 
   Future<void> get() async {
     state = const AsyncLoading<List<Location>>();
+
+    if (await CacheManager().contains(CacheKey.locations)) {
+      state = AsyncData<List<Location>>(
+        await CacheManager().get<Location>(CacheKey.locations, Location.fromJson),
+      );
+    }
+
     final List<Location> locations = await selectLocationService.selectLocations();
+    CacheManager().set(CacheKey.locations, locations);
     state = AsyncData<List<Location>>(locations);
   }
 

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cpm/models/member/member.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'members.g.dart';
@@ -20,7 +22,15 @@ class Members extends _$Members with BaseProvider {
 
   Future<void> get() async {
     state = const AsyncLoading<List<Member>>();
+
+    if (await CacheManager().contains(CacheKey.members)) {
+      state = AsyncData<List<Member>>(
+        await CacheManager().get<Member>(CacheKey.members, Member.fromJson),
+      );
+    }
+
     final List<Member> members = await selectMemberService.selectMembers();
+    CacheManager().set(CacheKey.members, members);
     state = AsyncData<List<Member>>(members);
   }
 

@@ -5,6 +5,8 @@ import 'package:cpm/models/project/link.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'projects.g.dart';
@@ -26,8 +28,16 @@ class Projects extends _$Projects with BaseProvider {
       projects = (state.value ?? [])..sort();
     } else {
       state = const AsyncLoading<List<Project>>();
+
+      if (await CacheManager().contains(CacheKey.projects)) {
+        state = AsyncData<List<Project>>(
+          await CacheManager().get<Project>(CacheKey.projects, Project.fromJson),
+        );
+      }
+
       projects = await selectProjectService.selectProjects()
         ..sort();
+      CacheManager().set(CacheKey.projects, projects);
     }
     state = AsyncData<List<Project>>(projects);
   }

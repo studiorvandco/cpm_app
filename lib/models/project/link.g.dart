@@ -22,6 +22,7 @@ Link _$LinkFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$LinkToJson(Link instance) => <String, dynamic>{
+      'id': instance.id,
       'project': instance.project,
       'index': instance.index,
       'label': instance.label,

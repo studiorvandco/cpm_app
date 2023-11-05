@@ -6,7 +6,7 @@ part of 'sequences.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sequencesHash() => r'5cd399e4297837f47921568b68aa86529d2fb646';
+String _$sequencesHash() => r'7e68d78c99eecdc364cc0b2402e63cf91bba248d';
 
 /// See also [Sequences].
 @ProviderFor(Sequences)

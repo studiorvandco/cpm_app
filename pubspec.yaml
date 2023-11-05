@@ -28,7 +28,9 @@ dependencies:
   http: ^0.13.5
   intl: ^0.18.0
   json_annotation: ^4.8.1
+  json_cache: ^3.0.1
   locale_names: ^1.1.1
+  localstorage: ^4.0.1+4
   maps_launcher: ^2.2.0
   package_info_plus: ^4.1.0
   path: ^1.8.3
