@@ -27,13 +27,16 @@ class _LinksEditorState extends ConsumerState<ProjectLinksTab> {
   }
 
   void _move(Link moveUpLink, Link moveDownLink) {
+    final firstIndex = moveDownLink.index;
+    final lastIndex = moveUpLink.index;
+
     if (moveUpLink.index != null) {
-      moveUpLink.index = moveUpLink.index! - 1;
+      moveUpLink.index = firstIndex;
       _edit(moveUpLink);
     }
 
     if (moveDownLink.index != null) {
-      moveDownLink.index = moveDownLink.index! + 1;
+      moveDownLink.index = lastIndex;
       _edit(moveDownLink);
     }
   }
