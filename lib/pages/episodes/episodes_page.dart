@@ -1,7 +1,6 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/common/widgets/grid_view.dart';
 import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/common/widgets/project_header.dart';
 import 'package:cpm/models/episode/episode.dart';
@@ -10,6 +9,7 @@ import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/extensions/list_extensions.dart';
+import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,10 @@ class EpisodesPage extends ConsumerStatefulWidget {
 }
 
 class EpisodesState extends ConsumerState<EpisodesPage> {
+  Future<void> _refresh() async {
+    await ref.read(episodesProvider.notifier).get();
+  }
+
   Future<void> _open(Episode episode) async {
     ref.read(currentEpisodeProvider.notifier).set(episode);
     if (context.mounted) {
@@ -44,69 +48,78 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
         ),
         child: const Icon(Icons.add),
       ),
-      body: ref.watch(episodesProvider).when(
-        data: (episodes) {
-          final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        notificationPredicate: (notification) {
+          return notification.depth == 0 || notification.depth == 1;
+        },
+        child: ref.watch(episodesProvider).when(
+          data: (episodes) {
+            final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
 
-          final header = ProjectHeader.project(
-            delete: () => DeleteAction<Project>().delete(context, ref, id: project?.id),
-            title: project?.title,
-            description: project?.description,
-            startDate: project?.startDate,
-            endDate: project?.endDate,
-            director: project?.director,
-            writer: project?.writer,
-            links: project?.links,
-          );
+            final header = ProjectHeader.project(
+              delete: () => DeleteAction<Project>().delete(context, ref, id: project?.id),
+              title: project?.title,
+              description: project?.description,
+              startDate: project?.startDate,
+              endDate: project?.endDate,
+              director: project?.director,
+              writer: project?.writer,
+              links: project?.links,
+            );
 
-          final body = LayoutBuilder(
-            builder: (context, constraints) {
-              return AlignedGridView.count(
-                crossAxisCount: getColumnsCount(constraints),
-                itemCount: episodes.length,
-                itemBuilder: (context, index) {
-                  final episode = episodes[index];
+            final body = LayoutBuilder(
+              builder: (context, constraints) {
+                return ScrollConfiguration(
+                  behavior: scrollBehavior,
+                  child: AlignedGridView.count(
+                    crossAxisCount: getColumnsCount(constraints),
+                    itemCount: episodes.length,
+                    itemBuilder: (context, index) {
+                      final episode = episodes[index];
 
-                  return ProjectCard.episode(
-                    key: UniqueKey(),
-                    open: () => _open(episode),
-                    number: episode.getNumber,
-                    title: episode.title,
-                    description: episode.description,
-                    progress: 0,
-                    progressText: '',
-                  );
-                },
-                padding: Paddings.withFab(Paddings.padding8.all),
-              );
-            },
-          );
-
-          return PlatformManager().isMobile
-              ? NestedScrollView(
-                  floatHeaderSlivers: true,
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverToBoxAdapter(
-                        child: header,
-                      ),
-                    ];
-                  },
-                  body: body,
-                )
-              : Column(
-                  children: [
-                    header,
-                    Expanded(child: body),
-                  ],
+                      return ProjectCard.episode(
+                        key: UniqueKey(),
+                        open: () => _open(episode),
+                        number: episode.getNumber,
+                        title: episode.title,
+                        description: episode.description,
+                        progress: 0,
+                        progressText: '',
+                      );
+                    },
+                    padding: Paddings.withFab(Paddings.padding8.all),
+                  ),
                 );
-        },
-        error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        },
-        loading: () {
-          return requestPlaceholderLoading;
-        },
+              },
+            );
+
+            return PlatformManager().isMobile
+                ? NestedScrollView(
+                    floatHeaderSlivers: true,
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverToBoxAdapter(
+                          child: header,
+                        ),
+                      ];
+                    },
+                    body: body,
+                  )
+                : Column(
+                    children: [
+                      header,
+                      Expanded(child: body),
+                    ],
+                  );
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return requestPlaceholderError;
+          },
+          loading: () {
+            return requestPlaceholderLoading;
+          },
+        ),
       ),
     );
   }

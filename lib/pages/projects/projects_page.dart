@@ -1,6 +1,5 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/placeholders/request_placeholder.dart';
-import 'package:cpm/common/widgets/grid_view.dart';
 import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/models/project/project.dart';
 import 'package:cpm/pages/projects/favorites.dart';
@@ -8,6 +7,7 @@ import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/utils/constants/paddings.dart';
+import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -22,6 +22,10 @@ class ProjectsPage extends ConsumerStatefulWidget {
 }
 
 class ProjectsState extends ConsumerState<ProjectsPage> {
+  Future<void> _refresh() async {
+    await ref.read(projectsProvider.notifier).get();
+  }
+
   Future<void> _open(Project project) async {
     ref.read(currentProjectProvider.notifier).set(project);
     if (project.isMovie) {
@@ -52,47 +56,53 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
         onPressed: () => AddAction<Project>().add(context, ref),
         child: const Icon(Icons.add),
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return ref.watch(projectsProvider).when(
-            data: (projects) {
-              return MasonryGridView.count(
-                itemCount: projects.length,
-                padding: Paddings.withFab(Paddings.custom.page),
-                itemBuilder: (BuildContext context, int index) {
-                  return ProjectCard.project(
-                    key: UniqueKey(),
-                    open: () => _open(projects[index]),
-                    title: projects[index].title,
-                    description: projects[index].description,
-                    progress: projects[index].progress,
-                    progressText: projects[index].progressText,
-                    trailing: [
-                      IconButton(
-                        onPressed: () => _toggleFavorite(projects[index]),
-                        icon: Icon(Favorites().isFavorite(projects[index].getId) ? Icons.star : Icons.star_border),
-                      ),
-                      Padding(padding: Paddings.padding2.horizontal),
-                      IconButton(
-                        onPressed: () => _openSchedule(projects[index]),
-                        icon: const Icon(Icons.event),
-                      ),
-                    ],
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: ScrollConfiguration(
+          behavior: scrollBehavior,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return ref.watch(projectsProvider).when(
+                data: (projects) {
+                  return MasonryGridView.count(
+                    itemCount: projects.length,
+                    padding: Paddings.withFab(Paddings.custom.page),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ProjectCard.project(
+                        key: UniqueKey(),
+                        open: () => _open(projects[index]),
+                        title: projects[index].title,
+                        description: projects[index].description,
+                        progress: projects[index].progress,
+                        progressText: projects[index].progressText,
+                        trailing: [
+                          IconButton(
+                            onPressed: () => _toggleFavorite(projects[index]),
+                            icon: Icon(Favorites().isFavorite(projects[index].getId) ? Icons.star : Icons.star_border),
+                          ),
+                          Padding(padding: Paddings.padding2.horizontal),
+                          IconButton(
+                            onPressed: () => _openSchedule(projects[index]),
+                            icon: const Icon(Icons.event),
+                          ),
+                        ],
+                      );
+                    },
+                    crossAxisCount: getColumnsCount(constraints),
+                    mainAxisSpacing: 2,
+                    crossAxisSpacing: 2,
                   );
                 },
-                crossAxisCount: getColumnsCount(constraints),
-                mainAxisSpacing: 2,
-                crossAxisSpacing: 2,
+                error: (Object error, StackTrace stackTrace) {
+                  return requestPlaceholderError;
+                },
+                loading: () {
+                  return requestPlaceholderLoading;
+                },
               );
             },
-            error: (Object error, StackTrace stackTrace) {
-              return requestPlaceholderError;
-            },
-            loading: () {
-              return requestPlaceholderLoading;
-            },
-          );
-        },
+          ),
+        ),
       ),
     );
   }

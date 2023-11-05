@@ -7,6 +7,7 @@ import 'package:cpm/models/member/member.dart';
 import 'package:cpm/providers/members/members.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/extensions/string_validators.dart';
+import 'package:cpm/utils/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,6 +19,10 @@ class MembersPage extends ConsumerStatefulWidget {
 }
 
 class _MembersState extends ConsumerState<MembersPage> {
+  Future<void> _refresh() async {
+    await ref.read(membersProvider.notifier).get();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,46 +30,53 @@ class _MembersState extends ConsumerState<MembersPage> {
         onPressed: () => AddAction<Member>().add(context, ref),
         child: const Icon(Icons.add),
       ),
-      body: ref.watch(membersProvider).when(
-        data: (members) {
-          return ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              final member = members[index];
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: ScrollConfiguration(
+          behavior: scrollBehavior,
+          child: ref.watch(membersProvider).when(
+            data: (members) {
+              return ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  final member = members[index];
 
-              return ModelTile<Member>(
-                delete: () => DeleteAction<Member>().delete(context, ref, id: member.id),
-                model: member,
-                leadingIcon: Icons.person,
-                title: member.fullName,
-                subtitle: member.phoneAndEmail,
-                trailing: [
-                  IconButton(
-                    icon: Icon(MenuAction.call.icon),
-                    onPressed: member.phone != null && member.phone!.isValidPhone
-                        ? () => MenuAction.call.function!(member.phone!)
-                        : null,
-                  ),
-                ],
-                menuActions: [
-                  if (member.phone != null && member.phone!.isNotEmpty && member.phone!.isValidPhone)
-                    MenuAction.message,
-                  if (member.email != null && member.email!.isNotEmpty && member.email!.isValidEmail) MenuAction.email,
-                ],
+                  return ModelTile<Member>(
+                    delete: () => DeleteAction<Member>().delete(context, ref, id: member.id),
+                    model: member,
+                    leadingIcon: Icons.person,
+                    title: member.fullName,
+                    subtitle: member.phoneAndEmail,
+                    trailing: [
+                      IconButton(
+                        icon: Icon(MenuAction.call.icon),
+                        onPressed: member.phone != null && member.phone!.isValidPhone
+                            ? () => MenuAction.call.function!(member.phone!)
+                            : null,
+                      ),
+                    ],
+                    menuActions: [
+                      if (member.phone != null && member.phone!.isNotEmpty && member.phone!.isValidPhone)
+                        MenuAction.message,
+                      if (member.email != null && member.email!.isNotEmpty && member.email!.isValidEmail)
+                        MenuAction.email,
+                    ],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Padding(padding: Paddings.padding4.vertical);
+                },
+                itemCount: members.length,
+                padding: Paddings.withFab(Paddings.custom.page),
               );
             },
-            separatorBuilder: (BuildContext context, int index) {
-              return Padding(padding: Paddings.padding4.vertical);
+            error: (Object error, StackTrace stackTrace) {
+              return requestPlaceholderError;
             },
-            itemCount: members.length,
-            padding: Paddings.withFab(Paddings.custom.page),
-          );
-        },
-        error: (Object error, StackTrace stackTrace) {
-          return requestPlaceholderError;
-        },
-        loading: () {
-          return requestPlaceholderLoading;
-        },
+            loading: () {
+              return requestPlaceholderLoading;
+            },
+          ),
+        ),
       ),
     );
   }
