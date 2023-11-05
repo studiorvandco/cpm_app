@@ -48,7 +48,11 @@ class CacheManager {
     return models == null ? [] : models.values.map((e) => constructor(e as Map<String, dynamic>)).toList();
   }
 
-  Future<void> clear() async {
-    await _cache.clear();
+  Future<void> clear([CacheKey? cacheKey, int? id]) async {
+    if (cacheKey != null) {
+      await _cache.remove(_buildKey(cacheKey, id));
+    } else {
+      await _cache.clear();
+    }
   }
 }

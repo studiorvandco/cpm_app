@@ -13,6 +13,7 @@ part 'episodes.g.dart';
 @riverpod
 class Episodes extends _$Episodes with BaseProvider {
   final _table = SupabaseTable.episode;
+  final _cacheKey = CacheKey.episodes;
 
   @override
   FutureOr<List<Episode>> build() {
@@ -26,14 +27,14 @@ class Episodes extends _$Episodes with BaseProvider {
 
     ref.watch(currentProjectProvider).when(
           data: (project) async {
-            if (await CacheManager().contains(CacheKey.episodes, project.id)) {
+            if (await CacheManager().contains(_cacheKey, project.id)) {
               state = AsyncData<List<Episode>>(
-                await CacheManager().get<Episode>(CacheKey.episodes, Episode.fromJson, project.id),
+                await CacheManager().get<Episode>(_cacheKey, Episode.fromJson, project.id),
               );
             }
 
             final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
-            CacheManager().set(CacheKey.episodes, episodes, project.id);
+            CacheManager().set(_cacheKey, episodes, project.id);
             state = AsyncData<List<Episode>>(episodes);
 
             if (project.isMovie) {

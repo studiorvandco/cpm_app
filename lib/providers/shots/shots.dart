@@ -11,6 +11,7 @@ part 'shots.g.dart';
 @riverpod
 class Shots extends _$Shots with BaseProvider {
   final _table = SupabaseTable.shot;
+  final _cacheKey = CacheKey.shots;
 
   @override
   FutureOr<List<Shot>> build() {
@@ -24,14 +25,14 @@ class Shots extends _$Shots with BaseProvider {
 
     ref.watch(currentSequenceProvider).when(
           data: (sequence) async {
-            if (await CacheManager().contains(CacheKey.shots, sequence.id)) {
+            if (await CacheManager().contains(_cacheKey, sequence.id)) {
               state = AsyncData<List<Shot>>(
-                await CacheManager().get<Shot>(CacheKey.shots, Shot.fromJson, sequence.id),
+                await CacheManager().get<Shot>(_cacheKey, Shot.fromJson, sequence.id),
               );
             }
 
             final List<Shot> shots = await selectShotService.selectShots(sequence.id);
-            CacheManager().set(CacheKey.shots, shots, sequence.id);
+            CacheManager().set(_cacheKey, shots, sequence.id);
             state = AsyncData<List<Shot>>(shots);
           },
           error: (Object error, StackTrace stackTrace) {},

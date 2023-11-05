@@ -14,6 +14,7 @@ part 'projects.g.dart';
 @riverpod
 class Projects extends _$Projects with BaseProvider {
   final _table = SupabaseTable.project;
+  final _cacheKey = CacheKey.projects;
 
   @override
   FutureOr<List<Project>> build() {
@@ -29,15 +30,15 @@ class Projects extends _$Projects with BaseProvider {
     } else {
       state = const AsyncLoading<List<Project>>();
 
-      if (await CacheManager().contains(CacheKey.projects)) {
+      if (await CacheManager().contains(_cacheKey)) {
         state = AsyncData<List<Project>>(
-          await CacheManager().get<Project>(CacheKey.projects, Project.fromJson),
+          await CacheManager().get<Project>(_cacheKey, Project.fromJson),
         );
       }
 
       projects = await selectProjectService.selectProjects()
         ..sort();
-      CacheManager().set(CacheKey.projects, projects);
+      CacheManager().set(_cacheKey, projects);
     }
     state = AsyncData<List<Project>>(projects);
   }
