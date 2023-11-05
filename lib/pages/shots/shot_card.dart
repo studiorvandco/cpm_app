@@ -20,14 +20,6 @@ class ShotCard extends ConsumerStatefulWidget {
 }
 
 class _ShotCardState extends ConsumerState<ShotCard> {
-  late bool completed;
-
-  @override
-  void initState() {
-    super.initState();
-    completed = widget.shot.completed;
-  }
-
   void _showDetails() {
     ref.read(currentShotProvider.notifier).set(widget.shot);
     SheetManager().showSheet(
@@ -43,16 +35,12 @@ class _ShotCardState extends ConsumerState<ShotCard> {
         getErrorSnackBar(localizations.snack_bar_edit_fail_item(localizations.item_shot, Gender.male.name)),
       );
     }
-
-    setState(() {
-      completed = !completed;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     Color? cardColor;
-    if (completed) {
+    if (widget.shot.completed) {
       cardColor = Theme.of(context).brightness == Brightness.light
           ? Colors.green.shade200
           : Colors.green.shade900.withOpacity(0.75);
