@@ -9,7 +9,6 @@ import 'package:cpm/models/location/location.dart';
 import 'package:cpm/models/member/member.dart';
 import 'package:cpm/providers/locations/locations.dart';
 import 'package:cpm/providers/members/members.dart';
-import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/constants/radiuses.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -101,12 +100,7 @@ class _InfoTileState<T extends BaseModel> extends ConsumerState<ModelTile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ...?widget.trailing,
-            Padding(padding: Paddings.padding4.horizontal),
             PopupMenuButton(
-              icon: Icon(
-                Icons.more_horiz,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
               itemBuilder: (BuildContext context) {
                 return <PopupMenuEntry<MenuAction>>[
                   ...?widget.menuActions?.map((action) => action.popupMenuItem),

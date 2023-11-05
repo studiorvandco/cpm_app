@@ -149,10 +149,6 @@ class ProjectHeader extends StatelessWidget {
                     ),
                   ),
                   PopupMenuButton(
-                    icon: Icon(
-                      Icons.more_horiz,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
                     itemBuilder: (BuildContext context) {
                       return MenuAction.defaults.map((action) {
                         return PopupMenuItem(

@@ -56,7 +56,7 @@ abstract class ModelGeneric<T extends BaseModel> {
       case const (Sequence):
         return true;
       case const (Shot):
-        return true;
+        return false;
       case const (Member):
         return false;
       case const (Location):

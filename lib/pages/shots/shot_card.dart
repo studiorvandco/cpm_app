@@ -1,3 +1,5 @@
+import 'package:cpm/common/actions/delete_action.dart';
+import 'package:cpm/common/menus/menu_action.dart';
 import 'package:cpm/common/sheets/sheet.dart';
 import 'package:cpm/common/sheets/sheet_manager.dart';
 import 'package:cpm/common/sheets/shot/shot_details_tab.dart';
@@ -5,6 +7,7 @@ import 'package:cpm/l10n/gender.dart';
 import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/utils/constants/constants.dart';
+import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
 import 'package:cpm/utils/snack_bar/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,16 @@ class ShotCard extends ConsumerStatefulWidget {
 }
 
 class _ShotCardState extends ConsumerState<ShotCard> {
+  void _onMenuSelected(BuildContext context, MenuAction action) {
+    switch (action) {
+      case MenuAction.edit:
+        _showDetails();
+      case MenuAction.delete:
+        DeleteAction<Shot>().delete(context, ref, id: widget.shot.id);
+      default:
+    }
+  }
+
   void _showDetails() {
     ref.read(currentShotProvider.notifier).set(widget.shot);
     SheetManager().showSheet(
@@ -91,6 +104,21 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                 IconButton(
                   onPressed: () => _toggleCompletion(),
                   icon: Icon(widget.shot.completed ? Icons.remove_done : Icons.done_all),
+                ),
+                PopupMenuButton(
+                  itemBuilder: (BuildContext context) {
+                    return MenuAction.defaults.map((action) {
+                      return PopupMenuItem(
+                        value: action,
+                        child: ListTile(
+                          leading: Icon(action.icon),
+                          title: Text(action.title),
+                          contentPadding: Paddings.custom.zero,
+                        ),
+                      );
+                    }).toList();
+                  },
+                  onSelected: (action) => _onMenuSelected(context, action),
                 ),
               ],
             ),
