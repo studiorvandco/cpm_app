@@ -21,7 +21,10 @@ class CacheManager {
   }
 
   void set(CacheKey cacheKey, List<BaseModel> models) {
-    _cache.refresh(cacheKey.name, {for (final model in models) model.id.toString(): model.toJson()});
+    _cache.refresh(
+      cacheKey.name,
+      {for (final model in models) model.id.toString(): model.toJsonCache()},
+    );
   }
 
   Future<bool> contains(CacheKey cacheKey) async {
@@ -35,8 +38,6 @@ class CacheManager {
     assert(Model != dynamic);
 
     final models = await _cache.value(cacheKey.name);
-
-    print(models?.values.toList());
 
     return models == null ? [] : models.values.map((e) => constructor(e as Map<String, dynamic>)).toList();
   }

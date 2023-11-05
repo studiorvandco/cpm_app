@@ -84,7 +84,7 @@ class _ProjectDetailsTabState extends ConsumerState<ShotDetailsTab> {
               child: TextField(
                 controller: description,
                 decoration: InputDecoration.collapsed(
-                  hintText: localizations.dialog_field_value,
+                  hintText: localizations.dialog_field_description,
                 ),
                 keyboardType: TextInputType.multiline,
                 minLines: 3,

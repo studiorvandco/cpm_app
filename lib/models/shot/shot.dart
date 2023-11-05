@@ -53,4 +53,12 @@ class Shot extends BaseModel {
 
   @override
   Map<String, dynamic> toJson() => _$ShotToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$ShotToJson(this)
+      ..addAll({
+        'id': id,
+      });
+  }
 }

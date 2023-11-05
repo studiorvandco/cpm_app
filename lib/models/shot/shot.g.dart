@@ -25,7 +25,6 @@ Shot _$ShotFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$ShotToJson(Shot instance) => <String, dynamic>{
-      'id': instance.id,
       'sequence': instance.sequence,
       'index': instance.index,
       'value': _$ShotValueEnumMap[instance.value],

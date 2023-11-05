@@ -45,4 +45,12 @@ class Member extends BaseModel {
 
   @override
   Map<String, dynamic> toJson() => _$MemberToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$MemberToJson(this)
+      ..addAll({
+        'id': id,
+      });
+  }
 }

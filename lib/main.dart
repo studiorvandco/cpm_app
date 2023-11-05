@@ -1,6 +1,6 @@
 import 'package:cpm/app.dart';
 import 'package:cpm/pages/projects/favorites.dart';
-import 'package:cpm/utils/cache/CacheManager.dart';
+import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:cpm/utils/config/config.dart';
 import 'package:cpm/utils/config/config_key.dart';
 import 'package:cpm/utils/package_info_manager.dart';

@@ -22,7 +22,6 @@ SequenceLocation _$SequenceLocationFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SequenceLocationToJson(SequenceLocation instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'sequence': instance.sequence,
       'location': instance.location,
     };

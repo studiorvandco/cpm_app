@@ -28,4 +28,12 @@ class Location extends BaseModel {
 
   @override
   Map<String, dynamic> toJson() => _$LocationToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$LocationToJson(this)
+      ..addAll({
+        'id': id,
+      });
+  }
 }

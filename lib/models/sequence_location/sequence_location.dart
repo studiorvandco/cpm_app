@@ -23,4 +23,12 @@ class SequenceLocation extends BaseModel {
 
   @override
   Map<String, dynamic> toJson() => _$SequenceLocationToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$SequenceLocationToJson(this)
+      ..addAll({
+        'id': id,
+      });
+  }
 }

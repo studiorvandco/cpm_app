@@ -20,7 +20,6 @@ Location _$LocationFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'position': instance.position,
     };

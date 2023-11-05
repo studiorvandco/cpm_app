@@ -19,7 +19,9 @@ class Project extends BaseModel implements Comparable<Project> {
   String? director;
   String? writer;
 
+  @JsonKey(includeToJson: false)
   int? shotsTotal;
+  @JsonKey(includeToJson: false)
   int? shotsCompleted;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Link>? links;
@@ -46,9 +48,9 @@ class Project extends BaseModel implements Comparable<Project> {
     return shotsCompleted! / shotsTotal!;
   }
 
-  String? get progressText {
+  String get progressText {
     if (shotsCompleted == null || shotsTotal == null || shotsTotal == 0) {
-      return null;
+      return '';
     }
 
     return '$shotsCompleted/$shotsTotal';
@@ -105,6 +107,16 @@ class Project extends BaseModel implements Comparable<Project> {
 
   @override
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$ProjectToJson(this)
+      ..addAll({
+        'id': id,
+        'shots_total': shotsTotal,
+        'shots_completed': shotsCompleted,
+      });
+  }
 
   @override
   int compareTo(Project other) {

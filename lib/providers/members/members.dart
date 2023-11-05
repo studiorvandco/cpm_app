@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:cpm/models/member/member.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/services/config/supabase_table.dart';
-import 'package:cpm/utils/cache/CacheManager.dart';
 import 'package:cpm/utils/cache/cache_key.dart';
+import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'members.g.dart';

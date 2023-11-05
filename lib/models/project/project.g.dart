@@ -37,7 +37,6 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => $checkedCreate(
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
-      'id': instance.id,
       'project_type': _$ProjectTypeEnumMap[instance.projectType]!,
       'title': instance.title,
       'description': instance.description,
@@ -45,8 +44,6 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'end_date': instance.endDate?.toIso8601String(),
       'director': instance.director,
       'writer': instance.writer,
-      'shots_total': instance.shotsTotal,
-      'shots_completed': instance.shotsCompleted,
     };
 
 const _$ProjectTypeEnumMap = {

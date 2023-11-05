@@ -91,6 +91,7 @@ class ProjectCard extends StatelessWidget {
                   Expanded(
                     child: LinearProgressIndicator(
                       value: progress,
+                      color: Color.lerp(Colors.red, Colors.green, progress),
                     ),
                   ),
                   if (progressText != null) ...[

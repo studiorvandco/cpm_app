@@ -58,4 +58,12 @@ class Episode extends BaseModel {
 
   @override
   Map<String, dynamic> toJson() => _$EpisodeToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$EpisodeToJson(this)
+      ..addAll({
+        'id': id,
+      });
+  }
 }

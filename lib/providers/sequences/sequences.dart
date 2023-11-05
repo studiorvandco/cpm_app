@@ -4,8 +4,8 @@ import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/services/config/supabase_table.dart';
-import 'package:cpm/utils/cache/CacheManager.dart';
 import 'package:cpm/utils/cache/cache_key.dart';
+import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sequences.g.dart';

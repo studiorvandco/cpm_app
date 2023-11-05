@@ -46,4 +46,12 @@ class Link extends BaseModel {
 
   @override
   Map<String, dynamic> toJson() => _$LinkToJson(this);
+
+  @override
+  Map<String, dynamic> toJsonCache() {
+    return _$LinkToJson(this)
+      ..addAll({
+        'id': id,
+      });
+  }
 }
