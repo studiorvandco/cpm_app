@@ -20,24 +20,30 @@ class CacheManager {
     _cache = JsonCacheMem(JsonCacheLocalStorage(_storage));
   }
 
-  void set(CacheKey cacheKey, List<BaseModel> models) {
-    _cache.refresh(
-      cacheKey.name,
-      {for (final model in models) model.id.toString(): model.toJsonCache()},
-    );
+  String _buildKey(CacheKey cacheKey, [int? id]) {
+    return '${cacheKey.name}${id != null ? '_$id' : ''}';
   }
 
-  Future<bool> contains(CacheKey cacheKey) async {
-    return _cache.contains(cacheKey.name);
+  Future<bool> contains(CacheKey cacheKey, [int? id]) async {
+    return _cache.contains(_buildKey(cacheKey, id));
+  }
+
+  void set(CacheKey cacheKey, List<BaseModel> models, [int? id]) {
+    final key = _buildKey(cacheKey, id);
+    final data = {for (final model in models) model.id.toString(): model.toJsonCache()};
+
+    _cache.refresh(key, data);
   }
 
   Future<List<Model>> get<Model extends BaseModel>(
     CacheKey cacheKey,
-    Model Function(Map<String, dynamic>) constructor,
-  ) async {
+    Model Function(Map<String, dynamic>) constructor, [
+    int? id,
+  ]) async {
     assert(Model != dynamic);
 
-    final models = await _cache.value(cacheKey.name);
+    final key = _buildKey(cacheKey, id);
+    final models = await _cache.value(key);
 
     return models == null ? [] : models.values.map((e) => constructor(e as Map<String, dynamic>)).toList();
   }

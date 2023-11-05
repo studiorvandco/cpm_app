@@ -16,47 +16,33 @@ class Episodes extends _$Episodes with BaseProvider {
 
   @override
   FutureOr<List<Episode>> build() {
-    return ref.watch(currentProjectProvider).when(
-      data: (project) async {
-        final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
+    get();
 
-        return episodes;
-      },
-      error: (Object error, StackTrace stackTrace) {
-        return <Episode>[];
-      },
-      loading: () {
-        return <Episode>[];
-      },
-    );
+    return <Episode>[];
   }
 
   Future<void> get() async {
     state = const AsyncLoading<List<Episode>>();
 
-    if (await CacheManager().contains(CacheKey.episodes)) {
-      state = AsyncData<List<Episode>>(
-        await CacheManager().get<Episode>(CacheKey.episodes, Episode.fromJson),
-      );
-    }
+    ref.watch(currentProjectProvider).when(
+          data: (project) async {
+            if (await CacheManager().contains(CacheKey.episodes, project.id)) {
+              state = AsyncData<List<Episode>>(
+                await CacheManager().get<Episode>(CacheKey.episodes, Episode.fromJson, project.id),
+              );
+            }
 
-    return ref.watch(currentProjectProvider).when(
-      data: (project) async {
-        final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
-        CacheManager().set(CacheKey.episodes, episodes);
-        state = AsyncData<List<Episode>>(episodes);
+            final List<Episode> episodes = await selectEpisodeService.selectEpisodes(project.id);
+            CacheManager().set(CacheKey.episodes, episodes, project.id);
+            state = AsyncData<List<Episode>>(episodes);
 
-        if (project.isMovie) {
-          ref.read(currentEpisodeProvider.notifier).set(episodes.first);
-        }
-      },
-      error: (Object error, StackTrace stackTrace) {
-        return Future.value();
-      },
-      loading: () {
-        return Future.value();
-      },
-    );
+            if (project.isMovie) {
+              ref.read(currentEpisodeProvider.notifier).set(episodes.first);
+            }
+          },
+          error: (Object error, StackTrace stackTrace) {},
+          loading: () {},
+        );
   }
 
   Future<void> set(int projectId) async {

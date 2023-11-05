@@ -64,6 +64,7 @@ class Episode extends BaseModel {
     return _$EpisodeToJson(this)
       ..addAll({
         'id': id,
+        'number': number,
       });
   }
 }

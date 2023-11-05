@@ -59,6 +59,7 @@ class Shot extends BaseModel {
     return _$ShotToJson(this)
       ..addAll({
         'id': id,
+        'number': number,
       });
   }
 }

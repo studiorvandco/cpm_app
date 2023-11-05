@@ -16,32 +16,24 @@ class Sequences extends _$Sequences with BaseProvider {
 
   @override
   FutureOr<List<Sequence>> build() {
-    return ref.watch(currentEpisodeProvider).when(
-      data: (episode) async {
-        return selectSequenceService.selectSequences(episode.id);
-      },
-      error: (Object error, StackTrace stackTrace) {
-        return <Sequence>[];
-      },
-      loading: () {
-        return <Sequence>[];
-      },
-    );
+    get();
+
+    return <Sequence>[];
   }
 
   Future<void> get() async {
     state = const AsyncLoading<List<Sequence>>();
 
-    if (await CacheManager().contains(CacheKey.sequences)) {
-      state = AsyncData<List<Sequence>>(
-        await CacheManager().get<Sequence>(CacheKey.sequences, Sequence.fromJson),
-      );
-    }
-
-    return ref.watch(currentEpisodeProvider).when(
+    ref.watch(currentEpisodeProvider).when(
       data: (episode) async {
+        if (await CacheManager().contains(CacheKey.sequences, episode.id)) {
+          state = AsyncData<List<Sequence>>(
+            await CacheManager().get<Sequence>(CacheKey.sequences, Sequence.fromJson, episode.id),
+          );
+        }
+
         final List<Sequence> sequences = await selectSequenceService.selectSequences(episode.id);
-        CacheManager().set(CacheKey.sequences, sequences);
+        CacheManager().set(CacheKey.sequences, sequences, episode.id);
         state = AsyncData<List<Sequence>>(sequences);
       },
       error: (Object error, StackTrace stackTrace) {
@@ -53,27 +45,23 @@ class Sequences extends _$Sequences with BaseProvider {
     );
   }
 
-  Future<void> getAll() {
+  Future<void> getAll() async {
     state = const AsyncLoading<List<Sequence>>();
 
-    return ref.watch(currentProjectProvider).when(
-      data: (project) async {
-        final episodes = await selectEpisodeService.selectEpisodes(project.id);
-        final List<Sequence> sequences = [];
+    ref.watch(currentProjectProvider).when(
+          data: (project) async {
+            final episodes = await selectEpisodeService.selectEpisodes(project.id);
+            final List<Sequence> sequences = [];
 
-        for (final episode in episodes) {
-          sequences.addAll(await selectSequenceService.selectSequences(episode.id));
-        }
+            for (final episode in episodes) {
+              sequences.addAll(await selectSequenceService.selectSequences(episode.id));
+            }
 
-        state = AsyncData<List<Sequence>>(sequences);
-      },
-      error: (Object error, StackTrace stackTrace) {
-        return Future.value();
-      },
-      loading: () {
-        return Future.value();
-      },
-    );
+            state = AsyncData<List<Sequence>>(sequences);
+          },
+          error: (Object error, StackTrace stackTrace) {},
+          loading: () {},
+        );
   }
 
   Future<bool> add(Sequence newSequence, [int? locationId]) async {

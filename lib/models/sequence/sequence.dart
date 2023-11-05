@@ -73,6 +73,7 @@ class Sequence extends BaseModel {
     return _$SequenceToJson(this)
       ..addAll({
         'id': id,
+        'number': number,
       });
   }
 }

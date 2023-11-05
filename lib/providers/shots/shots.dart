@@ -14,41 +14,29 @@ class Shots extends _$Shots with BaseProvider {
 
   @override
   FutureOr<List<Shot>> build() {
-    return ref.watch(currentSequenceProvider).when(
-      data: (sequence) async {
-        return selectShotService.selectShots(sequence.id);
-      },
-      error: (Object error, StackTrace stackTrace) {
-        return <Shot>[];
-      },
-      loading: () {
-        return <Shot>[];
-      },
-    );
+    get();
+
+    return <Shot>[];
   }
 
   Future<void> get() async {
     state = const AsyncLoading<List<Shot>>();
 
-    if (await CacheManager().contains(CacheKey.shots)) {
-      state = AsyncData<List<Shot>>(
-        await CacheManager().get<Shot>(CacheKey.shots, Shot.fromJson),
-      );
-    }
+    ref.watch(currentSequenceProvider).when(
+          data: (sequence) async {
+            if (await CacheManager().contains(CacheKey.shots, sequence.id)) {
+              state = AsyncData<List<Shot>>(
+                await CacheManager().get<Shot>(CacheKey.shots, Shot.fromJson, sequence.id),
+              );
+            }
 
-    return ref.watch(currentSequenceProvider).when(
-      data: (sequence) async {
-        final List<Shot> shots = await selectShotService.selectShots(sequence.id);
-        CacheManager().set(CacheKey.shots, shots);
-        state = AsyncData<List<Shot>>(shots);
-      },
-      error: (Object error, StackTrace stackTrace) {
-        return Future.value();
-      },
-      loading: () {
-        return Future.value();
-      },
-    );
+            final List<Shot> shots = await selectShotService.selectShots(sequence.id);
+            CacheManager().set(CacheKey.shots, shots, sequence.id);
+            state = AsyncData<List<Shot>>(shots);
+          },
+          error: (Object error, StackTrace stackTrace) {},
+          loading: () {},
+        );
   }
 
   Future<bool> add(Shot newShot) async {

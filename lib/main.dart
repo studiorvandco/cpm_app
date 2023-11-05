@@ -18,7 +18,7 @@ Future<void> main() async {
   await PreferencesManager().init();
   await PackageInfoManager().init();
   await CacheManager().init();
-
+  await CacheManager().clear();
   await Config().init();
   await Favorites().init();
 
