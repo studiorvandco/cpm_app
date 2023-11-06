@@ -109,7 +109,6 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
 
   @override
   Widget build(BuildContext context) {
-    print(ref.read(locationsProvider).value);
     return ref.watch(currentSequenceProvider).when(
       data: (sequence) {
         return Column(
