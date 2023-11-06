@@ -99,12 +99,12 @@ class ProjectHeader extends StatelessWidget {
         );
       case const (Episode):
         sheet = Sheet(
-          tabs: const [SequenceDetailsTab()],
+          tabs: const [EpisodeDetailsTab()],
           icons: const [Icons.info],
         );
       case const (Sequence):
         sheet = Sheet(
-          tabs: const [EpisodeDetailsTab()],
+          tabs: const [SequenceDetailsTab()],
           icons: const [Icons.info],
         );
       default:
