@@ -1,7 +1,10 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
 import 'dart:io';
 
 import 'package:cpm/l10n/app_localizations.g.dart';
 import 'package:cpm/utils/constants/constants.dart';
+import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/preferences/preference_key.dart';
 import 'package:cpm/utils/preferences/preferences_manager.dart';
 import 'package:cpm/utils/snack_bar/custom_snack_bar.dart';
@@ -15,7 +18,7 @@ class LocaleManager {
     if (preferredLocaleLanguageCode != null) {
       return Locale(preferredLocaleLanguageCode);
     } else {
-      final deviceLocale = Platform.localeName;
+      final deviceLocale = PlatformManager().isWeb ? html.window.navigator.language : Platform.localeName;
       for (final locale in AppLocalizations.supportedLocales) {
         if (deviceLocale.split('_').first == locale.languageCode) {
           return locale;
