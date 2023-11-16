@@ -10,12 +10,10 @@ String _$episodesHash() => r'd92d3ab4db98e41124f361825fb8b692a30f205a';
 
 /// See also [Episodes].
 @ProviderFor(Episodes)
-final episodesProvider =
-    AutoDisposeAsyncNotifierProvider<Episodes, List<Episode>>.internal(
+final episodesProvider = AutoDisposeAsyncNotifierProvider<Episodes, List<Episode>>.internal(
   Episodes.new,
   name: r'episodesProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$episodesHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$episodesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -25,13 +23,10 @@ String _$currentEpisodeHash() => r'19e7c7159cdb655c426391cecd0cc868a90f4f23';
 
 /// See also [CurrentEpisode].
 @ProviderFor(CurrentEpisode)
-final currentEpisodeProvider =
-    AsyncNotifierProvider<CurrentEpisode, Episode>.internal(
+final currentEpisodeProvider = AsyncNotifierProvider<CurrentEpisode, Episode>.internal(
   CurrentEpisode.new,
   name: r'currentEpisodeProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$currentEpisodeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentEpisodeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

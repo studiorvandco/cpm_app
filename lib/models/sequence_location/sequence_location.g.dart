@@ -6,8 +6,7 @@ part of 'sequence_location.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SequenceLocation _$SequenceLocationFromJson(Map<String, dynamic> json) =>
-    $checkedCreate(
+SequenceLocation _$SequenceLocationFromJson(Map<String, dynamic> json) => $checkedCreate(
       'SequenceLocation',
       json,
       ($checkedConvert) {
@@ -20,8 +19,7 @@ SequenceLocation _$SequenceLocationFromJson(Map<String, dynamic> json) =>
       },
     );
 
-Map<String, dynamic> _$SequenceLocationToJson(SequenceLocation instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SequenceLocationToJson(SequenceLocation instance) => <String, dynamic>{
       'sequence': instance.sequence,
       'location': instance.location,
     };
