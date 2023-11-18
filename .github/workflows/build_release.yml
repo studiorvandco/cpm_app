@@ -57,7 +57,9 @@ jobs:
         with:
           channel: 'stable'
       - name: Add config
-        run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+        run: |
+          touch assets/config/config.yaml
+          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - name: Build app
         run: flutter build windows --release
       - name: Build the Inno Setup Installer
@@ -66,6 +68,7 @@ jobs:
         uses: Minionguyjpro/Inno-Setup-Action@v1.0.0
         with:
           path: windows/CPM.iss
+          options: /O+
 
 #  build_windows:
 #    name: Windows
