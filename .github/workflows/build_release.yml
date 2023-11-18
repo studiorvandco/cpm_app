@@ -52,18 +52,16 @@ jobs:
     environment: release
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
       - name: Add config
-        run: |
-          touch assets/config/config.yaml
-          echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
+        run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - name: Build app
         run: flutter build windows --release
-      - name: Build the Inno Setup Installer
-        uses: actions/checkout@v3
       - name: Compile .ISS to .EXE Installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.0.0
         with:
