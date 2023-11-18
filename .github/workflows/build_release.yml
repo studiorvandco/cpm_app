@@ -67,6 +67,11 @@ jobs:
         with:
           path: windows/CPM.iss
           options: /O+
+      - name: Archive MSI
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows
+          path: windows\Output\CPM_0.1.0_setup.exe
 
 #  build_windows:
 #    name: Windows
