@@ -62,16 +62,26 @@ jobs:
         run: echo "${{ vars.CPM_CONFIG }}" > assets/config/config.yaml
       - name: Build app
         run: flutter build windows --release
-      - name: Compile .ISS to .EXE Installer
+      - name: Get version
+        run: |
+          choco install yq
+          echo "VERSION=$(yq -r .version pubspec.yaml)" >> $env:GITHUB_ENV
+      - name: Replace version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "0.1.0"
+          replace: ${{ env.VERSION }}
+          regex: false
+      - name: Run InnoSetup
         uses: Minionguyjpro/Inno-Setup-Action@v1.0.0
         with:
           path: windows/CPM.iss
           options: /O+
-      - name: Archive MSI
+      - name: Archive installer
         uses: actions/upload-artifact@v3
         with:
           name: Windows
-          path: windows\Output\CPM_0.1.0_setup.exe
+          path: windows\Output\CPM_${{ env.VERSION }}_setup.exe
 
 #  build_windows:
 #    name: Windows
