@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 137_inno_setup
 
 jobs:
   build_android:
