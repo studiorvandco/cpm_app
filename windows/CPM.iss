@@ -22,7 +22,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=CPM_{#MyAppVersion}_setup
+OutputBaseFilename=CPM_{#MyAppVersion}
 SetupIconFile=D:\a\cpm_app\cpm_app\assets\icons\cpm.ico
 Compression=lzma
 SolidCompression=yes
