@@ -67,11 +67,11 @@ jobs:
           choco install yq
           echo "VERSION=$(yq -r .version pubspec.yaml)" >> $env:GITHUB_ENV
       - name: Replace version
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: MathieuSoysal/replace-string-in-file@v1.0.0
         with:
-          find: "0.1.0"
-          replace: ${{ env.VERSION }}
-          regex: false
+          file: windows/CPM.iss
+          old-string: 0.1.0
+          new-string: ${{ env.VERSION }}
       - name: Run InnoSetup
         uses: Minionguyjpro/Inno-Setup-Action@v1.0.0
         with:
