@@ -178,13 +178,14 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               value: Text(ThemeManager().themeModeName),
               onPressed: _selectTheme,
             ),
-            SettingsTile.switchTile(
-              leading: const Icon(Icons.bolt),
-              title: Text(localizations.settings_dynamic_theming),
-              description: Text(localizations.settings_dynamic_theming_description),
-              initialValue: ThemeManager().dynamicTheming,
-              onToggle: _toggleDynamicTheming,
-            ),
+            if (ThemeManager().isDynamicThemingAvailable)
+              SettingsTile.switchTile(
+                leading: const Icon(Icons.bolt),
+                title: Text(localizations.settings_dynamic_theming),
+                description: Text(localizations.settings_dynamic_theming_description),
+                initialValue: ThemeManager().useDynamicTheming,
+                onToggle: _toggleDynamicTheming,
+              ),
             SettingsTile.navigation(
               leading: const Icon(Icons.language),
               title: Text(localizations.settings_language),
