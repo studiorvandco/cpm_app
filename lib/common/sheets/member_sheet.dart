@@ -34,9 +34,9 @@ class _MemberSheetState extends ConsumerState<MemberSheet> with SingleTickerProv
 
   void _onSubmitted(Member member) {
     if (firstName.text == member.firstName &&
-        lastName.text == member.lastName &&
-        phone.text == member.phone &&
-        email.text == member.email &&
+            lastName.text == member.lastName &&
+            phone.text == member.phone &&
+            email.text == member.email ||
         !formKey.currentState!.validate()) return;
 
     _edit(member);
@@ -102,7 +102,7 @@ class _MemberSheetState extends ConsumerState<MemberSheet> with SingleTickerProv
                   decoration: InputDecoration.collapsed(
                     hintText: localizations.dialog_field_phone,
                   ),
-                  onChanged: validatePhone,
+                  validator: validatePhone,
                   onFieldSubmitted: (_) => _onSubmitted(member),
                 ),
               ),
@@ -114,7 +114,7 @@ class _MemberSheetState extends ConsumerState<MemberSheet> with SingleTickerProv
                   decoration: InputDecoration.collapsed(
                     hintText: localizations.dialog_field_email,
                   ),
-                  onChanged: validateEmail,
+                  validator: validateEmail,
                   onFieldSubmitted: (_) => _onSubmitted(member),
                 ),
               ),

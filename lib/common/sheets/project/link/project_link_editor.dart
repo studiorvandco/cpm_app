@@ -53,8 +53,7 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
   }
 
   void _onSubmitted() {
-    if (labelController.text == widget.link.label ||
-        urlController.text == widget.link.url ||
+    if (labelController.text == widget.link.label && urlController.text == widget.link.url ||
         !formKey.currentState!.validate()) return;
 
     widget.edit(
@@ -77,7 +76,7 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
         child: Row(
           children: [
             Expanded(
-              child: TextFormField(
+              child: TextField(
                 controller: labelController,
                 decoration: InputDecoration.collapsed(hintText: localizations.dialog_field_label),
                 textInputAction: TextInputAction.next,
@@ -90,7 +89,6 @@ class _ProjectLinkEditorState extends State<ProjectLinkEditor> {
                 controller: urlController,
                 decoration: InputDecoration.collapsed(hintText: localizations.dialog_field_url),
                 validator: validateUrl,
-                onChanged: (_) => formKey.currentState!.validate(),
               ),
             ),
             PopupMenuButton(
