@@ -1,4 +1,6 @@
 {
+  "app_name": "CPM",
+  "app_name_full": "Cinema Project Manager",
   "navigation_projects": "Projets",
   "navigation_members": "Membres",
   "navigation_locations": "Lieux",

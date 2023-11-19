@@ -7,6 +7,12 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get app_name => 'CPM';
+
+  @override
+  String get app_name_full => 'Cinema Project Manager';
+
+  @override
   String get navigation_projects => 'Projets';
 
   @override
