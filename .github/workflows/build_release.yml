@@ -157,7 +157,7 @@ jobs:
   release:
     name: Release
     environment: release
-    needs: [ build_android, build_ios, build_windows, build_linux, build_macos, build_web ]
+    needs: [ build_android, build_windows, build_web ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
