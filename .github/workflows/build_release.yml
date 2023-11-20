@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - cloudflare-deployment
 
 jobs:
   build_android:
