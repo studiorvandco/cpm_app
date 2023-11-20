@@ -10,10 +10,12 @@ String _$membersHash() => r'28d47f54c5fb0da636e49221c30a3206237f220d';
 
 /// See also [Members].
 @ProviderFor(Members)
-final membersProvider = AutoDisposeAsyncNotifierProvider<Members, List<Member>>.internal(
+final membersProvider =
+    AutoDisposeAsyncNotifierProvider<Members, List<Member>>.internal(
   Members.new,
   name: r'membersProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$membersHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$membersHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -23,10 +25,13 @@ String _$currentMemberHash() => r'84a7eb00fe03bf66d925aaa6b4dc1a5e81a73387';
 
 /// See also [CurrentMember].
 @ProviderFor(CurrentMember)
-final currentMemberProvider = AsyncNotifierProvider<CurrentMember, Member>.internal(
+final currentMemberProvider =
+    AsyncNotifierProvider<CurrentMember, Member>.internal(
   CurrentMember.new,
   name: r'currentMemberProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentMemberHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentMemberHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
