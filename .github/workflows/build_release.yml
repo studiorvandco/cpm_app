@@ -169,6 +169,11 @@ jobs:
         uses: mikefarah/yq@master
         with:
           cmd: yq -r '.version' 'pubspec.yaml'
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "v${{ steps.version.outputs.result }}"
+          message: "Release of Cinema Project Manager (version ${{ steps.version.outputs.result }})"
       - name: Upload to releases
         uses: ncipollo/release-action@v1
         with:
