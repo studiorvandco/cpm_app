@@ -121,7 +121,6 @@ jobs:
     steps:
       - run: echo TODO
 
-  # TODO: release
   build_web:
     name: Web
     environment: release
