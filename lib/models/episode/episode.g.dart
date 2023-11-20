@@ -24,10 +24,7 @@ Episode _$EpisodeFromJson(Map<String, dynamic> json) => $checkedCreate(
         );
         return val;
       },
-      fieldKeyMap: const {
-        'shotsTotal': 'shots_total',
-        'shotsCompleted': 'shots_completed'
-      },
+      fieldKeyMap: const {'shotsTotal': 'shots_total', 'shotsCompleted': 'shots_completed'},
     );
 
 Map<String, dynamic> _$EpisodeToJson(Episode instance) => <String, dynamic>{
