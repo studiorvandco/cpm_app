@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Android
-          path: build/app/outputs/flutter-apk/CPM_Android.apk
+          path: build/app/outputs/flutter-apk/CPM_${{ steps.version.outputs.result }}.apk
 
   # TODO: build and release
   #  build_ios:
@@ -179,4 +179,4 @@ jobs:
         with:
           artifacts: 'Android/CPM_${{ steps.version.outputs.result }}.apk, Windows/CPM_${{ steps.version.outputs.result }}.exe'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.yq.outputs.result }}
+          tag: "v${{ steps.version.outputs.result }}"
