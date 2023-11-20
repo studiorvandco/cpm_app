@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 151_ci
 
 jobs:
   build_android:
