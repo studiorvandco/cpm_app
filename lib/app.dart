@@ -2,6 +2,7 @@ import 'package:cpm/l10n/app_localizations.g.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/keybinds/keybind.dart';
 import 'package:cpm/utils/package_info_manager.dart';
+import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router.dart';
 import 'package:cpm/utils/theme_manager.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -21,9 +22,11 @@ class App extends StatelessWidget {
                 final useDynamicTheming = ThemeManager().useDynamicTheming;
 
                 return CallbackShortcuts(
-                  bindings: {
-                    for (final keybinding in Keybinding.values) keybinding.logicalKeySet: keybinding.function,
-                  },
+                  bindings: PlatformManager().isDesktop
+                      ? {
+                          for (final keybinding in Keybinding.values) keybinding.logicalKeySet: keybinding.function,
+                        }
+                      : {},
                   child: MaterialApp.router(
                     title: PackageInfoManager().name,
                     theme: useDynamicTheming
