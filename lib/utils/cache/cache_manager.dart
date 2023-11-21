@@ -2,6 +2,7 @@ import 'package:cpm/models/base_model.dart';
 import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:json_cache/json_cache.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CacheManager {
   static final CacheManager _singleton = CacheManager._internal();
@@ -16,7 +17,7 @@ class CacheManager {
   late final JsonCache _cache;
 
   Future<void> init() async {
-    _storage = LocalStorage('cache');
+    _storage = LocalStorage('cache', (await getApplicationCacheDirectory()).path);
     _cache = JsonCacheMem(JsonCacheLocalStorage(_storage));
   }
 
