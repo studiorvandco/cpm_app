@@ -47,7 +47,7 @@ class Projects extends _$Projects with BaseProvider {
     try {
       if (newProject.isMovie) {
         final Project project = await insertService.insertAndReturn<Project>(_table, newProject, Project.fromJson);
-        await insertService.insert(SupabaseTable.episode, Episode(project: project.id));
+        await insertService.insert(SupabaseTable.episode, Episode(project: project.id, index: 1));
       } else {
         await insertService.insert(_table, newProject);
       }
