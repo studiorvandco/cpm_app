@@ -108,7 +108,7 @@ class _ProjectDetailsTabState extends ConsumerState<SequenceDetailsTab> {
       );
     }
 
-    ref.read(sequencesProvider.notifier).edit(sequence, location?.id);
+    ref.read(sequencesProvider.notifier).edit(sequence);
     ref.read(currentSequenceProvider.notifier).set(sequence);
   }
 
