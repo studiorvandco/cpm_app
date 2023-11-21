@@ -63,8 +63,8 @@ class Sequence extends BaseModel {
     return endDate != null ? TimeOfDay(hour: endDate!.hour, minute: endDate!.minute) : TimeOfDay.now().hourLater;
   }
 
-  String? get dateText {
-    if (startDate == null || endDate == null) return null;
+  String get dateText {
+    if (startDate == null || endDate == null) return '';
 
     return '${startDate!.yMd} | ${startDate!.Hm} - ${endDate!.Hm}';
   }
