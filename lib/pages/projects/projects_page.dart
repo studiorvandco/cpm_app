@@ -1,8 +1,8 @@
-import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
 import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/models/project/project.dart';
+import 'package:cpm/models/project/project_type.dart';
 import 'package:cpm/pages/projects/favorites.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
@@ -54,7 +54,12 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AddAction<Project>().add(context, ref),
+        onPressed: () {
+          ref
+              .read(projectsProvider.notifier)
+              .import(ProjectType.movie, 'assets/config/Template découpage technique.xlsx');
+          //AddAction<Project>().add(context, ref);
+        },
         child: const Icon(Icons.add),
       ),
       body: RefreshIndicator(

@@ -1,13 +1,20 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/models/project/link/link.dart';
 import 'package:cpm/models/project/project.dart';
+import 'package:cpm/models/project/project_type.dart';
+import 'package:cpm/models/sequence/sequence.dart';
+import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/base_provider.dart';
+import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:cpm/utils/cache/cache_manager.dart';
+import 'package:excel/excel.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'projects.g.dart';
@@ -47,7 +54,7 @@ class Projects extends _$Projects with BaseProvider {
   Future<bool> add(Project newProject) async {
     try {
       if (newProject.isMovie) {
-        final Project project = await insertService.insertAndReturn<Project>(_table, newProject, Project.fromJson);
+        final project = await insertService.insertAndReturn<Project>(_table, newProject, Project.fromJson);
         await insertService.insert(SupabaseTable.episode, Episode(project: project.id, index: 1));
       } else {
         await insertService.insert(_table, newProject);
@@ -59,6 +66,81 @@ class Projects extends _$Projects with BaseProvider {
     await get();
 
     return true;
+  }
+
+  Future<bool> import(ProjectType projectType, String filePath) async {
+    try {
+      final bytes = File(filePath).readAsBytesSync();
+      final excel = Excel.decodeBytes(bytes);
+
+      final newProject = Project(
+        projectType: projectType,
+        title: 'Imported',
+        description: 'This is an imported project',
+      );
+      final project = await insertService.insertAndReturn<Project>(_table, newProject, Project.fromJson);
+
+      switch (projectType) {
+        case ProjectType.movie:
+          final episode = await insertService.insertAndReturn(
+            SupabaseTable.episode,
+            Episode(project: project.id, index: 1),
+            Episode.fromJson,
+          );
+          await _importMovie(episode.id, excel);
+        case ProjectType.series:
+          await _importSeries(excel);
+        default:
+          throw Exception();
+      }
+    } catch (exception, stackTrace) {
+      log(exception.toString(), stackTrace: stackTrace);
+      return false;
+    }
+    await get();
+
+    return true;
+  }
+
+  Future<void> _importMovie(int episodeId, Excel excel) async {
+    var sequenceIndex = 0;
+    excel.sheets.forEach((name, sheet) async {
+      if (name.startsWith('_')) return;
+
+      sequenceIndex++;
+      final sequence = _parseSequence(episodeId, name, sheet.rows.first, sequenceIndex);
+      final sequenceId = await ref.read(sequencesProvider.notifier).import(sequence);
+      if (sequenceId == -1) throw Exception();
+
+      var shotIndex = 0;
+      final shots = sheet.rows.skip(2).map((row) {
+        shotIndex++;
+        return _parseShot(sequenceId, row, shotIndex);
+      }).toList()
+        ..removeLast();
+      await ref.read(shotsProvider.notifier).add(shots);
+    });
+  }
+
+  Future<void> _importSeries(Excel excel) async {
+    throw UnimplementedError();
+  }
+
+  Sequence _parseSequence(int episodeId, String name, List<Data?> firstRow, int index) {
+    return Sequence(
+      episode: episodeId,
+      index: index,
+      title: name,
+      description: firstRow.first?.value.toString(),
+    );
+  }
+
+  Shot _parseShot(int sequenceId, List<Data?> row, int index) {
+    return Shot(
+      sequence: sequenceId,
+      index: index,
+      description: row[2]?.value.toString(),
+    );
   }
 
   Future<bool> edit(Project editedProject) async {
