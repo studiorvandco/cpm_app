@@ -1,12 +1,13 @@
+import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
 import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/models/project/project.dart';
-import 'package:cpm/models/project/project_type.dart';
 import 'package:cpm/pages/projects/favorites.dart';
 import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/routes/router_route.dart';
@@ -53,14 +54,22 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref
-              .read(projectsProvider.notifier)
-              .import(ProjectType.movie, 'assets/tests/Template découpage technique.xlsx');
-          //AddAction<Project>().add(context, ref);
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton.small(
+            onPressed: () => AddAction<Project>().import(context, ref),
+            tooltip: localizations.fab_import,
+            child: const Icon(Icons.upload_file),
+          ),
+          Padding(padding: Paddings.padding4.vertical),
+          FloatingActionButton(
+            onPressed: () => AddAction<Project>().add(context, ref),
+            tooltip: localizations.fab_create,
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
@@ -74,7 +83,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
                       ? CustomPlaceholder.empty(EmptyPlaceholder.projects)
                       : MasonryGridView.count(
                           itemCount: projects.length,
-                          padding: Paddings.withFab(Paddings.custom.page),
+                          padding: Paddings.withTwoFabs(Paddings.custom.page),
                           itemBuilder: (BuildContext context, int index) {
                             return ProjectCard.project(
                               key: UniqueKey(),

@@ -26,20 +26,20 @@ class Shots extends _$Shots with BaseProvider {
     state = const AsyncLoading<List<Shot>>();
 
     ref.watch(currentSequenceProvider).when(
-      data: (sequence) async {
-        if (await CacheManager().contains(_cacheKey, sequence.id)) {
-          state = AsyncData<List<Shot>>(
-            await CacheManager().get<Shot>(_cacheKey, Shot.fromJson, sequence.id),
-          );
-        }
+          data: (sequence) async {
+            if (await CacheManager().contains(_cacheKey, sequence.id)) {
+              state = AsyncData<List<Shot>>(
+                await CacheManager().get<Shot>(_cacheKey, Shot.fromJson, sequence.id),
+              );
+            }
 
-        final List<Shot> shots = await selectShotService.selectShots(sequence.id);
-        CacheManager().set(_cacheKey, shots, sequence.id);
-        state = AsyncData<List<Shot>>(shots);
-      },
-      error: (Object error, StackTrace stackTrace) {},
-      loading: () {},
-    );
+            final List<Shot> shots = await selectShotService.selectShots(sequence.id);
+            CacheManager().set(_cacheKey, shots, sequence.id);
+            state = AsyncData<List<Shot>>(shots);
+          },
+          error: (Object error, StackTrace stackTrace) {},
+          loading: () {},
+        );
   }
 
   Future<bool> add(dynamic newShots) async {
@@ -63,8 +63,7 @@ class Shots extends _$Shots with BaseProvider {
     }
     state = AsyncData<List<Shot>>(<Shot>[
       for (final Shot shot in state.value ?? <Shot>[])
-        if (shot.id != editedShot.id) shot else
-          editedShot,
+        if (shot.id != editedShot.id) shot else editedShot,
     ]);
 
     return true;
@@ -80,8 +79,7 @@ class Shots extends _$Shots with BaseProvider {
     }
     state = AsyncData<List<Shot>>(<Shot>[
       for (final Shot shot in state.value ?? <Shot>[])
-        if (shot.id != toToggleShot.id) shot else
-          toToggleShot,
+        if (shot.id != toToggleShot.id) shot else toToggleShot,
     ]);
 
     return true;
