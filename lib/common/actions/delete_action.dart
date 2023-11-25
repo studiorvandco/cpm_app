@@ -74,6 +74,9 @@ class DeleteAction<T extends BaseModel> extends ModelGeneric<T> {
           deleted = await ref.read(locationsProvider.notifier).delete(id);
       }
 
+      print(deleted);
+      print(shouldPop);
+      print(context.mounted);
       if (deleted && shouldPop && context.mounted) {
         context.pop();
       }

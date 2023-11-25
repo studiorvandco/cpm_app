@@ -57,7 +57,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
         onPressed: () {
           ref
               .read(projectsProvider.notifier)
-              .import(ProjectType.movie, 'assets/config/Template découpage technique.xlsx');
+              .import(ProjectType.movie, 'assets/tests/Template découpage technique.xlsx');
           //AddAction<Project>().add(context, ref);
         },
         child: const Icon(Icons.add),
