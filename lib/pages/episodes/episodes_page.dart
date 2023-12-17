@@ -14,7 +14,6 @@ import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -27,7 +26,7 @@ class EpisodesPage extends ConsumerStatefulWidget {
 
 class EpisodesState extends ConsumerState<EpisodesPage> {
   Future<void> _refresh() async {
-    await ref.read(episodesProvider.notifier).get();
+    await ref.read(episodesProvider.notifier).get(refreshing: true);
   }
 
   Future<void> _open(Episode episode) async {
@@ -35,6 +34,33 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
     if (context.mounted) {
       context.pushNamed(RouterRoute.sequences.name);
     }
+  }
+
+  Future<void> _reorder(int oldIndex, int newIndex, List<Episode> episodes) async {
+    late int sublistStart;
+    late int sublistEnd;
+    if (newIndex > oldIndex) {
+      sublistStart = oldIndex;
+      sublistEnd = newIndex;
+    } else {
+      {
+        sublistStart = newIndex;
+        sublistEnd = oldIndex + 1;
+      }
+    }
+
+    final episode = episodes[oldIndex];
+    episodes.removeAt(oldIndex);
+    episodes.insert(newIndex > oldIndex ? newIndex - 1 : newIndex, episode);
+
+    final sublist = episodes.sublist(sublistStart, sublistEnd);
+    for (final episode in sublist) {
+      episode.index = sublistStart + sublist.indexOf(episode);
+      episode.number = sublistStart + sublist.indexOf(episode) + 1;
+      await ref.read(episodesProvider.notifier).edit(episode, reordering: true);
+    }
+
+    setState(() {});
   }
 
   @override
@@ -70,30 +96,27 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
 
             final body = episodes.isEmpty
                 ? CustomPlaceholder.empty(EmptyPlaceholder.episodes)
-                : LayoutBuilder(
-                    builder: (context, constraints) {
-                      return ScrollConfiguration(
-                        behavior: scrollBehavior,
-                        child: AlignedGridView.count(
-                          crossAxisCount: getColumnsCount(constraints),
-                          itemCount: episodes.length,
-                          itemBuilder: (context, index) {
-                            final episode = episodes[index];
+                : ScrollConfiguration(
+                    behavior: scrollBehavior,
+                    child: ReorderableListView.builder(
+                      padding: Paddings.withFab(Paddings.padding8.all),
+                      itemCount: episodes.length,
+                      proxyDecorator: proxyDecorator,
+                      itemBuilder: (context, index) {
+                        final episode = episodes[index];
 
-                            return ProjectCard.episode(
-                              key: UniqueKey(),
-                              open: () => _open(episode),
-                              number: episode.getNumber,
-                              title: episode.title,
-                              description: episode.description,
-                              progress: episode.progress,
-                              progressText: episode.progressText,
-                            );
-                          },
-                          padding: Paddings.withFab(Paddings.padding8.all),
-                        ),
-                      );
-                    },
+                        return ProjectCard.episode(
+                          key: Key('$index'),
+                          open: () => _open(episode),
+                          number: episode.getNumber,
+                          title: episode.title,
+                          description: episode.description,
+                          progress: episode.progress,
+                          progressText: episode.progressText,
+                        );
+                      },
+                      onReorder: (oldIndex, newIndex) => _reorder(oldIndex, newIndex, episodes),
+                    ),
                   );
 
             return PlatformManager().isMobile

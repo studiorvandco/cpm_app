@@ -23,12 +23,14 @@ class Episodes extends _$Episodes with BaseProvider {
     return <Episode>[];
   }
 
-  Future<void> get() async {
-    state = const AsyncLoading<List<Episode>>();
+  Future<void> get({bool refreshing = false}) async {
+    if (!refreshing) {
+      state = const AsyncLoading<List<Episode>>();
+    }
 
     ref.watch(currentProjectProvider).when(
           data: (project) async {
-            if (await CacheManager().contains(_cacheKey, project.id)) {
+            if (!refreshing && await CacheManager().contains(_cacheKey, project.id)) {
               state = AsyncData<List<Episode>>(
                 await CacheManager().get<Episode>(_cacheKey, Episode.fromJson, project.id),
               );
@@ -64,17 +66,20 @@ class Episodes extends _$Episodes with BaseProvider {
     return true;
   }
 
-  Future<bool> edit(Episode editedEpisode) async {
+  Future<bool> edit(Episode editedEpisode, {bool reordering = false}) async {
     try {
       await updateService.update(_table, editedEpisode);
     } catch (exception, stackTrace) {
       log(exception.toString(), stackTrace: stackTrace);
       return false;
     }
-    state = AsyncData<List<Episode>>(<Episode>[
-      for (final Episode episode in state.value ?? <Episode>[])
-        if (episode.id != editedEpisode.id) episode else editedEpisode,
-    ]);
+
+    if (!reordering) {
+      state = AsyncData<List<Episode>>(<Episode>[
+        for (final Episode episode in state.value ?? <Episode>[])
+          if (episode.id != editedEpisode.id) episode else editedEpisode,
+      ]);
+    }
 
     return true;
   }

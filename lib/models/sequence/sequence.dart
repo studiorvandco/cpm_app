@@ -79,7 +79,7 @@ class Sequence extends BaseModel {
 
   String get progressText {
     if (shotsCompleted == null || shotsTotal == null || shotsTotal == 0) {
-      return '';
+      return '-/-';
     }
 
     return '$shotsCompleted/$shotsTotal';
