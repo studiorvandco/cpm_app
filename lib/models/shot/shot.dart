@@ -31,10 +31,18 @@ class Shot extends BaseModel {
   factory Shot.fromJson(Map<String, dynamic> json) => _$ShotFromJson(json);
 
   factory Shot.parseExcel(int sequenceId, List<Data?> row, int index) {
+    final description = StringBuffer();
+    for (final data in row.sublist(2)) {
+      if (data != null && data.value != null) {
+        description.write(data.value);
+        description.write('\n\n');
+      }
+    }
+
     return Shot(
       sequence: sequenceId,
       index: index,
-      description: row[2]?.value.toString(),
+      description: description.toString(),
       value: ShotValue.fromName(row[1]?.value.toString()),
     );
   }
