@@ -22,12 +22,14 @@ class Shots extends _$Shots with BaseProvider {
     return <Shot>[];
   }
 
-  Future<void> get() async {
-    state = const AsyncLoading<List<Shot>>();
+  Future<void> get({bool refreshing = false}) async {
+    if (!refreshing) {
+      state = const AsyncLoading<List<Shot>>();
+    }
 
     ref.watch(currentSequenceProvider).when(
           data: (sequence) async {
-            if (await CacheManager().contains(_cacheKey, sequence.id)) {
+            if (!refreshing && await CacheManager().contains(_cacheKey, sequence.id)) {
               state = AsyncData<List<Shot>>(
                 await CacheManager().get<Shot>(_cacheKey, Shot.fromJson, sequence.id),
               );
@@ -54,17 +56,20 @@ class Shots extends _$Shots with BaseProvider {
     return true;
   }
 
-  Future<bool> edit(Shot editedShot) async {
+  Future<bool> edit(Shot editedShot, {bool reordering = false}) async {
     try {
       await updateService.update(_table, editedShot);
     } catch (exception, stackTrace) {
       log(exception.toString(), stackTrace: stackTrace);
       return false;
     }
-    state = AsyncData<List<Shot>>(<Shot>[
-      for (final Shot shot in state.value ?? <Shot>[])
-        if (shot.id != editedShot.id) shot else editedShot,
-    ]);
+
+    if (!reordering) {
+      state = AsyncData<List<Shot>>(<Shot>[
+        for (final Shot shot in state.value ?? <Shot>[])
+          if (shot.id != editedShot.id) shot else editedShot,
+      ]);
+    }
 
     return true;
   }

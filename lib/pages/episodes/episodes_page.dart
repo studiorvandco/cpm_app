@@ -1,5 +1,6 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
+import 'package:cpm/common/actions/reorder_action.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
 import 'package:cpm/common/widgets/project_card.dart';
@@ -35,33 +36,6 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
     if (context.mounted) {
       context.pushNamed(RouterRoute.sequences.name);
     }
-  }
-
-  Future<void> _reorder(int oldIndex, int newIndex, List<Episode> episodes) async {
-    late int sublistStart;
-    late int sublistEnd;
-    if (newIndex > oldIndex) {
-      sublistStart = oldIndex;
-      sublistEnd = newIndex;
-    } else {
-      {
-        sublistStart = newIndex;
-        sublistEnd = oldIndex + 1;
-      }
-    }
-
-    final episode = episodes[oldIndex];
-    episodes.removeAt(oldIndex);
-    episodes.insert(newIndex > oldIndex ? newIndex - 1 : newIndex, episode);
-
-    final sublist = episodes.sublist(sublistStart, sublistEnd);
-    for (final episode in sublist) {
-      episode.index = sublistStart + sublist.indexOf(episode);
-      episode.number = sublistStart + sublist.indexOf(episode) + 1;
-      await ref.read(episodesProvider.notifier).edit(episode, reordering: true);
-    }
-
-    setState(() {});
   }
 
   @override
@@ -117,7 +91,16 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
                           progressText: episode.progressText,
                         );
                       },
-                      onReorder: (oldIndex, newIndex) => _reorder(oldIndex, newIndex, episodes),
+                      onReorder: (oldIndex, newIndex) async {
+                        await ReorderAction<Episode>().reorder(
+                          context,
+                          ref,
+                          oldIndex: oldIndex,
+                          newIndex: newIndex,
+                          models: episodes,
+                        );
+                        setState(() {});
+                      },
                     ),
                   );
 

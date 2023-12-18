@@ -29,7 +29,7 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
   }
 
   Future<void> _open(Project project) async {
-    ref.read(currentProjectProvider.notifier).set(project);
+    await ref.read(currentProjectProvider.notifier).set(project);
     if (project.isMovie) {
       await ref.read(episodesProvider.notifier).set(project.id);
     }
@@ -59,12 +59,14 @@ class ProjectsState extends ConsumerState<ProjectsPage> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FloatingActionButton.small(
+            heroTag: "add",
             onPressed: () => AddAction<Project>().import(context, ref),
             tooltip: localizations.fab_import,
             child: const Icon(Icons.upload_file),
           ),
           Padding(padding: Paddings.padding4.vertical),
           FloatingActionButton(
+            heroTag: "import",
             onPressed: () => AddAction<Project>().add(context, ref),
             tooltip: localizations.fab_create,
             child: const Icon(Icons.add),

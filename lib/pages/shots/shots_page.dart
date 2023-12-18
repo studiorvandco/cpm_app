@@ -1,7 +1,9 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
+import 'package:cpm/common/actions/reorder_action.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
+import 'package:cpm/common/widgets/project_card.dart';
 import 'package:cpm/common/widgets/project_header.dart';
 import 'package:cpm/models/sequence/sequence.dart';
 import 'package:cpm/models/shot/shot.dart';
@@ -14,7 +16,6 @@ import 'package:cpm/utils/extensions/list_extensions.dart';
 import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ShotsPage extends ConsumerStatefulWidget {
@@ -26,7 +27,7 @@ class ShotsPage extends ConsumerStatefulWidget {
 
 class _ShotsState extends ConsumerState<ShotsPage> {
   Future<void> _refresh() async {
-    await ref.read(shotsProvider.notifier).get();
+    await ref.read(shotsProvider.notifier).get(refreshing: true);
   }
 
   @override
@@ -65,13 +66,26 @@ class _ShotsState extends ConsumerState<ShotsPage> {
                     builder: (context, constraints) {
                       return ScrollConfiguration(
                         behavior: scrollBehavior,
-                        child: AlignedGridView.count(
-                          crossAxisCount: getColumnsCount(constraints),
-                          itemCount: shots.length,
-                          itemBuilder: (context, index) {
-                            return ShotCard(shots[index]);
-                          },
+                        child: ReorderableListView.builder(
                           padding: Paddings.withFab(Paddings.padding8.all),
+                          itemCount: shots.length,
+                          proxyDecorator: proxyDecorator,
+                          itemBuilder: (context, index) {
+                            return ShotCard(
+                              key: Key('$index'),
+                              shots[index],
+                            );
+                          },
+                          onReorder: (oldIndex, newIndex) async {
+                            await ReorderAction<Shot>().reorder(
+                              context,
+                              ref,
+                              oldIndex: oldIndex,
+                              newIndex: newIndex,
+                              models: shots,
+                            );
+                            setState(() {});
+                          },
                         ),
                       );
                     },

@@ -1,5 +1,6 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
+import 'package:cpm/common/actions/reorder_action.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
 import 'package:cpm/common/widgets/project_card.dart';
@@ -17,7 +18,6 @@ import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -30,7 +30,7 @@ class SequencesPage extends ConsumerStatefulWidget {
 
 class _SequencesState extends ConsumerState<SequencesPage> {
   Future<void> _refresh() async {
-    await ref.read(sequencesProvider.notifier).get();
+    await ref.read(sequencesProvider.notifier).get(refreshing: true);
   }
 
   Future<void> _open(Sequence sequence) async {
@@ -88,14 +88,15 @@ class _SequencesState extends ConsumerState<SequencesPage> {
                     builder: (context, constraints) {
                       return ScrollConfiguration(
                         behavior: scrollBehavior,
-                        child: AlignedGridView.count(
-                          crossAxisCount: getColumnsCount(constraints),
+                        child: ReorderableListView.builder(
+                          padding: Paddings.withFab(Paddings.padding8.all),
                           itemCount: sequences.length,
+                          proxyDecorator: proxyDecorator,
                           itemBuilder: (context, index) {
                             final sequence = sequences[index];
 
                             return ProjectCard.sequence(
-                              key: UniqueKey(),
+                              key: Key('$index'),
                               open: () => _open(sequence),
                               number: sequence.getNumber,
                               title: sequence.title,
@@ -104,7 +105,16 @@ class _SequencesState extends ConsumerState<SequencesPage> {
                               progressText: sequence.progressText,
                             );
                           },
-                          padding: Paddings.withFab(Paddings.padding8.all),
+                          onReorder: (oldIndex, newIndex) async {
+                            await ReorderAction<Sequence>().reorder(
+                              context,
+                              ref,
+                              oldIndex: oldIndex,
+                              newIndex: newIndex,
+                              models: sequences,
+                            );
+                            setState(() {});
+                          },
                         ),
                       );
                     },
