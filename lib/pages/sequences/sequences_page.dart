@@ -13,7 +13,7 @@ import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/extensions/list_extensions.dart';
+import 'package:cpm/utils/lexo_ranker.dart';
 import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
@@ -48,7 +48,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
           context,
           ref,
           parentId: ref.read(currentEpisodeProvider).value!.id,
-          index: ref.read(sequencesProvider).value!.getNextIndex<Sequence>(),
+          index: LexoRanker().newRank(previous: ref.read(sequencesProvider).value!.lastOrNull?.index),
         ),
         tooltip: localizations.fab_create,
         child: const Icon(Icons.add),
@@ -60,8 +60,8 @@ class _SequencesState extends ConsumerState<SequencesPage> {
         },
         child: ref.watch(sequencesProvider).when(
           data: (sequences) {
-            final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
-            final episode = ref.watch(currentEpisodeProvider).unwrapPrevious().valueOrNull;
+            final project = ref.read(currentProjectProvider).valueOrNull;
+            final episode = ref.read(currentEpisodeProvider).valueOrNull;
 
             Widget header;
             if (project?.isMovie ?? true) {
@@ -98,7 +98,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
                             return ProjectCard.sequence(
                               key: Key('$index'),
                               open: () => _open(sequence),
-                              number: sequence.getNumber,
+                              number: index + 1,
                               title: sequence.title,
                               description: sequence.description,
                               progress: sequence.progress,

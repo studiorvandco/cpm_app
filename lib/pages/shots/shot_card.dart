@@ -15,8 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ShotCard extends ConsumerStatefulWidget {
-  const ShotCard(this.shot, {super.key});
+  const ShotCard(this.number, this.shot, {super.key});
 
+  final int number;
   final Shot shot;
 
   @override
@@ -78,7 +79,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                       Row(
                         children: [
                           Badge(
-                            label: Text(widget.shot.getNumber),
+                            label: Text('${widget.number}'),
                             backgroundColor: Theme.of(context).colorScheme.secondary,
                             textColor: Theme.of(context).colorScheme.onSecondary,
                           ),

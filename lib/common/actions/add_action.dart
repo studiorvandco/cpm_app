@@ -27,17 +27,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddAction<T extends BaseModel> extends ModelGeneric<T> {
+class AddAction<Model extends BaseModel> extends ModelGeneric<Model> {
   Future<void> add(
     BuildContext context,
     WidgetRef ref, {
     int? parentId,
-    int? index,
+    String? index,
   }) async {
+    if (Model != Episode && Model != Sequence && Model != Shot) throw TypeError();
+
     await showAdaptiveDialog(
       context: context,
       builder: (BuildContext context) {
-        switch (T) {
+        switch (Model) {
           case const (Project):
             return const AddProjectDialog();
           case const (Episode):
@@ -60,14 +62,14 @@ class AddAction<T extends BaseModel> extends ModelGeneric<T> {
           case const (Location):
             return const AddLocationDialog();
           default:
-            throw ArgumentError('Invalid type: $T');
+            throw Exception();
         }
       },
     ).then((element) async {
       if (element == null) return;
 
       bool added = false;
-      switch (T) {
+      switch (Model) {
         case const (Project):
           added = await ref.read(projectsProvider.notifier).add(element as Project);
         case const (Episode):

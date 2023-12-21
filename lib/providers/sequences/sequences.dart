@@ -18,16 +18,15 @@ class Sequences extends _$Sequences with BaseProvider {
 
   @override
   FutureOr<List<Sequence>> build() {
-    get();
-
-    return <Sequence>[];
+    return get();
   }
 
-  Future<void> get({bool refreshing = false}) async {
+  Future<List<Sequence>> get({bool refreshing = false}) async {
     if (!refreshing) {
       state = const AsyncLoading<List<Sequence>>();
     }
 
+    List<Sequence> sequences = [];
     ref.watch(currentEpisodeProvider).when(
       data: (episode) async {
         if (!refreshing && await CacheManager().contains(_cacheKey, episode.id)) {
@@ -36,7 +35,7 @@ class Sequences extends _$Sequences with BaseProvider {
           );
         }
 
-        final List<Sequence> sequences = await selectSequenceService.selectSequences(episode.id);
+        sequences = await selectSequenceService.selectSequences(episode.id);
         CacheManager().set(_cacheKey, sequences, episode.id);
         state = AsyncData<List<Sequence>>(sequences);
       },
@@ -47,6 +46,8 @@ class Sequences extends _$Sequences with BaseProvider {
         return Future.value();
       },
     );
+
+    return sequences;
   }
 
   Future<void> getAll() async {
@@ -90,19 +91,19 @@ class Sequences extends _$Sequences with BaseProvider {
     }
   }
 
-  Future<bool> edit(Sequence editedSequence, {bool reordering = false}) async {
+  Future<bool> edit(Sequence editedSequence) async {
+    state = AsyncData<List<Sequence>>(
+      <Sequence>[
+        for (final Sequence sequence in state.value ?? <Sequence>[])
+          if (sequence.id != editedSequence.id) sequence else editedSequence,
+      ]..sort((s1, s2) => s1.compareIndexes(s2.index)),
+    );
+
     try {
       await updateService.update(_table, editedSequence);
     } catch (exception, stackTrace) {
       log(exception.toString(), stackTrace: stackTrace);
       return false;
-    }
-
-    if (!reordering) {
-      state = AsyncData<List<Sequence>>(<Sequence>[
-        for (final Sequence sequence in state.value ?? <Sequence>[])
-          if (sequence.id != editedSequence.id) sequence else editedSequence,
-      ]);
     }
 
     return true;

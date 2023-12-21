@@ -38,7 +38,7 @@ class ProjectCard extends StatelessWidget {
 
   final Function() open;
 
-  final String? number;
+  final int? number;
   final String? title;
   final String? description;
   final double progress;
@@ -47,7 +47,7 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final noNumber = number == null || number!.isEmpty;
+    final noNumber = number == null || number! <= 0;
     final noTitle = title == null || title!.isEmpty;
     final noDescription = description == null || description!.isEmpty;
 
@@ -64,7 +64,7 @@ class ProjectCard extends StatelessWidget {
                 children: [
                   if (!noNumber) ...[
                     Badge(
-                      label: Text(number!),
+                      label: Text('$number'),
                     ),
                     Padding(padding: Paddings.padding4.horizontal),
                   ],

@@ -3,6 +3,7 @@ import 'package:cpm/pages/projects/favorites.dart';
 import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:cpm/utils/config/config.dart';
 import 'package:cpm/utils/config/config_key.dart';
+import 'package:cpm/utils/lexo_ranker.dart';
 import 'package:cpm/utils/package_info_manager.dart';
 import 'package:cpm/utils/preferences/preferences_manager.dart';
 import 'package:cpm/utils/theme_manager.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
   await CacheManager().init();
   await Config().init();
   await Favorites().init();
+  await LexoRanker().init();
 
   await Supabase.initialize(
     url: Config().get<String>(ConfigKey.supabaseUrl),

@@ -12,7 +12,7 @@ import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/extensions/list_extensions.dart';
+import 'package:cpm/utils/lexo_ranker.dart';
 import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
           context,
           ref,
           parentId: ref.read(currentSequenceProvider).value!.id,
-          index: ref.read(shotsProvider).value!.getNextIndex<Sequence>(),
+          index: LexoRanker().newRank(previous: ref.read(shotsProvider).value!.lastOrNull?.index),
         ),
         tooltip: localizations.fab_create,
         child: const Icon(Icons.add),
@@ -50,7 +50,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
         },
         child: ref.watch(shotsProvider).when(
           data: (shots) {
-            final sequence = ref.watch(currentSequenceProvider).unwrapPrevious().valueOrNull;
+            final sequence = ref.read(currentSequenceProvider).valueOrNull;
 
             final header = ProjectHeader.sequence(
               delete: () => DeleteAction<Sequence>().delete(context, ref, id: sequence?.id),
@@ -73,6 +73,7 @@ class _ShotsState extends ConsumerState<ShotsPage> {
                           itemBuilder: (context, index) {
                             return ShotCard(
                               key: Key('$index'),
+                              index,
                               shots[index],
                             );
                           },

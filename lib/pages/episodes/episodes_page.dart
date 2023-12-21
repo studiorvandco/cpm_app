@@ -11,7 +11,7 @@ import 'package:cpm/providers/episodes/episodes.dart';
 import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/extensions/list_extensions.dart';
+import 'package:cpm/utils/lexo_ranker.dart';
 import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/platform_manager.dart';
 import 'package:cpm/utils/routes/router_route.dart';
@@ -46,7 +46,7 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
           context,
           ref,
           parentId: ref.read(currentProjectProvider).value!.id,
-          index: ref.read(episodesProvider).value!.getNextIndex<Episode>(),
+          index: LexoRanker().newRank(previous: ref.read(episodesProvider).value!.lastOrNull?.index),
         ),
         tooltip: localizations.fab_create,
         child: const Icon(Icons.add),
@@ -58,7 +58,7 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
         },
         child: ref.watch(episodesProvider).when(
           data: (episodes) {
-            final project = ref.watch(currentProjectProvider).unwrapPrevious().valueOrNull;
+            final project = ref.read(currentProjectProvider).valueOrNull;
 
             final header = ProjectHeader.project(
               delete: () => DeleteAction<Project>().delete(context, ref, id: project?.id),
@@ -84,23 +84,20 @@ class EpisodesState extends ConsumerState<EpisodesPage> {
                         return ProjectCard.episode(
                           key: Key('$index'),
                           open: () => _open(episode),
-                          number: episode.getNumber,
+                          number: index + 1,
                           title: episode.title,
                           description: episode.description,
                           progress: episode.progress,
                           progressText: episode.progressText,
                         );
                       },
-                      onReorder: (oldIndex, newIndex) async {
-                        await ReorderAction<Episode>().reorder(
-                          context,
-                          ref,
-                          oldIndex: oldIndex,
-                          newIndex: newIndex,
-                          models: episodes,
-                        );
-                        setState(() {});
-                      },
+                      onReorder: (oldIndex, newIndex) => ReorderAction<Episode>().reorder(
+                        context,
+                        ref,
+                        oldIndex: oldIndex,
+                        newIndex: newIndex,
+                        models: episodes,
+                      ),
                     ),
                   );
 

@@ -17,16 +17,15 @@ class Shots extends _$Shots with BaseProvider {
 
   @override
   FutureOr<List<Shot>> build() {
-    get();
-
-    return <Shot>[];
+    return get();
   }
 
-  Future<void> get({bool refreshing = false}) async {
+  Future<List<Shot>> get({bool refreshing = false}) async {
     if (!refreshing) {
       state = const AsyncLoading<List<Shot>>();
     }
 
+    List<Shot> shots = [];
     ref.watch(currentSequenceProvider).when(
           data: (sequence) async {
             if (!refreshing && await CacheManager().contains(_cacheKey, sequence.id)) {
@@ -35,13 +34,15 @@ class Shots extends _$Shots with BaseProvider {
               );
             }
 
-            final List<Shot> shots = await selectShotService.selectShots(sequence.id);
+            shots = await selectShotService.selectShots(sequence.id);
             CacheManager().set(_cacheKey, shots, sequence.id);
             state = AsyncData<List<Shot>>(shots);
           },
           error: (Object error, StackTrace stackTrace) {},
           loading: () {},
         );
+
+    return shots;
   }
 
   Future<bool> add(dynamic newShots) async {
@@ -56,19 +57,19 @@ class Shots extends _$Shots with BaseProvider {
     return true;
   }
 
-  Future<bool> edit(Shot editedShot, {bool reordering = false}) async {
+  Future<bool> edit(Shot editedShot) async {
+    state = AsyncData<List<Shot>>(
+      <Shot>[
+        for (final Shot shot in state.value ?? <Shot>[])
+          if (shot.id != editedShot.id) shot else editedShot,
+      ]..sort((s1, s2) => s1.compareIndexes(s2.index)),
+    );
+
     try {
       await updateService.update(_table, editedShot);
     } catch (exception, stackTrace) {
       log(exception.toString(), stackTrace: stackTrace);
       return false;
-    }
-
-    if (!reordering) {
-      state = AsyncData<List<Shot>>(<Shot>[
-        for (final Shot shot in state.value ?? <Shot>[])
-          if (shot.id != editedShot.id) shot else editedShot,
-      ]);
     }
 
     return true;
