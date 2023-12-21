@@ -9,7 +9,9 @@ class LexoRanker {
 
   LexoRanker._internal();
 
-  final defaultRank = 'mmmmmmmmmm';
+  // TODO implement a supabase-side rebalance when necessary
+  // This default rank currently allows to move items at the top 26*1000 = 26000 times without necessitating a rebalance
+  final defaultRank = List.generate(1000, (_) => 'a').join();
 
   late final LexoRank _lexoRank;
 
@@ -21,8 +23,6 @@ class LexoRanker {
     if (previous == null && next == null) {
       return defaultRank;
     } else if (next == null) {
-      final rank = previous!;
-
       return _lexoRank.nextLexo(previous!);
     } else if (previous == null) {
       return _lexoRank.prevLexo(next);
