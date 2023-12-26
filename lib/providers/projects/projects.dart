@@ -28,12 +28,10 @@ class Projects extends _$Projects with BaseProvider {
 
   @override
   FutureOr<List<Project>> build() {
-    get();
-
-    return <Project>[];
+    return get();
   }
 
-  Future<void> get([bool sortOnly = false]) async {
+  Future<List<Project>> get([bool sortOnly = false]) async {
     List<Project> projects;
     if (sortOnly) {
       projects = (state.value ?? [])..sort();
@@ -51,6 +49,8 @@ class Projects extends _$Projects with BaseProvider {
       CacheManager().set(_cacheKey, projects);
     }
     state = AsyncData<List<Project>>(projects);
+
+    return projects;
   }
 
   Future<bool> add(Project newProject) async {
