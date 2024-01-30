@@ -21,6 +21,6 @@
 
 Multiplatform app of Cinema Project Manager, a tool to efficiently manage the production of a cinema project.
 
-## Build
+## Docs
 
-See the [wiki](https://github.com/StudioRvAndCo/CPM-frontend/wiki/Build).
+See the [wiki](https://github.com/studiorvandco/cpm_app/wiki).
