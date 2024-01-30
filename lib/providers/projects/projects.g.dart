@@ -6,14 +6,16 @@ part of 'projects.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projectsHash() => r'4d12caa41ac7568544ee2c7973b09f40b02b752b';
+String _$projectsHash() => r'db4733ead3ab3332a844d6ead03db25d24399a78';
 
 /// See also [Projects].
 @ProviderFor(Projects)
-final projectsProvider = AutoDisposeAsyncNotifierProvider<Projects, List<Project>>.internal(
+final projectsProvider =
+    AutoDisposeAsyncNotifierProvider<Projects, List<Project>>.internal(
   Projects.new,
   name: r'projectsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$projectsHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$projectsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -23,10 +25,13 @@ String _$currentProjectHash() => r'39586ae366eb02dd65de62cc59c27856fa02e24a';
 
 /// See also [CurrentProject].
 @ProviderFor(CurrentProject)
-final currentProjectProvider = AsyncNotifierProvider<CurrentProject, Project>.internal(
+final currentProjectProvider =
+    AsyncNotifierProvider<CurrentProject, Project>.internal(
   CurrentProject.new,
   name: r'currentProjectProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$currentProjectHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentProjectHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

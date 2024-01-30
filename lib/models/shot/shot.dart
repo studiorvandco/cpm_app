@@ -11,7 +11,6 @@ part 'shot.g.dart';
 @JsonSerializable()
 class Shot extends BaseModel {
   int? sequence;
-  @JsonKey(includeToJson: false)
   ShotValue? value;
   String? description;
   bool completed;
