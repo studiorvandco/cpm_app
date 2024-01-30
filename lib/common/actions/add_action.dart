@@ -33,7 +33,7 @@ class AddAction<Model extends BaseModel> extends ModelGeneric<Model> {
     int? parentId,
     String? index,
   }) async {
-    if (Model != Episode && Model != Sequence && Model != Shot) throw TypeError();
+    if (Model != Project && Model != Episode && Model != Sequence && Model != Shot) throw TypeError();
 
     await showAdaptiveDialog(
       context: context,
