@@ -1,6 +1,7 @@
 import 'package:cpm/common/actions/add_action.dart';
 import 'package:cpm/common/actions/delete_action.dart';
 import 'package:cpm/common/actions/reorder_action.dart';
+import 'package:cpm/common/pages.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
 import 'package:cpm/common/widgets/project_card.dart';
@@ -14,8 +15,7 @@ import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
 import 'package:cpm/utils/lexo_ranker.dart';
-import 'package:cpm/utils/pages.dart';
-import 'package:cpm/utils/platform_manager.dart';
+import 'package:cpm/utils/platform.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -120,7 +120,7 @@ class _SequencesState extends ConsumerState<SequencesPage> {
                     },
                   );
 
-            return PlatformManager().isMobile
+            return kIsMobile
                 ? NestedScrollView(
                     floatHeaderSlivers: true,
                     headerSliverBuilder: (context, innerBoxIsScrolled) {

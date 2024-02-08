@@ -8,7 +8,7 @@ import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/shots/shots.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/platform_manager.dart';
+import 'package:cpm/utils/platform.dart';
 import 'package:cpm/utils/snack_bar_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -118,7 +118,7 @@ class _ShotCardState extends ConsumerState<ShotCard> {
                   },
                   onSelected: (action) => _onMenuSelected(context, action),
                 ),
-                if (PlatformManager().isDesktop) Padding(padding: Paddings.custom.dragHandle),
+                if (kIsDesktop) Padding(padding: Paddings.custom.dragHandle),
               ],
             ),
           ),

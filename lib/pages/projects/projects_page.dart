@@ -1,4 +1,5 @@
 import 'package:cpm/common/actions/add_action.dart';
+import 'package:cpm/common/pages.dart';
 import 'package:cpm/common/placeholders/custom_placeholder.dart';
 import 'package:cpm/common/placeholders/empty_placeholder.dart';
 import 'package:cpm/common/widgets/project_card.dart';
@@ -9,7 +10,6 @@ import 'package:cpm/providers/projects/projects.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/constants/paddings.dart';
-import 'package:cpm/utils/pages.dart';
 import 'package:cpm/utils/routes/router_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
