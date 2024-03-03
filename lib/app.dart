@@ -1,9 +1,9 @@
+import 'package:cpm/common/routes/router.dart';
 import 'package:cpm/l10n/app_localizations.g.dart';
 import 'package:cpm/utils/constants/constants.dart';
 import 'package:cpm/utils/keybinds/keybind.dart';
 import 'package:cpm/utils/package_info_manager.dart';
 import 'package:cpm/utils/platform.dart';
-import 'package:cpm/utils/routes/router.dart';
 import 'package:cpm/utils/theme_manager.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
