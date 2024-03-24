@@ -1,5 +1,5 @@
 import 'package:cpm/models/project/link/link.dart';
-import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/services/supabase_table.dart';
 import 'package:cpm/services/select/select_service.dart';
 
 class SelectLinkService extends SelectService {

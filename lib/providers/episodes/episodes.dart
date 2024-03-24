@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:cpm/models/episode/episode.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/projects/projects.dart';
-import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/services/supabase_table.dart';
 import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -28,24 +28,24 @@ class Episodes extends _$Episodes with BaseProvider {
 
     List<Episode> episodes = [];
     ref.watch(currentProjectProvider).when(
-          data: (project) async {
-            if (!refreshing && await CacheManager().contains(_cacheKey, project.id)) {
-              state = AsyncData<List<Episode>>(
-                await CacheManager().get<Episode>(_cacheKey, Episode.fromJson, project.id),
-              );
-            }
+      data: (project) async {
+        if (!refreshing && await CacheManager().contains(_cacheKey, project.id)) {
+          state = AsyncData<List<Episode>>(
+            await CacheManager().get<Episode>(_cacheKey, Episode.fromJson, project.id),
+          );
+        }
 
-            episodes = await selectEpisodeService.selectEpisodes(project.id);
-            CacheManager().set(_cacheKey, episodes, project.id);
-            state = AsyncData<List<Episode>>(episodes);
+        episodes = await selectEpisodeService.selectEpisodes(project.id);
+        CacheManager().set(_cacheKey, episodes, project.id);
+        state = AsyncData<List<Episode>>(episodes);
 
-            if (project.isMovie) {
-              ref.read(currentEpisodeProvider.notifier).set(episodes.first);
-            }
-          },
-          error: (Object error, StackTrace stackTrace) {},
-          loading: () {},
-        );
+        if (project.isMovie) {
+          ref.read(currentEpisodeProvider.notifier).set(episodes.first);
+        }
+      },
+      error: (Object error, StackTrace stackTrace) {},
+      loading: () {},
+    );
 
     return episodes;
   }
@@ -71,8 +71,10 @@ class Episodes extends _$Episodes with BaseProvider {
     state = AsyncData<List<Episode>>(
       <Episode>[
         for (final Episode episode in state.value ?? <Episode>[])
-          if (episode.id != editedEpisode.id) episode else editedEpisode,
-      ]..sort((e1, e2) => e1.compareIndexes(e2.index)),
+          if (episode.id != editedEpisode.id) episode else
+            editedEpisode,
+      ]
+        ..sort((e1, e2) => e1.compareIndexes(e2.index)),
     );
 
     try {

@@ -11,7 +11,7 @@ import 'package:cpm/models/shot/shot.dart';
 import 'package:cpm/providers/base_provider.dart';
 import 'package:cpm/providers/sequences/sequences.dart';
 import 'package:cpm/providers/shots/shots.dart';
-import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/services/supabase_table.dart';
 import 'package:cpm/utils/cache/cache_key.dart';
 import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:cpm/utils/extensions/date_time_extensions.dart';

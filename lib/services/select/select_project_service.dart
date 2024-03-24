@@ -1,6 +1,6 @@
 import 'package:cpm/models/project/link/link.dart';
 import 'package:cpm/models/project/project.dart';
-import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/services/supabase_table.dart';
 import 'package:cpm/services/database_function.dart';
 import 'package:cpm/services/select/select_service.dart';
 

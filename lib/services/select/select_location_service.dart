@@ -1,6 +1,6 @@
 import 'package:cpm/models/location/location.dart';
-import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/select/select_service.dart';
+import 'package:cpm/services/supabase_table.dart';
 
 class SelectLocationService extends SelectService {
   SupabaseTable table = SupabaseTable.location;

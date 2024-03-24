@@ -1,5 +1,5 @@
 import 'package:cpm/models/base_model.dart';
-import 'package:cpm/services/config/supabase_table.dart';
+import 'package:cpm/services/supabase_table.dart';
 import 'package:cpm/services/insert_service.dart';
 import 'package:cpm/services/service.dart';
 

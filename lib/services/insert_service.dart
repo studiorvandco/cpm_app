@@ -1,6 +1,6 @@
 import 'package:cpm/models/base_model.dart';
-import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/service.dart';
+import 'package:cpm/services/supabase_tablice.dart';
 
 class InsertService extends Service {
   Future<void> insert(SupabaseTable table, dynamic models) async {

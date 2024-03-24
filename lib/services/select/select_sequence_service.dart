@@ -1,7 +1,7 @@
 import 'package:cpm/models/sequence/sequence.dart';
-import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/database_function.dart';
 import 'package:cpm/services/select/select_service.dart';
+import 'package:cpm/services/supabase_table.dart';
 
 class SelectSequenceService extends SelectService {
   SupabaseTable table = SupabaseTable.sequence;

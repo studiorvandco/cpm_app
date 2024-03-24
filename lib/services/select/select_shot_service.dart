@@ -1,6 +1,6 @@
 import 'package:cpm/models/shot/shot.dart';
-import 'package:cpm/services/config/supabase_table.dart';
 import 'package:cpm/services/select/select_service.dart';
+import 'package:cpm/services/supabase_table.dart';
 
 class SelectShotService extends SelectService {
   SupabaseTable table = SupabaseTable.shot;
