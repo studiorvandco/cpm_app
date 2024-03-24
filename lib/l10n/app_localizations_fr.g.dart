@@ -615,7 +615,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get error_error => 'Erreur';
+  String get error_error => 'Erreur ';
 
   @override
   String get error_login => 'Mauvais identifiant ou mot passe.';

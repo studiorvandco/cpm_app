@@ -112,7 +112,7 @@
   "snack_bar_edit_fail_item": "{sex, select, male{Le} female{La} other{}} {item} n'a pas pu être {sex, select, male{édité} female{éditée} other{}}.",
   "snack_bar_delete_success_item": "{sex, select, male{Le} female{La} other{}} {item} a été {sex, select, male{supprimé} female{supprimée} other{}} avec succès.",
   "snack_bar_delete_fail_item": "{sex, select, male{Le} female{La} other{}} {item} n'a pas pu être {sex, select, male{supprimé} female{supprimée} other{}}.",
-  "error_error": "Erreur",
+  "error_error": "Erreur ",
   "error_login": "Mauvais identifiant ou mot passe.",
   "error_invalid_phone": "Téléphone invalide",
   "error_invalid_email": "Email invalide",
