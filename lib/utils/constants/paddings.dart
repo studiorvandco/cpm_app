@@ -1,3 +1,4 @@
+import 'package:cpm/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 enum Paddings {
@@ -37,6 +38,12 @@ enum Paddings {
   static EdgeInsets withFab(EdgeInsets padding) => padding.copyWith(bottom: kFloatingActionButtonMargin + 64);
 
   static EdgeInsets withTwoFabs(EdgeInsets padding) => padding.copyWith(bottom: kFloatingActionButtonMargin + 112);
+
+  static EdgeInsets withSystemPadding(EdgeInsets padding) {
+    final systemPadding = MediaQuery.of(navigatorKey.currentContext!).padding;
+
+    return padding.copyWith(top: systemPadding.top, bottom: systemPadding.bottom);
+  }
 
   final double _padding;
 
