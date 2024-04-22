@@ -16,12 +16,13 @@ class Authentication extends _$Authentication with BaseProvider {
   }
 
   Future<bool> login(String email, String password) async {
-    bool logged;
+    bool logged = false;
     try {
       logged = await authenticationService.login(email, password);
     } catch (exception, stackTrace) {
+      print(exception);
+      print(stackTrace);
       log(exception.toString(), stackTrace: stackTrace);
-      logged = false;
     }
     state = AsyncValue<bool>.data(logged);
 
