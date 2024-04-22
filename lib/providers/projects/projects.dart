@@ -17,6 +17,7 @@ import 'package:cpm/utils/cache/cache_manager.dart';
 import 'package:cpm/utils/extensions/date_time_extensions.dart';
 import 'package:cpm/utils/extensions/file_extensions.dart';
 import 'package:cpm/utils/extensions/string_extensions.dart';
+import 'package:cpm/utils/lexo_ranker.dart';
 import 'package:excel/excel.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -108,23 +109,23 @@ class Projects extends _$Projects with BaseProvider {
       Episode.fromJson,
     );
 
-    var sequenceIndex = 0;
+    String? previousSequenceLexoRank;
     excel.sheets.forEach((name, sheet) async {
       if (name.startsWith('_')) return;
 
-      sequenceIndex++;
-      // TODO lexorank
+      final sequenceLexoRank = LexoRanker().newRank(previous: previousSequenceLexoRank);
+      previousSequenceLexoRank = sequenceLexoRank;
       final sequence = Sequence.parseExcel(
         episode.id,
         name,
         sheet.rows.first,
-        sequenceIndex.toString(),
+        sequenceLexoRank,
       );
       final sequenceId = await ref.read(sequencesProvider.notifier).import(sequence);
 
       if (sequenceId == -1) throw Exception();
 
-      var shotIndex = 0;
+      String? previousShotLexoRank;
       final shots = sheet.rows
           .where((row) {
             return row.any((data) {
@@ -133,12 +134,12 @@ class Projects extends _$Projects with BaseProvider {
           })
           .skip(2)
           .map((row) {
-            shotIndex++;
-            // TODO lexorank
+            final shotLexoRank = LexoRanker().newRank(previous: previousShotLexoRank);
+            previousShotLexoRank = shotLexoRank;
             return Shot.parseExcel(
               sequenceId,
               row,
-              shotIndex.toString(),
+              shotLexoRank,
             );
           })
           .toList();
