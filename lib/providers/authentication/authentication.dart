@@ -20,8 +20,6 @@ class Authentication extends _$Authentication with BaseProvider {
     try {
       logged = await authenticationService.login(email, password);
     } catch (exception, stackTrace) {
-      print(exception);
-      print(stackTrace);
       log(exception.toString(), stackTrace: stackTrace);
     }
     state = AsyncValue<bool>.data(logged);
